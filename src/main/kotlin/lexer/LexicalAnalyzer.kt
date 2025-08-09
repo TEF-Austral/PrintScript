@@ -1,6 +1,0 @@
-package lexer
-
-
-
-class LexicalAnalyzer {
-}
