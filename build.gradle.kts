@@ -19,16 +19,6 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
-// Configuración de las fuentes para Kotlin y Java
-sourceSets {
-    main {
-        java.srcDirs("src/main/kotlin")
-    }
-    test {
-        java.srcDirs("src/test/kotlin")
-    }
-}
-
 tasks.test {
     useJUnitPlatform()
 }

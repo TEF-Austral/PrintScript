@@ -1,38 +1,23 @@
 package lexer
 
+import lexer.reader.Reader
+import token.Token
+import token.TokenType
+
 sealed interface Lexer {
-
+    fun tokenize(typeMap: Map<String, TokenType>): List<Token>
 }
+class PrintScriptLexer(val reader: Reader, val splitter: Splitter): Lexer {
 
-class PrintScriptLexer : Lexer {
+    override fun tokenize(typeMap: Map<String, TokenType>): List<Token> {
+        val stringWithCoordinates = splitter.split(reader.read())
+        val converter: TokenConverter = StringToPrintScriptToken(typeMap)
+        val tokens = mutableListOf<Token>()
 
-    fun tokenize(input: String,splitter: Splitter): List<String> {
-        val strings = splitter.split(input)
-        for (str in strings) {
-            
-
+        for ((str, coordinates) in stringWithCoordinates) {
+            val token = converter.convert(str, coordinates)
+            tokens.add(token)
         }
-
+        return tokens
     }
-
-
-
-
-    // String -> List<String> -> Token -> List<Token>
-
-    // Classes que recibe un string y crea token.
-
-    // let edad = "3";
-
-
-    // let nombre = "Juan";
-    // let edad = 25 \n let nombre = "Juan";
-
-
-    // Token("let", "keyword"),
-    // Token("edad", "identifier"),
-    // Token("=", "operator"),
-    // Token("25", "number"),
-    // Token(";", "SemiColon")
-
 }
