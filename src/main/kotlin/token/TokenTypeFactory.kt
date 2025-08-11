@@ -77,11 +77,13 @@ class TokenTypeFactory() {
         )
     }
 
-    fun withCustomTypes(customTypes: Map<String, TokenType>): Map<String, TokenType> {
+    fun withNewTypes(customTypes: Map<String, TokenType>): Map<String, TokenType> {
         val defaultMap = createDefaultMap().toMutableMap()
         customTypes.forEach { (key, value) ->
             defaultMap[key] = value
         }
         return defaultMap
     }
+
+
 }

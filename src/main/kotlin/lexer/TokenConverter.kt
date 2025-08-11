@@ -24,13 +24,13 @@ class StringToPrintScriptToken(private val map: Map<String, TokenType>) : TokenC
         return map[lexeme] ?: when {
             lexeme.matches(Regex("^[0-9]+(\\.[0-9]+)?$")) -> {
                 if (lexeme.contains('.')) {
-                    TokenType.NUMBER_LITERAL  // reemplaza FLOAT_LITERAL
+                    TokenType.NUMBER_LITERAL
                 } else {
                     val value = lexeme.toBigIntegerOrNull()
                     if (value != null && value > BigInteger.valueOf(Long.MAX_VALUE)) {
                         TokenType.BIGINT_LITERAL
                     } else {
-                        TokenType.NUMBER_LITERAL // o NUMBER_LITERAL si prefieres
+                        TokenType.NUMBER_LITERAL
                     }
                 }
             }
