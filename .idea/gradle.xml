@@ -12,6 +12,9 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/src" />
+      </GradleProjectSettings>
+      <GradleProjectSettings>
         <option name="distributionType" value="WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/src/main/kotlin" />
         <option name="modules">
