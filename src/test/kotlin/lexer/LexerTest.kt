@@ -8,7 +8,7 @@ import token.TokenTypeFactory
 
 class LexerTest {
     //ANDAN COMO EL CULO QUEDA PARA TODO
-     private val splitter: Splitter = SplitterFactory().createSplitter()
+    private val splitter: Splitter = SplitterFactory().createSplitter()
     private val typeMap = TokenTypeFactory().createDefaultMap()
 
     @Test
@@ -42,12 +42,15 @@ class LexerTest {
     fun `tokenizes different token types correctly`() {
         val lexer = PrintScriptLexer(MockReader("let x: number = 5.5;"), splitter)
         val tokens = lexer.tokenize(typeMap)
+        for (token in tokens) {
+            println(token.toString())
+        }
 
         val expectedTypes = listOf(
             TokenType.LET,
             TokenType.IDENTIFIER,
             TokenType.COLON,
-            TokenType.IDENTIFIER, // 'number' is an identifier
+            TokenType.NUMBER,
             TokenType.ASSIGN,
             TokenType.FLOAT_LITERAL,
             TokenType.SEMICOLON

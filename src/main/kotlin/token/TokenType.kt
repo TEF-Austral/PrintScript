@@ -10,8 +10,8 @@ enum class TokenType {
     RETURN,
 
     // Data types
-    INT,
-    FLOAT,
+    NUMBER,
+    BIGINT,
     STRING,
     BOOLEAN,
 
@@ -39,9 +39,14 @@ enum class TokenType {
     IDENTIFIER,
 
     // Literals
-    INTEGER_LITERAL,
-    FLOAT_LITERAL,
+    NUMERIC_LITERAL,
+    BIGINT_LITERAL,
+    BOOLEAN_LITERAL,
     STRING_LITERAL,
+
+    //Import
+    IMPORT,
+
 
     // Comments
     SINGLE_LINE_COMMENT,
