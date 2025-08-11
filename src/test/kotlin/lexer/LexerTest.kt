@@ -42,9 +42,6 @@ class LexerTest {
     fun `tokenizes different token types correctly`() {
         val lexer = PrintScriptLexer(MockReader("let x: number = 5.5;"), splitter)
         val tokens = lexer.tokenize(typeMap)
-        for (token in tokens) {
-            println(token.toString())
-        }
 
         val expectedTypes = listOf(
             TokenType.LET,
@@ -52,7 +49,7 @@ class LexerTest {
             TokenType.COLON,
             TokenType.NUMBER,
             TokenType.ASSIGN,
-            TokenType.FLOAT_LITERAL,
+            TokenType.NUMBER_LITERAL,
             TokenType.SEMICOLON
         )
         assertEquals(expectedTypes.size, tokens.size)
@@ -89,21 +86,55 @@ class LexerTest {
     fun `tokenizes a complex statement with various symbols`() {
         val lexer = PrintScriptLexer(MockReader("if (x > 5) { print(\"Hello\"); }"), splitter)
         val tokens = lexer.tokenize(typeMap)
+        for (token in tokens) {
+            println(token.toString())
+        }
 
         val expectedTypes = listOf(
             TokenType.IF,
             TokenType.OPEN_PARENTHESIS,
             TokenType.IDENTIFIER,
-            TokenType.IDENTIFIER, // '>' is an identifier
-            TokenType.INTEGER_LITERAL,
+            TokenType.GREATER_THAN, // '>' is an identifier
+            TokenType.NUMBER_LITERAL,
             TokenType.CLOSE_PARENTHESIS,
             TokenType.OPEN_BRACE,
-            TokenType.IDENTIFIER, // 'print'
+            TokenType.PRINT, // 'print'
             TokenType.OPEN_PARENTHESIS,
             TokenType.STRING_LITERAL,
             TokenType.CLOSE_PARENTHESIS,
             TokenType.SEMICOLON,
             TokenType.CLOSE_BRACE
+        )
+
+        assertEquals(expectedTypes.size, tokens.size)
+        tokens.zip(expectedTypes).forEach { (token, expectedType) ->
+            assertEquals(expectedType, token.getType())
+        }
+    }
+
+    @Test
+    fun `tokenizes a complex expression with multiple operators`() {
+        val lexer = PrintScriptLexer(MockReader("let result = (a + b) * (c - d) / e;"), splitter)
+        val tokens = lexer.tokenize(typeMap)
+
+        val expectedTypes = listOf(
+            TokenType.LET,
+            TokenType.IDENTIFIER,
+            TokenType.ASSIGN,
+            TokenType.OPEN_PARENTHESIS,
+            TokenType.IDENTIFIER, // 'a'
+            TokenType.PLUS,
+            TokenType.IDENTIFIER, // 'b'
+            TokenType.CLOSE_PARENTHESIS,
+            TokenType.MULTIPLY,
+            TokenType.OPEN_PARENTHESIS,
+            TokenType.IDENTIFIER, // 'c'
+            TokenType.MINUS,
+            TokenType.IDENTIFIER, // 'd'
+            TokenType.CLOSE_PARENTHESIS,
+            TokenType.DIVIDE,
+            TokenType.IDENTIFIER, // 'e'
+            TokenType.SEMICOLON
         )
 
         assertEquals(expectedTypes.size, tokens.size)

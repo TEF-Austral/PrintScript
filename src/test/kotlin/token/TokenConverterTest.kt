@@ -17,8 +17,8 @@ class TokenConverterTest {
         assertEquals(TokenType.FOR, tokenConverter.convert("for", Position(1, 1)).getType())
         assertEquals(TokenType.RETURN, tokenConverter.convert("return", Position(1, 1)).getType())
         assertEquals(TokenType.FUNCTION, tokenConverter.convert("function", Position(1, 1)).getType())
-        assertEquals(TokenType.TRUE, tokenConverter.convert("true", Position(1, 1)).getType())
-        assertEquals(TokenType.FALSE, tokenConverter.convert("false", Position(1, 1)).getType())
+        assertEquals(TokenType.BOOLEAN_LITERAL, tokenConverter.convert("true", Position(1, 1)).getType())
+        assertEquals(TokenType.BOOLEAN_LITERAL, tokenConverter.convert("false", Position(1, 1)).getType())
         assertEquals(TokenType.CONST, tokenConverter.convert("const", Position(1, 1)).getType())
     }
 
@@ -44,8 +44,8 @@ class TokenConverterTest {
 
     @Test
     fun `test literal token conversion`() {
-        assertEquals(TokenType.INTEGER_LITERAL, tokenConverter.convert("123", Position(1, 1)).getType())
-        assertEquals(TokenType.FLOAT_LITERAL, tokenConverter.convert("123.45", Position(1, 1)).getType())
+        assertEquals(TokenType.NUMBER_LITERAL, tokenConverter.convert("123", Position(1, 1)).getType())
+        assertEquals(TokenType.NUMBER_LITERAL, tokenConverter.convert("123.45", Position(1, 1)).getType())
         assertEquals(TokenType.STRING_LITERAL, tokenConverter.convert("'hello'", Position(1, 1)).getType())
     }
 

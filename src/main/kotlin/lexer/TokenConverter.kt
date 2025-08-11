@@ -1,5 +1,6 @@
 package lexer
 
+import java.math.BigInteger
 import token.Coordinates
 import token.PrintScriptToken
 import token.Token
@@ -17,17 +18,27 @@ class StringToPrintScriptToken(private val map: Map<String, TokenType>) : TokenC
         return PrintScriptToken(type, input, position)
     }
 
+
+    // TODO habria que cambiar como se lee esto pd: no se si funciona, deberia de
     private fun getTokenType(lexeme: String): TokenType {
-        return map[lexeme]
-            ?: when {
-                lexeme.matches(Regex("^[0-9]+(\\.[0-9]+)?$")) ->
-                    if (lexeme.contains('.')) TokenType.FLOAT_LITERAL else TokenType.INTEGER_LITERAL
-                (lexeme.startsWith("\"") && lexeme.endsWith("\"")) ||
-                        (lexeme.startsWith("'") && lexeme.endsWith("'")) ->
-                    TokenType.STRING_LITERAL
-                else ->
-                    TokenType.IDENTIFIER
+        return map[lexeme] ?: when {
+            lexeme.matches(Regex("^[0-9]+(\\.[0-9]+)?$")) -> {
+                if (lexeme.contains('.')) {
+                    TokenType.NUMBER_LITERAL
+                } else {
+                    val value = lexeme.toBigIntegerOrNull()
+                    if (value != null && value > BigInteger.valueOf(Long.MAX_VALUE)) {
+                        TokenType.BIGINT_LITERAL
+                    } else {
+                        TokenType.NUMBER_LITERAL
+                    }
+                }
             }
+            (lexeme.startsWith("\"") && lexeme.endsWith("\"")) ||
+                    (lexeme.startsWith("'") && lexeme.endsWith("'")) -> TokenType.STRING_LITERAL
+            else -> TokenType.IDENTIFIER
+        }
     }
+
 
 }
