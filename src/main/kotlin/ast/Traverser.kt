@@ -6,6 +6,15 @@ sealed interface Traverser {
 
 class InOrderTraverser() : Traverser {
     override fun traverse(ast: AST): List<Node> {
-        TODO("Not yet implemented")
+        return traverse(ast.getRoot())
+    }
+
+    private fun traverse(node : Node?): List<Node> {
+        if (node == null) {
+            return emptyList()
+        }
+        val allLeftNodes = traverse(node.left())
+        val allRightNodes = traverse(node.right())
+        return allLeftNodes + node + allRightNodes
     }
 }
