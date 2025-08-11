@@ -1,62 +1,83 @@
 package token
 
 enum class TokenType {
-    // Keywords
-    IF,
-    ELSE,
-    WHILE,
-    FOR,
-    FUNCTION,
-    RETURN,
 
-    // Data types
-    NUMBER,
-    BIGINT,
-    STRING,
-    BOOLEAN,
-
-    // Asignment
-    LET,
-    CONST,
+    // Delimiters
+    OPEN_PARENTHESIS,
+    CLOSE_PARENTHESIS,
+    OPEN_BRACE,
+    CLOSE_BRACE,
+    COMMA,
+    DOT,
+    SEMICOLON,
+    COLON,
+    QUESTION_MARK,
 
     // Operators
     PLUS,
     MINUS,
     MULTIPLY,
     DIVIDE,
+    MODULE,
+    POWER,
+    INCREMENT,
+    DECREMENT,
+    ARROW_RIGHT,
+    ARROW_LEFT,
+
+    // Assignment & Comparison
     ASSIGN,
+    EQUALS,
+    NOT_EQUALS,
+    GREATER_THAN,
+    GREATER_THAN_OR_EQUAL,
+    LESS_THAN,
+    LESS_THAN_OR_EQUAL,
 
-    // Delimiters
-    SEMICOLON,
-    COMMA,
-    COLON,
-    OPEN_PARENTHESIS,
-    CLOSE_PARENTHESIS,
-    OPEN_BRACE,
-    CLOSE_BRACE,
+    // Logical Operators
+    AND,
+    OR,
+    NOT,
 
-    // Identifiers
-    IDENTIFIER,
+    // Keywords
+    CLASS,
+    ELSE,
+    EXTENDS,
+    FUNCTION,
+    FOR,
+    IF,
+    RETURN,
+    WHILE,
+    BREAK,
+    CONTINUE,
+    SWITCH,
+    CASE,
+    DEFAULT,
+    TRY,
+    CATCH,
+    FINALLY,
+    LET,
+    CONST,
+    IMPORT,
+    EXPORT,
+
+    // Data type keywords
+    NUMBER,
+    BIGINT,
+    STRING,
+    BOOLEAN,
 
     // Literals
-    NUMERIC_LITERAL,
+    IDENTIFIER,
+    NUMBER_LITERAL,
     BIGINT_LITERAL,
-    BOOLEAN_LITERAL,
     STRING_LITERAL,
-
-    //Import
-    IMPORT,
-
+    BOOLEAN_LITERAL,
 
     // Comments
     SINGLE_LINE_COMMENT,
     MULTI_LINE_COMMENT,
 
-    // Boolean literals
-    TRUE,
-    FALSE,
-
-
     // End of file
-    EOF,
+    EOF
 }
