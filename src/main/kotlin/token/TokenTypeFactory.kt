@@ -11,11 +11,6 @@ class TokenTypeFactory() {
             "for" to TokenType.FOR,
             "return" to TokenType.RETURN,
             "function" to TokenType.FUNCTION,
-            // "class" to TokenType.CL,
-            // "import" to TokenType.IMPORT,
-            // "export" to TokenType.EXPORT,
-            "true" to TokenType.TRUE,
-            "false" to TokenType.FALSE,
             "const" to TokenType.CONST,
             "+" to TokenType.PLUS,
             "-" to TokenType.MINUS,
@@ -29,11 +24,19 @@ class TokenTypeFactory() {
             ")" to TokenType.CLOSE_PARENTHESIS,
             "{" to TokenType.OPEN_BRACE,
             "}" to TokenType.CLOSE_BRACE,
+            "import" to TokenType.IMPORT,
+            "number" to TokenType.NUMBER,
+            "bigint" to TokenType.BIGINT,
+            "string" to TokenType.STRING,
+            "boolean" to TokenType.BOOLEAN,
+            "EOF" to TokenType.EOF,
         )
     }
-
+    /**
     fun createCustomMap(customTokens: Map<String, TokenType>): Map<String, TokenType> {
         val defaultMap = createDefaultMap()
         return defaultMap + customTokens
     }
+    **/
+
 }
