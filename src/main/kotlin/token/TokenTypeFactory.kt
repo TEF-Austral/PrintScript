@@ -20,12 +20,6 @@ class TokenTypeFactory() {
             "-" to TokenType.MINUS,
             "*" to TokenType.MULTIPLY,
             "/" to TokenType.DIVIDE,
-            "%" to TokenType.MODULE,
-            "**" to TokenType.POWER,
-            "++" to TokenType.INCREMENT,
-            "--" to TokenType.DECREMENT,
-            "->" to TokenType.ARROW_RIGHT,
-            "<-" to TokenType.ARROW_LEFT,
 
             // Assignment & Comparison
             "=" to TokenType.ASSIGN,
@@ -44,36 +38,19 @@ class TokenTypeFactory() {
             // Keywords
             "class" to TokenType.CLASS,
             "else" to TokenType.ELSE,
-            "extends" to TokenType.EXTENDS,
             "function" to TokenType.FUNCTION,
             "for" to TokenType.FOR,
             "if" to TokenType.IF,
             "return" to TokenType.RETURN,
             "while" to TokenType.WHILE,
-            "break" to TokenType.BREAK,
-            "continue" to TokenType.CONTINUE,
-            "switch" to TokenType.SWITCH,
-            "case" to TokenType.CASE,
-            "default" to TokenType.DEFAULT,
-            "try" to TokenType.TRY,
-            "catch" to TokenType.CATCH,
-            "finally" to TokenType.FINALLY,
             "let" to TokenType.LET,
             "const" to TokenType.CONST,
-            "import" to TokenType.IMPORT,
-            "export" to TokenType.EXPORT,
             "print" to TokenType.PRINT,
 
             // Data type keywords
             "number" to TokenType.NUMBER,
-            "bigint" to TokenType.BIGINT,
             "string" to TokenType.STRING,
             "boolean" to TokenType.BOOLEAN,
-
-            // Literals
-            "true" to TokenType.BOOLEAN_LITERAL,
-            "false" to TokenType.BOOLEAN_LITERAL,
-            "null" to TokenType.NULL_LITERAL,
         )
     }
 

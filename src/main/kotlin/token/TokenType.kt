@@ -18,12 +18,6 @@ enum class TokenType {
     MINUS,
     MULTIPLY,
     DIVIDE,
-    MODULE,
-    POWER,
-    INCREMENT,
-    DECREMENT,
-    ARROW_RIGHT,
-    ARROW_LEFT,
 
     // Assignment & Comparison
     ASSIGN,
@@ -42,44 +36,22 @@ enum class TokenType {
     // Keywords
     CLASS,
     ELSE,
-    EXTENDS,
     FUNCTION,
     FOR,
     IF,
     RETURN,
     WHILE,
-    BREAK,
-    CONTINUE,
-    SWITCH,
-    CASE,
-    DEFAULT,
-    TRY,
-    CATCH,
-    FINALLY,
     LET,
-    CONST,
-    IMPORT,
-    EXPORT,
     PRINT,
 
     // Data type keywords
     NUMBER,
-    BIGINT,
     STRING,
     BOOLEAN,
 
     // Literals
     IDENTIFIER,
     NUMBER_LITERAL,
-    BIGINT_LITERAL,
     STRING_LITERAL,
-    BOOLEAN_LITERAL,
-    NULL_LITERAL,
 
-    // Comments
-    SINGLE_LINE_COMMENT,
-    MULTI_LINE_COMMENT,
-
-    // End of file
-    EOF
 }
