@@ -60,6 +60,7 @@ enum class TokenType {
     CONST,
     IMPORT,
     EXPORT,
+    PRINT,
 
     // Data type keywords
     NUMBER,
@@ -73,6 +74,7 @@ enum class TokenType {
     BIGINT_LITERAL,
     STRING_LITERAL,
     BOOLEAN_LITERAL,
+    NULL_LITERAL,
 
     // Comments
     SINGLE_LINE_COMMENT,
