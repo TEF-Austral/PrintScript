@@ -1,6 +1,6 @@
 plugins {
     id("java")
-    kotlin("jvm")
+    kotlin("jvm") version "1.9.22" // Especificá la versión de Kotlin
 }
 
 group = "org.example"
@@ -11,14 +11,18 @@ repositories {
 }
 
 dependencies {
+    // Implementación estándar de la biblioteca de Kotlin
+    implementation(kotlin("stdlib-jdk8"))
+
+    // Dependencias para pruebas con JUnit 5
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    implementation(kotlin("stdlib-jdk8"))
 }
 
 tasks.test {
     useJUnitPlatform()
 }
+
 kotlin {
     jvmToolchain(18)
 }

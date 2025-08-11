@@ -1,13 +1,13 @@
 package token
 
 interface Coordinates {
-    fun getLine(): Int
+    fun getRow(): Int
     fun getColumn(): Int
 }
 
-class Position(private val line: Int, private val column: Int) : Coordinates {
-    override fun getLine(): Int {
-        return line
+class Position(private val row: Int, private val column: Int) : Coordinates {
+    override fun getRow(): Int {
+        return row
     }
 
     override fun getColumn(): Int {
