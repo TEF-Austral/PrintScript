@@ -55,7 +55,6 @@ class LexerTest {
             TokenType.FLOAT_LITERAL,
             TokenType.SEMICOLON
         )
-
         assertEquals(expectedTypes.size, tokens.size)
         tokens.zip(expectedTypes).forEach { (token, expectedType) ->
             assertEquals(expectedType, token.getType())

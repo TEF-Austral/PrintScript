@@ -59,5 +59,4 @@ enum class TokenType {
 
     // End of file
     EOF,
-
 }
