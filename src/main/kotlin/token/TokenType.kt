@@ -42,6 +42,7 @@ enum class TokenType {
     RETURN,
     WHILE,
     LET,
+    CONST,
     PRINT,
 
     // Data type keywords
