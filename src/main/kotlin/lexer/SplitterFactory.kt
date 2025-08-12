@@ -1,8 +1,8 @@
 package lexer
 
-class SplitterFactory {
+object SplitterFactory {
 
     fun createSplitter(): Splitter {
-        return StringSplitter(listOf('(', ')', '{', '}', '=', '<', '>', ';', ',',':'))
+        return StringSplitter(listOf('(', ')', '{', '}', '=', '<', '>', ';', ',',':','+','-','*','/','%','&','|','!'))
     }
 }

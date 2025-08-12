@@ -4,18 +4,14 @@ import token.Token
 
 sealed interface Node {
     fun getValue() : Token
-    fun left() : Node?
-    fun right() : Node?
+    fun getChildren() : List<Node>
 }
 
-class PrintScriptNode(private val token: Token, private val leftNode: Node?, private val rightNode: Node?) : Node {
+class PrintScriptNode(private val token: Token, private val children: List<Node>) : Node {
     override fun getValue() : Token {
         return token
     }
-    override fun left() : Node? {
-        return leftNode
-    }
-    override fun right() : Node? {
-        return rightNode
+    override fun getChildren() : List<Node> {
+        return children
     }
 }

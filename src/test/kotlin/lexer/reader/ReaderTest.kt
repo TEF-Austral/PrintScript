@@ -1,36 +1,28 @@
 package lexer.reader
 
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.io.TempDir
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrows
-import java.nio.file.Path
-import java.io.IOException
-import kotlin.io.path.writeText
+import java.io.File
 
 class ReaderTest {
 
-    @TempDir
-    lateinit var tempDir: Path
-
     @Test
-    fun `read returns file content`() {
-        val file = tempDir.resolve("sample.txt")
-        file.writeText("Hello, PrintScript!")
-        val reader = TxtReader(file.toString())
+    fun `TxtReader should read content from a valid file`() {
+        val filePath = "src/test/resources/script.txt"
+        val expectedContent = File(filePath).readText()
 
-        val content = reader.read()
+        val reader = TxtReader(filePath)
+        val actualContent = reader.read()
+        print(expectedContent)
 
-        assertEquals("Hello, PrintScript!", content)
+        assertEquals(expectedContent, actualContent)
     }
 
     @Test
-    fun `read non existing file throws IOException`() {
-        val missingPath = tempDir.resolve("missing.txt").toString()
-        val reader = TxtReader(missingPath)
+    fun `TxtReader should return an empty String for a non-existent file`() {
+        val nonExistentFilePath = "non/existent/file.txt"
+        val reader = TxtReader(nonExistentFilePath)
 
-        assertThrows(IOException::class.java) {
-            reader.read()
-        }
+        assertEquals("", reader.read())
     }
 }

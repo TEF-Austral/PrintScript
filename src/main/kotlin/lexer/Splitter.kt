@@ -75,7 +75,7 @@ class StringSplitter(val specialChars: List<Char>) : Splitter {
             val twoCharToken = "$currentChar$nextChar"
 
             when (twoCharToken) {
-                "!=", "<=", ">=", "==", "++", "--", "&&", "||", "<<", ">>" -> {
+                "!=", "<=", ">=", "==", "++", "--", "&&", "||" -> {
                     return twoCharToken
                 }
             }

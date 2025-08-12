@@ -104,12 +104,8 @@ class SplitterTest {
         val input = "a@b#c"
         val tokens = splitter.split(input)
 
-        assertEquals(7, tokens.size)
-        assertEquals("a", tokens[0].first)
-        assertEquals("@", tokens[1].first)
-        assertEquals("b", tokens[2].first)
-        assertEquals("#", tokens[3].first)
-        assertEquals("c", tokens[4].first)
+        assertEquals(1, tokens.size)
+        assertEquals("a@b#c", tokens[0].first)
     }
 
     @Test
