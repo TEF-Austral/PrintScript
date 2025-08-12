@@ -9,7 +9,7 @@ import token.TokenType
 
 class LexerTest {
 
-    private val splitter: Splitter = SplitterFactory().createSplitter()
+    private val splitter: Splitter = SplitterFactory.createSplitter()
     private val tokenConverter: TokenConverter = StringToTokenConverterFactory.createDefaultsTokenConverter()
 
     private fun lex(input: String) =
