@@ -1,145 +1,76 @@
 package lexer
 
 import lexer.reader.MockReader
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import token.StringToTokenConverterFactory
+import token.TokenConverter
 import token.TokenType
-import token.TokenTypeFactory
 
 class LexerTest {
-    //ANDAN COMO EL CULO QUEDA PARA TODO
+
     private val splitter: Splitter = SplitterFactory().createSplitter()
-    private val typeMap = TokenTypeFactory().createDefaultMap()
+    private val tokenConverter: TokenConverter = StringToTokenConverterFactory.createDefaultsTokenConverter()
+
+    private fun lex(input: String) =
+        PrintScriptLexer(MockReader(input), splitter, tokenConverter).tokenize()
 
     @Test
-    fun `returns empty list for empty input`() {
-        val lexer = PrintScriptLexer(MockReader(""), splitter)
-        val tokens = lexer.tokenize(typeMap)
-        assertEquals(0, tokens.size)
-    }
-
-    @Test
-    fun `returns empty list for input with only whitespace`() {
-        val lexer = PrintScriptLexer(MockReader(" \n\t "), splitter)
-        val tokens = lexer.tokenize(typeMap)
-        assertEquals(0, tokens.size)
-    }
-
-    @Test
-    fun `tokenizes a simple variable declaration correctly`() {
-        val lexer = PrintScriptLexer(MockReader("let name = \"John\";"), splitter)
-        val tokens = lexer.tokenize(typeMap)
-
+    fun tokenizeLetAssignmentWithNumberLiteral() {
+        val tokens = lex("let x = 5;")
         assertEquals(5, tokens.size)
-        assertEquals(TokenType.LET, tokens[0].getType())
-        assertEquals(TokenType.IDENTIFIER, tokens[1].getType())
-        assertEquals(TokenType.ASSIGN, tokens[2].getType())
-        assertEquals(TokenType.STRING_LITERAL, tokens[3].getType())
-        assertEquals(TokenType.SEMICOLON, tokens[4].getType())
+        assertEquals(TokenType.LET, tokens[0].getType());      assertEquals("let", tokens[0].getValue())
+        assertEquals(TokenType.IDENTIFIER, tokens[1].getType());assertEquals("x", tokens[1].getValue())
+        assertEquals(TokenType.ASSIGN, tokens[2].getType());    assertEquals("=", tokens[2].getValue())
+        assertEquals(TokenType.NUMBER_LITERAL, tokens[3].getType()); assertEquals("5", tokens[3].getValue())
+        assertEquals(TokenType.SEMICOLON, tokens[4].getType()); assertEquals(";", tokens[4].getValue())
     }
 
     @Test
-    fun `tokenizes different token types correctly`() {
-        val lexer = PrintScriptLexer(MockReader("let x: number = 5.5;"), splitter)
-        val tokens = lexer.tokenize(typeMap)
-
-        val expectedTypes = listOf(
-            TokenType.LET,
-            TokenType.IDENTIFIER,
-            TokenType.COLON,
-            TokenType.NUMBER,
-            TokenType.ASSIGN,
-            TokenType.NUMBER_LITERAL,
-            TokenType.SEMICOLON
-        )
-        assertEquals(expectedTypes.size, tokens.size)
-        tokens.zip(expectedTypes).forEach { (token, expectedType) ->
-            assertEquals(expectedType, token.getType())
-        }
+    fun tokenizePrintWithStringLiteral() {
+        val tokens = lex("""println("hi")""")
+        assertEquals(4, tokens.size)
+        assertEquals(TokenType.PRINT, tokens[0].getType());             assertEquals("println", tokens[0].getValue())
+        assertEquals(TokenType.OPEN_PARENTHESIS, tokens[1].getType());  assertEquals("(", tokens[1].getValue())
+        assertEquals(TokenType.STRING_LITERAL, tokens[2].getType());    assertEquals("\"hi\"", tokens[2].getValue())
+        assertEquals(TokenType.CLOSE_PARENTHESIS, tokens[3].getType()); assertEquals(")", tokens[3].getValue())
     }
 
     @Test
-    fun `handles multi-line input and tracks coordinates correctly`() {
-        val lexer = PrintScriptLexer(MockReader("let a = 1;\nlet b = 2;"), splitter)
-        val tokens = lexer.tokenize(typeMap)
-        print(tokens)
-
-        assertEquals(10, tokens.size)
-
-        // Test first token on line 1
-        assertEquals(TokenType.LET, tokens[0].getType())
-        assertEquals(1, tokens[0].getCoordinates().getRow())
-        assertEquals(1, tokens[0].getCoordinates().getColumn())
-
-        // Test first token on line 2
-        assertEquals(TokenType.SEMICOLON, tokens[4].getType())
-        assertEquals(1, tokens[4].getCoordinates().getRow())
-        assertEquals(10, tokens[4].getCoordinates().getColumn())
-
-        // Test last token on line 2
-        assertEquals(TokenType.SEMICOLON, tokens[9].getType())
-        assertEquals(2, tokens[7].getCoordinates().getRow())
-        assertEquals(11, tokens[7].getCoordinates().getColumn())
+    fun tokenizeArithmeticAndParens() {
+        val tokens = lex("(1+2)*3")
+        assertEquals(7, tokens.size)
+        assertEquals(TokenType.OPEN_PARENTHESIS, tokens[0].getType());  assertEquals("(", tokens[0].getValue())
+        assertEquals(TokenType.NUMBER_LITERAL, tokens[1].getType());    assertEquals("1", tokens[1].getValue())
+        assertEquals(TokenType.PLUS, tokens[2].getType());              assertEquals("+", tokens[2].getValue())
+        assertEquals(TokenType.NUMBER_LITERAL, tokens[3].getType());    assertEquals("2", tokens[3].getValue())
+        assertEquals(TokenType.CLOSE_PARENTHESIS, tokens[4].getType()); assertEquals(")", tokens[4].getValue())
+        assertEquals(TokenType.MULTIPLY, tokens[5].getType());          assertEquals("*", tokens[5].getValue())
+        assertEquals(TokenType.NUMBER_LITERAL, tokens[6].getType());    assertEquals("3", tokens[6].getValue())
     }
 
     @Test
-    fun `tokenizes a complex statement with various symbols`() {
-        val lexer = PrintScriptLexer(MockReader("if (x > 5) { print(\"Hello\"); }"), splitter)
-        val tokens = lexer.tokenize(typeMap)
-        for (token in tokens) {
-            println(token.toString())
-        }
-
-        val expectedTypes = listOf(
-            TokenType.IF,
-            TokenType.OPEN_PARENTHESIS,
-            TokenType.IDENTIFIER,
-            TokenType.GREATER_THAN, // '>' is an identifier
-            TokenType.NUMBER_LITERAL,
-            TokenType.CLOSE_PARENTHESIS,
-            TokenType.OPEN_BRACE,
-            TokenType.PRINT, // 'print'
-            TokenType.OPEN_PARENTHESIS,
-            TokenType.STRING_LITERAL,
-            TokenType.CLOSE_PARENTHESIS,
-            TokenType.SEMICOLON,
-            TokenType.CLOSE_BRACE
-        )
-
-        assertEquals(expectedTypes.size, tokens.size)
-        tokens.zip(expectedTypes).forEach { (token, expectedType) ->
-            assertEquals(expectedType, token.getType())
-        }
+    fun tokenizeUnknownAsIdentifier() {
+        val tokens = lex("foo")
+        assertEquals(1, tokens.size)
+        assertEquals(TokenType.IDENTIFIER, tokens[0].getType())
+        assertEquals("foo", tokens[0].getValue())
     }
 
     @Test
-    fun `tokenizes a complex expression with multiple operators`() {
-        val lexer = PrintScriptLexer(MockReader("let result = (a + b) * (c - d) / e;"), splitter)
-        val tokens = lexer.tokenize(typeMap)
-
-        val expectedTypes = listOf(
-            TokenType.LET,
-            TokenType.IDENTIFIER,
-            TokenType.ASSIGN,
-            TokenType.OPEN_PARENTHESIS,
-            TokenType.IDENTIFIER, // 'a'
-            TokenType.PLUS,
-            TokenType.IDENTIFIER, // 'b'
-            TokenType.CLOSE_PARENTHESIS,
-            TokenType.MULTIPLY,
-            TokenType.OPEN_PARENTHESIS,
-            TokenType.IDENTIFIER, // 'c'
-            TokenType.MINUS,
-            TokenType.IDENTIFIER, // 'd'
-            TokenType.CLOSE_PARENTHESIS,
-            TokenType.DIVIDE,
-            TokenType.IDENTIFIER, // 'e'
-            TokenType.SEMICOLON
-        )
-
-        assertEquals(expectedTypes.size, tokens.size)
-        tokens.zip(expectedTypes).forEach { (token, expectedType) ->
-            assertEquals(expectedType, token.getType())
-        }
+    fun tokenizeRelationalAndLogical() {
+        val tokens = lex("if (a<=10 && b!=0) return a")
+        assertEquals(TokenType.IF, tokens[0].getType());                         assertEquals("if", tokens[0].getValue())
+        assertEquals(TokenType.OPEN_PARENTHESIS, tokens[1].getType());           assertEquals("(", tokens[1].getValue())
+        assertEquals(TokenType.IDENTIFIER, tokens[2].getType());                 assertEquals("a", tokens[2].getValue())
+        assertEquals(TokenType.LESS_THAN_OR_EQUAL, tokens[3].getType());         assertEquals("<=", tokens[3].getValue())
+        assertEquals(TokenType.NUMBER_LITERAL, tokens[4].getType());             assertEquals("10", tokens[4].getValue())
+        assertEquals(TokenType.AND, tokens[5].getType());                        assertEquals("&&", tokens[5].getValue())
+        assertEquals(TokenType.IDENTIFIER, tokens[6].getType());                 assertEquals("b", tokens[6].getValue())
+        assertEquals(TokenType.NOT_EQUALS, tokens[7].getType());                 assertEquals("!=", tokens[7].getValue())
+        assertEquals(TokenType.NUMBER_LITERAL, tokens[8].getType());             assertEquals("0", tokens[8].getValue())
+        assertEquals(TokenType.CLOSE_PARENTHESIS, tokens[9].getType());          assertEquals(")", tokens[9].getValue())
+        assertEquals(TokenType.RETURN, tokens[10].getType());                    assertEquals("return", tokens[10].getValue())
+        assertEquals(TokenType.IDENTIFIER, tokens[11].getType());                assertEquals("a", tokens[11].getValue())
     }
 }

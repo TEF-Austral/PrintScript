@@ -42,17 +42,14 @@ enum class TokenType {
     RETURN,
     WHILE,
     LET,
-    CONST,
     PRINT,
 
     // Data type keywords
     NUMBER,
     STRING,
-    BOOLEAN,
 
     // Literals
     IDENTIFIER,
     NUMBER_LITERAL,
     STRING_LITERAL,
-
 }

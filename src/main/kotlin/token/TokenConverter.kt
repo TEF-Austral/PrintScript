@@ -1,10 +1,4 @@
-package lexer
-
-import java.math.BigInteger
-import token.Coordinates
-import token.PrintScriptToken
-import token.Token
-import token.TokenType
+package token
 
 sealed interface TokenConverter {
     fun convert(input: String,position: Coordinates): Token
@@ -276,16 +270,6 @@ object NotToToken : StringToTokenConverter {
 
     override fun convert(input: String, position: Coordinates): Token {
        return PrintScriptToken(type = TokenType.NOT, value = input, coordinates = position)
-    }
-}
-
-object ClassToToken : StringToTokenConverter {
-    override fun canHandle(input: String): Boolean {
-        return input == "class"
-    }
-
-    override fun convert(input: String, position: Coordinates): Token {
-       return PrintScriptToken(type = TokenType.CLASS, value = input, coordinates = position)
     }
 }
 

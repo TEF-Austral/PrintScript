@@ -2,7 +2,7 @@ package lexer
 
 import lexer.reader.Reader
 import token.Token
-import token.TokenType
+import token.TokenConverter
 
 sealed interface Lexer {
     fun tokenize(): List<Token>
