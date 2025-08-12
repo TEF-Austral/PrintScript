@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 import token.StringToTokenConverterFactory
 import token.TokenType
 
-class FullIntegrationLexerLargeScriptTest {
+class FullIntegrationLexerTest {
 
     private lateinit var reader: Reader
 
