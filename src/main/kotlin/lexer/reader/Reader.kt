@@ -6,15 +6,18 @@ sealed interface Reader {
     fun read(): String
 }
 
-class TxtReader(private val path: String): Reader {
+class TxtReader(private val path: String) : Reader {
 
     override fun read(): String {
-        val filePath = path
-        return File(filePath).readText()
+        return try {
+            File(path).readText()
+        } catch (e: java.io.IOException) {
+            ""
+        }
     }
 }
 
-class MockReader(private val content: String): Reader {
+class MockReader(private val content: String) : Reader {
     override fun read(): String {
         return content
     }
