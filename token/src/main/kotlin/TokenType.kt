@@ -1,0 +1,21 @@
+enum class TokenType {
+    //New Token Types
+    DELIMITERS,
+    OPERATORS,
+    ASSIGNMENT,
+    COMPARISON,
+    LOGICAL_OPERATORS,
+    CONDITIONALS,
+    LOOPS,
+    NUMBER,
+    STRING,
+    STRING_LITERAL,
+    NUMBER_LITERAL,
+    IDENTIFIER,
+    RETURN,
+    FUNCTION,
+
+
+
+
+}

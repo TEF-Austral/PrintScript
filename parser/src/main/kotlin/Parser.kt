@@ -1,2 +1,2 @@
-interface Parser {
+sealed interface Parser {
 }

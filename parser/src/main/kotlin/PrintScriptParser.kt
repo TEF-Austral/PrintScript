@@ -1,2 +1,2 @@
-class PrintScriptParser {
+class PrintScriptParser: Parser {
 }

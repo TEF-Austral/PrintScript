@@ -1,7 +1,5 @@
 package reader
 
-interface Reader {
-}
-
-class ReaderText {
+sealed interface Reader {
+    fun read(): String
 }
