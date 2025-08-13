@@ -1,5 +1,4 @@
-class Position(override val row: Int, override val column: Int) : Coordinates {
-
+class Position(private val row: Int, private val column: Int) : Coordinates {
     override fun getRow(): Int {
         return row
     }
