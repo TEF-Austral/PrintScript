@@ -1,3 +1,6 @@
+import reader.Reader
+import splitter.Splitter
+
 class PrintScriptLexer(val reader: Reader, val splitter: Splitter, val tokenConverter: TokenConverter): Lexer {
 
     override fun tokenize(): List<Token> {
