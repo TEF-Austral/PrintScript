@@ -393,3 +393,4 @@ class TokenConverterTest {
         assertEquals(TokenType.IDENTIFIER, identifier.getType())
         assertEquals("someVariable", identifier.getValue())
     }
+}
