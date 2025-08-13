@@ -1,3 +1,7 @@
+package lexer
+
+import Token
+import converter.TokenConverter
 import reader.Reader
 import splitter.Splitter
 
