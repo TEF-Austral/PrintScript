@@ -5,3 +5,4 @@ class MockReader(private val content: String) : Reader {
         return content
     }
 }
+

@@ -115,7 +115,7 @@ class SplitterTest {
     }
 
     @Test
-    fun `handles !=`(){
+    fun `handles !=`() {
         val splitter = StringSplitter(listOf('=', '+', '-', '*', '/', ';', '!', '<', '>'))
         val input = "a != b;"
         val tokens = splitter.split(input)

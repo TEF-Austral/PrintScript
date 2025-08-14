@@ -1,3 +1,4 @@
+import node.PrintScriptNode
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
@@ -7,7 +8,7 @@ class PrintScriptASTTest {
     fun testInOrderTraversal() {
         val leftToken = PrintScriptToken(TokenType.NUMBER_LITERAL, "1", Position(1, 1))
         val rightToken = PrintScriptToken(TokenType.NUMBER_LITERAL, "3", Position(1, 3))
-        val rootToken = PrintScriptToken(TokenType.PLUS, "+", Position(1, 2))
+        val rootToken = PrintScriptToken(TokenType.OPERATORS, "+", Position(1, 2))
 
         val leftNode = PrintScriptNode(leftToken, emptyList())
         val rightNode = PrintScriptNode(rightToken, emptyList())
@@ -30,9 +31,9 @@ class PrintScriptASTTest {
         val n3 = PrintScriptNode(PrintScriptToken(TokenType.NUMBER_LITERAL, "3", Position(1, 3)), emptyList())
         val n4 = PrintScriptNode(PrintScriptToken(TokenType.NUMBER_LITERAL, "4", Position(1, 4)), emptyList())
 
-        val plus = PrintScriptNode(PrintScriptToken(TokenType.PLUS, "+", Position(1, 5)), listOf(n1, n2))
-        val minus = PrintScriptNode(PrintScriptToken(TokenType.MINUS, "-", Position(1, 6)), listOf(n3, n4))
-        val multiply = PrintScriptNode(PrintScriptToken(TokenType.MULTIPLY, "*", Position(1, 7)), listOf(plus, minus))
+        val plus = PrintScriptNode(PrintScriptToken(TokenType.OPERATORS, "+", Position(1, 5)), listOf(n1, n2))
+        val minus = PrintScriptNode(PrintScriptToken(TokenType.OPERATORS, "-", Position(1, 6)), listOf(n3, n4))
+        val multiply = PrintScriptNode(PrintScriptToken(TokenType.OPERATORS, "*", Position(1, 7)), listOf(plus, minus))
 
         val traverser = InOrderTraverser()
         val ast = PrintScriptAST(traverser, multiply)

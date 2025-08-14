@@ -13,12 +13,12 @@ plugins {
 rootProject.name = 'PrintScript'
 
 include(
-    'lexer',
-    'analyzer',
-    'formatter',
-    'interpreter',
-    'parser',
-    'token',
-    'ast',
-    'cli'
-)
+        'lexer',
+        'analyzer',
+        'formatter',
+        'interpreter',
+        'parser',
+        'token',
+        'ast',
+        'cli',
+        'common')

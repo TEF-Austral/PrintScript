@@ -1,21 +1,19 @@
 enum class TokenType {
     //New Token Types
-    DELIMITERS,
-    OPERATORS,
-    ASSIGNMENT,
-    COMPARISON,
-    LOGICAL_OPERATORS,
-    CONDITIONALS,
-    LOOPS,
-    NUMBER,
-    STRING,
-    STRING_LITERAL,
-    NUMBER_LITERAL,
-    IDENTIFIER,
-    RETURN,
-    FUNCTION,
-
-
-
-
+    DELIMITERS,  // ( ) { } , . ; : ?
+    OPERATORS, // + - * / %
+    ASSIGNMENT, // =
+    COMPARISON, // == != < > <= >=
+    LOGICAL_OPERATORS, // && ||
+    CONDITIONALS, // if else switch case
+    LOOPS, // for while do
+    NUMBER, // NUMBER
+    STRING, // STRING
+    STRING_LITERAL, // "Hello" 'World'
+    NUMBER_LITERAL, // 123 45.67
+    IDENTIFIER, // variable names, function names
+    RETURN, // return
+    FUNCTION, // function
+    DECLARATION, // let const var
+    PRINT, // println
 }

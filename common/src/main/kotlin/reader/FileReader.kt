@@ -3,7 +3,7 @@ package reader
 import java.io.File
 import java.io.IOException
 
-class TxtReader(private val path: String) : Reader {
+class FileReader(private val path: String) : Reader {
 
     override fun read(): String {
         return try {

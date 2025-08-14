@@ -1,12 +1,17 @@
 package traverser
 
 import AST
-import node.Node
 import kotlin.collections.plus
+import kotlin.compareTo
+import node.Node
 
 class InOrderTraverser : Traverser {
+
     override fun traverse(ast: AST): List<Node> {
-        return traverse(ast.getRoot())
+        for (node in ast.getRoot()) {
+            return traverse(node)
+        }
+        return emptyList()
     }
 
     private fun traverse(node: Node): List<Node> {
@@ -16,3 +21,5 @@ class InOrderTraverser : Traverser {
         return left + node + right
     }
 }
+
+

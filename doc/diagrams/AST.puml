@@ -1,0 +1,40 @@
+@startuml
+
+interface Node {
+  +getType(): Token
+  +getChildren(): List<Node>
+}
+
+class PrintScriptNode implements Node {
+  -Children: List<Node>
+  -token: Token
+
+  +getType(): Token
+  +getChildren(): List<Node>
+}
+
+interface AST {
+   +getRoot(): Node
+   +traverse(): List<Node>
+}
+
+class PrintScriptAST implements AST{
+   -root: Node
+   -traverser: Traverser
+   +getRoot(): Node
+   +traverse(): List<Node>
+}
+
+interface Traverser {
+  +traverse(ast: AST): List<Node>
+}
+
+class InOrderTraverser implements Traverser {
+  +traverse(ast: AST): List<Node>
+  -traverse(node: Node): List<Node>
+}
+
+AST --> Traverser
+AST *-- Node
+
+@enduml
