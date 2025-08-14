@@ -1,5 +1,5 @@
 plugins {
-    id 'buildlogic.kotlin-common-conventions'
+    id 'org.jetbrains.kotlin.jvm'
 }
 
 group = 'org.example'
@@ -10,9 +10,8 @@ repositories {
 }
 
 dependencies {
-    implementation project(':token')
-    implementation project(':ast')
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
+
 }
 
 test {
