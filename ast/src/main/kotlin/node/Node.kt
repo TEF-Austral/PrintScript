@@ -4,8 +4,8 @@ import Token
 
 
 sealed interface ASTNode {
-}
 
+}
 
 sealed interface Statement : ASTNode // Las declaraciones no retornan valores, solo ejecutan acciones
 
@@ -73,10 +73,10 @@ class BlockStatement(private val statements: List<Statement>) : Statement {
 class ExpressionStatement(private val expression: Expression) : Statement {
 
     fun getExpression(): Expression = expression
+
 }
 
-
-class Program(private val statements: List<Statement>) : ASTNode { //Root del AST, pero usando Composite (creo)
+class Program(private val statements: List<Statement>) : ASTNode {   //Root del AST, pero usando Composite (creo)
 
     fun getStatements(): List<Statement> = statements
 
