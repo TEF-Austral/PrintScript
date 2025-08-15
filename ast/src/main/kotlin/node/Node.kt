@@ -1,47 +1,83 @@
 package node
 
 import Token
-import TokenType
 
-sealed interface Node {
 
-    fun getType(): NodeTypes
+sealed interface ASTNode {
+}
+
+
+sealed interface Statement : ASTNode // Las declaraciones no retornan valores, solo ejecutan acciones
+
+sealed interface Expression : ASTNode // Las expresiones retornan valores, pueden ser usadas en declaraciones
+
+
+class LiteralExpression(private val token: Token) : Expression {
+
+    fun getValue(): String = token.getValue()
+
+}
+
+class IdentifierExpression(private val token: Token) : Expression {
+
+    fun getName(): String = token.getValue()
+
+}
+
+class BinaryExpression(
+    private val left: Expression,
+    private val operator: Token,
+    private val right: Expression
+) : Expression {
+
+    fun getLeft(): Expression = left
+    fun getOperator(): Token = operator
+    fun getRight(): Expression = right
 
 }
 
 
-// TODO, PROBLEMA DE NODO O TOKEN EN BINARY OPERATION Y PRINT NODE
+class VariableDeclarationStatement(
+    private val identifier: Token,
+    private val dataType: Token,
+    private val initialValue: Expression? = null
+) : Statement {
 
-// + * / -
-
-//
-
-data class BinaryOperationNode(val operator: Token, val num1: Binaryoperation, val num2: Token) : Node {
-
-
-}
-
-data class DeclarationNode(val dataType: TokenType, val identifier: Token, val value: AssignmentNode?) : Node {
-
-    override fun getType(): NodeTypes {
-        return NodeTypes.DECLARATION
-
-    }
+    fun getIdentifier(): String = identifier.getValue()
+    fun getDataType(): String = dataType.getValue()
+    fun getInitialValue(): Expression? = initialValue
 
 }
 
-data class AssignmentNode(val identifier: Token, val value: Token) : Node {
-    override fun getType(): NodeTypes {
-        return NodeTypes.ASSIGNMENT
-    }
+class AssignmentStatement(
+    private val identifier: Token,
+    private val value: Expression
+) : Statement {
+
+    fun getIdentifier(): String = identifier.getValue()
+    fun getValue(): Expression = value
 
 }
 
-data class PrintNode(val value: Token) : Node {
-    override fun getType(): NodeTypes {
-        return NodeTypes.PRINT
-    }
+class PrintStatement(private val expression: Expression) : Statement {
+
+    fun getExpression(): Expression = expression
+}
+
+class BlockStatement(private val statements: List<Statement>) : Statement {
+
+    fun getStatements(): List<Statement> = statements
 
 }
 
+class ExpressionStatement(private val expression: Expression) : Statement {
 
+    fun getExpression(): Expression = expression
+}
+
+
+class Program(private val statements: List<Statement>) : ASTNode { //Root del AST, pero usando Composite (creo)
+
+    fun getStatements(): List<Statement> = statements
+
+}

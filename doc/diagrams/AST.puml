@@ -1,40 +1,77 @@
 @startuml
 
-interface Node {
-  +getType(): Token
-  +getChildren(): List<Node>
+interface ASTNode
+
+interface Statement
+interface Expression
+
+class LiteralExpression {
+    -token: Token
+    +getValue(): String
 }
 
-class PrintScriptNode implements Node {
-  -Children: List<Node>
-  -token: Token
-
-  +getType(): Token
-  +getChildren(): List<Node>
+class IdentifierExpression {
+    -token: Token
+    +getName(): String
 }
 
-interface AST {
-   +getRoot(): Node
-   +traverse(): List<Node>
+class BinaryExpression {
+    -left: Expression
+    -operator: Token
+    -right: Expression
+    +getLeft(): Expression
+    +getOperator(): Token
+    +getRight(): Expression
 }
 
-class PrintScriptAST implements AST{
-   -root: Node
-   -traverser: Traverser
-   +getRoot(): Node
-   +traverse(): List<Node>
+class VariableDeclarationStatement {
+    -identifier: Token
+    -dataType: Token
+    -initialValue: Expression
+    +getIdentifier(): String
+    +getDataType(): String
+    +getInitialValue(): Expression
 }
 
-interface Traverser {
-  +traverse(ast: AST): List<Node>
+class AssignmentStatement {
+    -identifier: Token
+    -value: Expression
+    +getIdentifier(): String
+    +getValue(): Expression
 }
 
-class InOrderTraverser implements Traverser {
-  +traverse(ast: AST): List<Node>
-  -traverse(node: Node): List<Node>
+class PrintStatement {
+    -expression: Expression
+    +getExpression(): Expression
 }
 
-AST --> Traverser
-AST *-- Node
+class BlockStatement {
+    -statements: List<Statement>
+    +getStatements(): List<Statement>
+}
+
+class ExpressionStatement {
+    -expression: Expression
+    +getExpression(): Expression
+}
+
+class Program {
+    -statements: List<Statement>
+    +getStatements(): List<Statement>
+}
+
+
+ASTNode <|.. Statement
+ASTNode <|.. Expression
+Expression <|-- LiteralExpression
+Expression <|-- IdentifierExpression
+Expression <|-- BinaryExpression
+Statement <|-- VariableDeclarationStatement
+Statement <|-- AssignmentStatement
+Statement <|-- PrintStatement
+Statement <|-- BlockStatement
+Statement <|-- ExpressionStatement
+ASTNode <|-- Program
+
 
 @enduml
