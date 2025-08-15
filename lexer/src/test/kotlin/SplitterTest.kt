@@ -1,12 +1,12 @@
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import splitter.StringSplitter
+import splitter.ChainSplitter
 
 class SplitterTest {
 
     @Test
     fun `splits input into tokens with correct coordinates`() {
-        val splitter = StringSplitter(listOf('=', '+', '-', '*', '/', ';'))
+        val splitter = ChainSplitter(listOf('=', '+', '-', '*', '/', ';'))
         val input = "let x = 10;\nlet y = x + 5;"
         val tokens = splitter.split(input)
 
@@ -62,7 +62,7 @@ class SplitterTest {
 
     @Test
     fun `handles input with only whitespace`() {
-        val splitter = StringSplitter(listOf('=', '+', '-', '*', '/', ';'))
+        val splitter = ChainSplitter(listOf('=', '+', '-', '*', '/', ';'))
         val input = " \n\t "
         val tokens = splitter.split(input)
         assertEquals(0, tokens.size)
@@ -70,7 +70,7 @@ class SplitterTest {
 
     @Test
     fun `handles input with special characters only`() {
-        val splitter = StringSplitter(listOf('=', '+', '-', '*', '/', ';'))
+        val splitter = ChainSplitter(listOf('=', '+', '-', '*', '/', ';'))
         val input = "=+*/;"
         val tokens = splitter.split(input)
 
@@ -84,7 +84,7 @@ class SplitterTest {
 
     @Test
     fun `handles input with mixed words and special characters`() {
-        val splitter = StringSplitter(listOf('=', '+', '-', '*', '/', ';'))
+        val splitter = ChainSplitter(listOf('=', '+', '-', '*', '/', ';'))
         val input = "var1=var2+3;"
         val tokens = splitter.split(input)
 
@@ -99,7 +99,7 @@ class SplitterTest {
 
     @Test
     fun `handles input with unsupported special characters`() {
-        val splitter = StringSplitter(listOf('=', '+', '-', '*', '/', ';'))
+        val splitter = ChainSplitter(listOf('=', '+', '-', '*', '/', ';'))
         val input = "a@b#c"
         val tokens = splitter.split(input)
 
@@ -109,7 +109,7 @@ class SplitterTest {
 
     @Test
     fun `handles empty input`() {
-        val splitter = StringSplitter(listOf('=', '+', '-', '*', '/', ';'))
+        val splitter = ChainSplitter(listOf('=', '+', '-', '*', '/', ';'))
         val input = ""
         val tokens = splitter.split(input)
         assertEquals(0, tokens.size)
@@ -117,7 +117,7 @@ class SplitterTest {
 
     @Test
     fun `handles !=`() {
-        val splitter = StringSplitter(listOf('=', '+', '-', '*', '/', ';', '!', '<', '>'))
+        val splitter = ChainSplitter(listOf('=', '+', '-', '*', '/', ';', '!', '<', '>'))
         val input = "a != b;"
         val tokens = splitter.split(input)
         print(tokens)
@@ -131,7 +131,7 @@ class SplitterTest {
 
     @Test
     fun `handles complex expressions with multiple operators`() {
-        val splitter = StringSplitter(listOf('=', '+', '-', '*', '/', ';', '!', '<', '>', '(', ')'))
+        val splitter = ChainSplitter(listOf('=', '+', '-', '*', '/', ';', '!', '<', '>', '(', ')'))
         val input = "x = 5 + 3 * (2 - 1);"
         val tokens = splitter.split(input)
 
