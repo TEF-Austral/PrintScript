@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Test
 class ReaderTest {
 
     @Test
-    fun `TxtReader should read content from a valid file`() {
+    fun `FileReader should read content from a valid file`() {
         val filePath = "src/test/resources/script.txt"
         val expectedContent = File(filePath).readText()
 
-        val reader = TxtReader(filePath)
+        val reader = FileReader(filePath)
         val actualContent = reader.read()
         print(expectedContent)
 
@@ -19,9 +19,9 @@ class ReaderTest {
     }
 
     @Test
-    fun `TxtReader should return an empty String for a non-existent file`() {
+    fun `FileReader should return an empty String for a non-existent file`() {
         val nonExistentFilePath = "non/existent/file.txt"
-        val reader = TxtReader(nonExistentFilePath)
+        val reader = FileReader(nonExistentFilePath)
 
         assertEquals("", reader.read())
     }

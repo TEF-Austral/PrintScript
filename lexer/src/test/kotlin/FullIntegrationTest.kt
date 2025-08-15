@@ -3,7 +3,8 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import reader.Reader
-import reader.TxtReader
+import reader.FileReader
+
 import splitter.SplitterFactory
 
 class FullIntegrationTest {
@@ -14,9 +15,9 @@ class FullIntegrationTest {
     @BeforeEach
     fun setup() {
         val filePathScript = "src/test/resources/script.txt"
-        scriptReader = TxtReader(filePathScript)
+        scriptReader = FileReader(filePathScript)
         val filePathLargerScript = "src/test/resources/largerScript.txt"
-        largeScriptReader = TxtReader(filePathLargerScript)
+        largeScriptReader = FileReader(filePathLargerScript)
     }
 
     @Test
