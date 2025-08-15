@@ -81,3 +81,5 @@ class Program(private val statements: List<Statement>) : ASTNode {   //Root del 
     fun getStatements(): List<Statement> = statements
 
 }
+
+
