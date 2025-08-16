@@ -1,41 +1,28 @@
 package parser.command
 
+import Token
 import TokenType
 import node.Statement
+import parser.Parser
 import parser.RecursiveDescentParser
 
 class AssignmentParser : StatementParserCommand {
 
-    override fun canHandle(type: TokenType): Boolean {
-        return type == TokenType.ASSIGNMENT
+    override fun canHandle(token: Token?, parser: Parser): Boolean {
+        if (token?.getType() != TokenType.IDENTIFIER) return false
+        val savedPosition = parser.current
+        parser.advance()
+        val isAssign = parser.check(TokenType.ASSIGNMENT)
+        parser.current = savedPosition
+        return isAssign
     }
 
-    //    return when {
-//        parser.check("LET") || parser.check("CONST") -> declarationParser.parse(parser)
-//        parser.check("PRINT") -> printParser.parse(parser)
-//        parser.check("LEFT_BRACE") -> blockParser.parse(parser)
-//        isAssignment(parser) -> assignmentParser.parse(parser)
-//        else -> expressionStatementParser.parse(parser)
-//    }
-
-    //    private fun isAssignment(parser: RecursiveDescentParser): Boolean {
-//        // Look ahead para determinar si es una asignación
-//        if (!parser.check("IDENTIFIER")) return false
-
-//        val savedPosition = parser.current
-//        parser.advance()
-//        val isAssign = parser.check("ASSIGN")
-//        parser.current = savedPosition // restore position
-//
-//        return isAssign
-//    }
 
     override fun parse(parser: RecursiveDescentParser): Statement {
-        val identifier = parser.consume("IDENTIFIER", "Expected variable name")
-        parser.consume("ASSIGN", "Expected '=' in assignment")
+        val identifier = parser.consume(TokenType.IDENTIFIER)
+        parser.consume(TokenType.ASSIGNMENT) // =
         val value = parser.getExpressionParser().parseExpression(parser)
-        parser.consume("SEMICOLON", "Expected ';' after assignment")
-
+        parser.consume(TokenType.DELIMITERS) // ;
         return parser.getNodeBuilder().buildAssignmentStatementNode(identifier, value)
     }
 }

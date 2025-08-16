@@ -1,13 +1,15 @@
 package parser.command
 
+import Token
 import TokenType
 import node.Statement
+import parser.Parser
 import parser.RecursiveDescentParser
 
 class PrintStatementParser : StatementParserCommand {
 
-    override fun canHandle(type: TokenType): Boolean {
-        return type == TokenType.PRINT
+    override fun canHandle(token: Token?, parser: Parser): Boolean {
+        return token?.getType() == TokenType.PRINT
     }
 
     override fun parse(parser: RecursiveDescentParser): Statement {
@@ -18,6 +20,8 @@ class PrintStatementParser : StatementParserCommand {
         parser.consume(TokenType.DELIMITERS) // ;
         return parser.getNodeBuilder().buildPrintStatementNode(expression)
     }
+
+
 
     // TODO: Soporte de múltiples Delimiters, porque aca debria de haber o quisa no un
     // chequeo de cada uno digamos en orden ( , ), ;

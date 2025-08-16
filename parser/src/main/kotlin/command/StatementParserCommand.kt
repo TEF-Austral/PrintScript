@@ -1,9 +1,10 @@
 package parser.command
 
-import TokenType
+import Token
+import parser.Parser
 
 sealed interface StatementParserCommand : ParserCommand {
 
-    fun canHandle(type: TokenType): Boolean
+    fun canHandle(token: Token?, parser: Parser): Boolean
 
 }

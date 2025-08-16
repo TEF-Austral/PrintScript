@@ -82,4 +82,9 @@ class Program(private val statements: List<Statement>) : ASTNode {   //Root del 
 
 }
 
+class EmptyExpression : Expression {
+    // Representa una expresión vacía, útil para manejar casos donde no se espera una expresión
+    override fun toString(): String = "EmptyExpression"
+}
+
 

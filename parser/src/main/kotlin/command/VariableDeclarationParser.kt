@@ -1,28 +1,32 @@
 package parser.command
 
+import Token
 import TokenType
 import node.Expression
 import node.Statement
+import parser.Parser
 import parser.RecursiveDescentParser
 
 class VariableDeclarationParser : StatementParserCommand {
 
-    override fun canHandle(type: TokenType): Boolean {
-        return type == TokenType.DELIMITERS
+    override fun canHandle(token: Token?, parser: Parser): Boolean {
+        return token?.getType() == TokenType.DECLARATION
     }
 
     override fun parse(parser: RecursiveDescentParser): Statement {
-        val declarationType = parser.advance()!! // LET or CONST
-        val identifier = parser.consume("IDENTIFIER", "Expected variable name")
-        parser.consume("COLON", "Expected ':' after variable name")
-        val dataType = parser.consume("TYPE", "Expected data type")
+        parser.consume(TokenType.DECLARATION) // "let" or "const"
+        val identifier = parser.consume(TokenType.IDENTIFIER)
+        parser.consume(TokenType.DELIMITERS) // :
+        val dataType = parser.consume(TokenType.DATA_TYPES)
 
         var initialValue: Expression? = null
-        if (parser.match("ASSIGN")) {
+        if (parser.match(TokenType.ASSIGNMENT)) {
             initialValue = parser.getExpressionParser().parseExpression(parser)
         }
 
-        parser.consume("SEMICOLON", "Expected ';' after variable declaration")
+        parser.consume(TokenType.DELIMITERS) // ;
         return parser.getNodeBuilder().buildVariableDeclarationStatementNode(identifier, dataType, initialValue)
     }
+
+
 }

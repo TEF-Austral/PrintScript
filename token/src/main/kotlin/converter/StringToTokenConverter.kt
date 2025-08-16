@@ -85,26 +85,15 @@ object LoopToToken : StringToTokenConverter {
     }
 }
 
-object NumberToToken : StringToTokenConverter {
+
+object DataTypeToToken : StringToTokenConverter {
 
     override fun canHandle(input: String): Boolean {
-        return input == "number"
-
+        return input in listOf("number", "string")
     }
 
     override fun convert(input: String, position: Coordinates): Token {
-        return PrintScriptToken(type = TokenType.NUMBER, value = input, coordinates = position)
-    }
-}
-
-object StringToToken : StringToTokenConverter {
-
-    override fun canHandle(input: String): Boolean {
-        return input == "string"
-    }
-
-    override fun convert(input: String, position: Coordinates): Token {
-        return PrintScriptToken(type = TokenType.STRING, value = input, coordinates = position)
+        return PrintScriptToken(type = TokenType.DATA_TYPES, value = input, coordinates = position)
     }
 }
 

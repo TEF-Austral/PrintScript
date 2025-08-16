@@ -7,8 +7,7 @@ enum class TokenType {
     LOGICAL_OPERATORS, // && ||
     CONDITIONALS, // if else switch case
     LOOPS, // for while do
-    NUMBER, // NUMBER
-    STRING, // STRING
+    DATA_TYPES, // NUMBER STRING
     STRING_LITERAL, // "Hello" 'World'
     NUMBER_LITERAL, // 123 45.67
     IDENTIFIER, // variable names, function names

@@ -8,7 +8,16 @@ import parser.expression.ExpressionParser
 import parser.statement.StatementParser
 
 interface Parser {
+
+    var current: Int
+
     fun parse(): Program
+
+    fun consume(type: TokenType): Token
+
+    fun advance(): Token?
+
+    fun check(type: TokenType): Boolean
 }
 
 class RecursiveDescentParser(
@@ -18,7 +27,7 @@ class RecursiveDescentParser(
     private val statementParser: StatementParser
 ) : Parser {
 
-    private var current = 0
+    override var current = 0
 
     override fun parse(): Program {
 
@@ -34,7 +43,7 @@ class RecursiveDescentParser(
 
     fun getCurrentToken(): Token? = if (isAtEnd()) null else tokens[current]
 
-    fun advance(): Token? {
+    override fun advance(): Token? {
         if (!isAtEnd()) current++
         return previous()
     }
@@ -43,7 +52,7 @@ class RecursiveDescentParser(
 
     fun isAtEnd(): Boolean = current >= tokens.size
 
-    fun check(type: TokenType): Boolean = if (isAtEnd()) false else getCurrentToken()?.getType() == type
+    override fun check(type: TokenType): Boolean = if (isAtEnd()) false else getCurrentToken()?.getType() == type
 
     fun match(vararg types: TokenType): Boolean {
         for (type in types) {
@@ -55,7 +64,7 @@ class RecursiveDescentParser(
         return false
     }
 
-    fun consume(type: TokenType): Token {
+    override fun consume(type: TokenType): Token {
         if (check(type)) return advance()!!
     }
 

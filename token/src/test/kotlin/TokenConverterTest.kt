@@ -115,18 +115,18 @@ class TokenConverterTest {
 
     @Test
     fun `test NumberToToken`() {
-        assertTrue(NumberToToken.canHandle("number"))
-        assertFalse(NumberToToken.canHandle("string"))
-        val token = NumberToToken.convert("number", position)
-        assertEquals(TokenType.NUMBER, token.getType())
+        assertTrue(DataTypeToToken.canHandle("number"))
+        assertFalse(DataTypeToToken.canHandle("string"))
+        val token = DataTypeToToken.convert("number", position)
+        assertEquals(TokenType.DATA_TYPES, token.getType())
     }
 
     @Test
     fun `test StringToToken`() {
-        assertTrue(StringToToken.canHandle("string"))
-        assertFalse(StringToToken.canHandle("number"))
-        val token = StringToToken.convert("string", position)
-        assertEquals(TokenType.STRING, token.getType())
+        assertTrue(DataTypeToToken.canHandle("string"))
+        assertFalse(DataTypeToToken.canHandle("number"))
+        val token = DataTypeToToken.convert("string", position)
+        assertEquals(TokenType.DATA_TYPES, token.getType())
     }
 
     @Test

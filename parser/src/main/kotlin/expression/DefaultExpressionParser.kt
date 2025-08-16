@@ -1,5 +1,8 @@
 package parser.expression
 
+import Token
+import TokenType
+import node.EmptyExpression
 import node.Expression
 import parser.RecursiveDescentParser
 
@@ -11,27 +14,32 @@ class DefaultExpressionParser : ExpressionParser {
     }
 
     override fun parsePrimary(parser: RecursiveDescentParser): Expression {
-        val current = parser.getCurrentToken() ?: throw ParseException("Unexpected end of input")
+        val current = parser.getCurrentToken() ?: return EmptyExpression()
 
         return when (current.getType()) {
-            "NUMBER", "STRING", "BOOLEAN" -> {
+            TokenType.NUMBER_LITERAL,
+            TokenType.STRING_LITERAL -> {
                 parser.advance()
                 parser.getNodeBuilder().buildLiteralExpressionNode(current)
             }
 
-            "IDENTIFIER" -> {
+            TokenType.IDENTIFIER -> {
                 parser.advance()
                 parser.getNodeBuilder().buildIdentifierNode(current)
             }
 
-            "LEFT_PAREN" -> {
-                parser.advance() // consume '('
-                val expr = parseExpression(parser)
-                parser.consume("RIGHT_PAREN", "Expected ')' after expression")
-                expr
+            TokenType.DELIMITERS -> {
+                if (current.getValue() == "(") {
+                    parser.advance() // consume '('
+                    val expr = parseExpression(parser)
+                    expectDelimiter(parser, ")") // no-throw, best-effort
+                    expr
+                } else {
+                    EmptyExpression()
+                }
             }
 
-            else -> throw ParseException("Expected expression but found ${current.getType()}")
+            else -> EmptyExpression()
         }
     }
 
@@ -39,20 +47,19 @@ class DefaultExpressionParser : ExpressionParser {
         var result = left
 
         while (true) {
-            val current = parser.getCurrentToken()
-            if (current == null || !isOperator(current.getType())) break
+            val current = parser.getCurrentToken() ?: break
+            if (!isOperator(current)) break
 
-            val prec = getOperatorPrecedence(current.getType())
+            val prec = getOperatorPrecedence(current)
             if (prec < minPrec) break
 
             val operator = parser.advance()!!
             var right = parsePrimary(parser)
 
-            // Manejar asociatividad y precedencia correctamente
-            val nextToken = parser.getCurrentToken()
-            if (nextToken != null && isOperator(nextToken.getType())) {
-                val nextPrec = getOperatorPrecedence(nextToken.getType())
-                if (prec < nextPrec || (prec == nextPrec && isRightAssociative(operator.getType()))) {
+            val next = parser.getCurrentToken()
+            if (next != null && isOperator(next)) {
+                val nextPrec = getOperatorPrecedence(next)
+                if (prec < nextPrec || (prec == nextPrec && isRightAssociative(operator))) {
                     right = parseBinary(parser, right, prec + 1)
                 }
             }
@@ -63,32 +70,43 @@ class DefaultExpressionParser : ExpressionParser {
         return result
     }
 
-    private fun isRightAssociative(type: String): Boolean {
-        // La mayoría de operadores son left-associative
-        // Aquí podrías agregar operadores right-associative como potenciación
+    // Helpers
+
+    private fun expectDelimiter(parser: RecursiveDescentParser, expected: String) {
+        val t = parser.getCurrentToken()
+        if (t != null && t.getType() == TokenType.DELIMITERS && t.getValue() == expected) {
+            parser.consume(TokenType.DELIMITERS)
+        }
+        // else: no-op (no exceptions)
+    }
+
+    private fun isRightAssociative(token: Token): Boolean {
+        // Customize if adding right-associative operators like '^'
         return false
     }
 
-    private fun isOperator(type: String): Boolean {
-        return type in listOf(
-            "PLUS",
-            "MINUS",
-            "MULTIPLY",
-            "DIVIDE",
-            "EQUALS",
-            "NOT_EQUALS",
-            "LESS_THAN",
-            "GREATER_THAN"
-        )
+    private fun isOperator(token: Token): Boolean {
+        return when (token.getType()) {
+            TokenType.OPERATORS,
+            TokenType.COMPARISON,
+            TokenType.LOGICAL_OPERATORS -> true
+
+            else -> false
+        }
     }
 
-    private fun getOperatorPrecedence(type: String): Int {
-        return when (type) {
-            "EQUALS", "NOT_EQUALS" -> 1
-            "LESS_THAN", "GREATER_THAN" -> 2
-            "PLUS", "MINUS" -> 3
-            "MULTIPLY", "DIVIDE" -> 4
+    private fun getOperatorPrecedence(token: Token): Int {
+        return when (token.getType()) {
+            TokenType.LOGICAL_OPERATORS -> 1 // ||, &&
+            TokenType.COMPARISON -> 2       // ==, !=, <, >, <=, >=
+            TokenType.OPERATORS -> when (token.getValue()) {
+                "+", "-" -> 3
+                "*", "/", "%" -> 4
+                else -> 0
+            }
+
             else -> 0
         }
     }
 }
+

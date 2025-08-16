@@ -3,18 +3,17 @@ package converter.factory
 import converter.AssignmentToToken
 import converter.ComparisonToToken
 import converter.ConditionalToToken
+import converter.DataTypeToToken
 import converter.DeclarationToToken
 import converter.DelimiterToToken
 import converter.FunctionToToken
 import converter.LogicalOperatorToken
 import converter.LoopToToken
 import converter.NumberLiteralToToken
-import converter.NumberToToken
 import converter.OperatorToToken
 import converter.PrintToToken
 import converter.ReturnToToken
 import converter.StringLiteralToToken
-import converter.StringToToken
 import converter.StringToTokenConverter
 import converter.TokenConverter
 import converter.TokenConverterRegistry
@@ -26,8 +25,7 @@ object StringToTokenConverterFactory : TokenConverterFactory {
             listOf(
                 // Keywords
                 FunctionToToken,
-                NumberToToken,
-                StringToToken,
+                DataTypeToToken,
                 NumberLiteralToToken,
                 StringLiteralToToken,
                 ReturnToToken,
