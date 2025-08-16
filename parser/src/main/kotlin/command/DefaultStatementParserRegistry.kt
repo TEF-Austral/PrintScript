@@ -11,7 +11,6 @@ class DefaultStatementParserRegistry(private val statementCommands: List<Stateme
                 return command.parse(parser)
             }
         }
-        r
     }
 
 }

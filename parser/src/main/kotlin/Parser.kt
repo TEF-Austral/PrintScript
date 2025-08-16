@@ -1,6 +1,7 @@
 package parser
 
 import Token
+import TokenType
 import builder.NodeBuilder
 import node.*
 import parser.expression.ExpressionParser
@@ -42,9 +43,9 @@ class RecursiveDescentParser(
 
     fun isAtEnd(): Boolean = current >= tokens.size
 
-    fun check(type: String): Boolean = if (isAtEnd()) false else getCurrentToken()?.getType() == type
+    fun check(type: TokenType): Boolean = if (isAtEnd()) false else getCurrentToken()?.getType() == type
 
-    fun match(vararg types: String): Boolean {
+    fun match(vararg types: TokenType): Boolean {
         for (type in types) {
             if (check(type)) {
                 advance()
@@ -54,7 +55,7 @@ class RecursiveDescentParser(
         return false
     }
 
-    fun consume(type: String, message: String): Token {
+    fun consume(type: TokenType): Token {
         if (check(type)) return advance()!!
     }
 
