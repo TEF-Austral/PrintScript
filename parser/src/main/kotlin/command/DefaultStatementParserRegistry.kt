@@ -7,16 +7,10 @@ class DefaultStatementParserRegistry(private val statementCommands: List<Stateme
 
     override fun parse(parser: RecursiveDescentParser): Statement {
         for (command in statementCommands) {
-            if (command.canHandle(parser.getCurrentToken(),parser)) {
+            if (command.canHandle(parser.getCurrentToken(), parser)) {
                 return command.parse(parser)
             }
         }
-
+        return parser.getNodeBuilder().buildEmptyStatementNode()
     }
-
 }
-
-
-
-
-

@@ -2,20 +2,28 @@ package parser.statement
 
 import node.Statement
 import parser.RecursiveDescentParser
+import parser.command.DefaultStatementParserRegistry
+import parser.command.StatementParserCommand
 
-class DefaultStatementParser(private val statementParser: StatementParser) : StatementParser {
+class DefaultStatementParser : StatementParser {
 
-    override fun parseStatement(parser: RecursiveDescentParser): Statement {
-        return statementParser.parseStatement(parser)
+    private val registry: DefaultStatementParserRegistry
+
+    init {
+        val commands = createStatementCommands()
+        registry = DefaultStatementParserRegistry(commands)
     }
 
-//    return when {
-//        parser.check("LET") || parser.check("CONST") -> declarationParser.parse(parser)
-//        parser.check("PRINT") -> printParser.parse(parser)
-//        parser.check("LEFT_BRACE") -> blockParser.parse(parser)
-//        isAssignment(parser) -> assignmentParser.parse(parser)
-//        else -> expressionStatementParser.parse(parser)
-//    }
+    override fun parseStatement(parser: RecursiveDescentParser): Statement {
+        return registry.parse(parser)
+    }
 
-
+    private fun createStatementCommands(): List<StatementParserCommand> {
+        return listOf(
+            parser.command.VariableDeclarationParser(),
+            parser.command.AssignmentParser(),
+            parser.command.PrintStatementParser(),
+            parser.command.ExpressionStatementParser()
+        )
+    }
 }

@@ -3,7 +3,7 @@ package builder
 import Token
 import node.AssignmentStatement
 import node.BinaryExpression
-import node.BlockStatement
+import node.EmptyStatement
 import node.Expression
 import node.ExpressionStatement
 import node.IdentifierExpression
@@ -29,11 +29,11 @@ sealed interface NodeBuilder {
 
     fun buildAssignmentStatementNode(identifier: Token, value: Expression): AssignmentStatement
 
-    fun buildBlockStatementNode(statements: List<Statement>): BlockStatement
-
     fun buildPrintStatementNode(expression: Expression): PrintStatement
 
     fun buildExpressionStatementNode(expression: Expression): ExpressionStatement
+
+    fun buildEmptyStatementNode(): EmptyStatement
 
     fun buildProgramNode(statements: List<Statement>): Program
 
@@ -69,16 +69,16 @@ class DefaultNodeBuilder : NodeBuilder {
         return AssignmentStatement(identifier, value)
     }
 
-    override fun buildBlockStatementNode(statements: List<Statement>): BlockStatement {
-        return BlockStatement(statements)
-    }
-
     override fun buildPrintStatementNode(expression: Expression): PrintStatement {
         return PrintStatement(expression)
     }
 
     override fun buildExpressionStatementNode(expression: Expression): ExpressionStatement {
         return ExpressionStatement(expression)
+    }
+
+    override fun buildEmptyStatementNode(): EmptyStatement {
+        return EmptyStatement()
     }
 
     override fun buildProgramNode(statements: List<Statement>): Program {

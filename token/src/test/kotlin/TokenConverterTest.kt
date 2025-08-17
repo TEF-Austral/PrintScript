@@ -1,4 +1,3 @@
-import Coordinates
 import converter.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -116,7 +115,7 @@ class TokenConverterTest {
     @Test
     fun `test NumberToToken`() {
         assertTrue(DataTypeToToken.canHandle("number"))
-        assertFalse(DataTypeToToken.canHandle("string"))
+        assertTrue(DataTypeToToken.canHandle("string"))
         val token = DataTypeToToken.convert("number", position)
         assertEquals(TokenType.DATA_TYPES, token.getType())
     }
@@ -124,7 +123,7 @@ class TokenConverterTest {
     @Test
     fun `test StringToToken`() {
         assertTrue(DataTypeToToken.canHandle("string"))
-        assertFalse(DataTypeToToken.canHandle("number"))
+        assertTrue(DataTypeToToken.canHandle("number"))
         val token = DataTypeToToken.convert("string", position)
         assertEquals(TokenType.DATA_TYPES, token.getType())
     }

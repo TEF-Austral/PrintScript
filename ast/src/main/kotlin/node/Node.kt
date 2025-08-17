@@ -64,12 +64,6 @@ class PrintStatement(private val expression: Expression) : Statement {
     fun getExpression(): Expression = expression
 }
 
-class BlockStatement(private val statements: List<Statement>) : Statement {
-
-    fun getStatements(): List<Statement> = statements
-
-}
-
 class ExpressionStatement(private val expression: Expression) : Statement {
 
     fun getExpression(): Expression = expression
@@ -83,8 +77,9 @@ class Program(private val statements: List<Statement>) : ASTNode {   //Root del 
 }
 
 class EmptyExpression : Expression {
-    // Representa una expresión vacía, útil para manejar casos donde no se espera una expresión
     override fun toString(): String = "EmptyExpression"
 }
 
-
+class EmptyStatement : Statement {
+    override fun toString(): String = "EmptyStatement"
+}

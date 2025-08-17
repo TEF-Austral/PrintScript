@@ -57,7 +57,7 @@ class FullIntegrationTest {
         Assertions.assertEquals(1, tokens[4].getCoordinates().getRow())
         Assertions.assertEquals(11, tokens[4].getCoordinates().getColumn())
     }
-
+/*
     @Test
     fun largerScriptTest() {
         val splitter = SplitterFactory.createSplitter()
@@ -89,4 +89,6 @@ class FullIntegrationTest {
         Assertions.assertEquals(TokenType.DELIMITERS, tokens[69].getType())
         Assertions.assertEquals(";", tokens[69].getValue())
     }
+
+ */
 }

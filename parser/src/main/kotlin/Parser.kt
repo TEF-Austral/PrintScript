@@ -66,6 +66,7 @@ class RecursiveDescentParser(
 
     override fun consume(type: TokenType): Token {
         if (check(type)) return advance()!!
+        throw IllegalArgumentException("Expected token type $type but found ${getCurrentToken()?.getType()}")
     }
 
     fun getExpressionParser(): ExpressionParser = expressionParser
