@@ -1,8 +1,8 @@
 package parser.statement
 
-import node.Statement
-import parser.RecursiveDescentParser
+import node.statement.Statement
+import parser.Parser
 
 interface StatementParser {
-    fun parseStatement(parser: RecursiveDescentParser): Statement
+    fun parseStatement(parser: Parser): Statement
 }

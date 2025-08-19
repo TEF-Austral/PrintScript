@@ -1,87 +1,31 @@
 package builder
 
 import Token
-import node.AssignmentStatement
-import node.BinaryExpression
-import node.EmptyStatement
-import node.Expression
-import node.ExpressionStatement
-import node.IdentifierExpression
-import node.LiteralExpression
-import node.PrintStatement
 import node.Program
-import node.Statement
-import node.VariableDeclarationStatement
+import node.expression.Expression
+import node.statement.Statement
 
 sealed interface NodeBuilder {
 
-    fun buildLiteralExpressionNode(token: Token): LiteralExpression
+    fun buildLiteralExpressionNode(token: Token): Expression
 
-    fun buildIdentifierNode(token: Token): IdentifierExpression
+    fun buildIdentifierNode(token: Token): Expression
 
-    fun buildBinaryExpressionNode(left: Expression, operator: Token, right: Expression): BinaryExpression
+    fun buildBinaryExpressionNode(left: Expression, operator: Token, right: Expression): Expression
 
     fun buildVariableDeclarationStatementNode(
         identifier: Token,
         dataType: Token,
         initialValue: Expression? = null
-    ): VariableDeclarationStatement
+    ): Statement
 
-    fun buildAssignmentStatementNode(identifier: Token, value: Expression): AssignmentStatement
+    fun buildAssignmentStatementNode(identifier: Token, value: Expression): Statement
 
-    fun buildPrintStatementNode(expression: Expression): PrintStatement
+    fun buildPrintStatementNode(expression: Expression): Statement
 
-    fun buildExpressionStatementNode(expression: Expression): ExpressionStatement
+    fun buildExpressionStatementNode(expression: Expression): Statement
 
-    fun buildEmptyStatementNode(): EmptyStatement
+    fun buildEmptyStatementNode(): Statement
 
     fun buildProgramNode(statements: List<Statement>): Program
-
-}
-
-class DefaultNodeBuilder : NodeBuilder {
-
-    override fun buildLiteralExpressionNode(token: Token): LiteralExpression {
-        return LiteralExpression(token)
-    }
-
-    override fun buildIdentifierNode(token: Token): IdentifierExpression {
-        return IdentifierExpression(token)
-    }
-
-    override fun buildBinaryExpressionNode(
-        left: Expression,
-        operator: Token,
-        right: Expression
-    ): BinaryExpression {
-        return BinaryExpression(left, operator, right)
-    }
-
-    override fun buildVariableDeclarationStatementNode(
-        identifier: Token,
-        dataType: Token,
-        initialValue: Expression?
-    ): VariableDeclarationStatement {
-        return VariableDeclarationStatement(identifier, dataType, initialValue)
-    }
-
-    override fun buildAssignmentStatementNode(identifier: Token, value: Expression): AssignmentStatement {
-        return AssignmentStatement(identifier, value)
-    }
-
-    override fun buildPrintStatementNode(expression: Expression): PrintStatement {
-        return PrintStatement(expression)
-    }
-
-    override fun buildExpressionStatementNode(expression: Expression): ExpressionStatement {
-        return ExpressionStatement(expression)
-    }
-
-    override fun buildEmptyStatementNode(): EmptyStatement {
-        return EmptyStatement()
-    }
-
-    override fun buildProgramNode(statements: List<Statement>): Program {
-        return Program(statements)
-    }
 }

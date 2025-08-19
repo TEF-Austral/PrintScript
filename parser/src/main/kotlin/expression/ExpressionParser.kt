@@ -1,10 +1,10 @@
 package parser.expression
 
-import node.Expression
-import parser.RecursiveDescentParser
+import node.expression.Expression
+import parser.Parser
 
 sealed interface ExpressionParser {
-    fun parseExpression(parser: RecursiveDescentParser): Expression
-    fun parsePrimary(parser: RecursiveDescentParser): Expression
-    fun parseBinary(parser: RecursiveDescentParser, left: Expression, minPrec: Int): Expression
+    fun parseExpression(parser: Parser): Expression
+    fun parsePrimary(parser: Parser): Expression
+    fun parseBinary(parser: Parser, left: Expression): Expression
 }

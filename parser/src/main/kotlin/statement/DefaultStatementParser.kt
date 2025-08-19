@@ -1,7 +1,7 @@
 package parser.statement
 
-import node.Statement
-import parser.RecursiveDescentParser
+import node.statement.Statement
+import parser.Parser
 import parser.command.DefaultStatementParserRegistry
 import parser.command.StatementParserCommand
 
@@ -14,7 +14,7 @@ class DefaultStatementParser : StatementParser {
         registry = DefaultStatementParserRegistry(commands)
     }
 
-    override fun parseStatement(parser: RecursiveDescentParser): Statement {
+    override fun parseStatement(parser: Parser): Statement {
         return registry.parse(parser)
     }
 

@@ -5,7 +5,6 @@ import TokenType
 import builder.NodeBuilder
 import node.*
 import parser.expression.ExpressionParser
-import parser.statement.StatementParser
 
 interface Parser {
 
@@ -18,58 +17,16 @@ interface Parser {
     fun advance(): Token?
 
     fun check(type: TokenType): Boolean
-}
 
-class RecursiveDescentParser(
-    private val tokens: List<Token>,
-    private val nodeBuilder: NodeBuilder,
-    private val expressionParser: ExpressionParser,
-    private val statementParser: StatementParser
-) : Parser {
+    fun getCurrentToken(): Token?
 
-    override var current = 0
+    fun previous(): Token?
 
-    override fun parse(): Program {
+    fun isAtEnd(): Boolean
 
-        val statements = mutableListOf<Statement>()
+    fun match(vararg types: TokenType): Boolean
 
-        while (!isAtEnd()) {
-            val statement = statementParser.parseStatement(this)
-            statements.add(statement)
-        }
+    fun getExpressionParser(): ExpressionParser
 
-        return nodeBuilder.buildProgramNode(statements)
-    }
-
-    fun getCurrentToken(): Token? = if (isAtEnd()) null else tokens[current]
-
-    override fun advance(): Token? {
-        if (!isAtEnd()) current++
-        return previous()
-    }
-
-    fun previous(): Token? = if (current == 0) null else tokens[current - 1]
-
-    fun isAtEnd(): Boolean = current >= tokens.size
-
-    override fun check(type: TokenType): Boolean = if (isAtEnd()) false else getCurrentToken()?.getType() == type
-
-    fun match(vararg types: TokenType): Boolean {
-        for (type in types) {
-            if (check(type)) {
-                advance()
-                return true
-            }
-        }
-        return false
-    }
-
-    override fun consume(type: TokenType): Token {
-        if (check(type)) return advance()!!
-        throw IllegalArgumentException("Expected token type $type but found ${getCurrentToken()?.getType()}")
-    }
-
-    fun getExpressionParser(): ExpressionParser = expressionParser
-    fun getNodeBuilder(): NodeBuilder = nodeBuilder
-
+    fun getNodeBuilder(): NodeBuilder
 }

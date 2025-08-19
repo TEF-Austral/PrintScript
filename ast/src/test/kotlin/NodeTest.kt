@@ -4,6 +4,10 @@ import Position
 import PrintScriptToken
 import Token
 import builder.DefaultNodeBuilder
+import node.expression.BinaryExpression
+import node.expression.EmptyExpression
+import node.expression.LiteralExpression
+import node.statement.DeclarationStatement
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
@@ -162,7 +166,7 @@ class NodeTest {
         val program = nodeBuilder.buildProgramNode(listOf(varDecl))
 
         assertEquals(1, program.getStatements().size)
-        val statement = program.getStatements()[0] as VariableDeclarationStatement
+        val statement = program.getStatements()[0] as DeclarationStatement
         assertEquals("x", statement.getIdentifier())
         assertEquals("NUMBER", statement.getDataType())
         assertNotNull(statement.getInitialValue())

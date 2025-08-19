@@ -1,5 +1,10 @@
 import builder.DefaultNodeBuilder
 import node.*
+import node.expression.BinaryExpression
+import node.expression.IdentifierExpression
+import node.expression.LiteralExpression
+import node.statement.DeclarationStatement
+import node.statement.ExpressionStatement
 import parser.factory.RecursiveDescentParserFactory
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -24,9 +29,9 @@ class ParserTest {
 
         assertEquals(1, program.getStatements().size)
         val statement = program.getStatements()[0]
-        assertTrue(statement is VariableDeclarationStatement)
+        assertTrue(statement is DeclarationStatement)
 
-        val varDecl = statement as VariableDeclarationStatement
+        val varDecl = statement as DeclarationStatement
         assertEquals("x", varDecl.getIdentifier())
         assertEquals("NUMBER", varDecl.getDataType())
         assertTrue(varDecl.getInitialValue() is LiteralExpression)
@@ -67,15 +72,15 @@ class ParserTest {
         assertEquals(3, program.getStatements().size)
 
         val firstStatement = program.getStatements()[0]
-        assertTrue(firstStatement is VariableDeclarationStatement)
-        val firstVarDecl = firstStatement as VariableDeclarationStatement
+        assertTrue(firstStatement is DeclarationStatement)
+        val firstVarDecl = firstStatement as DeclarationStatement
         assertEquals("x", firstVarDecl.getIdentifier())
         assertEquals("NUMBER", firstVarDecl.getDataType())
         assertEquals("5", (firstVarDecl.getInitialValue() as LiteralExpression).getValue())
 
         val secondStatement = program.getStatements()[1]
-        assertTrue(secondStatement is VariableDeclarationStatement)
-        val secondVarDecl = secondStatement as VariableDeclarationStatement
+        assertTrue(secondStatement is DeclarationStatement)
+        val secondVarDecl = secondStatement as DeclarationStatement
         assertEquals("y", secondVarDecl.getIdentifier())
         assertEquals("NUMBER", secondVarDecl.getDataType())
         assertEquals("5", (secondVarDecl.getInitialValue() as LiteralExpression).getValue())

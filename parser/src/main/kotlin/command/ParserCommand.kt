@@ -1,8 +1,8 @@
 package parser.command
 
-import node.Statement
-import parser.RecursiveDescentParser
+import node.statement.Statement
+import parser.Parser
 
 sealed interface ParserCommand {
-    fun parse(parser: RecursiveDescentParser): Statement
+    fun parse(parser: Parser): Statement
 }

@@ -2,10 +2,9 @@ package parser.command
 
 import Token
 import TokenType
-import node.Expression
-import node.Statement
+import node.expression.Expression
+import node.statement.Statement
 import parser.Parser
-import parser.RecursiveDescentParser
 
 class VariableDeclarationParser : StatementParserCommand {
 
@@ -13,7 +12,7 @@ class VariableDeclarationParser : StatementParserCommand {
         return token?.getType() == TokenType.DECLARATION
     }
 
-    override fun parse(parser: RecursiveDescentParser): Statement {
+    override fun parse(parser: Parser): Statement {
         parser.consume(TokenType.DECLARATION) // "let" or "const"
         val identifier = parser.consume(TokenType.IDENTIFIER)
         parser.consume(TokenType.DELIMITERS) // :

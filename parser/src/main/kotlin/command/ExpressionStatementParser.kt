@@ -2,9 +2,8 @@ package parser.command
 
 import Token
 import TokenType
-import node.Statement
+import node.statement.Statement
 import parser.Parser
-import parser.RecursiveDescentParser
 
 class ExpressionStatementParser : StatementParserCommand {
 
@@ -34,7 +33,7 @@ class ExpressionStatementParser : StatementParserCommand {
         return tokenType == TokenType.DELIMITERS && tokenValue == "("
     }
 
-    override fun parse(parser: RecursiveDescentParser): Statement {
+    override fun parse(parser: Parser): Statement {
         val expression = parser.getExpressionParser().parseExpression(parser)
         parser.consume(TokenType.DELIMITERS) // ;
         return parser.getNodeBuilder().buildExpressionStatementNode(expression)
