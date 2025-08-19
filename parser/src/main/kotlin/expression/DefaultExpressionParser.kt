@@ -13,7 +13,7 @@ class DefaultExpressionParser : ExpressionParser {
         return parseBinary(parser, left, 0)
     }
 
-    override fun parsePrimary(parser: RecursiveDescentParser): Expression {
+    override fun parsePrimary(parser: RecursiveDescentParser): Expression { // composite
         val current = parser.getCurrentToken() ?: return EmptyExpression()
 
         return when (current.getType()) {
@@ -109,4 +109,3 @@ class DefaultExpressionParser : ExpressionParser {
         }
     }
 }
-

@@ -20,9 +20,5 @@ class PrintStatementParser : StatementParserCommand {
         parser.consume(TokenType.DELIMITERS) // ;
         return parser.getNodeBuilder().buildPrintStatementNode(expression)
     }
-
-
-
     // TODO: Soporte de múltiples Delimiters, porque aca debria de haber o quisa no un
-    // chequeo de cada uno digamos en orden ( , ), ;
 }

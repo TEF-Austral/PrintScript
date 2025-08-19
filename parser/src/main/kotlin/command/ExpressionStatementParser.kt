@@ -14,7 +14,6 @@ class ExpressionStatementParser : StatementParserCommand {
         val tokenType = token.getType()
         val tokenValue = token.getValue()
 
-        // Check if token can start an expression
         return isNumberLiteral(tokenType) || isStringLiteral(tokenType) || isIdentifier(tokenType) ||
                isOpeningParenthesis(tokenType, tokenValue)
     }
@@ -40,8 +39,4 @@ class ExpressionStatementParser : StatementParserCommand {
         parser.consume(TokenType.DELIMITERS) // ;
         return parser.getNodeBuilder().buildExpressionStatementNode(expression)
     }
-
-
-
-
 }
