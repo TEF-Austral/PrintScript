@@ -9,7 +9,7 @@ import parser.expression.DefaultExpressionParser
 import parser.expression.binary.PrintScriptParseBinary
 import parser.expression.primary.TokenToExpressionFactory
 
-class RecursiveDescentParserFactory : ParserFactory {
+class RecursiveParserFactory : ParserFactory {
 
     override fun createParser(tokens: List<Token>, nodeBuilder: NodeBuilder): Parser {
         val tokenToExpression = TokenToExpressionFactory.createDefaultRegistry()

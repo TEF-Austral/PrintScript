@@ -1,11 +1,10 @@
 import builder.DefaultNodeBuilder
-import node.*
 import node.expression.BinaryExpression
 import node.expression.IdentifierExpression
 import node.expression.LiteralExpression
 import node.statement.DeclarationStatement
 import node.statement.ExpressionStatement
-import parser.factory.RecursiveDescentParserFactory
+import parser.factory.RecursiveParserFactory
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -24,7 +23,7 @@ class ParserTest {
         )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveDescentParserFactory().createParser(tokens, nodeBuilder)
+        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse()
 
         assertEquals(1, program.getStatements().size)
@@ -66,7 +65,7 @@ class ParserTest {
         )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveDescentParserFactory().createParser(tokens, nodeBuilder)
+        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse()
 
         assertEquals(3, program.getStatements().size)
@@ -118,7 +117,7 @@ class ParserTest {
         )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveDescentParserFactory().createParser(tokens, nodeBuilder)
+        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse()
 
         // Verificar que se parsea como un ExpressionStatement
@@ -186,7 +185,7 @@ class ParserTest {
         )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveDescentParserFactory().createParser(tokens, nodeBuilder)
+        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse()
 
         assertEquals(1, program.getStatements().size)
@@ -244,7 +243,7 @@ class ParserTest {
         )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveDescentParserFactory().createParser(tokens, nodeBuilder)
+        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse()
 
         assertEquals(1, program.getStatements().size)
