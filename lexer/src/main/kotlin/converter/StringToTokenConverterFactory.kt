@@ -1,26 +1,24 @@
-package converter.factory
+package converter
 
-import converter.AssignmentToToken
-import converter.ComparisonToToken
-import converter.ConditionalToToken
-import converter.DataTypeToToken
-import converter.DeclarationToToken
-import converter.DelimiterToToken
-import converter.FunctionToToken
-import converter.LogicalOperatorToken
-import converter.LoopToToken
-import converter.NumberLiteralToToken
-import converter.OperatorToToken
-import converter.PrintToToken
-import converter.ReturnToToken
-import converter.StringLiteralToToken
-import converter.StringToTokenConverter
-import converter.TokenConverter
-import converter.TokenConverterRegistry
+import converter.specific.AssignmentToToken
+import converter.specific.ComparisonToToken
+import converter.specific.ConditionalToToken
+import converter.specific.DataTypeToToken
+import converter.specific.DeclarationToToken
+import converter.specific.DelimiterToToken
+import converter.specific.FunctionToToken
+import converter.specific.LogicalOperatorToken
+import converter.specific.LoopToToken
+import converter.specific.NumberLiteralToToken
+import converter.specific.OperatorToToken
+import converter.specific.PrintToToken
+import converter.specific.ReturnToToken
+import converter.specific.StringLiteralToToken
+import converter.specific.StringToTokenConverter
 
-object StringToTokenConverterFactory : TokenConverterFactory {
+object StringToTokenConverterFactory {
 
-    override fun createDefaultsTokenConverter(): TokenConverter {
+    fun createDefaultsTokenConverter(): TokenConverter {
         return TokenConverterRegistry(
             listOf(
                 // Keywords

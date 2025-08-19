@@ -1,5 +1,5 @@
 import converter.TokenConverter
-import converter.factory.StringToTokenConverterFactory
+import converter.StringToTokenConverterFactory
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import reader.MockReader
@@ -12,7 +12,7 @@ class LexerTest {
     private val tokenConverter: TokenConverter = StringToTokenConverterFactory.createDefaultsTokenConverter()
 
     private fun lex(input: String) =
-        PrintScriptLexer(MockReader(input), splitter, tokenConverter).tokenize()
+        Lexer(splitter, tokenConverter).tokenize(MockReader(input))
 
     @Test
     fun tokenizeDeclarationAssignmentWithNumberLiteral() {

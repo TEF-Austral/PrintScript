@@ -4,6 +4,7 @@ import Coordinates
 import PrintScriptToken
 import Token
 import TokenType
+import converter.specific.StringToTokenConverter
 
 data class TokenConverterRegistry(val list: List<StringToTokenConverter>) : TokenConverter {
 

@@ -5,7 +5,7 @@ import node.expression.Expression
 import parser.Parser
 
 sealed interface ParseBinary {
-
+    // TODO sacar template anti patron
     fun parseBinary(parser: Parser, left: Expression, minPrecedence: Int): Expression {
         var result = left
 
