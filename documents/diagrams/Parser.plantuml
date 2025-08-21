@@ -1,0 +1,161 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class AssignmentParser {
+  + AssignmentParser(): 
+  + canHandle(Token?, Parser): Boolean
+  + parse(Parser): Statement
+}
+class DefaultParseBinary {
+  + DefaultParseBinary(TokenToExpression): 
+  + meetsMinimumPrecedence(Parser, Int): Boolean
+  + consumeOperator(Parser): Token
+  + isOperatorToken(Token): Boolean
+  + hasValidOperatorToken(Parser): Boolean
+  + processRightAssociativity(Parser, Expression, Token): Expression
+  + parseRightOperand(Parser): Expression
+  + buildBinaryExpression(Parser, Expression, Token, Expression): Expression
+  + getOperatorPrecedence(Token): Int
+}
+class DefaultStatementParserRegistry {
+  + DefaultStatementParserRegistry(List<StatementParserCommand>): 
+  + parse(Parser): Statement
+}
+class DelimitersBuilder {
+  + canHandle(TokenType): Boolean
+  + build(Parser, Token): Expression
+}
+interface ExpressionBuilder << interface >> {
+  + canHandle(TokenType): Boolean
+}
+class ExpressionParser {
+  + ExpressionParser(TokenToExpression, ParseBinary): 
+  + parseBinary(Parser, Expression): Expression
+  + parsePrimary(Parser): Expression
+  + parseExpression(Parser): Expression
+   binaryBuilder: ParseBinary
+   expressionBuilder: TokenToExpression
+}
+class ExpressionRegistry {
+  + ExpressionRegistry(List<ExpressionBuilder>): 
+  + build(Parser, Token): Expression
+}
+class ExpressionStatementParser {
+  + ExpressionStatementParser(): 
+  + canHandle(Token?, Parser): Boolean
+  + parse(Parser): Statement
+  - isStringLiteral(TokenType): Boolean
+  - isIdentifier(TokenType): Boolean
+  - isOpeningParenthesis(TokenType, String): Boolean
+  - isNumberLiteral(TokenType): Boolean
+}
+class IdentifierBuilder {
+  + canHandle(TokenType): Boolean
+  + build(Parser, Token): Expression
+}
+class LiteralBuilder {
+  + build(Parser, Token): Expression
+  + canHandle(TokenType): Boolean
+}
+interface ParseBinary << interface >> {
+  + parseRightOperand(Parser): Expression
+  + meetsMinimumPrecedence(Parser, Int): Boolean
+  + buildBinaryExpression(Parser, Expression, Token, Expression): Expression
+  + parseBinary(Parser, Expression, Int): Expression
+  + parseBinary(Parser, Expression, Int): Expression
+  + consumeOperator(Parser): Token
+  + getOperatorPrecedence(Token): Int
+  + isOperatorToken(Token): Boolean
+  + hasValidOperatorToken(Parser): Boolean
+  + processRightAssociativity(Parser, Expression, Token): Expression
+}
+class ParseBinaryFactory {
+  + createCustom(TokenToExpression): ParseBinary
+  + create(): ParseBinary
+}
+class Parser {
+  + Parser(List<Token>, NodeBuilder, ExpressionParser, StatementParser): 
+  + advance(): Token?
+  + previous(): Token?
+  + check(TokenType): Boolean
+  + parse(): Program
+  + match(TokenType[]): Boolean
+  + consume(TokenType): Token
+   nodeBuilder: NodeBuilder
+   expressionParser: ExpressionParser
+   current: Int
+   atEnd: Boolean
+   currentToken: Token?
+}
+interface ParserCommand << interface >> {
+  + parse(Parser): Statement
+}
+interface ParserFactory << interface >> {
+  + createParser(List<Token>, NodeBuilder): Parser
+}
+class PrintStatementParser {
+  + PrintStatementParser(): 
+  + parse(Parser): Statement
+  + canHandle(Token?, Parser): Boolean
+}
+class RecursiveParserFactory {
+  + RecursiveParserFactory(): 
+  + createParser(List<Token>, NodeBuilder): Parser
+}
+class StatementParser {
+  + StatementParser(): 
+  + parseStatement(Parser): Statement
+  - createStatementCommands(): List<StatementParserCommand>
+}
+interface StatementParserCommand << interface >> {
+  + canHandle(Token?, Parser): Boolean
+}
+class TokenConverterFactory {
+  + createDefaultRegistry(): TokenToExpression
+  + createCustomRegistry(List<ExpressionBuilder>): TokenToExpression
+}
+interface TokenToExpression << interface >> {
+  + build(Parser, Token): Expression
+}
+class VariableDeclarationParser {
+  + VariableDeclarationParser(): 
+  + parse(Parser): Statement
+  + canHandle(Token?, Parser): Boolean
+}
+
+AssignmentParser                -[#008200,dashed]-^  StatementParserCommand         
+DefaultParseBinary              -[#008200,dashed]-^  ParseBinary                    
+DefaultParseBinary             "1" *-[#595959,plain]-> "tokenToExpression\n1" TokenToExpression              
+DefaultStatementParserRegistry  -[#008200,dashed]-^  ParserCommand                  
+DefaultStatementParserRegistry "1" *-[#595959,plain]-> "statementCommands\n*" StatementParserCommand         
+DelimitersBuilder               -[#008200,dashed]-^  ExpressionBuilder              
+ExpressionBuilder               -[#008200,plain]-^  TokenToExpression              
+ExpressionParser               "1" *-[#595959,plain]-> "binaryBuilder\n1" ParseBinary                    
+ExpressionParser               "1" *-[#595959,plain]-> "expressionBuilder\n1" TokenToExpression              
+ExpressionRegistry             "1" *-[#595959,plain]-> "expressionBuilder\n*" ExpressionBuilder              
+ExpressionRegistry              -[#008200,dashed]-^  TokenToExpression              
+ExpressionStatementParser       -[#008200,dashed]-^  StatementParserCommand         
+IdentifierBuilder               -[#008200,dashed]-^  ExpressionBuilder              
+LiteralBuilder                  -[#008200,dashed]-^  ExpressionBuilder              
+ParseBinaryFactory              -[#595959,dashed]->  DefaultParseBinary             : "«create»"
+Parser                         "1" *-[#595959,plain]-> "expressionParser\n1" ExpressionParser               
+Parser                         "1" *-[#595959,plain]-> "statementParser\n1" StatementParser                
+PrintStatementParser            -[#008200,dashed]-^  StatementParserCommand         
+RecursiveParserFactory          -[#595959,dashed]->  ExpressionParser               : "«create»"
+RecursiveParserFactory          -[#595959,dashed]->  Parser                         : "«create»"
+RecursiveParserFactory          -[#008200,dashed]-^  ParserFactory                  
+RecursiveParserFactory          -[#595959,dashed]->  StatementParser                : "«create»"
+StatementParser                 -[#595959,dashed]->  AssignmentParser               : "«create»"
+StatementParser                "1" *-[#595959,plain]-> "registry\n1" DefaultStatementParserRegistry 
+StatementParser                 -[#595959,dashed]->  DefaultStatementParserRegistry : "«create»"
+StatementParser                 -[#595959,dashed]->  ExpressionStatementParser      : "«create»"
+StatementParser                 -[#595959,dashed]->  PrintStatementParser           : "«create»"
+StatementParser                 -[#595959,dashed]->  VariableDeclarationParser      : "«create»"
+StatementParserCommand          -[#008200,plain]-^  ParserCommand                  
+TokenConverterFactory          "1" *-[#595959,plain]-> "expressionBuilders\n*" ExpressionBuilder              
+TokenConverterFactory           -[#595959,dashed]->  ExpressionRegistry             : "«create»"
+VariableDeclarationParser       -[#008200,dashed]-^  StatementParserCommand         
+@enduml

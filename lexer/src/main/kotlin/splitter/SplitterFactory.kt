@@ -3,6 +3,6 @@ package splitter
 object SplitterFactory {
   fun createSplitter(): Splitter {
     val specials = listOf('(', ')', '{', '}', '=', '<', '>', ';', ',', ':', '+', '-', '*', '/', '%', '&', '|', '!')
-    return ChainSplitter(specials)
+    return Splitter(specials)
   }
 }

@@ -1,0 +1,39 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+interface Coordinates << interface >> {
+   row: Int
+   column: Int
+}
+class Position {
+  + Position(Int, Int): 
+   row: Int
+   column: Int
+}
+class PrintScriptToken {
+  + PrintScriptToken(TokenType, String, Coordinates): 
+  + toString(): String
+   coordinates: Coordinates
+   type: TokenType
+   value: String
+}
+interface Token << interface >> {
+   coordinates: Coordinates
+   type: TokenType
+   value: String
+}
+enum TokenType << enumeration >> {
+  - TokenType(): 
+  + values(): TokenType[]
+  + valueOf(String): TokenType
+   entries: EnumEntries<TokenType>
+}
+
+Position          -[#008200,dashed]-^  Coordinates      
+PrintScriptToken "1" *-[#595959,plain]-> "coordinates\n1" Coordinates      
+PrintScriptToken  -[#008200,dashed]-^  Token            
+PrintScriptToken "1" *-[#595959,plain]-> "type\n1" TokenType        
+@enduml

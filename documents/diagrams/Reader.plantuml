@@ -1,0 +1,26 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class FileReader {
+  + FileReader(String): 
+  + read(): String
+}
+class MockReader {
+  + MockReader(String): 
+  + read(): String
+}
+interface Reader << interface >> {
+  + read(): String
+}
+class Stream {
+  + Stream(): 
+  + read(): String
+}
+
+FileReader  -[#008200,dashed]-^  Reader     
+MockReader  -[#008200,dashed]-^  Reader     
+Stream      -[#008200,dashed]-^  Reader     
+@enduml
