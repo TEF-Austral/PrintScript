@@ -3,30 +3,56 @@ package parser
 import Token
 import TokenType
 import builder.NodeBuilder
-import node.*
+import node.Program
+import node.statement.Statement
 import parser.expression.ExpressionParser
+import parser.statement.StatementParser
 
-interface Parser {
+class Parser(private val tokens: List<Token>, private val nodeBuilder: NodeBuilder,
+             private val expressionParser: ExpressionParser, private val statementParser: StatementParser) {
 
-    var current: Int
+     var current = 0
 
-    fun parse(): Program
+     fun parse(): Program {
 
-    fun consume(type: TokenType): Token
+        val statements = mutableListOf<Statement>()
 
-    fun advance(): Token?
+        while (!isAtEnd()) {
+            val statement = statementParser.parseStatement(this)
+            statements.add(statement)
+        }
 
-    fun check(type: TokenType): Boolean
+        return nodeBuilder.buildProgramNode(statements)
+    }
 
-    fun getCurrentToken(): Token?
+     fun getCurrentToken(): Token? = if (isAtEnd()) null else tokens[current]
 
-    fun previous(): Token?
+     fun advance(): Token? {
+        if (!isAtEnd()) current++
+        return previous()
+    }
 
-    fun isAtEnd(): Boolean
+     fun previous(): Token? = if (current == 0) null else tokens[current - 1]
 
-    fun match(vararg types: TokenType): Boolean
+     fun isAtEnd(): Boolean = current >= tokens.size
 
-    fun getExpressionParser(): ExpressionParser
+     fun check(type: TokenType): Boolean = if (isAtEnd()) false else getCurrentToken()?.getType() == type
 
-    fun getNodeBuilder(): NodeBuilder
+     fun match(vararg types: TokenType): Boolean {
+        for (type in types) {
+            if (check(type)) {
+                advance()
+                return true
+            }
+        }
+        return false
+    }
+
+     fun consume(type: TokenType): Token {
+        if (check(type)) return advance()!!
+        throw IllegalArgumentException("Expected token type $type but found ${getCurrentToken()?.getType()}")
+    }
+
+     fun getExpressionParser(): ExpressionParser = expressionParser
+     fun getNodeBuilder(): NodeBuilder = nodeBuilder
 }

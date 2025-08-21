@@ -1,11 +1,20 @@
 package parser.expression.primary
 
-import parser.expression.ExpressionBuilder
 import parser.expression.TokenToExpression
 
-sealed interface TokenConverterFactory {
+object TokenConverterFactory {
 
-    fun createDefaultRegistry(): TokenToExpression
+    private val expressionBuilders: List<ExpressionBuilder> = listOf(
+        IdentifierBuilder,
+        LiteralBuilder,
+        DelimitersBuilder,
+    )
 
-    fun createCustomRegistry(expressionBuilders: List<ExpressionBuilder>): TokenToExpression
+    fun createDefaultRegistry(): TokenToExpression {
+        return ExpressionRegistry(expressionBuilders)
+    }
+
+    fun createCustomRegistry(expressionBuilders: List<ExpressionBuilder>): TokenToExpression {
+        return ExpressionRegistry(expressionBuilders)
+    }
 }

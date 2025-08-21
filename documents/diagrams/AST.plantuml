@@ -1,0 +1,110 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+interface ASTNode << interface >>
+class AssignmentStatement {
+  + AssignmentStatement(Token, Expression): 
+   value: Expression
+   identifier: String
+}
+class BinaryExpression {
+  + BinaryExpression(Expression, Token, Expression): 
+   right: Expression
+   left: Expression
+   operator: Token
+}
+class DeclarationStatement {
+  + DeclarationStatement(Token, Token, Expression?): 
+   initialValue: Expression?
+   dataType: String
+   identifier: String
+}
+class DefaultNodeBuilder {
+  + DefaultNodeBuilder(): 
+  + buildProgramNode(List<Statement>): Program
+  + buildBinaryExpressionNode(Expression, Token, Expression): BinaryExpression
+  + buildVariableDeclarationStatementNode(Token, Token, Expression?): DeclarationStatement
+  + buildLiteralExpressionNode(Token): LiteralExpression
+  + buildPrintStatementNode(Expression): PrintStatement
+  + buildIdentifierNode(Token): IdentifierExpression
+  + buildExpressionStatementNode(Expression): ExpressionStatement
+  + buildAssignmentStatementNode(Token, Expression): AssignmentStatement
+  + buildEmptyStatementNode(): EmptyStatement
+}
+class EmptyExpression {
+  + EmptyExpression(): 
+  + toString(): String
+}
+class EmptyStatement {
+  + EmptyStatement(): 
+  + toString(): String
+}
+interface Expression << interface >>
+class ExpressionStatement {
+  + ExpressionStatement(Expression): 
+   expression: Expression
+}
+class IdentifierExpression {
+  + IdentifierExpression(Token): 
+   name: String
+}
+class InOrderTraverser {
+  + traverse(ASTNode): Unit
+}
+class LiteralExpression {
+  + LiteralExpression(Token): 
+   value: String
+}
+interface NodeBuilder << interface >> {
+  + buildAssignmentStatementNode(Token, Expression): Statement
+  + buildLiteralExpressionNode(Token): Expression
+  + buildPrintStatementNode(Expression): Statement
+  + buildProgramNode(List<Statement>): Program
+  + buildBinaryExpressionNode(Expression, Token, Expression): Expression
+  + buildEmptyStatementNode(): Statement
+  + buildIdentifierNode(Token): Expression
+  + buildExpressionStatementNode(Expression): Statement
+  + buildVariableDeclarationStatementNode(Token, Token, Expression?): Statement
+}
+class PrintStatement {
+  + PrintStatement(Expression): 
+   expression: Expression
+}
+class Program {
+  + Program(List<Statement>): 
+   statements: List<Statement>
+}
+interface Statement << interface >>
+
+AssignmentStatement  "1" *-[#595959,plain]-> "value\n1" Expression           
+AssignmentStatement   -[#008200,dashed]-^  Statement            
+BinaryExpression      -[#008200,dashed]-^  Expression           
+BinaryExpression     "1" *-[#595959,plain]-> "left\n1" Expression           
+DeclarationStatement "1" *-[#595959,plain]-> "initialValue\n1" Expression           
+DeclarationStatement  -[#008200,dashed]-^  Statement            
+DefaultNodeBuilder    -[#595959,dashed]->  AssignmentStatement  : "«create»"
+DefaultNodeBuilder    -[#595959,dashed]->  BinaryExpression     : "«create»"
+DefaultNodeBuilder    -[#595959,dashed]->  DeclarationStatement : "«create»"
+DefaultNodeBuilder    -[#595959,dashed]->  EmptyStatement       : "«create»"
+DefaultNodeBuilder    -[#595959,dashed]->  ExpressionStatement  : "«create»"
+DefaultNodeBuilder    -[#595959,dashed]->  IdentifierExpression : "«create»"
+DefaultNodeBuilder    -[#595959,dashed]->  LiteralExpression    : "«create»"
+DefaultNodeBuilder    -[#008200,dashed]-^  NodeBuilder          
+DefaultNodeBuilder    -[#595959,dashed]->  PrintStatement       : "«create»"
+DefaultNodeBuilder    -[#595959,dashed]->  Program              : "«create»"
+EmptyExpression       -[#008200,dashed]-^  Expression           
+EmptyStatement        -[#008200,dashed]-^  Statement            
+Expression            -[#008200,plain]-^  ASTNode              
+ExpressionStatement  "1" *-[#595959,plain]-> "expression\n1" Expression           
+ExpressionStatement   -[#008200,dashed]-^  Statement            
+IdentifierExpression  -[#008200,dashed]-^  Expression           
+LiteralExpression     -[#008200,dashed]-^  Expression           
+PrintStatement       "1" *-[#595959,plain]-> "expression\n1" Expression           
+PrintStatement        -[#008200,dashed]-^  Statement            
+Program               -[#008200,dashed]-^  ASTNode              
+Program              "1" *-[#595959,plain]-> "statements\n*" Statement            
+Statement             -[#008200,plain]-^  ASTNode              
+@enduml

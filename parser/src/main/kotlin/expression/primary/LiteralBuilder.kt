@@ -4,7 +4,7 @@ import Token
 import TokenType
 import node.expression.Expression
 import parser.Parser
-import parser.expression.ExpressionBuilder
+import parser.expression.primary.ExpressionBuilder
 
 object LiteralBuilder : ExpressionBuilder {
 

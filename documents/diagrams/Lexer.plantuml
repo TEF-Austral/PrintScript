@@ -1,0 +1,174 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class AssignmentToToken {
+  + convert(String, Coordinates): Token
+  + canHandle(String): Boolean
+}
+class CommentExtractor {
+  + extract(String, Int): Extraction
+}
+class ComparisonToToken {
+  + canHandle(String): Boolean
+  + convert(String, Coordinates): Token
+}
+class ConditionalToToken {
+  + canHandle(String): Boolean
+  + convert(String, Coordinates): Token
+}
+class DataTypeToToken {
+  + canHandle(String): Boolean
+  + convert(String, Coordinates): Token
+}
+class DeclarationToToken {
+  + canHandle(String): Boolean
+  + convert(String, Coordinates): Token
+}
+class DelimiterToToken {
+  + canHandle(String): Boolean
+  + convert(String, Coordinates): Token
+}
+class Extraction {
+  - Extraction(): 
+}
+class FunctionToToken {
+  + canHandle(String): Boolean
+  + convert(String, Coordinates): Token
+}
+class Lexer {
+  + Lexer(Splitter, TokenConverter): 
+  + tokenize(Reader): List<Token>
+   tokenConverter: TokenConverter
+   splitter: Splitter
+}
+class LogicalOperatorToken {
+  + convert(String, Coordinates): Token
+  + canHandle(String): Boolean
+}
+class LoopToToken {
+  + convert(String, Coordinates): Token
+  + canHandle(String): Boolean
+}
+class NoMatch
+class NumberExtractor {
+  + NumberExtractor(): 
+  + extract(String, Int): Extraction
+}
+class NumberLiteralToToken {
+  + canHandle(String): Boolean
+  + convert(String, Coordinates): Token
+}
+class OperatorToToken {
+  + canHandle(String): Boolean
+  + convert(String, Coordinates): Token
+}
+class PrintToToken {
+  + canHandle(String): Boolean
+  + convert(String, Coordinates): Token
+}
+class ReturnToToken {
+  + canHandle(String): Boolean
+  + convert(String, Coordinates): Token
+}
+class SpecialTokenExtractor {
+  + SpecialTokenExtractor(List<Character>): 
+  + extract(String, Int): Extraction
+}
+class Splitter {
+  + Splitter(List<Character>): 
+  + split(String): List<Pair<String, Coordinates>>
+}
+class SplitterFactory {
+  + createSplitter(): Splitter
+}
+class StringLiteralExtractor {
+  + extract(String, Int): Extraction
+}
+class StringLiteralToToken {
+  + canHandle(String): Boolean
+  + convert(String, Coordinates): Token
+}
+interface StringToTokenConverter << interface >> {
+  + canHandle(String): Boolean
+}
+class StringToTokenConverterFactory {
+  + createCustomTokenConverter(List<StringToTokenConverter>): TokenConverter
+  + createDefaultsTokenConverter(): TokenConverter
+}
+interface TokenConverter << interface >> {
+  + convert(String, Coordinates): Token
+}
+interface TokenExtractor << interface >> {
+  + extract(String, Int): Extraction
+}
+class WhitespaceExtractor {
+  + extract(String, Int): Extraction
+}
+class WordExtractor {
+  + WordExtractor(List<Character>): 
+  + extract(String, Int): Extraction
+}
+entity data  Skip << data >> {
+  + Skip(String): 
+   text: String
+}
+entity data  Token << data >> {
+  + Token(String): 
+   value: String
+}
+entity data  TokenConverterRegistry << data >> {
+  + TokenConverterRegistry(List<StringToTokenConverter>): 
+  + convert(String, Coordinates): Token
+   list: List<StringToTokenConverter>
+}
+
+AssignmentToToken              -[#008200,dashed]-^  StringToTokenConverter        
+CommentExtractor               -[#008200,dashed]-^  TokenExtractor                
+CommentExtractor               -[#595959,dashed]->  data  Skip                    : "«create»"
+ComparisonToToken              -[#008200,dashed]-^  StringToTokenConverter        
+ConditionalToToken             -[#008200,dashed]-^  StringToTokenConverter        
+DataTypeToToken                -[#008200,dashed]-^  StringToTokenConverter        
+DeclarationToToken             -[#008200,dashed]-^  StringToTokenConverter        
+DelimiterToToken               -[#008200,dashed]-^  StringToTokenConverter        
+FunctionToToken                -[#008200,dashed]-^  StringToTokenConverter        
+Lexer                         "1" *-[#595959,plain]-> "splitter\n1" Splitter                      
+Lexer                         "1" *-[#595959,plain]-> "tokenConverter\n1" TokenConverter                
+LogicalOperatorToken           -[#008200,dashed]-^  StringToTokenConverter        
+LoopToToken                    -[#008200,dashed]-^  StringToTokenConverter        
+NoMatch                        +-[#820000,plain]-  Extraction                    
+NoMatch                        -[#000082,plain]-^  Extraction                    
+NoMatch                        -[#595959,dashed]->  Extraction                    : "«create»"
+NumberExtractor                -[#008200,dashed]-^  TokenExtractor                
+NumberExtractor                -[#595959,dashed]->  data  Token                   : "«create»"
+NumberLiteralToToken           -[#008200,dashed]-^  StringToTokenConverter        
+OperatorToToken                -[#008200,dashed]-^  StringToTokenConverter        
+PrintToToken                   -[#008200,dashed]-^  StringToTokenConverter        
+ReturnToToken                  -[#008200,dashed]-^  StringToTokenConverter        
+SpecialTokenExtractor          -[#008200,dashed]-^  TokenExtractor                
+SpecialTokenExtractor          -[#595959,dashed]->  data  Token                   : "«create»"
+Splitter                       -[#595959,dashed]->  NumberExtractor               : "«create»"
+Splitter                       -[#595959,dashed]->  SpecialTokenExtractor         : "«create»"
+Splitter                      "1" *-[#595959,plain]-> "extractors\n*" TokenExtractor                
+Splitter                       -[#595959,dashed]->  WordExtractor                 : "«create»"
+SplitterFactory                -[#595959,dashed]->  Splitter                      : "«create»"
+StringLiteralExtractor         -[#008200,dashed]-^  TokenExtractor                
+StringLiteralExtractor         -[#595959,dashed]->  data  Token                   : "«create»"
+StringLiteralToToken           -[#008200,dashed]-^  StringToTokenConverter        
+StringToTokenConverter         -[#008200,plain]-^  TokenConverter                
+StringToTokenConverterFactory  -[#595959,dashed]->  data  TokenConverterRegistry  : "«create»"
+WhitespaceExtractor            -[#008200,dashed]-^  TokenExtractor                
+WhitespaceExtractor            -[#595959,dashed]->  data  Skip                    : "«create»"
+WordExtractor                  -[#008200,dashed]-^  TokenExtractor                
+WordExtractor                  -[#595959,dashed]->  data  Token                   : "«create»"
+data  Skip                     +-[#820000,plain]-  Extraction                    
+data  Skip                     -[#000082,plain]-^  Extraction                    
+data  Skip                     -[#595959,dashed]->  Extraction                    : "«create»"
+data  Token                    -[#000082,plain]-^  Extraction                    
+data  Token                    +-[#820000,plain]-  Extraction                    
+data  Token                    -[#595959,dashed]->  Extraction                    : "«create»"
+data  TokenConverterRegistry  "1" *-[#595959,plain]-> "list\n*" StringToTokenConverter        
+data  TokenConverterRegistry   -[#008200,dashed]-^  TokenConverter                
+@enduml

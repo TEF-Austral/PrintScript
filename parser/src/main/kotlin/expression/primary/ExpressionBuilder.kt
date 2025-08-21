@@ -1,6 +1,7 @@
-package parser.expression
+package parser.expression.primary
 
 import TokenType
+import parser.expression.TokenToExpression
 
 interface ExpressionBuilder : TokenToExpression {
 
