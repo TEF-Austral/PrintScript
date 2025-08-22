@@ -1,16 +1,19 @@
 package parser.command
 
-import node.statement.Statement
+import parser.result.ParseResult
 import parser.Parser
+import node.statement.Statement
 
-class DefaultStatementParserRegistry(private val statementCommands: List<StatementParserCommand>) : ParserCommand {
+class DefaultStatementParserRegistry(
+    private val statementCommands: List<StatementParserCommand>
+) : ParserCommand {
 
-    override fun parse(parser: Parser): Statement {
+    override fun parse(parser: Parser): ParseResult<Statement> {
         for (command in statementCommands) {
             if (command.canHandle(parser.getCurrentToken(), parser)) {
                 return command.parse(parser)
             }
         }
-        return parser.getNodeBuilder().buildEmptyStatementNode()
+        return ParseResult.Success(parser.getNodeBuilder().buildEmptyStatementNode())
     }
 }

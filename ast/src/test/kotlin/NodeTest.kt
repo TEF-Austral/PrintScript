@@ -8,12 +8,13 @@ import node.expression.BinaryExpression
 import node.expression.EmptyExpression
 import node.expression.LiteralExpression
 import node.statement.DeclarationStatement
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class NodeTest {
-
     private lateinit var nodeBuilder: DefaultNodeBuilder
     private lateinit var mockToken: Token
     private lateinit var numberToken: Token
@@ -66,11 +67,12 @@ class NodeTest {
     fun testVariableDeclarationStatement() {
         val initialValue = nodeBuilder.buildLiteralExpressionNode(numberToken)
 
-        val varDecl = nodeBuilder.buildVariableDeclarationStatementNode(
-            identifierToken,
-            dataTypeToken,
-            initialValue
-        )
+        val varDecl =
+            nodeBuilder.buildVariableDeclarationStatementNode(
+                identifierToken,
+                dataTypeToken,
+                initialValue,
+            )
 
         assertEquals("myVar", varDecl.getIdentifier())
         assertEquals("NUMBER", varDecl.getDataType())
@@ -79,10 +81,11 @@ class NodeTest {
 
     @Test
     fun testVariableDeclarationStatementWithoutInitialValue() {
-        val varDecl = nodeBuilder.buildVariableDeclarationStatementNode(
-            identifierToken,
-            dataTypeToken
-        )
+        val varDecl =
+            nodeBuilder.buildVariableDeclarationStatementNode(
+                identifierToken,
+                dataTypeToken,
+            )
 
         assertEquals("myVar", varDecl.getIdentifier())
         assertEquals("NUMBER", varDecl.getDataType())
@@ -128,9 +131,10 @@ class NodeTest {
     @Test
     fun testProgram() {
         val stmt1 = nodeBuilder.buildEmptyStatementNode()
-        val stmt2 = nodeBuilder.buildPrintStatementNode(
-            nodeBuilder.buildLiteralExpressionNode(mockToken)
-        )
+        val stmt2 =
+            nodeBuilder.buildPrintStatementNode(
+                nodeBuilder.buildLiteralExpressionNode(mockToken),
+            )
         val statements = listOf(stmt1, stmt2)
 
         val program = nodeBuilder.buildProgramNode(statements)
@@ -149,19 +153,22 @@ class NodeTest {
     @Test
     fun testComplexAST() {
         // Build a more complex AST: let x: NUMBER = 5 + 10;
-        val leftOperand = nodeBuilder.buildLiteralExpressionNode(
-            PrintScriptToken(TokenType.NUMBER_LITERAL, "5", Position(1, 15))
-        )
-        val rightOperand = nodeBuilder.buildLiteralExpressionNode(
-            PrintScriptToken(TokenType.NUMBER_LITERAL, "10", Position(1, 19))
-        )
+        val leftOperand =
+            nodeBuilder.buildLiteralExpressionNode(
+                PrintScriptToken(TokenType.NUMBER_LITERAL, "5", Position(1, 15)),
+            )
+        val rightOperand =
+            nodeBuilder.buildLiteralExpressionNode(
+                PrintScriptToken(TokenType.NUMBER_LITERAL, "10", Position(1, 19)),
+            )
         val binaryExpr = nodeBuilder.buildBinaryExpressionNode(leftOperand, operatorToken, rightOperand)
 
-        val varDecl = nodeBuilder.buildVariableDeclarationStatementNode(
-            PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 5)),
-            PrintScriptToken(TokenType.DATA_TYPES, "NUMBER", Position(1, 8)),
-            binaryExpr
-        )
+        val varDecl =
+            nodeBuilder.buildVariableDeclarationStatementNode(
+                PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 5)),
+                PrintScriptToken(TokenType.DATA_TYPES, "NUMBER", Position(1, 8)),
+                binaryExpr,
+            )
 
         val program = nodeBuilder.buildProgramNode(listOf(varDecl))
 

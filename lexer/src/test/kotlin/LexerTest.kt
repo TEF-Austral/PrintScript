@@ -1,18 +1,16 @@
-import converter.TokenConverter
 import converter.StringToTokenConverterFactory
-import org.junit.jupiter.api.Assertions.*
+import converter.TokenConverter
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import reader.MockReader
 import splitter.Splitter
 import splitter.SplitterFactory
 
 class LexerTest {
-
     private val splitter: Splitter = SplitterFactory.createSplitter()
     private val tokenConverter: TokenConverter = StringToTokenConverterFactory.createDefaultsTokenConverter()
 
-    private fun lex(input: String) =
-        Lexer(splitter, tokenConverter).tokenize(MockReader(input))
+    private fun lex(input: String) = Lexer(splitter, tokenConverter).tokenize(MockReader(input))
 
     @Test
     fun tokenizeDeclarationAssignmentWithNumberLiteral() {

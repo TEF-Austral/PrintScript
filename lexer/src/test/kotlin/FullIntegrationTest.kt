@@ -2,13 +2,11 @@ import converter.StringToTokenConverterFactory
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import reader.Reader
 import reader.FileReader
-
+import reader.Reader
 import splitter.SplitterFactory
 
 class FullIntegrationTest {
-
     private lateinit var scriptReader: Reader
     private lateinit var largeScriptReader: Reader
 

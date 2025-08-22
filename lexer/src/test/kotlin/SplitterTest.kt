@@ -3,7 +3,6 @@ import org.junit.jupiter.api.Test
 import splitter.Splitter
 
 class SplitterTest {
-
     @Test
     fun `splits input into tokens with correct coordinates`() {
         val splitter = Splitter(listOf('=', '+', '-', '*', '/', ';'))
@@ -149,6 +148,4 @@ class SplitterTest {
         assertEquals(")", tokens[10].first)
         assertEquals(";", tokens[11].first)
     }
-
-
 }
