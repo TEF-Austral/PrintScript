@@ -1,0 +1,33 @@
+@startuml
+!theme plain
+top to bottom direction
+skinparam line type ortho
+
+class Interpreter {
+ +execute: Executor
+ +interpret(node: ASTNode): void
+}
+
+interface Executor {
+ +execute(node: ASTNode): void
+}
+
+class InOrderExecutor {
+ -registry: List<Executor>
+ +execute(node: ASTNode): void
+}
+
+class ExpressionExecutor {
+ +execute(node: ASTNode): void
+}
+
+class StatementExecutor {
+ +execute(node: ASTNode): void
+}
+
+Interpreter --> Executor
+InOrderExecutor ..|> Executor
+ExpressionExecutor ..|> Executor
+StatementExecutor ..|> Executor
+
+@enduml

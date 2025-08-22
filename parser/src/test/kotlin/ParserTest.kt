@@ -165,7 +165,7 @@ class ParserTest {
     }
 
     @Test
-    fun s {
+    fun testNestedParenthesesExpression() {
         val tokens = listOf(
             PrintScriptToken(TokenType.DELIMITERS, "(", Position(1, 1)),
             PrintScriptToken(TokenType.DELIMITERS, "(", Position(1, 2)),
