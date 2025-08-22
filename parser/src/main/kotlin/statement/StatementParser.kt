@@ -4,6 +4,7 @@ import node.statement.Statement
 import parser.Parser
 import parser.command.DefaultStatementParserRegistry
 import parser.command.StatementParserCommand
+import parser.result.ParseResult
 
 class StatementParser {
 
@@ -14,7 +15,7 @@ class StatementParser {
         registry = DefaultStatementParserRegistry(commands)
     }
 
-    fun parseStatement(parser: Parser): Statement {
+    fun parseStatement(parser: Parser): ParseResult<Statement> {
         return registry.parse(parser)
     }
 
