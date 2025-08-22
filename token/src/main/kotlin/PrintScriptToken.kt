@@ -1,21 +1,13 @@
 class PrintScriptToken(
-    private val type: TokenType, private val value: String,
-    private val coordinates: Coordinates
+    private val type: TokenType,
+    private val value: String,
+    private val coordinates: Coordinates,
 ) : Token {
+    override fun getType(): TokenType = type
 
-    override fun getType(): TokenType {
-        return type
-    }
+    override fun getValue(): String = value
 
-    override fun getValue(): String {
-        return value
-    }
+    override fun getCoordinates(): Coordinates = coordinates
 
-    override fun getCoordinates(): Coordinates {
-        return coordinates
-    }
-
-    override fun toString(): String {
-        return "Token(type=$type, value='$value', coordinates=${coordinates.getRow()}:${coordinates.getColumn()})"
-    }
+    override fun toString(): String = "Token(type=$type, value='$value', coordinates=${coordinates.getRow()}:${coordinates.getColumn()})"
 }

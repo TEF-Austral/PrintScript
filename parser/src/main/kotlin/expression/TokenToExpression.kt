@@ -5,7 +5,8 @@ import node.expression.Expression
 import parser.Parser
 
 interface TokenToExpression {
-
-    fun build(parser: Parser, current: Token): Expression
-
+    fun build(
+        parser: Parser,
+        current: Token,
+    ): Expression
 }

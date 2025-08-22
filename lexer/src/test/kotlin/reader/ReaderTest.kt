@@ -1,11 +1,10 @@
 package reader
 
-import java.io.File
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.io.File
 
 class ReaderTest {
-
     @Test
     fun `FileReader should read content from a valid file`() {
         val filePath = "src/test/resources/script.txt"

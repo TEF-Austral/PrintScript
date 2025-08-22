@@ -5,12 +5,10 @@ import PrintScriptToken
 import Token
 
 object ReturnToToken : StringToTokenConverter {
+    override fun canHandle(input: String): Boolean = input == "return"
 
-    override fun canHandle(input: String): Boolean {
-        return input == "return"
-    }
-
-    override fun convert(input: String, position: Coordinates): Token {
-        return PrintScriptToken(type = TokenType.RETURN, value = input, coordinates = position)
-    }
+    override fun convert(
+        input: String,
+        position: Coordinates,
+    ): Token = PrintScriptToken(type = TokenType.RETURN, value = input, coordinates = position)
 }

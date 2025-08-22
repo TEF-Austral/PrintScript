@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class TokenConverterTest {
-
     private val position = Position(1, 1)
 
     @Test
@@ -162,11 +161,12 @@ class TokenConverterTest {
 
     @Test
     fun `test TokenConverterRegistry`() {
-        val converters = listOf(
-            NumberLiteralToToken,
-            StringLiteralToToken,
-            DelimiterToToken
-        )
+        val converters =
+            listOf(
+                NumberLiteralToToken,
+                StringLiteralToToken,
+                DelimiterToToken,
+            )
         val registry = TokenConverterRegistry(converters)
 
         val openParen = registry.convert("(", position)
