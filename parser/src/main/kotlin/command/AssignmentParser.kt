@@ -1,47 +1,35 @@
 package parser.command
 
 import Token
-import parser.result.ParseResult
+import TokenType
 import parser.Parser
+import parser.result.ParseResult
 import node.statement.Statement
 
 class AssignmentParser : StatementParserCommand {
 
     override fun canHandle(token: Token?, parser: Parser): Boolean {
         if (token?.getType() != TokenType.IDENTIFIER) return false
-        val pos = parser.current
-        parser.advance()
-        val isAssign = parser.check(TokenType.ASSIGNMENT)
-        parser.current = pos
-        return isAssign
+        return parser.advance().getCurrentToken()?.getType() == TokenType.ASSIGNMENT
     }
 
-    override fun parse(parser: Parser): ParseResult<Statement> {
-        // identifier
-        when (val idRes = parser.consumeOrError(TokenType.IDENTIFIER)) {
-            is ParseResult.Failure -> return idRes
-            is ParseResult.Success -> {
-                val idToken = idRes.value
+    override fun parse(parser: Parser): Pair<ParseResult<Statement>, Parser> {
+        val (idRes, p1) = parser.consumeOrError(TokenType.IDENTIFIER)
+        if (idRes is ParseResult.Failure) return Pair(idRes, p1)
+        val idToken = (idRes as ParseResult.Success).value
 
-                // '='
-                when (val eqRes = parser.consumeOrError(TokenType.ASSIGNMENT)) {
-                    is ParseResult.Failure -> return eqRes
-                    is ParseResult.Success -> {
+        val (eqRes, p2) = p1.consumeOrError(TokenType.ASSIGNMENT)
+        if (eqRes is ParseResult.Failure) return Pair(eqRes, p2)
 
-                        // value expression
-                        val valueExpr = parser.getExpressionParser().parseExpression(parser)
+        // parse the expression and get the updated parser
+        val (valueExpr, p3) = p2.getExpressionParser().parseExpression(p2)
 
-                        // ';'
-                        return when (val semiRes = parser.consumeOrError(TokenType.DELIMITERS)) {
-                            is ParseResult.Failure -> semiRes
-                            is ParseResult.Success ->
-                                ParseResult.Success(
-                                    parser.getNodeBuilder().buildAssignmentStatementNode(idToken, valueExpr)
-                                )
-                        }
-                    }
-                }
-            }
-        }
+        val (semiRes, p4) = p3.consumeOrError(TokenType.DELIMITERS)
+        if (semiRes is ParseResult.Failure) return Pair(semiRes, p4)
+
+        // pass only the Expression to the builder
+        val stmt = p4.getNodeBuilder()
+            .buildAssignmentStatementNode(idToken, valueExpr)
+        return Pair(ParseResult.Success(stmt), p4)
     }
 }

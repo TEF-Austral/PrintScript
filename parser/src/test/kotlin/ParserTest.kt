@@ -1,4 +1,5 @@
 import builder.DefaultNodeBuilder
+import node.Program
 import node.expression.BinaryExpression
 import node.expression.IdentifierExpression
 import node.expression.LiteralExpression
@@ -12,15 +13,17 @@ import org.junit.jupiter.api.fail
 
 class ParserTest {
 
-    private fun parseProgram(tokens: List<PrintScriptToken>) =
-        when (val result = RecursiveParserFactory()
+    private fun parseProgram(tokens: List<PrintScriptToken>): Program {
+        val (result, _) = RecursiveParserFactory()
             .createParser(tokens, DefaultNodeBuilder())
             .parse()
-        ) {
+
+        return when (result) {
             is ParseResult.Success -> result.value
             is ParseResult.Failure ->
                 fail("Parsing failed: ${result.error.message} at ${result.error.position}")
         }
+    }
 
     @Test
     fun testSingleVariableDeclaration() {
@@ -162,7 +165,7 @@ class ParserTest {
     }
 
     @Test
-    fun testNestedParenthesesExpression() {
+    fun s {
         val tokens = listOf(
             PrintScriptToken(TokenType.DELIMITERS, "(", Position(1, 1)),
             PrintScriptToken(TokenType.DELIMITERS, "(", Position(1, 2)),

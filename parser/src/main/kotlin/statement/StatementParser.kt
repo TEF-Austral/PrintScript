@@ -15,7 +15,7 @@ class StatementParser {
         registry = DefaultStatementParserRegistry(commands)
     }
 
-    fun parseStatement(parser: Parser): ParseResult<Statement> {
+    fun parseStatement(parser: Parser): Pair<ParseResult<Statement>, Parser> {
         return registry.parse(parser)
     }
 

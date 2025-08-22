@@ -8,12 +8,13 @@ class DefaultStatementParserRegistry(
     private val statementCommands: List<StatementParserCommand>
 ) : ParserCommand {
 
-    override fun parse(parser: Parser): ParseResult<Statement> {
+    override fun parse(parser: Parser): Pair<ParseResult<Statement>, Parser> {
         for (command in statementCommands) {
             if (command.canHandle(parser.getCurrentToken(), parser)) {
                 return command.parse(parser)
             }
         }
-        return ParseResult.Success(parser.getNodeBuilder().buildEmptyStatementNode())
+        val empty = parser.getNodeBuilder().buildEmptyStatementNode()
+        return Pair(ParseResult.Success(empty), parser)
     }
 }
