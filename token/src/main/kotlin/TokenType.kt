@@ -1,6 +1,6 @@
 enum class TokenType {
-    //New Token Types
-    DELIMITERS,  // ( ) { } , . ; : ?
+    // New Token Types
+    DELIMITERS, // ( ) { } , . ; : ?
     OPERATORS, // + - * / %
     ASSIGNMENT, // =
     COMPARISON, // == != < > <= >=

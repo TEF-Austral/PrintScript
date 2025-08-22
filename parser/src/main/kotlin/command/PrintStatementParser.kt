@@ -6,10 +6,10 @@ import node.statement.Statement
 import parser.Parser
 
 class PrintStatementParser : StatementParserCommand {
-
-    override fun canHandle(token: Token?, parser: Parser): Boolean {
-        return token?.getType() == TokenType.PRINT
-    }
+    override fun canHandle(
+        token: Token?,
+        parser: Parser,
+    ): Boolean = token?.getType() == TokenType.PRINT
 
     override fun parse(parser: Parser): Statement {
         parser.consume(TokenType.PRINT)

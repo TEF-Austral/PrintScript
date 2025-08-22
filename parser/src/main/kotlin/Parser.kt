@@ -8,13 +8,15 @@ import node.statement.Statement
 import parser.expression.ExpressionParser
 import parser.statement.StatementParser
 
-class Parser(private val tokens: List<Token>, private val nodeBuilder: NodeBuilder,
-             private val expressionParser: ExpressionParser, private val statementParser: StatementParser) {
+class Parser(
+    private val tokens: List<Token>,
+    private val nodeBuilder: NodeBuilder,
+    private val expressionParser: ExpressionParser,
+    private val statementParser: StatementParser,
+) {
+    var current = 0
 
-     var current = 0
-
-     fun parse(): Program {
-
+    fun parse(): Program {
         val statements = mutableListOf<Statement>()
 
         while (!isAtEnd()) {
@@ -25,20 +27,20 @@ class Parser(private val tokens: List<Token>, private val nodeBuilder: NodeBuild
         return nodeBuilder.buildProgramNode(statements)
     }
 
-     fun getCurrentToken(): Token? = if (isAtEnd()) null else tokens[current]
+    fun getCurrentToken(): Token? = if (isAtEnd()) null else tokens[current]
 
-     fun advance(): Token? {
+    fun advance(): Token? {
         if (!isAtEnd()) current++
         return previous()
     }
 
-     fun previous(): Token? = if (current == 0) null else tokens[current - 1]
+    fun previous(): Token? = if (current == 0) null else tokens[current - 1]
 
-     fun isAtEnd(): Boolean = current >= tokens.size
+    fun isAtEnd(): Boolean = current >= tokens.size
 
-     fun check(type: TokenType): Boolean = if (isAtEnd()) false else getCurrentToken()?.getType() == type
+    fun check(type: TokenType): Boolean = if (isAtEnd()) false else getCurrentToken()?.getType() == type
 
-     fun match(vararg types: TokenType): Boolean {
+    fun match(vararg types: TokenType): Boolean {
         for (type in types) {
             if (check(type)) {
                 advance()
@@ -48,11 +50,12 @@ class Parser(private val tokens: List<Token>, private val nodeBuilder: NodeBuild
         return false
     }
 
-     fun consume(type: TokenType): Token {
+    fun consume(type: TokenType): Token {
         if (check(type)) return advance()!!
         throw IllegalArgumentException("Expected token type $type but found ${getCurrentToken()?.getType()}")
     }
 
-     fun getExpressionParser(): ExpressionParser = expressionParser
-     fun getNodeBuilder(): NodeBuilder = nodeBuilder
+    fun getExpressionParser(): ExpressionParser = expressionParser
+
+    fun getNodeBuilder(): NodeBuilder = nodeBuilder
 }

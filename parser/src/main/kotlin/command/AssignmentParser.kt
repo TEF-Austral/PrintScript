@@ -6,8 +6,10 @@ import node.statement.Statement
 import parser.Parser
 
 class AssignmentParser : StatementParserCommand {
-
-    override fun canHandle(token: Token?, parser: Parser): Boolean {
+    override fun canHandle(
+        token: Token?,
+        parser: Parser,
+    ): Boolean {
         if (token?.getType() != TokenType.IDENTIFIER) return false
         val savedPosition = parser.current
         parser.advance()
@@ -15,7 +17,6 @@ class AssignmentParser : StatementParserCommand {
         parser.current = savedPosition
         return isAssign
     }
-
 
     override fun parse(parser: Parser): Statement {
         val identifier = parser.consume(TokenType.IDENTIFIER)

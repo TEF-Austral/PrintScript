@@ -17,9 +17,8 @@ import converter.specific.StringLiteralToToken
 import converter.specific.StringToTokenConverter
 
 object StringToTokenConverterFactory {
-
-    fun createDefaultsTokenConverter(): TokenConverter {
-        return TokenConverterRegistry(
+    fun createDefaultsTokenConverter(): TokenConverter =
+        TokenConverterRegistry(
             listOf(
                 // Keywords
                 FunctionToToken,
@@ -31,19 +30,15 @@ object StringToTokenConverterFactory {
                 LoopToToken,
                 DeclarationToToken,
                 PrintToToken,
-
                 // Operators and Delimiters
                 OperatorToToken,
                 AssignmentToToken,
                 ComparisonToToken,
                 LogicalOperatorToken,
                 DelimiterToToken,
-            )
+            ),
         )
-    }
 
-
-    fun createCustomTokenConverter(customConverters: List<StringToTokenConverter>): TokenConverter {
-        return TokenConverterRegistry(customConverters)
-    }
+    fun createCustomTokenConverter(customConverters: List<StringToTokenConverter>): TokenConverter =
+        TokenConverterRegistry(customConverters)
 }

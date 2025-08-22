@@ -1,8 +1,8 @@
 package splitter
 
 object SplitterFactory {
-  fun createSplitter(): Splitter {
-    val specials = listOf('(', ')', '{', '}', '=', '<', '>', ';', ',', ':', '+', '-', '*', '/', '%', '&', '|', '!')
-    return Splitter(specials)
-  }
+    fun createSplitter(): Splitter {
+        val specials = listOf('(', ')', '{', '}', '=', '<', '>', ';', ',', ':', '+', '-', '*', '/', '%', '&', '|', '!')
+        return Splitter(specials)
+    }
 }

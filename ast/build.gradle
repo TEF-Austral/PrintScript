@@ -2,17 +2,17 @@ plugins {
     id 'buildlogic.kotlin-common-conventions'
 }
 
-group = 'org.example'
-version = 'unspecified'
-
 repositories {
+    gradlePluginPortal()
     mavenCentral()
 }
+
+group = 'org.example'
+version = 'unspecified'
 
 dependencies {
     implementation project(':token')
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
-
 }
 
 test {

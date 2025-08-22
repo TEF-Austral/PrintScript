@@ -7,10 +7,10 @@ import node.statement.Statement
 import parser.Parser
 
 class VariableDeclarationParser : StatementParserCommand {
-
-    override fun canHandle(token: Token?, parser: Parser): Boolean {
-        return token?.getType() == TokenType.DECLARATION
-    }
+    override fun canHandle(
+        token: Token?,
+        parser: Parser,
+    ): Boolean = token?.getType() == TokenType.DECLARATION
 
     override fun parse(parser: Parser): Statement {
         parser.consume(TokenType.DECLARATION) // "let" or "const"
@@ -26,6 +26,4 @@ class VariableDeclarationParser : StatementParserCommand {
         parser.consume(TokenType.DELIMITERS) // ;
         return parser.getNodeBuilder().buildVariableDeclarationStatementNode(identifier, dataType, initialValue)
     }
-
-
 }

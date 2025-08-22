@@ -7,17 +7,15 @@ import parser.Parser
 import parser.expression.primary.ExpressionBuilder
 
 object DelimitersBuilder : ExpressionBuilder {
+    override fun canHandle(token: TokenType): Boolean = token == TokenType.DELIMITERS
 
-    override fun canHandle(token: TokenType): Boolean {
-        return token == TokenType.DELIMITERS
-    }
-
-    override fun build(parser: Parser, current: Token): Expression {
+    override fun build(
+        parser: Parser,
+        current: Token,
+    ): Expression {
         parser.advance() // asumimos que es "("
         val expression = parser.getExpressionParser().parseExpression(parser)
         parser.advance() // avanzamos al siguiente token, que debería ser ")"
         return expression
     }
-
-
 }

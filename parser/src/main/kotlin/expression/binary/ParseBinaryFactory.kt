@@ -4,12 +4,7 @@ import parser.expression.TokenToExpression
 import parser.expression.primary.TokenConverterFactory
 
 object ParseBinaryFactory {
+    fun create(): ParseBinary = DefaultParseBinary(TokenConverterFactory.createDefaultRegistry())
 
-    fun create(): ParseBinary {
-        return DefaultParseBinary(TokenConverterFactory.createDefaultRegistry())
-    }
-
-    fun createCustom(tokenToExpression: TokenToExpression): ParseBinary {
-        return DefaultParseBinary(tokenToExpression)
-    }
+    fun createCustom(tokenToExpression: TokenToExpression): ParseBinary = DefaultParseBinary(tokenToExpression)
 }
