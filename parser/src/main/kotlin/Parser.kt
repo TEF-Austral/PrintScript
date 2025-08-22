@@ -16,7 +16,7 @@ data class Parser(
     private val nodeBuilder: NodeBuilder,
     private val expressionParser: ExpressionParser,
     private val statementParser: StatementParser,
-    val current: Int = 0
+    val current: Int = 0,
 ) {
     fun isAtEnd(): Boolean = current >= tokens.size
 
@@ -25,8 +25,7 @@ data class Parser(
     fun previous(): Token? = tokens.getOrNull(current - 1)
 
     // returns a new Parser with current + 1
-    fun advance(): Parser =
-        copy(current = if (!isAtEnd()) current + 1 else current)
+    fun advance(): Parser = copy(current = if (!isAtEnd()) current + 1 else current)
 
     // returns the consumed token (if any) and the new Parser
     fun consumeOrError(expected: TokenType): Pair<ParseResult<Token>, Parser> {
@@ -57,5 +56,6 @@ data class Parser(
     }
 
     fun getExpressionParser(): ExpressionParser = expressionParser
+
     fun getNodeBuilder(): NodeBuilder = nodeBuilder
 }

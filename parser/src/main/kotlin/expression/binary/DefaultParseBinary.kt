@@ -91,20 +91,21 @@ class DefaultParseBinary(
         when (token.getType()) {
             TokenType.OPERATORS,
             TokenType.COMPARISON,
-            TokenType.LOGICAL_OPERATORS -> true
+            TokenType.LOGICAL_OPERATORS,
+            -> true
             else -> false
         }
 
     override fun getOperatorPrecedence(token: Token): Int =
         when (token.getType()) {
             TokenType.LOGICAL_OPERATORS -> 1
-            TokenType.COMPARISON         -> 2
-            TokenType.OPERATORS          ->
+            TokenType.COMPARISON -> 2
+            TokenType.OPERATORS ->
                 when (token.getValue()) {
-                    "+", "-"   -> 3
+                    "+", "-" -> 3
                     "*", "/", "%" -> 4
-                    "^"        -> 5
-                    else       -> 0
+                    "^" -> 5
+                    else -> 0
                 }
             else -> 0
         }

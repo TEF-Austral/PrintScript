@@ -6,8 +6,7 @@ import node.expression.Expression
 import parser.Parser
 
 object DelimitersBuilder : ExpressionBuilder {
-    override fun canHandle(token: TokenType): Boolean =
-        token == TokenType.DELIMITERS
+    override fun canHandle(token: TokenType): Boolean = token == TokenType.DELIMITERS
 
     override fun build(
         parser: Parser,

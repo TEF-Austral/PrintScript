@@ -5,18 +5,19 @@ import node.expression.IdentifierExpression
 import node.expression.LiteralExpression
 import node.statement.DeclarationStatement
 import node.statement.ExpressionStatement
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.Test
 import parser.factory.RecursiveParserFactory
 import parser.result.ParseResult
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.fail
 
 class ParserTest {
-
     private fun parseProgram(tokens: List<PrintScriptToken>): Program {
-        val (result, _) = RecursiveParserFactory()
-            .createParser(tokens, DefaultNodeBuilder())
-            .parse()
+        val (result, _) =
+            RecursiveParserFactory()
+                .createParser(tokens, DefaultNodeBuilder())
+                .parse()
 
         return when (result) {
             is ParseResult.Success -> result.value
@@ -27,15 +28,16 @@ class ParserTest {
 
     @Test
     fun testSingleVariableDeclaration() {
-        val tokens = listOf(
-            PrintScriptToken(TokenType.DECLARATION, "let", Position(1, 1)),
-            PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 5)),
-            PrintScriptToken(TokenType.DELIMITERS, ":", Position(1, 7)),
-            PrintScriptToken(TokenType.DATA_TYPES, "NUMBER", Position(1, 9)),
-            PrintScriptToken(TokenType.ASSIGNMENT, "=", Position(1, 16)),
-            PrintScriptToken(TokenType.NUMBER_LITERAL, "5", Position(1, 18)),
-            PrintScriptToken(TokenType.DELIMITERS, ";", Position(1, 19))
-        )
+        val tokens =
+            listOf(
+                PrintScriptToken(TokenType.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 5)),
+                PrintScriptToken(TokenType.DELIMITERS, ":", Position(1, 7)),
+                PrintScriptToken(TokenType.DATA_TYPES, "NUMBER", Position(1, 9)),
+                PrintScriptToken(TokenType.ASSIGNMENT, "=", Position(1, 16)),
+                PrintScriptToken(TokenType.NUMBER_LITERAL, "5", Position(1, 18)),
+                PrintScriptToken(TokenType.DELIMITERS, ";", Position(1, 19)),
+            )
 
         val program = parseProgram(tokens)
         assertEquals(1, program.getStatements().size)
@@ -53,28 +55,27 @@ class ParserTest {
 
     @Test
     fun testMultipleStatementsWithBinaryExpression() {
-        val tokens = listOf(
-            PrintScriptToken(TokenType.DECLARATION, "let", Position(1, 1)),
-            PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 5)),
-            PrintScriptToken(TokenType.DELIMITERS, ":", Position(1, 7)),
-            PrintScriptToken(TokenType.DATA_TYPES, "NUMBER", Position(1, 9)),
-            PrintScriptToken(TokenType.ASSIGNMENT, "=", Position(1, 16)),
-            PrintScriptToken(TokenType.NUMBER_LITERAL, "5", Position(1, 18)),
-            PrintScriptToken(TokenType.DELIMITERS, ";", Position(1, 19)),
-
-            PrintScriptToken(TokenType.DECLARATION, "let", Position(2, 1)),
-            PrintScriptToken(TokenType.IDENTIFIER, "y", Position(2, 5)),
-            PrintScriptToken(TokenType.DELIMITERS, ":", Position(2, 7)),
-            PrintScriptToken(TokenType.DATA_TYPES, "NUMBER", Position(2, 9)),
-            PrintScriptToken(TokenType.ASSIGNMENT, "=", Position(2, 16)),
-            PrintScriptToken(TokenType.NUMBER_LITERAL, "5", Position(2, 18)),
-            PrintScriptToken(TokenType.DELIMITERS, ";", Position(2, 19)),
-
-            PrintScriptToken(TokenType.IDENTIFIER, "x", Position(3, 1)),
-            PrintScriptToken(TokenType.OPERATORS, "+", Position(3, 2)),
-            PrintScriptToken(TokenType.IDENTIFIER, "y", Position(3, 3)),
-            PrintScriptToken(TokenType.DELIMITERS, ";", Position(3, 4))
-        )
+        val tokens =
+            listOf(
+                PrintScriptToken(TokenType.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 5)),
+                PrintScriptToken(TokenType.DELIMITERS, ":", Position(1, 7)),
+                PrintScriptToken(TokenType.DATA_TYPES, "NUMBER", Position(1, 9)),
+                PrintScriptToken(TokenType.ASSIGNMENT, "=", Position(1, 16)),
+                PrintScriptToken(TokenType.NUMBER_LITERAL, "5", Position(1, 18)),
+                PrintScriptToken(TokenType.DELIMITERS, ";", Position(1, 19)),
+                PrintScriptToken(TokenType.DECLARATION, "let", Position(2, 1)),
+                PrintScriptToken(TokenType.IDENTIFIER, "y", Position(2, 5)),
+                PrintScriptToken(TokenType.DELIMITERS, ":", Position(2, 7)),
+                PrintScriptToken(TokenType.DATA_TYPES, "NUMBER", Position(2, 9)),
+                PrintScriptToken(TokenType.ASSIGNMENT, "=", Position(2, 16)),
+                PrintScriptToken(TokenType.NUMBER_LITERAL, "5", Position(2, 18)),
+                PrintScriptToken(TokenType.DELIMITERS, ";", Position(2, 19)),
+                PrintScriptToken(TokenType.IDENTIFIER, "x", Position(3, 1)),
+                PrintScriptToken(TokenType.OPERATORS, "+", Position(3, 2)),
+                PrintScriptToken(TokenType.IDENTIFIER, "y", Position(3, 3)),
+                PrintScriptToken(TokenType.DELIMITERS, ";", Position(3, 4)),
+            )
 
         val program = parseProgram(tokens)
         assertEquals(3, program.getStatements().size)
@@ -103,18 +104,19 @@ class ParserTest {
 
     @Test
     fun testComplexExpressionWithParenthesesAndPrecedence() {
-        val tokens = listOf(
-            PrintScriptToken(TokenType.DELIMITERS, "(", Position(1, 1)),
-            PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 2)),
-            PrintScriptToken(TokenType.OPERATORS, "+", Position(1, 4)),
-            PrintScriptToken(TokenType.NUMBER_LITERAL, "5", Position(1, 6)),
-            PrintScriptToken(TokenType.DELIMITERS, ")", Position(1, 7)),
-            PrintScriptToken(TokenType.OPERATORS, "*", Position(1, 9)),
-            PrintScriptToken(TokenType.NUMBER_LITERAL, "2", Position(1, 11)),
-            PrintScriptToken(TokenType.COMPARISON, ">", Position(1, 13)),
-            PrintScriptToken(TokenType.NUMBER_LITERAL, "10", Position(1, 15)),
-            PrintScriptToken(TokenType.DELIMITERS, ";", Position(1, 17))
-        )
+        val tokens =
+            listOf(
+                PrintScriptToken(TokenType.DELIMITERS, "(", Position(1, 1)),
+                PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 2)),
+                PrintScriptToken(TokenType.OPERATORS, "+", Position(1, 4)),
+                PrintScriptToken(TokenType.NUMBER_LITERAL, "5", Position(1, 6)),
+                PrintScriptToken(TokenType.DELIMITERS, ")", Position(1, 7)),
+                PrintScriptToken(TokenType.OPERATORS, "*", Position(1, 9)),
+                PrintScriptToken(TokenType.NUMBER_LITERAL, "2", Position(1, 11)),
+                PrintScriptToken(TokenType.COMPARISON, ">", Position(1, 13)),
+                PrintScriptToken(TokenType.NUMBER_LITERAL, "10", Position(1, 15)),
+                PrintScriptToken(TokenType.DELIMITERS, ";", Position(1, 17)),
+            )
 
         val program = parseProgram(tokens)
         assertEquals(1, program.getStatements().size)
@@ -137,16 +139,17 @@ class ParserTest {
 
     @Test
     fun testExpressionWithMultiplePrecedenceLevels() {
-        val tokens = listOf(
-            PrintScriptToken(TokenType.NUMBER_LITERAL, "2", Position(1, 1)),
-            PrintScriptToken(TokenType.OPERATORS, "+", Position(1, 3)),
-            PrintScriptToken(TokenType.NUMBER_LITERAL, "3", Position(1, 5)),
-            PrintScriptToken(TokenType.OPERATORS, "*", Position(1, 7)),
-            PrintScriptToken(TokenType.NUMBER_LITERAL, "4", Position(1, 9)),
-            PrintScriptToken(TokenType.COMPARISON, ">", Position(1, 11)),
-            PrintScriptToken(TokenType.NUMBER_LITERAL, "10", Position(1, 14)),
-            PrintScriptToken(TokenType.DELIMITERS, ";", Position(1, 16))
-        )
+        val tokens =
+            listOf(
+                PrintScriptToken(TokenType.NUMBER_LITERAL, "2", Position(1, 1)),
+                PrintScriptToken(TokenType.OPERATORS, "+", Position(1, 3)),
+                PrintScriptToken(TokenType.NUMBER_LITERAL, "3", Position(1, 5)),
+                PrintScriptToken(TokenType.OPERATORS, "*", Position(1, 7)),
+                PrintScriptToken(TokenType.NUMBER_LITERAL, "4", Position(1, 9)),
+                PrintScriptToken(TokenType.COMPARISON, ">", Position(1, 11)),
+                PrintScriptToken(TokenType.NUMBER_LITERAL, "10", Position(1, 14)),
+                PrintScriptToken(TokenType.DELIMITERS, ";", Position(1, 16)),
+            )
 
         val program = parseProgram(tokens)
         assertEquals(1, program.getStatements().size)
@@ -166,22 +169,23 @@ class ParserTest {
 
     @Test
     fun testNestedParenthesesExpression() {
-        val tokens = listOf(
-            PrintScriptToken(TokenType.DELIMITERS, "(", Position(1, 1)),
-            PrintScriptToken(TokenType.DELIMITERS, "(", Position(1, 2)),
-            PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 3)),
-            PrintScriptToken(TokenType.OPERATORS, "+", Position(1, 5)),
-            PrintScriptToken(TokenType.NUMBER_LITERAL, "1", Position(1, 7)),
-            PrintScriptToken(TokenType.DELIMITERS, ")", Position(1, 8)),
-            PrintScriptToken(TokenType.OPERATORS, "*", Position(1, 10)),
-            PrintScriptToken(TokenType.DELIMITERS, "(", Position(1, 12)),
-            PrintScriptToken(TokenType.IDENTIFIER, "y", Position(1, 13)),
-            PrintScriptToken(TokenType.OPERATORS, "-", Position(1, 15)),
-            PrintScriptToken(TokenType.NUMBER_LITERAL, "2", Position(1, 17)),
-            PrintScriptToken(TokenType.DELIMITERS, ")", Position(1, 18)),
-            PrintScriptToken(TokenType.DELIMITERS, ")", Position(1, 19)),
-            PrintScriptToken(TokenType.DELIMITERS, ";", Position(1, 20))
-        )
+        val tokens =
+            listOf(
+                PrintScriptToken(TokenType.DELIMITERS, "(", Position(1, 1)),
+                PrintScriptToken(TokenType.DELIMITERS, "(", Position(1, 2)),
+                PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 3)),
+                PrintScriptToken(TokenType.OPERATORS, "+", Position(1, 5)),
+                PrintScriptToken(TokenType.NUMBER_LITERAL, "1", Position(1, 7)),
+                PrintScriptToken(TokenType.DELIMITERS, ")", Position(1, 8)),
+                PrintScriptToken(TokenType.OPERATORS, "*", Position(1, 10)),
+                PrintScriptToken(TokenType.DELIMITERS, "(", Position(1, 12)),
+                PrintScriptToken(TokenType.IDENTIFIER, "y", Position(1, 13)),
+                PrintScriptToken(TokenType.OPERATORS, "-", Position(1, 15)),
+                PrintScriptToken(TokenType.NUMBER_LITERAL, "2", Position(1, 17)),
+                PrintScriptToken(TokenType.DELIMITERS, ")", Position(1, 18)),
+                PrintScriptToken(TokenType.DELIMITERS, ")", Position(1, 19)),
+                PrintScriptToken(TokenType.DELIMITERS, ";", Position(1, 20)),
+            )
 
         val program = parseProgram(tokens)
         assertEquals(1, program.getStatements().size)

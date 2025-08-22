@@ -7,7 +7,6 @@ import parser.command.StatementParserCommand
 import parser.result.ParseResult
 
 class StatementParser {
-
     private val registry: DefaultStatementParserRegistry
 
     init {
@@ -15,16 +14,13 @@ class StatementParser {
         registry = DefaultStatementParserRegistry(commands)
     }
 
-    fun parseStatement(parser: Parser): Pair<ParseResult<Statement>, Parser> {
-        return registry.parse(parser)
-    }
+    fun parseStatement(parser: Parser): Pair<ParseResult<Statement>, Parser> = registry.parse(parser)
 
-    private fun createStatementCommands(): List<StatementParserCommand> {
-        return listOf(
+    private fun createStatementCommands(): List<StatementParserCommand> =
+        listOf(
             parser.command.VariableDeclarationParser(),
             parser.command.AssignmentParser(),
             parser.command.PrintStatementParser(),
-            parser.command.ExpressionStatementParser()
+            parser.command.ExpressionStatementParser(),
         )
-    }
 }

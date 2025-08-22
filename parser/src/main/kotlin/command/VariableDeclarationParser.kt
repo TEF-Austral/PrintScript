@@ -8,9 +8,10 @@ import parser.Parser
 import parser.result.ParseResult
 
 class VariableDeclarationParser : StatementParserCommand {
-
-    override fun canHandle(token: Token?, parser: Parser): Boolean =
-        token?.getType() == TokenType.DECLARATION
+    override fun canHandle(
+        token: Token?,
+        parser: Parser,
+    ): Boolean = token?.getType() == TokenType.DECLARATION
 
     override fun parse(parser: Parser): Pair<ParseResult<Statement>, Parser> {
         var p = parser
@@ -54,8 +55,10 @@ class VariableDeclarationParser : StatementParserCommand {
         if (semiRes is ParseResult.Failure) return Pair(semiRes, p7)
         p = p7
 
-        val stmt = p.getNodeBuilder()
-            .buildVariableDeclarationStatementNode(idToken, dataTypeToken, initialValue)
+        val stmt =
+            p
+                .getNodeBuilder()
+                .buildVariableDeclarationStatementNode(idToken, dataTypeToken, initialValue)
         return Pair(ParseResult.Success(stmt), p)
     }
 }

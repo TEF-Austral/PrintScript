@@ -2,13 +2,15 @@ package parser.command
 
 import Token
 import TokenType
+import node.statement.Statement
 import parser.Parser
 import parser.result.ParseResult
-import node.statement.Statement
 
 class AssignmentParser : StatementParserCommand {
-
-    override fun canHandle(token: Token?, parser: Parser): Boolean {
+    override fun canHandle(
+        token: Token?,
+        parser: Parser,
+    ): Boolean {
         if (token?.getType() != TokenType.IDENTIFIER) return false
         return parser.advance().getCurrentToken()?.getType() == TokenType.ASSIGNMENT
     }
@@ -28,8 +30,10 @@ class AssignmentParser : StatementParserCommand {
         if (semiRes is ParseResult.Failure) return Pair(semiRes, p4)
 
         // pass only the Expression to the builder
-        val stmt = p4.getNodeBuilder()
-            .buildAssignmentStatementNode(idToken, valueExpr)
+        val stmt =
+            p4
+                .getNodeBuilder()
+                .buildAssignmentStatementNode(idToken, valueExpr)
         return Pair(ParseResult.Success(stmt), p4)
     }
 }
