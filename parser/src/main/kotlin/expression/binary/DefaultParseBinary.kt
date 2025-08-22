@@ -7,6 +7,22 @@ import parser.expression.TokenToExpression
 
 class DefaultParseBinary(private val tokenToExpression: TokenToExpression): ParseBinary {
 
+    override fun parseBinary(parser: Parser, left: Expression, minPrecedence: Int): Expression {
+        var result = left
+
+        while (true) {
+            if (!hasValidOperatorToken(parser)) break
+            if (!meetsMinimumPrecedence(parser, minPrecedence)) break
+            val operator = consumeOperator(parser)
+            val rightOperand = parseRightOperand(parser)
+            val processedRight = processRightAssociativity(parser, rightOperand, operator)
+
+            result = buildBinaryExpression(parser, result, operator, processedRight)
+        }
+
+        return result
+    }
+
     override fun hasValidOperatorToken(parser: Parser): Boolean {
         val currentToken = parser.getCurrentToken() ?: return false
         return isOperatorToken(currentToken)

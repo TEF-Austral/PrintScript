@@ -5,22 +5,9 @@ import node.expression.Expression
 import parser.Parser
 
 sealed interface ParseBinary {
-    // TODO sacar template anti patron
-    fun parseBinary(parser: Parser, left: Expression, minPrecedence: Int): Expression {
-        var result = left
 
-        while (true) {
-            if (!hasValidOperatorToken(parser)) break
-            if (!meetsMinimumPrecedence(parser, minPrecedence)) break
-            val operator = consumeOperator(parser)
-            val rightOperand = parseRightOperand(parser)
-            val processedRight = processRightAssociativity(parser, rightOperand, operator)
+    fun parseBinary(parser: Parser, left: Expression, minPrecedence: Int): Expression
 
-            result = buildBinaryExpression(parser, result, operator, processedRight)
-        }
-
-        return result
-    }
     fun hasValidOperatorToken(parser: Parser): Boolean
 
     fun meetsMinimumPrecedence(parser: Parser, minPrecedence: Int): Boolean
