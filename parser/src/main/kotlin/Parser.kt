@@ -15,7 +15,7 @@ class Parser(
     private val tokens: List<Token>,
     private val nodeBuilder: NodeBuilder,
     private val expressionParser: ExpressionParser,
-    private val statementParser: StatementParser
+    private val statementParser: StatementParser,
 ) {
     var current = 0
 
@@ -68,5 +68,6 @@ class Parser(
     }
 
     fun getExpressionParser(): ExpressionParser = expressionParser
+
     fun getNodeBuilder(): NodeBuilder = nodeBuilder
 }

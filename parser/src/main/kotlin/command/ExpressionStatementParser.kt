@@ -7,15 +7,17 @@ import parser.Parser
 import parser.result.ParseResult
 
 class ExpressionStatementParser : StatementParserCommand {
-
-    override fun canHandle(token: Token?, parser: Parser): Boolean {
+    override fun canHandle(
+        token: Token?,
+        parser: Parser,
+    ): Boolean {
         if (token == null) return false
         val type = token.getType()
         val value = token.getValue()
         return type == TokenType.NUMBER_LITERAL ||
-                type == TokenType.STRING_LITERAL ||
-                type == TokenType.IDENTIFIER ||
-                (type == TokenType.DELIMITERS && value == "(")
+            type == TokenType.STRING_LITERAL ||
+            type == TokenType.IDENTIFIER ||
+            (type == TokenType.DELIMITERS && value == "(")
     }
 
     override fun parse(parser: Parser): ParseResult<Statement> {

@@ -22,4 +22,6 @@ include(
         'token',
         'ast',
         'cli',
-        'common')
+        'common',
+        'ktlint-rules'
+)

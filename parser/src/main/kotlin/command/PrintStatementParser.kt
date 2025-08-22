@@ -7,9 +7,10 @@ import parser.Parser
 import parser.result.ParseResult
 
 class PrintStatementParser : StatementParserCommand {
-
-    override fun canHandle(token: Token?, parser: Parser): Boolean =
-        token?.getType() == TokenType.PRINT
+    override fun canHandle(
+        token: Token?,
+        parser: Parser,
+    ): Boolean = token?.getType() == TokenType.PRINT
 
     override fun parse(parser: Parser): ParseResult<Statement> {
         // 'print'

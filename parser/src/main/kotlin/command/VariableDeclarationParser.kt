@@ -8,10 +8,10 @@ import parser.Parser
 import parser.result.ParseResult
 
 class VariableDeclarationParser : StatementParserCommand {
-
-    override fun canHandle(token: Token?, parser: Parser): Boolean {
-        return token?.getType() == TokenType.DECLARATION
-    }
+    override fun canHandle(
+        token: Token?,
+        parser: Parser,
+    ): Boolean = token?.getType() == TokenType.DECLARATION
 
     override fun parse(parser: Parser): ParseResult<Statement> {
         // 'let' or 'const'
@@ -20,20 +20,22 @@ class VariableDeclarationParser : StatementParserCommand {
             else -> {}
         }
         // identifier
-        val idToken = when (val idRes = parser.consumeOrError(TokenType.IDENTIFIER)) {
-            is ParseResult.Failure -> return idRes
-            is ParseResult.Success -> idRes.value
-        }
+        val idToken =
+            when (val idRes = parser.consumeOrError(TokenType.IDENTIFIER)) {
+                is ParseResult.Failure -> return idRes
+                is ParseResult.Success -> idRes.value
+            }
         // ':'
         when (val colonRes = parser.consumeOrError(TokenType.DELIMITERS)) {
             is ParseResult.Failure -> return colonRes
             else -> {}
         }
         // data type
-        val dataTypeToken = when (val dtRes = parser.consumeOrError(TokenType.DATA_TYPES)) {
-            is ParseResult.Failure -> return dtRes
-            is ParseResult.Success -> dtRes.value
-        }
+        val dataTypeToken =
+            when (val dtRes = parser.consumeOrError(TokenType.DATA_TYPES)) {
+                is ParseResult.Failure -> return dtRes
+                is ParseResult.Success -> dtRes.value
+            }
         // optional initialization
         var initialValue: Expression? = null
         if (parser.match(TokenType.ASSIGNMENT)) {
@@ -46,8 +48,10 @@ class VariableDeclarationParser : StatementParserCommand {
         }
         return ParseResult.Success(
             parser.getNodeBuilder().buildVariableDeclarationStatementNode(
-                idToken, dataTypeToken, initialValue
-            )
+                idToken,
+                dataTypeToken,
+                initialValue,
+            ),
         )
     }
 }
