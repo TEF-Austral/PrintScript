@@ -1,15 +1,11 @@
 package parser.command
 
 import Token
-import node.statement.Statement
-import parser.Parser
 import parser.result.ParseResult
+import parser.Parser
+import node.statement.Statement
 
 interface StatementParserCommand {
-    fun canHandle(
-        token: Token?,
-        parser: Parser,
-    ): Boolean
-
-    fun parse(parser: Parser): ParseResult<Statement>
+    fun canHandle(token: Token?, parser: Parser): Boolean
+    fun parse(parser: Parser): Pair<ParseResult<Statement>, Parser>
 }

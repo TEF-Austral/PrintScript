@@ -12,12 +12,13 @@ class ExpressionRegistry(
     override fun build(
         parser: Parser,
         current: Token,
-    ): Expression {
+    ): Pair<Expression, Parser> {
         for (builder in expressionBuilder) {
             if (builder.canHandle(current.getType())) {
                 return builder.build(parser, current)
             }
         }
-        return EmptyExpression()
+        // default: return both an EmptyExpression and the unmodified parser
+        return Pair(EmptyExpression(), parser)
     }
 }
