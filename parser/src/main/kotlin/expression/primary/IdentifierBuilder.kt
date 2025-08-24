@@ -11,8 +11,9 @@ object IdentifierBuilder : ExpressionBuilder {
     override fun build(
         parser: Parser,
         current: Token,
-    ): Expression {
-        parser.advance()
-        return parser.getNodeBuilder().buildIdentifierNode(current)
+    ): Pair<Expression, Parser> {
+        val nextParser = parser.advance()
+        val expr = nextParser.getNodeBuilder().buildIdentifierNode(current)
+        return Pair(expr, nextParser)
     }
 }

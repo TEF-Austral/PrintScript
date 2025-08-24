@@ -9,7 +9,7 @@ sealed interface ParseBinary {
         parser: Parser,
         left: Expression,
         minPrecedence: Int,
-    ): Expression
+    ): Pair<Expression, Parser>
 
     fun hasValidOperatorToken(parser: Parser): Boolean
 
@@ -18,22 +18,22 @@ sealed interface ParseBinary {
         minPrecedence: Int,
     ): Boolean
 
-    fun consumeOperator(parser: Parser): Token
+    fun consumeOperator(parser: Parser): Pair<Token, Parser>
 
-    fun parseRightOperand(parser: Parser): Expression
+    fun parseRightOperand(parser: Parser): Pair<Expression, Parser>
 
     fun processRightAssociativity(
         parser: Parser,
         right: Expression,
         operator: Token,
-    ): Expression
+    ): Pair<Expression, Parser>
 
     fun buildBinaryExpression(
         parser: Parser,
         left: Expression,
         operator: Token,
         right: Expression,
-    ): Expression
+    ): Pair<Expression, Parser>
 
     fun getOperatorPrecedence(token: Token): Int
 

@@ -1,6 +1,7 @@
 package parser.expression.binary
 
 import Token
+import TokenType
 import node.expression.Expression
 import parser.Parser
 import parser.expression.TokenToExpression
@@ -12,68 +13,67 @@ class DefaultParseBinary(
         parser: Parser,
         left: Expression,
         minPrecedence: Int,
-    ): Expression {
+    ): Pair<Expression, Parser> {
+        var p = parser
         var result = left
 
         while (true) {
-            if (!hasValidOperatorToken(parser)) break
-            if (!meetsMinimumPrecedence(parser, minPrecedence)) break
-            val operator = consumeOperator(parser)
-            val rightOperand = parseRightOperand(parser)
-            val processedRight = processRightAssociativity(parser, rightOperand, operator)
+            if (!hasValidOperatorToken(p)) break
+            if (!meetsMinimumPrecedence(p, minPrecedence)) break
 
-            result = buildBinaryExpression(parser, result, operator, processedRight)
+            val (operator, p1) = consumeOperator(p)
+            val (rightOperand, p2) = parseRightOperand(p1)
+            val (processedRight, p3) = processRightAssociativity(p2, rightOperand, operator)
+            val (newResult, p4) = buildBinaryExpression(p3, result, operator, processedRight)
+
+            result = newResult
+            p = p4
         }
 
-        return result
+        return Pair(result, p)
     }
 
     override fun hasValidOperatorToken(parser: Parser): Boolean {
-        val currentToken = parser.getCurrentToken() ?: return false
-        return isOperatorToken(currentToken)
+        val current = parser.getCurrentToken() ?: return false
+        return isOperatorToken(current)
     }
 
     override fun meetsMinimumPrecedence(
         parser: Parser,
         minPrecedence: Int,
     ): Boolean {
-        val currentToken = parser.getCurrentToken()!!
-        val precedence = getOperatorPrecedence(currentToken)
-        return precedence >= minPrecedence
+        val current = parser.getCurrentToken()!!
+        return getOperatorPrecedence(current) >= minPrecedence
     }
 
-    override fun consumeOperator(parser: Parser): Token = parser.advance()!!
+    override fun consumeOperator(parser: Parser): Pair<Token, Parser> {
+        val operator = parser.getCurrentToken()!!
+        return Pair(operator, parser.advance())
+    }
 
-    override fun parseRightOperand(parser: Parser): Expression {
-        val currentToken = parser.getCurrentToken()!!
-        return tokenToExpression.build(parser, currentToken)
+    override fun parseRightOperand(parser: Parser): Pair<Expression, Parser> {
+        val current = parser.getCurrentToken()!!
+        return tokenToExpression.build(parser, current)
     }
 
     override fun processRightAssociativity(
         parser: Parser,
         right: Expression,
         operator: Token,
-    ): Expression {
-        val nextToken = parser.getCurrentToken()
-
-        if (nextToken == null || !isOperatorToken(nextToken)) {
-            return right
+    ): Pair<Expression, Parser> {
+        val next = parser.getCurrentToken()
+        if (next == null || !isOperatorToken(next)) {
+            return Pair(right, parser)
         }
 
-        val currentPrecedence = getOperatorPrecedence(operator)
-        val nextPrecedence = getOperatorPrecedence(nextToken)
+        val currPrec = getOperatorPrecedence(operator)
+        val nextPrec = getOperatorPrecedence(next)
+        val shouldRecurse = nextPrec >= currPrec
 
-        val shouldParseRecursively =
-            when {
-                nextPrecedence > currentPrecedence -> true
-                nextPrecedence == currentPrecedence -> true
-                else -> false
-            }
-
-        return if (shouldParseRecursively) {
-            parseBinary(parser, right, currentPrecedence + 1)
+        return if (shouldRecurse) {
+            parseBinary(parser, right, currPrec + 1)
         } else {
-            right
+            Pair(right, parser)
         }
     }
 
@@ -82,7 +82,10 @@ class DefaultParseBinary(
         left: Expression,
         operator: Token,
         right: Expression,
-    ): Expression = parser.getNodeBuilder().buildBinaryExpressionNode(left, operator, right)
+    ): Pair<Expression, Parser> {
+        val exprNode = parser.getNodeBuilder().buildBinaryExpressionNode(left, operator, right)
+        return Pair(exprNode, parser)
+    }
 
     override fun isOperatorToken(token: Token): Boolean =
         when (token.getType()) {
@@ -95,8 +98,8 @@ class DefaultParseBinary(
 
     override fun getOperatorPrecedence(token: Token): Int =
         when (token.getType()) {
-            TokenType.LOGICAL_OPERATORS -> 1 // ||, &&
-            TokenType.COMPARISON -> 2 // ==, !=, <, >, <=, >=
+            TokenType.LOGICAL_OPERATORS -> 1
+            TokenType.COMPARISON -> 2
             TokenType.OPERATORS ->
                 when (token.getValue()) {
                     "+", "-" -> 3

@@ -7,24 +7,27 @@ import parser.Parser
 import parser.result.ParseResult
 
 class ExpressionStatementParser : StatementParserCommand {
-
-    override fun canHandle(token: Token?, parser: Parser): Boolean {
+    override fun canHandle(
+        token: Token?,
+        parser: Parser,
+    ): Boolean {
         if (token == null) return false
         val type = token.getType()
         val value = token.getValue()
         return type == TokenType.NUMBER_LITERAL ||
-                type == TokenType.STRING_LITERAL ||
-                type == TokenType.IDENTIFIER ||
-                (type == TokenType.DELIMITERS && value == "(")
+            type == TokenType.STRING_LITERAL ||
+            type == TokenType.IDENTIFIER ||
+            (type == TokenType.DELIMITERS && value == "(")
     }
 
-    override fun parse(parser: Parser): ParseResult<Statement> {
-        val expression = parser.getExpressionParser().parseExpression(parser)
-        when (val semiRes = parser.consumeOrError(TokenType.DELIMITERS)) {
-            is ParseResult.Failure -> return semiRes
-            else -> {}
-        }
-        val stmt = parser.getNodeBuilder().buildExpressionStatementNode(expression)
-        return ParseResult.Success(stmt)
+    override fun parse(parser: Parser): Pair<ParseResult<Statement>, Parser> {
+        // parse the expression
+        val (expr, p1) = parser.getExpressionParser().parseExpression(parser)
+        // consume the semicolon
+        val (semiRes, p2) = p1.consumeOrError(TokenType.DELIMITERS)
+        if (semiRes is ParseResult.Failure) return Pair(semiRes, p2)
+        // build and return the expression statement
+        val stmt = p2.getNodeBuilder().buildExpressionStatementNode(expr)
+        return Pair(ParseResult.Success(stmt), p2)
     }
 }

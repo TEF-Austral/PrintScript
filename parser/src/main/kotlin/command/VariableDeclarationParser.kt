@@ -8,46 +8,57 @@ import parser.Parser
 import parser.result.ParseResult
 
 class VariableDeclarationParser : StatementParserCommand {
+    override fun canHandle(
+        token: Token?,
+        parser: Parser,
+    ): Boolean = token?.getType() == TokenType.DECLARATION
 
-    override fun canHandle(token: Token?, parser: Parser): Boolean {
-        return token?.getType() == TokenType.DECLARATION
-    }
+    override fun parse(parser: Parser): Pair<ParseResult<Statement>, Parser> {
+        var p = parser
 
-    override fun parse(parser: Parser): ParseResult<Statement> {
         // 'let' or 'const'
-        when (val declRes = parser.consumeOrError(TokenType.DECLARATION)) {
-            is ParseResult.Failure -> return declRes
-            else -> {}
-        }
+        val (declRes, p1) = p.consumeOrError(TokenType.DECLARATION)
+        if (declRes is ParseResult.Failure) return Pair(declRes, p1)
+        p = p1
+
         // identifier
-        val idToken = when (val idRes = parser.consumeOrError(TokenType.IDENTIFIER)) {
-            is ParseResult.Failure -> return idRes
-            is ParseResult.Success -> idRes.value
-        }
+        val (idRes, p2) = p.consumeOrError(TokenType.IDENTIFIER)
+        if (idRes is ParseResult.Failure) return Pair(idRes, p2)
+        val idToken = (idRes as ParseResult.Success).value
+        p = p2
+
         // ':'
-        when (val colonRes = parser.consumeOrError(TokenType.DELIMITERS)) {
-            is ParseResult.Failure -> return colonRes
-            else -> {}
-        }
+        val (colonRes, p3) = p.consumeOrError(TokenType.DELIMITERS)
+        if (colonRes is ParseResult.Failure) return Pair(colonRes, p3)
+        p = p3
+
         // data type
-        val dataTypeToken = when (val dtRes = parser.consumeOrError(TokenType.DATA_TYPES)) {
-            is ParseResult.Failure -> return dtRes
-            is ParseResult.Success -> dtRes.value
-        }
+        val (dtRes, p4) = p.consumeOrError(TokenType.DATA_TYPES)
+        if (dtRes is ParseResult.Failure) return Pair(dtRes, p4)
+        val dataTypeToken = (dtRes as ParseResult.Success).value
+        p = p4
+
         // optional initialization
         var initialValue: Expression? = null
-        if (parser.match(TokenType.ASSIGNMENT)) {
-            initialValue = parser.getExpressionParser().parseExpression(parser)
+        if (p.getCurrentToken()?.getType() == TokenType.ASSIGNMENT) {
+            val (assignRes, p5) = p.consumeOrError(TokenType.ASSIGNMENT)
+            if (assignRes is ParseResult.Failure) return Pair(assignRes, p5)
+            p = p5
+
+            val (expr, p6) = p.getExpressionParser().parseExpression(p)
+            initialValue = expr
+            p = p6
         }
+
         // ';'
-        when (val semiRes = parser.consumeOrError(TokenType.DELIMITERS)) {
-            is ParseResult.Failure -> return semiRes
-            else -> {}
-        }
-        return ParseResult.Success(
-            parser.getNodeBuilder().buildVariableDeclarationStatementNode(
-                idToken, dataTypeToken, initialValue
-            )
-        )
+        val (semiRes, p7) = p.consumeOrError(TokenType.DELIMITERS)
+        if (semiRes is ParseResult.Failure) return Pair(semiRes, p7)
+        p = p7
+
+        val stmt =
+            p
+                .getNodeBuilder()
+                .buildVariableDeclarationStatementNode(idToken, dataTypeToken, initialValue)
+        return Pair(ParseResult.Success(stmt), p)
     }
 }

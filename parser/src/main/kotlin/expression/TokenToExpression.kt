@@ -8,5 +8,5 @@ interface TokenToExpression {
     fun build(
         parser: Parser,
         current: Token,
-    ): Expression
+    ): Pair<Expression, Parser>
 }

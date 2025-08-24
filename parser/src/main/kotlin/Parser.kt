@@ -11,62 +11,51 @@ import parser.result.ParseError
 import parser.result.ParseResult
 import parser.statement.StatementParser
 
-class Parser(
+data class Parser(
     private val tokens: List<Token>,
     private val nodeBuilder: NodeBuilder,
     private val expressionParser: ExpressionParser,
-    private val statementParser: StatementParser
+    private val statementParser: StatementParser,
+    val current: Int = 0,
 ) {
-    var current = 0
-
-    fun parse(): ParseResult<Program> {
-        val statements = mutableListOf<Statement>()
-
-        while (!isAtEnd()) {
-            when (val statementResult = statementParser.parseStatement(this)) {
-                is ParseResult.Failure -> return ParseResult.Failure(statementResult.error)
-                is ParseResult.Success -> statements.add(statementResult.value)
-            }
-        }
-
-        return ParseResult.Success(nodeBuilder.buildProgramNode(statements))
-    }
-
-    fun getCurrentToken(): Token? = if (isAtEnd()) null else tokens[current]
-
-    fun advance(): Token? {
-        if (!isAtEnd()) current++
-        return previous()
-    }
-
-    fun previous(): Token? = if (current == 0) null else tokens[current - 1]
-
     fun isAtEnd(): Boolean = current >= tokens.size
 
-    fun check(type: TokenType): Boolean = if (isAtEnd()) false else getCurrentToken()?.getType() == type
+    fun getCurrentToken(): Token? = tokens.getOrNull(current)
 
-    fun match(vararg types: TokenType): Boolean {
-        for (type in types) {
-            if (check(type)) {
-                advance()
-                return true
-            }
+    fun previous(): Token? = tokens.getOrNull(current - 1)
+
+    // returns a new Parser with current + 1
+    fun advance(): Parser = copy(current = if (!isAtEnd()) current + 1 else current)
+
+    // returns the consumed token (if any) and the new Parser
+    fun consumeOrError(expected: TokenType): Pair<ParseResult<Token>, Parser> {
+        val tok = getCurrentToken()
+        val pos = tok?.getCoordinates() ?: Position(-1, -1)
+        return if (tok?.getType() == expected) {
+            Pair(ParseResult.Success(tok), advance())
+        } else {
+            val got = tok?.getType()?.toString() ?: "end-of-input"
+            Pair(ParseResult.Failure(ParseError("Expected $expected but found $got", pos)), this)
         }
-        return false
     }
 
-    fun consumeOrError(expected: TokenType): ParseResult<Token> {
-        val current = getCurrentToken()
-        val pos = current?.getCoordinates() ?: Position(-1, -1)
-        val got = current?.getType()?.toString() ?: "end-of-input"
-        return if (current?.getType() == expected) {
-            advance()
-            ParseResult.Success(current)
-        } else {
-            ParseResult.Failure(ParseError("Expected $expected but found $got", pos))
+    fun parse(): Pair<ParseResult<Program>, Parser> {
+        var p = this
+        val statements = mutableListOf<Statement>()
+        while (!p.isAtEnd()) {
+            val (stmtRes, nextParser) = statementParser.parseStatement(p)
+            when (stmtRes) {
+                is ParseResult.Success -> {
+                    statements += stmtRes.value
+                    p = nextParser
+                }
+                is ParseResult.Failure -> return Pair(ParseResult.Failure(stmtRes.error), nextParser)
+            }
         }
+        return Pair(ParseResult.Success(nodeBuilder.buildProgramNode(statements)), p)
     }
 
     fun getExpressionParser(): ExpressionParser = expressionParser
+
     fun getNodeBuilder(): NodeBuilder = nodeBuilder
 }
