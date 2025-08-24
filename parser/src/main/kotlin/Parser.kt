@@ -23,9 +23,9 @@ class Parser(
         val statements = mutableListOf<Statement>()
 
         while (!isAtEnd()) {
-            when (val stmtRes = statementParser.parseStatement(this)) {
-                is ParseResult.Failure -> return ParseResult.Failure(stmtRes.error)
-                is ParseResult.Success -> statements.add(stmtRes.value)
+            when (val statementResult = statementParser.parseStatement(this)) {
+                is ParseResult.Failure -> return ParseResult.Failure(statementResult.error)
+                is ParseResult.Success -> statements.add(statementResult.value)
             }
         }
 
