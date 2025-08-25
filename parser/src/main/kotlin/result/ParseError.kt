@@ -4,5 +4,5 @@ import Coordinates
 
 data class ParseError(
     val message: String,
-    val position: Coordinates
+    val position: Coordinates,
 )
