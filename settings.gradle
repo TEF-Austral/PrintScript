@@ -23,5 +23,4 @@ include(
         'ast',
         'cli',
         'common',
-        'ktlint-rules'
 )
