@@ -10,6 +10,8 @@ repositories {
 }
 
 dependencies {
+    implementation project(':token')
+    implementation project(':ast')
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 
