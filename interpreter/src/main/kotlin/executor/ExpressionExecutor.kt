@@ -2,10 +2,26 @@ package executor
 
 import node.ASTNode
 import node.expression.*
+import executor.operators.Divide
+import executor.operators.Equals
+import executor.operators.GreaterThan
+import executor.operators.GreaterThanOrEqual
+import executor.operators.LessThan
+import executor.operators.LessThanOrEqual
+import executor.operators.Multiplication
+import executor.operators.NotEquals
+import executor.operators.Operator
+import executor.operators.Subtraction
+import executor.operators.Sum
 
 class ExpressionExecutor(private val variables: MutableMap<String, Any> = mutableMapOf()) : Executor {
+
+    val operators: List<Operator> = listOf(
+        Sum, Divide, Multiplication, Subtraction, Equals, NotEquals,
+        GreaterThan, LessThan, GreaterThanOrEqual, LessThanOrEqual)
+
     override fun execute(node: ASTNode) {
-        evaluate(node as Expression)
+        evaluate(node as Expression) // TODO SACAR EL CAST BOLIVIANO
     }
 
     fun evaluate(expression: Expression): Any {
@@ -14,7 +30,6 @@ class ExpressionExecutor(private val variables: MutableMap<String, Any> = mutabl
                 val value = expression.getValue()
                 when {
                     value.toIntOrNull() != null -> value.toInt()
-                    value.toBooleanStrictOrNull() != null -> value.toBoolean()
                     else -> value.removeSurrounding("\"")
                 }
             }
@@ -30,38 +45,12 @@ class ExpressionExecutor(private val variables: MutableMap<String, Any> = mutabl
         }
     }
 
-    private fun evaluateBinaryOperation(left: Any, operator: String, right: Any): Any {
-        return when (operator) {
-            "+" -> {
-                when {
-                    left is Int && right is Int -> left + right
-                    else -> left.toString() + right.toString()
-                }
+    private fun evaluateBinaryOperation(left: Any, sOperator: String, right: Any): Any {
+        for (operator in operators) {
+            if (operator.canHandle(sOperator)) {
+                return operator.operate(left, right)
             }
-            "-" -> {
-                if (left is Int && right is Int) left - right else 0
-            }
-            "*" -> {
-                if (left is Int && right is Int) left * right else 0
-            }
-            "/" -> {
-                if (left is Int && right is Int && right != 0) left / right else 0
-            }
-            "==" -> left == right
-            "!=" -> left != right
-            ">" -> {
-                if (left is Int && right is Int) left > right else false
-            }
-            "<" -> {
-                if (left is Int && right is Int) left < right else false
-            }
-            ">=" -> {
-                if (left is Int && right is Int) left >= right else false
-            }
-            "<=" -> {
-                if (left is Int && right is Int) left <= right else false
-            }
-            else -> ""
         }
+        return ""
     }
 }

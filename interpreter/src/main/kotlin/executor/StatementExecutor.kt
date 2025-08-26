@@ -7,7 +7,7 @@ class StatementExecutor : Executor {
     private val variables = mutableMapOf<String, Any>()
     private val expressionExecutor = ExpressionExecutor(variables)
 
-    override fun execute(node: ASTNode) {
+    override fun execute(node: ASTNode) { // Composite Pattern TODO
         when (node) {
             is DeclarationStatement -> {
                 val initialValue = node.getInitialValue()
@@ -34,9 +34,11 @@ class StatementExecutor : Executor {
 
     private fun getDefaultValue(dataType: String): Any {
         return when (dataType.lowercase()) {
+
             "string" -> ""
+
             "number", "int" -> 0
-            "boolean" -> false
+
             else -> ""
         }
     }

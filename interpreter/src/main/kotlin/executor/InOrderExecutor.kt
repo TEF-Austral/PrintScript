@@ -2,8 +2,11 @@ package executor
 
 import node.ASTNode
 import node.Program
+import node.statement.Statement
 
-class InOrderExecutor(private val executorRegistry: List<Executor>) : Executor {
+class InOrderExecutor(private val expression: ExpressionExecutor,
+                      private val statementExecutor: StatementExecutor) : Executor {
+
     override fun execute(node: ASTNode) {
         when (node) {
             is Program -> {
@@ -11,10 +14,11 @@ class InOrderExecutor(private val executorRegistry: List<Executor>) : Executor {
                     execute(statement)
                 }
             }
+            is Statement -> {
+                statementExecutor.execute(node)
+            }
             else -> {
-                for (executor in executorRegistry) {
-                    executor.execute(node)
-                }
+                expression.execute(node)
             }
         }
     }
