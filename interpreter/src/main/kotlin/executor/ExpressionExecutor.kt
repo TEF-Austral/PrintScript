@@ -11,6 +11,7 @@ import executor.operators.Sum
 class ExpressionExecutor(private val variables: MutableMap<String, Any> = mutableMapOf()) : Executor {
     val operators: List<Operator> = listOf(Sum, Divide, Multiplication, Subtraction)
 
+    // TODO compsoite :)
     override fun execute(node: ASTNode) { evaluate(node as Expression) }
 
     fun evaluate(expression: Expression): Any {

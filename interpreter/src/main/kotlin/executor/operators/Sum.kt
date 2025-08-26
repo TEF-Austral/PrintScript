@@ -6,6 +6,9 @@ object Sum: Operator {
         return symbol == "+"
     }
 
+    // TODO Clases/ Interfaces para represtenar tipos extras posibles?
+    // TODO no corre el klint solo en el interpreter
+
     override fun operate(left: String, right: String): String {
         val toInt = toInt(left, right)
         if (toInt != 0) return toInt.toString()

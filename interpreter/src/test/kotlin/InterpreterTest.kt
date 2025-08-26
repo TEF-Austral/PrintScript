@@ -14,7 +14,7 @@ import java.io.PrintStream
 import kotlin.test.assertEquals
 
 class InterpreterTest {
-
+// TODO separar tests. Todos los tests. Punto aparte. hay que testear cases extremos. Justificar cada desicion.
     @Test
     fun `Basic Variable Declaration and Assignment`() {
         val outputStream = ByteArrayOutputStream()
