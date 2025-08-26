@@ -9,17 +9,9 @@ class InOrderExecutor(private val expression: ExpressionExecutor,
 
     override fun execute(node: ASTNode) {
         when (node) {
-            is Program -> {
-                for (statement in node.getStatements()) {
-                    execute(statement)
-                }
-            }
-            is Statement -> {
-                statementExecutor.execute(node)
-            }
-            else -> {
-                expression.execute(node)
-            }
+            is Program -> { for (statement in node.getStatements()) { execute(statement) } }
+            is Statement -> { statementExecutor.execute(node) }
+            else -> { expression.execute(node) }
         }
     }
 }

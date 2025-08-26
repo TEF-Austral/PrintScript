@@ -8,13 +8,9 @@ object Sum: Operator {
 
     override fun operate(left: String, right: String): String {
         val toInt = toInt(left, right)
-        if (toInt != 0) {
-            return toInt.toString()
-        }
+        if (toInt != 0) return toInt.toString()
         val toDouble = toDouble(left, right)
-        if (toDouble != 0.0) {
-            return toDouble.toString()
-        }
+        if (toDouble != 0.0) return toDouble.toString()
         return left + right
     }
 

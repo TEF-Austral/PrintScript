@@ -9,26 +9,19 @@ import executor.operators.Subtraction
 import executor.operators.Sum
 
 class ExpressionExecutor(private val variables: MutableMap<String, Any> = mutableMapOf()) : Executor {
+    val operators: List<Operator> = listOf(Sum, Divide, Multiplication, Subtraction)
 
-    val operators: List<Operator> = listOf(
-        Sum, Divide, Multiplication, Subtraction)
-
-    override fun execute(node: ASTNode) {
-        evaluate(node as Expression)
-    }
+    override fun execute(node: ASTNode) { evaluate(node as Expression) }
 
     fun evaluate(expression: Expression): Any {
         return when (expression) {
-            is LiteralExpression -> {
-                val value = expression.getValue()
+            is LiteralExpression -> { val value = expression.getValue()
                 when {
                     value.toIntOrNull() != null -> value.toInt()
                     else -> value.removeSurrounding("\"")
                 }
             }
-            is IdentifierExpression -> {
-                variables[expression.getName()] ?: ""
-            }
+            is IdentifierExpression -> { variables[expression.getName()] ?: "" }
             is BinaryExpression -> {
                 val left = evaluate(expression.getLeft()).toString()
                 val right = evaluate(expression.getRight()).toString()
@@ -40,9 +33,7 @@ class ExpressionExecutor(private val variables: MutableMap<String, Any> = mutabl
 
     private fun evaluateBinaryOperation(left: String, sOperator: String, right: String): String {
         for (operator in operators) {
-            if (operator.canHandle(sOperator)) {
-                return operator.operate(left, right)
-            }
+            if (operator.canHandle(sOperator)) { return operator.operate(left, right) }
         }
         return ""
     }
