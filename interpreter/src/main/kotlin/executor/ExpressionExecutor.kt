@@ -3,13 +3,7 @@ package executor
 import node.ASTNode
 import node.expression.*
 import executor.operators.Divide
-import executor.operators.Equals
-import executor.operators.GreaterThan
-import executor.operators.GreaterThanOrEqual
-import executor.operators.LessThan
-import executor.operators.LessThanOrEqual
 import executor.operators.Multiplication
-import executor.operators.NotEquals
 import executor.operators.Operator
 import executor.operators.Subtraction
 import executor.operators.Sum
@@ -17,11 +11,10 @@ import executor.operators.Sum
 class ExpressionExecutor(private val variables: MutableMap<String, Any> = mutableMapOf()) : Executor {
 
     val operators: List<Operator> = listOf(
-        Sum, Divide, Multiplication, Subtraction, Equals, NotEquals,
-        GreaterThan, LessThan, GreaterThanOrEqual, LessThanOrEqual)
+        Sum, Divide, Multiplication, Subtraction)
 
     override fun execute(node: ASTNode) {
-        evaluate(node as Expression) // TODO SACAR EL CAST BOLIVIANO
+        evaluate(node as Expression)
     }
 
     fun evaluate(expression: Expression): Any {
@@ -37,15 +30,15 @@ class ExpressionExecutor(private val variables: MutableMap<String, Any> = mutabl
                 variables[expression.getName()] ?: ""
             }
             is BinaryExpression -> {
-                val left = evaluate(expression.getLeft())
-                val right = evaluate(expression.getRight())
+                val left = evaluate(expression.getLeft()).toString()
+                val right = evaluate(expression.getRight()).toString()
                 evaluateBinaryOperation(left, expression.getOperator().getValue(), right)
             }
             is EmptyExpression -> ""
         }
     }
 
-    private fun evaluateBinaryOperation(left: Any, sOperator: String, right: Any): Any {
+    private fun evaluateBinaryOperation(left: String, sOperator: String, right: String): String {
         for (operator in operators) {
             if (operator.canHandle(sOperator)) {
                 return operator.operate(left, right)

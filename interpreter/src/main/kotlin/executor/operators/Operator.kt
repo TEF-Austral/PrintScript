@@ -4,5 +4,5 @@ interface Operator {
 
     fun canHandle(symbol: String): Boolean
 
-    fun operate(left : Any, right: Any): Any //TODO RESVISAR ESTO
+    fun operate(left: String, right: String): String
 }

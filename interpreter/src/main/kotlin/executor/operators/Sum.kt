@@ -6,35 +6,30 @@ object Sum: Operator {
         return symbol == "+"
     }
 
-    override fun operate(left: Any, right: Any): Any {
-        return if (left is String || right is String) {
-            operateString(left, right)
-        } else {
-            sum(left, right)
+    override fun operate(left: String, right: String): String {
+        val toInt = toInt(left, right)
+        if (toInt != 0) {
+            return toInt.toString()
         }
-    }
-
-    private fun operateString(left: Any, right: Any): String {
-        return left.toString() + right.toString()
-    }
-
-    private fun sum(left: Any, right: Any): Any {
-        return when (left) {
-            is Int if right is Int -> left + right
-            is Double if right is Double -> left + right
-            is Float if right is Float -> left + right
-            is Long if right is Long -> left + right
-            is Number if right is Number -> left.toDouble() + right.toDouble()
-            else -> "" // Todo Llamar al que tira errores
+        val toDouble = toDouble(left, right)
+        if (toDouble != 0.0) {
+            return toDouble.toString()
         }
+        return left + right
     }
 
-    /*
-    "+" -> {
-                when {
-                    left is Int && right is Int -> left + right
-                    else -> left.toString() + right.toString()
-                }
-            }
-     */
+    private fun toInt(left: String, right: String): Int {
+        if (left.toIntOrNull() != null && right.toIntOrNull() != null) {
+            return left.toInt() + right.toInt()
+        }
+        return 0
+
+    }
+
+    private fun toDouble(left: String, right: String): Double {
+        if (left.toDoubleOrNull() != null && right.toDoubleOrNull() != null) {
+            return left.toDouble() + right.toDouble()
+        }
+        return 0.0
+    }
 }
