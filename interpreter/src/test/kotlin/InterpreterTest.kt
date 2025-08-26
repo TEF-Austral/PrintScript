@@ -200,4 +200,75 @@ class InterpreterTest {
         val printed = outputStream.toString().trim()
         assertEquals("Program 5\n Output: 20", printed)
     }
+
+    @Test
+    fun `Complex Arithmetic with Multiple Variables`() {
+        val outputStream = ByteArrayOutputStream()
+        System.setOut(PrintStream(outputStream))
+
+        print("Program 6\n Output: ")
+        val case6 = Program(
+            statements = listOf(
+                DeclarationStatement(
+                    identifier = PrintScriptToken(TokenType.IDENTIFIER, "a", Position(1, 5)),
+                    dataType = PrintScriptToken(TokenType.DATA_TYPES, "number", Position(1, 8)),
+                    initialValue = LiteralExpression(PrintScriptToken(TokenType.NUMBER_LITERAL, "10", Position(1, 17)))
+                ),
+                DeclarationStatement(
+                    identifier = PrintScriptToken(TokenType.IDENTIFIER, "b", Position(2, 5)),
+                    dataType = PrintScriptToken(TokenType.DATA_TYPES, "number", Position(2, 8)),
+                    initialValue = LiteralExpression(PrintScriptToken(TokenType.NUMBER_LITERAL, "5", Position(2, 17)))
+                ),
+                DeclarationStatement(
+                    identifier = PrintScriptToken(TokenType.IDENTIFIER, "c", Position(3, 5)),
+                    dataType = PrintScriptToken(TokenType.DATA_TYPES, "number", Position(3, 8)),
+                    initialValue = LiteralExpression(PrintScriptToken(TokenType.NUMBER_LITERAL, "2", Position(3, 17)))
+                ),
+                DeclarationStatement(
+                    identifier = PrintScriptToken(TokenType.IDENTIFIER, "d", Position(4, 5)),
+                    dataType = PrintScriptToken(TokenType.DATA_TYPES, "number", Position(4, 8)),
+                    initialValue = BinaryExpression(
+                        left = IdentifierExpression(PrintScriptToken(TokenType.IDENTIFIER, "a", Position(4, 17))),
+                        operator = PrintScriptToken(TokenType.OPERATORS, "*", Position(4, 19)),
+                        right = IdentifierExpression(PrintScriptToken(TokenType.IDENTIFIER, "b", Position(4, 21)))
+                    )
+                ),
+                DeclarationStatement(
+                    identifier = PrintScriptToken(TokenType.IDENTIFIER, "e", Position(5, 5)),
+                    dataType = PrintScriptToken(TokenType.DATA_TYPES, "number", Position(5, 8)),
+                    initialValue = BinaryExpression(
+                        left = IdentifierExpression(PrintScriptToken(TokenType.IDENTIFIER, "d", Position(5, 17))),
+                        operator = PrintScriptToken(TokenType.OPERATORS, "+", Position(5, 19)),
+                        right = IdentifierExpression(PrintScriptToken(TokenType.IDENTIFIER, "c", Position(5, 21)))
+                    )
+                ),
+                DeclarationStatement(
+                    identifier = PrintScriptToken(TokenType.IDENTIFIER, "f", Position(6, 5)),
+                    dataType = PrintScriptToken(TokenType.DATA_TYPES, "number", Position(6, 8)),
+                    initialValue = BinaryExpression(
+                        left = IdentifierExpression(PrintScriptToken(TokenType.IDENTIFIER, "e", Position(6, 17))),
+                        operator = PrintScriptToken(TokenType.OPERATORS, "/", Position(6, 19)),
+                        right = LiteralExpression(PrintScriptToken(TokenType.NUMBER_LITERAL, "2", Position(6, 21)))
+                    )
+                ),
+                DeclarationStatement(
+                    identifier = PrintScriptToken(TokenType.IDENTIFIER, "g", Position(7, 5)),
+                    dataType = PrintScriptToken(TokenType.DATA_TYPES, "number", Position(7, 8)),
+                    initialValue = BinaryExpression(
+                        left = IdentifierExpression(PrintScriptToken(TokenType.IDENTIFIER, "f", Position(7, 17))),
+                        operator = PrintScriptToken(TokenType.OPERATORS, "-", Position(7, 19)),
+                        right = LiteralExpression(PrintScriptToken(TokenType.NUMBER_LITERAL, "4", Position(7, 21)))
+                    )
+                ),
+                PrintStatement(
+                    expression = IdentifierExpression(PrintScriptToken(TokenType.IDENTIFIER, "g", Position(8, 9)))
+                )
+            )
+        )
+        val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
+        interpreter.interpret(case6)
+
+        val printed = outputStream.toString().trim()
+        assertEquals("Program 6\n Output: 22", printed)
+    }
 }
