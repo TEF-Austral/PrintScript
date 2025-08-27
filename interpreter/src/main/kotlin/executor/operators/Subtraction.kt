@@ -1,11 +1,12 @@
 package executor.operators
 
-object Subtraction: Operator {
-    override fun canHandle(symbol: String): Boolean {
-        return symbol == "-"
-    }
+object Subtraction : Operator {
+    override fun canHandle(symbol: String): Boolean = symbol == "-"
 
-    override fun operate(left: String, right: String): String {
+    override fun operate(
+        left: String,
+        right: String,
+    ): String {
         val toInt = toInt(left, right)
         if (toInt != 0) return toInt.toString()
         val toDouble = toDouble(left, right)
@@ -13,14 +14,20 @@ object Subtraction: Operator {
         return "0"
     }
 
-    private fun toInt(left: String, right: String): Int {
+    private fun toInt(
+        left: String,
+        right: String,
+    ): Int {
         val l = left.toIntOrNull()
         val r = right.toIntOrNull()
         if (l != null && r != null) return l - r
         return 0
     }
 
-    private fun toDouble(left: String, right: String): Double {
+    private fun toDouble(
+        left: String,
+        right: String,
+    ): Double {
         val l = left.toDoubleOrNull()
         val r = right.toDoubleOrNull()
         if (l != null && r != null) return l - r

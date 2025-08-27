@@ -1,28 +1,39 @@
 package executor
 
-import node.ASTNode
-import node.expression.*
 import executor.operators.Divide
 import executor.operators.Multiplication
 import executor.operators.Operator
 import executor.operators.Subtraction
 import executor.operators.Sum
+import node.ASTNode
+import node.expression.BinaryExpression
+import node.expression.EmptyExpression
+import node.expression.Expression
+import node.expression.IdentifierExpression
+import node.expression.LiteralExpression
 
-class ExpressionExecutor(private val variables: MutableMap<String, Any> = mutableMapOf()) : Executor {
+class ExpressionExecutor(
+    private val variables: MutableMap<String, Any> = mutableMapOf(),
+) : Executor {
     val operators: List<Operator> = listOf(Sum, Divide, Multiplication, Subtraction)
 
     // TODO compsoite :)
-    override fun execute(node: ASTNode) { evaluate(node as Expression) }
+    override fun execute(node: ASTNode) {
+        evaluate(node as Expression)
+    }
 
-    fun evaluate(expression: Expression): Any {
-        return when (expression) {
-            is LiteralExpression -> { val value = expression.getValue()
+    fun evaluate(expression: Expression): Any =
+        when (expression) {
+            is LiteralExpression -> {
+                val value = expression.getValue()
                 when {
                     value.toIntOrNull() != null -> value.toInt()
                     else -> value.removeSurrounding("\"")
                 }
             }
-            is IdentifierExpression -> { variables[expression.getName()] ?: "" }
+            is IdentifierExpression -> {
+                variables[expression.getName()] ?: ""
+            }
             is BinaryExpression -> {
                 val left = evaluate(expression.getLeft()).toString()
                 val right = evaluate(expression.getRight()).toString()
@@ -30,11 +41,16 @@ class ExpressionExecutor(private val variables: MutableMap<String, Any> = mutabl
             }
             is EmptyExpression -> ""
         }
-    }
 
-    private fun evaluateBinaryOperation(left: String, sOperator: String, right: String): String {
+    private fun evaluateBinaryOperation(
+        left: String,
+        sOperator: String,
+        right: String,
+    ): String {
         for (operator in operators) {
-            if (operator.canHandle(sOperator)) { return operator.operate(left, right) }
+            if (operator.canHandle(sOperator)) {
+                return operator.operate(left, right)
+            }
         }
         return ""
     }
