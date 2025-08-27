@@ -18,6 +18,11 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+//tasks.named('build') {
+//    dependsOn 'ktlintCheck'
+//}
+
 kotlin {
     jvmToolchain(18)
 }
