@@ -417,7 +417,6 @@ class InterpreterTest {
         val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
         interpreter.interpret(case3)
 
-
         val printed = outputStream.toString().trim()
         assertEquals("Program 3\n Output: 52.0", printed)
     }
@@ -460,7 +459,6 @@ class InterpreterTest {
 
         val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
         interpreter.interpret(case3)
-
 
         val printed = outputStream.toString().trim()
         assertEquals("Program 3\n Output: 4.2", printed)
@@ -505,7 +503,6 @@ class InterpreterTest {
         val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
         interpreter.interpret(case3)
 
-
         val printed = outputStream.toString().trim()
         assertEquals("Program 3\n Output: 420.0", printed)
     }
@@ -549,10 +546,7 @@ class InterpreterTest {
         val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
         interpreter.interpret(case3)
 
-
         val printed = outputStream.toString().trim()
         assertEquals("Program 3\n Output: 32.0", printed)
     }
-
-
 }

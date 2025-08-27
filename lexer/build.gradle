@@ -3,8 +3,8 @@ plugins {
     id 'buildlogic.kotlin-common-conventions'
 }
 
-group = 'TEF'
-version = 'unspecified'
+group = 'com.github.tef-austral'
+version = '1.0.1'
 
 repositories {
     mavenCentral()
