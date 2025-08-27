@@ -20,7 +20,6 @@ object StringToTokenConverterFactory {
     fun createDefaultsTokenConverter(): TokenConverter =
         TokenConverterRegistry(
             listOf(
-                // Keywords
                 FunctionToToken,
                 DataTypeToToken,
                 NumberLiteralToToken,
