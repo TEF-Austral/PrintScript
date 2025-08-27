@@ -377,4 +377,182 @@ class InterpreterTest {
         val printed = outputStream.toString().trim()
         assertEquals("Program 8\n Output: 3.3333333333333335", printed)
     }
+
+    @Test
+    fun `Basic Arithmetics Operations with Doubles`() {
+        val outputStream = ByteArrayOutputStream()
+        System.setOut(PrintStream(outputStream))
+
+        print("Program 3\n Output: ")
+        val case3 =
+            Program(
+                statements =
+                    listOf(
+                        DeclarationStatement(
+                            identifier = PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 5)),
+                            dataType = PrintScriptToken(TokenType.DATA_TYPES, "number", Position(1, 8)),
+                            initialValue = LiteralExpression(PrintScriptToken(TokenType.NUMBER_LITERAL, "42.0", Position(1, 17))),
+                        ),
+                        DeclarationStatement(
+                            identifier = PrintScriptToken(TokenType.IDENTIFIER, "y", Position(2, 5)),
+                            dataType = PrintScriptToken(TokenType.DATA_TYPES, "number", Position(2, 8)),
+                            initialValue = LiteralExpression(PrintScriptToken(TokenType.NUMBER_LITERAL, "10.0", Position(2, 17))),
+                        ),
+                        DeclarationStatement(
+                            identifier = PrintScriptToken(TokenType.IDENTIFIER, "z", Position(3, 5)),
+                            dataType = PrintScriptToken(TokenType.DATA_TYPES, "number", Position(3, 8)),
+                            initialValue =
+                                BinaryExpression(
+                                    left = IdentifierExpression(PrintScriptToken(TokenType.IDENTIFIER, "x", Position(3, 17))),
+                                    operator = PrintScriptToken(TokenType.OPERATORS, "+", Position(3, 19)),
+                                    right = IdentifierExpression(PrintScriptToken(TokenType.IDENTIFIER, "y", Position(3, 21))),
+                                ),
+                        ),
+                        PrintStatement(
+                            expression = IdentifierExpression(PrintScriptToken(TokenType.IDENTIFIER, "z", Position(4, 9))),
+                        ),
+                    ),
+            )
+
+        val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
+        interpreter.interpret(case3)
+
+
+        val printed = outputStream.toString().trim()
+        assertEquals("Program 3\n Output: 52.0", printed)
+    }
+
+    @Test
+    fun `Divide Two Numbers Operation with Doubles`() {
+        val outputStream = ByteArrayOutputStream()
+        System.setOut(PrintStream(outputStream))
+
+        print("Program 3\n Output: ")
+        val case3 =
+            Program(
+                statements =
+                    listOf(
+                        DeclarationStatement(
+                            identifier = PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 5)),
+                            dataType = PrintScriptToken(TokenType.DATA_TYPES, "number", Position(1, 8)),
+                            initialValue = LiteralExpression(PrintScriptToken(TokenType.NUMBER_LITERAL, "42.0", Position(1, 17))),
+                        ),
+                        DeclarationStatement(
+                            identifier = PrintScriptToken(TokenType.IDENTIFIER, "y", Position(2, 5)),
+                            dataType = PrintScriptToken(TokenType.DATA_TYPES, "number", Position(2, 8)),
+                            initialValue = LiteralExpression(PrintScriptToken(TokenType.NUMBER_LITERAL, "10.0", Position(2, 17))),
+                        ),
+                        DeclarationStatement(
+                            identifier = PrintScriptToken(TokenType.IDENTIFIER, "z", Position(3, 5)),
+                            dataType = PrintScriptToken(TokenType.DATA_TYPES, "number", Position(3, 8)),
+                            initialValue =
+                                BinaryExpression(
+                                    left = IdentifierExpression(PrintScriptToken(TokenType.IDENTIFIER, "x", Position(3, 17))),
+                                    operator = PrintScriptToken(TokenType.OPERATORS, "/", Position(3, 19)),
+                                    right = IdentifierExpression(PrintScriptToken(TokenType.IDENTIFIER, "y", Position(3, 21))),
+                                ),
+                        ),
+                        PrintStatement(
+                            expression = IdentifierExpression(PrintScriptToken(TokenType.IDENTIFIER, "z", Position(4, 9))),
+                        ),
+                    ),
+            )
+
+        val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
+        interpreter.interpret(case3)
+
+
+        val printed = outputStream.toString().trim()
+        assertEquals("Program 3\n Output: 4.2", printed)
+    }
+
+    @Test
+    fun `Multiplication Two Numbers Operation with Doubles`() {
+        val outputStream = ByteArrayOutputStream()
+        System.setOut(PrintStream(outputStream))
+
+        print("Program 3\n Output: ")
+        val case3 =
+            Program(
+                statements =
+                    listOf(
+                        DeclarationStatement(
+                            identifier = PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 5)),
+                            dataType = PrintScriptToken(TokenType.DATA_TYPES, "number", Position(1, 8)),
+                            initialValue = LiteralExpression(PrintScriptToken(TokenType.NUMBER_LITERAL, "42.0", Position(1, 17))),
+                        ),
+                        DeclarationStatement(
+                            identifier = PrintScriptToken(TokenType.IDENTIFIER, "y", Position(2, 5)),
+                            dataType = PrintScriptToken(TokenType.DATA_TYPES, "number", Position(2, 8)),
+                            initialValue = LiteralExpression(PrintScriptToken(TokenType.NUMBER_LITERAL, "10.0", Position(2, 17))),
+                        ),
+                        DeclarationStatement(
+                            identifier = PrintScriptToken(TokenType.IDENTIFIER, "z", Position(3, 5)),
+                            dataType = PrintScriptToken(TokenType.DATA_TYPES, "number", Position(3, 8)),
+                            initialValue =
+                                BinaryExpression(
+                                    left = IdentifierExpression(PrintScriptToken(TokenType.IDENTIFIER, "x", Position(3, 17))),
+                                    operator = PrintScriptToken(TokenType.OPERATORS, "*", Position(3, 19)),
+                                    right = IdentifierExpression(PrintScriptToken(TokenType.IDENTIFIER, "y", Position(3, 21))),
+                                ),
+                        ),
+                        PrintStatement(
+                            expression = IdentifierExpression(PrintScriptToken(TokenType.IDENTIFIER, "z", Position(4, 9))),
+                        ),
+                    ),
+            )
+
+        val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
+        interpreter.interpret(case3)
+
+
+        val printed = outputStream.toString().trim()
+        assertEquals("Program 3\n Output: 420.0", printed)
+    }
+
+    @Test
+    fun `Subtraction Two Numbers Operation with Doubles`() {
+        val outputStream = ByteArrayOutputStream()
+        System.setOut(PrintStream(outputStream))
+
+        print("Program 3\n Output: ")
+        val case3 =
+            Program(
+                statements =
+                    listOf(
+                        DeclarationStatement(
+                            identifier = PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 5)),
+                            dataType = PrintScriptToken(TokenType.DATA_TYPES, "number", Position(1, 8)),
+                            initialValue = LiteralExpression(PrintScriptToken(TokenType.NUMBER_LITERAL, "42.0", Position(1, 17))),
+                        ),
+                        DeclarationStatement(
+                            identifier = PrintScriptToken(TokenType.IDENTIFIER, "y", Position(2, 5)),
+                            dataType = PrintScriptToken(TokenType.DATA_TYPES, "number", Position(2, 8)),
+                            initialValue = LiteralExpression(PrintScriptToken(TokenType.NUMBER_LITERAL, "10.0", Position(2, 17))),
+                        ),
+                        DeclarationStatement(
+                            identifier = PrintScriptToken(TokenType.IDENTIFIER, "z", Position(3, 5)),
+                            dataType = PrintScriptToken(TokenType.DATA_TYPES, "number", Position(3, 8)),
+                            initialValue =
+                                BinaryExpression(
+                                    left = IdentifierExpression(PrintScriptToken(TokenType.IDENTIFIER, "x", Position(3, 17))),
+                                    operator = PrintScriptToken(TokenType.OPERATORS, "-", Position(3, 19)),
+                                    right = IdentifierExpression(PrintScriptToken(TokenType.IDENTIFIER, "y", Position(3, 21))),
+                                ),
+                        ),
+                        PrintStatement(
+                            expression = IdentifierExpression(PrintScriptToken(TokenType.IDENTIFIER, "z", Position(4, 9))),
+                        ),
+                    ),
+            )
+
+        val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
+        interpreter.interpret(case3)
+
+
+        val printed = outputStream.toString().trim()
+        assertEquals("Program 3\n Output: 32.0", printed)
+    }
+
+
 }
