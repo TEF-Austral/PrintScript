@@ -2,6 +2,7 @@ plugins {
     id 'org.jetbrains.kotlin.jvm'
     id 'org.jlleitschuh.gradle.ktlint'
     id 'jacoco'
+//    id 'io.gitlab.arturbosch.detekt'
 
 }
 
@@ -27,3 +28,22 @@ java {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+tasks.jacocoTestCoverageVerification {
+    dependsOn("test") // asegurarse que los tests se corran antes
+    violationRules {
+        rule {
+            limit {
+                minimum = "0.80".toBigDecimal()
+            }
+        }
+    }
+}
+
+tasks.named("check") {
+    dependsOn("ktlintCheck")
+//    dependsOn("detekt")
+    dependsOn("jacocoTestCoverageVerification")
+}
+
+
