@@ -1,7 +1,7 @@
 package executor
 
 import node.ASTNode
-import node.statement.*
+import node.statement.AssignmentStatement
 import node.statement.DeclarationStatement
 import node.statement.ExpressionStatement
 import node.statement.PrintStatement
