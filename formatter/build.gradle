@@ -10,12 +10,16 @@ repositories {
 }
 
 dependencies {
+    implementation project(':ast')
+    implementation project(':common')
+    implementation project(':token')
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
+}
+
+kotlin {
+    jvmToolchain(18)
 }
 
 test {
     useJUnitPlatform()
-}
-kotlin {
-    jvmToolchain(18)
 }
