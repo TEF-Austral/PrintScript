@@ -6,5 +6,5 @@ interface Operator {
     fun operate(
         left: String,
         right: String,
-    ): String
+    ): OperatorResult
 }

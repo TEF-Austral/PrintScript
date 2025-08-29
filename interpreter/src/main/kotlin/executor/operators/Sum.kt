@@ -6,31 +6,31 @@ object Sum : Operator {
     override fun operate(
         left: String,
         right: String,
-    ): String {
+    ): OperatorResult {
         val toInt = toInt(left, right)
-        if (toInt != null) return toInt.toString()
+        if (toInt.wasSuccessful) return toInt
         val toDouble = toDouble(left, right)
-        if (toDouble != null) return toDouble.toString()
-        return left + right
+        if (toDouble.wasSuccessful) return toDouble
+        return OperatorResult(left + right, true)
     }
 
     private fun toInt(
         left: String,
         right: String,
-    ): Int? {
+    ): OperatorResult {
         if (left.toIntOrNull() != null && right.toIntOrNull() != null) {
-            return left.toInt() + right.toInt()
+            return OperatorResult(left.toInt() + right.toInt(), true)
         }
-        return null
+        return OperatorResult("Can't be converted to Int", false)
     }
 
     private fun toDouble(
         left: String,
         right: String,
-    ): Double? {
+    ): OperatorResult {
         if (left.toDoubleOrNull() != null && right.toDoubleOrNull() != null) {
-            return left.toDouble() + right.toDouble()
+            return OperatorResult(left.toDouble() + right.toDouble(), true)
         }
-        return null
+        return OperatorResult("Can't be converted to Double", false)
     }
 }

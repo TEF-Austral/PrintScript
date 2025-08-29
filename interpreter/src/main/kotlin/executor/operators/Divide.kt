@@ -6,39 +6,38 @@ object Divide : Operator {
     override fun operate(
         left: String,
         right: String,
-    ): String {
+    ): OperatorResult {
         val toInt = toInt(left, right)
-        if (toInt == null) {
-            val toDouble = toDouble(left, right)
-            return toDouble?.toString() ?: "0"
-        }
-        return if (toInt.first == 0) {
-            toInt.second.toString()
-        } else {
-            toInt.first.toString()
-        }
+        if (toInt.wasSuccessful) return toInt
+        val toDouble = toDouble(left, right)
+        if (toDouble.wasSuccessful) return toDouble
+        return OperatorResult("You can't divide strings", false)
     }
 
     private fun toInt(
         left: String,
         right: String,
-    ): Pair<Int, Double>? {
+    ): OperatorResult {
         val l = left.toIntOrNull()
         val r = right.toIntOrNull()
-        if (l != null && r != null && r != 0) {
-            if (l % r != 0) return Pair(0, l.toDouble() / r)
-            return Pair(l / r, 0.0)
+        if (l != null && r != null) {
+            if (r == 0) return OperatorResult("Division by zero", false)
+            if (l % r != 0) return OperatorResult(l.toDouble() / r, true)
+            return OperatorResult(l / r, true)
         }
-        return null
+        return OperatorResult("Can't be converted to Int", false)
     }
 
     private fun toDouble(
         left: String,
         right: String,
-    ): Double? {
+    ): OperatorResult {
         val l = left.toDoubleOrNull()
         val r = right.toDoubleOrNull()
-        if (l != null && r != null && r != 0.0) return l / r
-        return null
+        if (l != null && r != null) {
+            if (r == 0.0) return OperatorResult("Division by zero", false)
+            return OperatorResult(l / r, true)
+        }
+        return OperatorResult("Can't be converted to Double", false)
     }
 }

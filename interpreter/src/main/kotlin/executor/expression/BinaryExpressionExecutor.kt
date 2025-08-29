@@ -3,6 +3,7 @@ package executor.expression
 import executor.operators.Divide
 import executor.operators.Multiplication
 import executor.operators.Operator
+import executor.operators.OperatorResult
 import executor.operators.Subtraction
 import executor.operators.Sum
 import executor.result.InterpreterResult
@@ -50,17 +51,22 @@ class BinaryExpressionExecutor(
     ): InterpreterResult {
         val left = leftResult.interpreter.toString()
         val right = rightResult.interpreter.toString()
-        val result = performOperation(left, operatorValue, right)
-        return InterpreterResult(true, "Binary expression evaluated", result)
+        val operationResult = performOperation(left, operatorValue, right)
+
+        return if (operationResult.wasSuccessful) {
+            InterpreterResult(true, "Binary expression evaluated", operationResult.result)
+        } else {
+            createErrorResult(operationResult.result.toString())
+        }
     }
 
     private fun performOperation(
         left: String,
         operatorValue: String,
         right: String,
-    ): String {
+    ): OperatorResult {
         val operator = operators.find { it.canHandle(operatorValue) }
-        return operator?.operate(left, right) ?: ""
+        return operator?.operate(left, right) ?: OperatorResult("Unknown operator: $operatorValue", false)
     }
 
     private fun createErrorResult(message: String): InterpreterResult = InterpreterResult(false, message, null)
