@@ -13,19 +13,15 @@ class BinaryExpressionExecutor(
     private val operators: List<Operator> = listOf(Sum, Divide, Multiplication, Subtraction),
     private val expressions: List<SpecificExpressionExecutor>,
 ) : SpecificExpressionExecutor {
+    override fun canHandle(expression: Expression): Boolean = expression is BinaryExpression
 
-    override fun canHandle(expression: Expression): Boolean {
-        return expression is BinaryExpression
-    }
-
-    override fun execute(expression: Expression): InterpreterResult {
-        return try {
+    override fun execute(expression: Expression): InterpreterResult =
+        try {
             val binaryExpr = expression as BinaryExpression
             executeBinaryExpression(binaryExpr)
         } catch (e: Exception) {
             createErrorResult("Error executing binary expression: ${e.message}")
         }
-    }
 
     private fun executeBinaryExpression(expression: BinaryExpression): InterpreterResult {
         val leftResult = executeSubExpression(expression.getLeft())
@@ -50,7 +46,7 @@ class BinaryExpressionExecutor(
     private fun evaluateOperation(
         leftResult: InterpreterResult,
         rightResult: InterpreterResult,
-        operatorValue: String
+        operatorValue: String,
     ): InterpreterResult {
         val left = leftResult.interpreter.toString()
         val right = rightResult.interpreter.toString()
@@ -58,12 +54,14 @@ class BinaryExpressionExecutor(
         return InterpreterResult(true, "Binary expression evaluated", result)
     }
 
-    private fun performOperation(left: String, operatorValue: String, right: String): String {
+    private fun performOperation(
+        left: String,
+        operatorValue: String,
+        right: String,
+    ): String {
         val operator = operators.find { it.canHandle(operatorValue) }
         return operator?.operate(left, right) ?: ""
     }
 
-    private fun createErrorResult(message: String): InterpreterResult {
-        return InterpreterResult(false, message, null)
-    }
+    private fun createErrorResult(message: String): InterpreterResult = InterpreterResult(false, message, null)
 }

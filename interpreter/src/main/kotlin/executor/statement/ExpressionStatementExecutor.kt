@@ -6,12 +6,9 @@ import node.ExpressionStatement
 import node.Statement
 
 class ExpressionStatementExecutor(
-    private val defaultExpressionExecutor: DefaultExpressionExecutor
+    private val defaultExpressionExecutor: DefaultExpressionExecutor,
 ) : SpecificStatementExecutor {
-
-    override fun canHandle(statement: Statement): Boolean {
-        return statement is ExpressionStatement
-    }
+    override fun canHandle(statement: Statement): Boolean = statement is ExpressionStatement
 
     override fun execute(statement: Statement): InterpreterResult {
         return try {

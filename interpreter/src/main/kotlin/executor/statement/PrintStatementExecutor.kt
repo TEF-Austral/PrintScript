@@ -6,12 +6,9 @@ import node.PrintStatement
 import node.Statement
 
 class PrintStatementExecutor(
-    private val defaultExpressionExecutor: DefaultExpressionExecutor
+    private val defaultExpressionExecutor: DefaultExpressionExecutor,
 ) : SpecificStatementExecutor {
-
-    override fun canHandle(statement: Statement): Boolean {
-        return statement is PrintStatement
-    }
+    override fun canHandle(statement: Statement): Boolean = statement is PrintStatement
 
     override fun execute(statement: Statement): InterpreterResult {
         return try {

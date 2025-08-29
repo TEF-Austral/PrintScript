@@ -27,26 +27,28 @@ import kotlin.test.assertEquals
 class InterpreterTest {
     val mutableMap: MutableMap<String, Any> = mutableMapOf()
 
-    val listForBinaryExpressionExecutor: List<SpecificExpressionExecutor> = listOf(
-        EmptyExpressionExecutor(),
-        IdentifierExpressionExecutor(mutableMap),
-        LiteralExpressionExecutor()
-    )
+    val listForBinaryExpressionExecutor: List<SpecificExpressionExecutor> =
+        listOf(
+            EmptyExpressionExecutor(),
+            IdentifierExpressionExecutor(mutableMap),
+            LiteralExpressionExecutor(),
+        )
 
-    val specificExpressionExecutors: List<SpecificExpressionExecutor> = listOf(
+    val specificExpressionExecutors: List<SpecificExpressionExecutor> =
+        listOf(
+            BinaryExpressionExecutor(expressions = listForBinaryExpressionExecutor),
+            EmptyExpressionExecutor(),
+            IdentifierExpressionExecutor(mutableMap),
+            LiteralExpressionExecutor(),
+        )
 
-        BinaryExpressionExecutor(expressions = listForBinaryExpressionExecutor),
-        EmptyExpressionExecutor(),
-        IdentifierExpressionExecutor(mutableMap),
-        LiteralExpressionExecutor()
-    )
-    
-    val specificStatementExecutor: List<SpecificStatementExecutor> = listOf(
-        DeclarationStatementExecutor(mutableMap, DefaultExpressionExecutor(specificExpressionExecutors)),
-        AssignmentStatementExecutor(mutableMap, DefaultExpressionExecutor(specificExpressionExecutors)),
-        ExpressionStatementExecutor(DefaultExpressionExecutor(specificExpressionExecutors)),
-        PrintStatementExecutor(DefaultExpressionExecutor(specificExpressionExecutors)),
-    )
+    val specificStatementExecutor: List<SpecificStatementExecutor> =
+        listOf(
+            DeclarationStatementExecutor(mutableMap, DefaultExpressionExecutor(specificExpressionExecutors)),
+            AssignmentStatementExecutor(mutableMap, DefaultExpressionExecutor(specificExpressionExecutors)),
+            ExpressionStatementExecutor(DefaultExpressionExecutor(specificExpressionExecutors)),
+            PrintStatementExecutor(DefaultExpressionExecutor(specificExpressionExecutors)),
+        )
 
     @Test
     fun `Basic Variable Declaration and Assignment`() {

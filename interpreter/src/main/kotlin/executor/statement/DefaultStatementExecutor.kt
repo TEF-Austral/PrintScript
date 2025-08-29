@@ -4,9 +4,8 @@ import executor.result.InterpreterResult
 import node.Statement
 
 class DefaultStatementExecutor(
-    private val specificExecutors: List<SpecificStatementExecutor>
+    private val specificExecutors: List<SpecificStatementExecutor>,
 ) : StatementExecutor {
-
     override fun execute(statement: Statement): InterpreterResult {
         for (executor in specificExecutors) {
             if (executor.canHandle(statement)) {

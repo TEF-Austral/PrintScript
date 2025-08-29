@@ -7,12 +7,9 @@ import node.Statement
 
 class AssignmentStatementExecutor(
     private val variables: MutableMap<String, Any>,
-    private val defaultExpressionExecutor: DefaultExpressionExecutor
+    private val defaultExpressionExecutor: DefaultExpressionExecutor,
 ) : SpecificStatementExecutor {
-
-    override fun canHandle(statement: Statement): Boolean {
-        return statement is AssignmentStatement
-    }
+    override fun canHandle(statement: Statement): Boolean = statement is AssignmentStatement
 
     override fun execute(statement: Statement): InterpreterResult {
         return try {

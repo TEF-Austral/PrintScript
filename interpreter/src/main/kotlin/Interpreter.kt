@@ -8,11 +8,10 @@ import node.Statement
 
 class Interpreter(
     private val expression: DefaultExpressionExecutor,
-    private val defaultStatementExecutor: DefaultStatementExecutor
+    private val defaultStatementExecutor: DefaultStatementExecutor,
 ) {
-
-    fun interpret(node: ASTNode): InterpreterResult {
-        return try {
+    fun interpret(node: ASTNode): InterpreterResult =
+        try {
             when (node) {
                 is Program -> handleProgram(node)
                 is Statement -> defaultStatementExecutor.execute(node)
@@ -21,7 +20,6 @@ class Interpreter(
         } catch (e: Exception) {
             InterpreterResult(false, "Error executing in order: ${e.message}", null)
         }
-    }
 
     private fun handleProgram(program: Program): InterpreterResult {
         for (statement in program.getStatements()) {
