@@ -1,6 +1,16 @@
+import executor.expression.BinaryExpressionExecutor
 import executor.expression.DefaultExpressionExecutor
+import executor.expression.EmptyExpressionExecutor
+import executor.expression.IdentifierExpressionExecutor
+import executor.expression.LiteralExpressionExecutor
+import executor.expression.SpecificExpressionExecutor
 import executor.statement.DefaultStatementExecutor
 import executor.result.InterpreterResult
+import executor.statement.AssignmentStatementExecutor
+import executor.statement.DeclarationStatementExecutor
+import executor.statement.ExpressionStatementExecutor
+import executor.statement.PrintStatementExecutor
+import executor.statement.SpecificStatementExecutor
 import node.Program
 import node.BinaryExpression
 import node.IdentifierExpression
@@ -15,7 +25,29 @@ import java.io.PrintStream
 import kotlin.test.assertEquals
 
 class InterpreterTest {
-// TODO separar tests. Todos los tests. Punto aparte. hay que testear cases extremos. Justificar cada desicion.
+    val mutableMap: MutableMap<String, Any> = mutableMapOf()
+
+    val listForBinaryExpressionExecutor: List<SpecificExpressionExecutor> = listOf(
+        EmptyExpressionExecutor(),
+        IdentifierExpressionExecutor(mutableMap),
+        LiteralExpressionExecutor()
+    )
+
+    val specificExpressionExecutors: List<SpecificExpressionExecutor> = listOf(
+
+        BinaryExpressionExecutor(expressions = listForBinaryExpressionExecutor),
+        EmptyExpressionExecutor(),
+        IdentifierExpressionExecutor(mutableMap),
+        LiteralExpressionExecutor()
+    )
+    
+    val specificStatementExecutor: List<SpecificStatementExecutor> = listOf(
+        DeclarationStatementExecutor(mutableMap, DefaultExpressionExecutor(specificExpressionExecutors)),
+        AssignmentStatementExecutor(mutableMap, DefaultExpressionExecutor(specificExpressionExecutors)),
+        ExpressionStatementExecutor(DefaultExpressionExecutor(specificExpressionExecutors)),
+        PrintStatementExecutor(DefaultExpressionExecutor(specificExpressionExecutors)),
+    )
+
     @Test
     fun `Basic Variable Declaration and Assignment`() {
         val outputStream = ByteArrayOutputStream()
@@ -36,7 +68,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(specificExpressionExecutors), DefaultStatementExecutor(specificStatementExecutor))
         val result: InterpreterResult = interpreter.interpret(case1)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -69,7 +101,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(specificExpressionExecutors), DefaultStatementExecutor(specificStatementExecutor))
         val result: InterpreterResult = interpreter.interpret(case2)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -113,7 +145,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(specificExpressionExecutors), DefaultStatementExecutor(specificStatementExecutor))
         val result: InterpreterResult = interpreter.interpret(case3)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -157,7 +189,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(specificExpressionExecutors), DefaultStatementExecutor(specificStatementExecutor))
         val result: InterpreterResult = interpreter.interpret(case4)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -210,7 +242,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(specificExpressionExecutors), DefaultStatementExecutor(specificStatementExecutor))
         val result: InterpreterResult = interpreter.interpret(case5)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -258,7 +290,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(specificExpressionExecutors), DefaultStatementExecutor(specificStatementExecutor))
         val result: InterpreterResult = interpreter.interpret(case6)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -336,7 +368,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(specificExpressionExecutors), DefaultStatementExecutor(specificStatementExecutor))
         val result: InterpreterResult = interpreter.interpret(case7)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -379,7 +411,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(specificExpressionExecutors), DefaultStatementExecutor(specificStatementExecutor))
         val result: InterpreterResult = interpreter.interpret(case8)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -423,7 +455,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(specificExpressionExecutors), DefaultStatementExecutor(specificStatementExecutor))
         val result: InterpreterResult = interpreter.interpret(case9)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -467,7 +499,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(specificExpressionExecutors), DefaultStatementExecutor(specificStatementExecutor))
         val result: InterpreterResult = interpreter.interpret(case10)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -511,7 +543,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(specificExpressionExecutors), DefaultStatementExecutor(specificStatementExecutor))
         val result: InterpreterResult = interpreter.interpret(case11)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -555,7 +587,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(specificExpressionExecutors), DefaultStatementExecutor(specificStatementExecutor))
         val result: InterpreterResult = interpreter.interpret(case12)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")

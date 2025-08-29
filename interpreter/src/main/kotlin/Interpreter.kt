@@ -6,7 +6,10 @@ import node.Program
 import node.Expression
 import node.Statement
 
-class Interpreter(private val expression: DefaultExpressionExecutor, private val defaultStatementExecutor: DefaultStatementExecutor) {
+class Interpreter(
+    private val expression: DefaultExpressionExecutor,
+    private val defaultStatementExecutor: DefaultStatementExecutor
+) {
 
     fun interpret(node: ASTNode): InterpreterResult {
         return try {
