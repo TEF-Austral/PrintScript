@@ -2,27 +2,29 @@ import formatter.config.FormatConfig
 import formatter.config.FormatConfigLoader
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import java.nio.file.Files
 import java.nio.file.Path
 
 class FormatConfigLoaderTest {
-
     @TempDir
     lateinit var tempDir: Path
 
     @Test
     fun `load json config file`() {
         val jsonFile = tempDir.resolve("config.json")
-        val jsonContent = """
-      {
-        "spaceBeforeColon": "true",
-        "spaceAfterColon": "false",
-        "spaceAroundAssignment": "false",
-        "blankLinesBeforePrintln": "2",
-        "indentSize": "6"
-      }
-    """.trimIndent()
+        val jsonContent =
+            """
+            {
+              "spaceBeforeColon": "true",
+              "spaceAfterColon": "false",
+              "spaceAroundAssignment": "false",
+              "blankLinesBeforePrintln": "2",
+              "indentSize": "6"
+            }
+            """.trimIndent()
         Files.writeString(jsonFile, jsonContent)
 
         val config = FormatConfigLoader.load(jsonFile.toString())
@@ -36,14 +38,15 @@ class FormatConfigLoaderTest {
     @Test
     fun `load yaml config file`() {
         val yamlFile = tempDir.resolve("settings.yml")
-        val yamlContent = """
-      # sample YAML config
-      spaceBeforeColon: true
-      spaceAfterColon: false
-      spaceAroundAssignment: false
-      blankLinesBeforePrintln: 1
-      indentSize: 3
-    """.trimIndent()
+        val yamlContent =
+            """
+            # sample YAML config
+            spaceBeforeColon: true
+            spaceAfterColon: false
+            spaceAroundAssignment: false
+            blankLinesBeforePrintln: 1
+            indentSize: 3
+            """.trimIndent()
         Files.writeString(yamlFile, yamlContent)
 
         val config = FormatConfigLoader.load(yamlFile.toString())

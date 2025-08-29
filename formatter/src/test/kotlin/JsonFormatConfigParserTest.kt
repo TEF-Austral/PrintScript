@@ -1,7 +1,9 @@
 import formatter.config.FormatConfig
 import formatter.config.JsonFormatConfigParser
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertEquals
 
 class JsonFormatConfigParserTest {
     private val parser = JsonFormatConfigParser()

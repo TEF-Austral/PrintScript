@@ -10,6 +10,6 @@ object FormatConfigLoader {
     fun load(path: String): FormatConfig =
         when (path.substringAfterLast('.', "").lowercase()) {
             "yaml", "yml" -> yamlParser.parse(YamlReader(path).read())
-            else          -> jsonParser.parse(JsonReader(path).read())
+            else -> jsonParser.parse(JsonReader(path).read())
         }
 }

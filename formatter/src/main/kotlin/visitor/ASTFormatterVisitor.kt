@@ -24,13 +24,17 @@ class ASTFormatterVisitor {
         sb.append(" ".repeat(indentLevel * cfg.indentSize))
     }
 
-    fun visitProgram(program: Program, cfg: FormatConfig): String {
+    fun visitProgram(
+        program: Program,
+        cfg: FormatConfig,
+    ): String {
         for (stmt in program.getStatements()) {
             if (stmt is PrintStatement) {
-                val lines = cfg.blankLinesBeforePrintln.coerceIn(
-                    MIN_BLANK_LINES_BEFORE_PRINTLN,
-                    MAX_BLANK_LINES_BEFORE_PRINTLN
-                )
+                val lines =
+                    cfg.blankLinesBeforePrintln.coerceIn(
+                        MIN_BLANK_LINES_BEFORE_PRINTLN,
+                        MAX_BLANK_LINES_BEFORE_PRINTLN,
+                    )
                 repeat(lines) { sb.appendLine() }
             }
             appendIndent(cfg)
@@ -38,7 +42,11 @@ class ASTFormatterVisitor {
         }
         return sb.toString()
     }
-    private fun visitStatement(stmt: Statement, config: FormatConfig) {
+
+    private fun visitStatement(
+        stmt: Statement,
+        config: FormatConfig,
+    ) {
         when (stmt) {
             is DeclarationStatement -> visitDeclaration(stmt, config)
             is AssignmentStatement -> visitAssignment(stmt, config)
@@ -49,7 +57,10 @@ class ASTFormatterVisitor {
         sb.appendLine()
     }
 
-    private fun visitDeclaration(stmt: DeclarationStatement, cfg: FormatConfig) {
+    private fun visitDeclaration(
+        stmt: DeclarationStatement,
+        cfg: FormatConfig,
+    ) {
         sb.append("let ")
         sb.append(stmt.getIdentifier())
         if (cfg.spaceBeforeColon) sb.append(" ")
@@ -63,30 +74,38 @@ class ASTFormatterVisitor {
         sb.append(";")
     }
 
-    private fun visitAssignment(stmt: AssignmentStatement, cfg: FormatConfig) {
+    private fun visitAssignment(
+        stmt: AssignmentStatement,
+        cfg: FormatConfig,
+    ) {
         sb.append(stmt.getIdentifier())
         if (cfg.spaceAroundAssignment) sb.append(" = ") else sb.append("=")
         sb.append(visitExpression(stmt.getValue(), cfg))
         sb.append(";")
     }
 
-    private fun visitPrint(stmt: PrintStatement, cfg: FormatConfig) {
+    private fun visitPrint(
+        stmt: PrintStatement,
+        cfg: FormatConfig,
+    ) {
         sb.append("println(")
         sb.append(visitExpression(stmt.getExpression(), cfg))
         sb.append(");")
     }
 
-    private fun visitExpression(expr: Expression, cfg: FormatConfig): String =
+    private fun visitExpression(
+        expr: Expression,
+        cfg: FormatConfig,
+    ): String =
         when (expr) {
             is LiteralExpression -> expr.getValue()
             is IdentifierExpression -> expr.getName()
             is BinaryExpression -> {
-                val left  = visitExpression(expr.getLeft(), cfg)
-                val op    = expr.getOperator().getValue()
+                val left = visitExpression(expr.getLeft(), cfg)
+                val op = expr.getOperator().getValue()
                 val right = visitExpression(expr.getRight(), cfg)
                 "$left $op $right"
             }
             is EmptyExpression -> ""
         }
-
 }
