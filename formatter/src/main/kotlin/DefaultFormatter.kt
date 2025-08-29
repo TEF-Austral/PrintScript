@@ -1,12 +1,12 @@
 package formatter
 
+import formatter.config.FormatterConstants.MULTI_SPACE_REGEX
 import formatter.config.FormatConfig
 import formatter.visitor.ASTFormatterVisitor
 import node.Program
 import java.io.Writer
 
 class DefaultFormatter : Formatter {
-
     override fun formatToString(program: Program, config: FormatConfig): String {
         val formatted = ASTFormatterVisitor().visitProgram(program, config)
         return formatted
@@ -14,7 +14,7 @@ class DefaultFormatter : Formatter {
             .joinToString("\n") { line ->
                 val indent = line.takeWhile { it == ' ' }
                 val content = line.drop(indent.length)
-                    .replace(Regex(" {2,}"), " ")
+                    .replace(MULTI_SPACE_REGEX, " ")
                 indent + content
             } + "\n"
     }

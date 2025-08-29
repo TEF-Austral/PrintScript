@@ -1,6 +1,8 @@
 package formatter.visitor
 
 import formatter.config.FormatConfig
+import formatter.config.FormatterConstants.MAX_BLANK_LINES_BEFORE_PRINTLN
+import formatter.config.FormatterConstants.MIN_BLANK_LINES_BEFORE_PRINTLN
 import node.Program
 import node.expression.BinaryExpression
 import node.expression.EmptyExpression
@@ -25,7 +27,10 @@ class ASTFormatterVisitor {
     fun visitProgram(program: Program, cfg: FormatConfig): String {
         for (stmt in program.getStatements()) {
             if (stmt is PrintStatement) {
-                val lines = cfg.blankLinesBeforePrintln.coerceIn(0, 2)
+                val lines = cfg.blankLinesBeforePrintln.coerceIn(
+                    MIN_BLANK_LINES_BEFORE_PRINTLN,
+                    MAX_BLANK_LINES_BEFORE_PRINTLN
+                )
                 repeat(lines) { sb.appendLine() }
             }
             appendIndent(cfg)
@@ -33,7 +38,6 @@ class ASTFormatterVisitor {
         }
         return sb.toString()
     }
-
     private fun visitStatement(stmt: Statement, config: FormatConfig) {
         when (stmt) {
             is DeclarationStatement -> visitDeclaration(stmt, config)
