@@ -43,6 +43,7 @@ class BinaryExpressionExecutor(
     }
 
     private fun findExecutorFor(expression: Expression): SpecificExpressionExecutor? {
+        if (expression is BinaryExpression) return this
         return expressions.find { it.canHandle(expression) }
     }
 
