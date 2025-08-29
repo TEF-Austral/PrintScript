@@ -1,18 +1,18 @@
-import executor.ExpressionExecutor
-import executor.StatementExecutor
+import executor.expression.DefaultExpressionExecutor
+import executor.statement.DefaultStatementExecutor
 import executor.result.InterpreterResult
 import node.ASTNode
 import node.Program
 import node.Expression
 import node.Statement
 
-class Interpreter(private val expression: ExpressionExecutor, private val statementExecutor: StatementExecutor) {
+class Interpreter(private val expression: DefaultExpressionExecutor, private val defaultStatementExecutor: DefaultStatementExecutor) {
 
     fun interpret(node: ASTNode): InterpreterResult {
         return try {
             when (node) {
                 is Program -> handleProgram(node)
-                is Statement -> statementExecutor.execute(node)
+                is Statement -> defaultStatementExecutor.execute(node)
                 is Expression -> expression.execute(node)
             }
         } catch (e: Exception) {

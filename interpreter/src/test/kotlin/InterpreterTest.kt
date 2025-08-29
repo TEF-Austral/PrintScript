@@ -1,5 +1,5 @@
-import executor.ExpressionExecutor
-import executor.StatementExecutor
+import executor.expression.DefaultExpressionExecutor
+import executor.statement.DefaultStatementExecutor
 import executor.result.InterpreterResult
 import node.Program
 import node.BinaryExpression
@@ -36,7 +36,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
         val result: InterpreterResult = interpreter.interpret(case1)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -69,7 +69,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
         val result: InterpreterResult = interpreter.interpret(case2)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -113,7 +113,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
         val result: InterpreterResult = interpreter.interpret(case3)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -157,7 +157,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
         val result: InterpreterResult = interpreter.interpret(case4)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -210,7 +210,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
         val result: InterpreterResult = interpreter.interpret(case5)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -258,7 +258,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
         val result: InterpreterResult = interpreter.interpret(case6)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -336,7 +336,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
         val result: InterpreterResult = interpreter.interpret(case7)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -379,7 +379,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
         val result: InterpreterResult = interpreter.interpret(case8)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -423,7 +423,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
         val result: InterpreterResult = interpreter.interpret(case9)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -467,7 +467,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
         val result: InterpreterResult = interpreter.interpret(case10)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -511,7 +511,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
         val result: InterpreterResult = interpreter.interpret(case11)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -555,7 +555,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val interpreter = Interpreter(DefaultExpressionExecutor(), DefaultStatementExecutor())
         val result: InterpreterResult = interpreter.interpret(case12)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")

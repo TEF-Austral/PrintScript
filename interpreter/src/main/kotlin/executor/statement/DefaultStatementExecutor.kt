@@ -1,57 +1,58 @@
-package executor
+package executor.statement
 
+import executor.expression.DefaultExpressionExecutor
 import executor.result.InterpreterResult
-import node.ASTNode
 import node.AssignmentStatement
 import node.DeclarationStatement
 import node.ExpressionStatement
 import node.PrintStatement
+import node.Statement
 
-class StatementExecutor : Executor {
+class DefaultStatementExecutor: StatementExecutor {
     private val variables = mutableMapOf<String, Any>()
-    private val expressionExecutor = ExpressionExecutor(variables)
+    private val defaultExpressionExecutor = DefaultExpressionExecutor(variables)
 
-    override fun execute(node: ASTNode): InterpreterResult {
+    override fun execute(statement: Statement): InterpreterResult {
         return try {
-            when (node) {
+            when (statement) {
                 is DeclarationStatement -> {
-                    val initialValue = node.getInitialValue()
+                    val initialValue = statement.getInitialValue()
                     if (initialValue != null) {
-                        val expressionResult = expressionExecutor.execute(initialValue)
+                        val expressionResult = defaultExpressionExecutor.execute(initialValue)
                         if (!expressionResult.interpretedCorrectly) {
                             return expressionResult
                         }
-                        val value = expressionExecutor.evaluate(initialValue)
-                        variables[node.getIdentifier()] = value
+                        val value = defaultExpressionExecutor.evaluate(initialValue)
+                        variables[statement.getIdentifier()] = value
                     } else {
-                        variables[node.getIdentifier()] = getDefaultValue(node.getDataType())
+                        variables[statement.getIdentifier()] = getDefaultValue(statement.getDataType())
                     }
                     InterpreterResult(true, "Declaration executed successfully", null)
                 }
                 is AssignmentStatement -> {
-                    val expressionResult = expressionExecutor.execute(node.getValue())
+                    val expressionResult = defaultExpressionExecutor.execute(statement.getValue())
                     if (!expressionResult.interpretedCorrectly) {
                         return expressionResult
                     }
-                    val value = expressionExecutor.evaluate(node.getValue())
-                    variables[node.getIdentifier()] = value
+                    val value = defaultExpressionExecutor.evaluate(statement.getValue())
+                    variables[statement.getIdentifier()] = value
                     InterpreterResult(true, "Assignment executed successfully", null)
                 }
                 is PrintStatement -> {
-                    val expressionResult = expressionExecutor.execute(node.getExpression())
+                    val expressionResult = defaultExpressionExecutor.execute(statement.getExpression())
                     if (!expressionResult.interpretedCorrectly) {
                         return expressionResult
                     }
-                    val value = expressionExecutor.evaluate(node.getExpression())
+                    val value = defaultExpressionExecutor.evaluate(statement.getExpression())
                     println(value)
                     InterpreterResult(true, "Print executed successfully", null)
                 }
                 is ExpressionStatement -> {
-                    val expressionResult = expressionExecutor.execute(node.getExpression())
+                    val expressionResult = defaultExpressionExecutor.execute(statement.getExpression())
                     if (!expressionResult.interpretedCorrectly) {
                         return expressionResult
                     }
-                    expressionExecutor.evaluate(node.getExpression())
+                    defaultExpressionExecutor.evaluate(statement.getExpression())
                     InterpreterResult(true, "Expression executed successfully", null)
                 }
                 else -> {
@@ -61,6 +62,10 @@ class StatementExecutor : Executor {
         } catch (e: Exception) {
             InterpreterResult(false, "Error executing statement: ${e.message}", null)
         }
+    }
+
+    override fun canHandle(statement: Statement): Boolean {
+        TODO("Not yet implemented")
     }
 
     private fun getDefaultValue(dataType: String): Any =
