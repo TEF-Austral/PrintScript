@@ -1,7 +1,7 @@
 package parser.command
 
 import Token
-import node.statement.Statement
+import node.Statement
 import parser.Parser
 import parser.result.ParseResult
 

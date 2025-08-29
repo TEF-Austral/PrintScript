@@ -1,3 +1,3 @@
 package node
 
-interface ASTNode
+sealed interface ASTNode

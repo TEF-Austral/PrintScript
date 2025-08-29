@@ -1,13 +1,14 @@
 import executor.ExpressionExecutor
-import executor.InOrderExecutor
 import executor.StatementExecutor
+import executor.result.InterpreterResult
 import node.Program
-import node.expression.BinaryExpression
-import node.expression.IdentifierExpression
-import node.expression.LiteralExpression
-import node.statement.AssignmentStatement
-import node.statement.DeclarationStatement
-import node.statement.PrintStatement
+import node.BinaryExpression
+import node.IdentifierExpression
+import node.LiteralExpression
+import node.AssignmentStatement
+import node.DeclarationStatement
+import node.PrintStatement
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
@@ -35,9 +36,10 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
-        interpreter.interpret(case1)
-
+        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val result: InterpreterResult = interpreter.interpret(case1)
+        assertTrue(result.interpretedCorrectly)
+        assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
         assertEquals("Program 1\n Output: 42", printed)
     }
@@ -67,9 +69,10 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
-        interpreter.interpret(case2)
-
+        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val result: InterpreterResult = interpreter.interpret(case2)
+        assertTrue(result.interpretedCorrectly)
+        assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
         assertEquals("Program 2\n Output: 42", printed)
     }
@@ -110,9 +113,10 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
-        interpreter.interpret(case3)
-
+        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val result: InterpreterResult = interpreter.interpret(case3)
+        assertTrue(result.interpretedCorrectly)
+        assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
         assertEquals("Program 3\n Output: 52", printed)
     }
@@ -123,7 +127,7 @@ class InterpreterTest {
         System.setOut(PrintStream(outputStream))
 
         print("Program 4\n Output: ")
-        val case3 =
+        val case4 =
             Program(
                 statements =
                     listOf(
@@ -153,9 +157,10 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
-        interpreter.interpret(case3)
-
+        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val result: InterpreterResult = interpreter.interpret(case4)
+        assertTrue(result.interpretedCorrectly)
+        assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
         assertEquals("Program 4\n Output: 52.2", printed)
     }
@@ -166,7 +171,7 @@ class InterpreterTest {
         System.setOut(PrintStream(outputStream))
 
         print("Program 5\n Output: ")
-        val case4 =
+        val case5 =
             Program(
                 statements =
                     listOf(
@@ -205,9 +210,10 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
-        interpreter.interpret(case4)
-
+        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val result: InterpreterResult = interpreter.interpret(case5)
+        assertTrue(result.interpretedCorrectly)
+        assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
         assertEquals("Program 5\n Output: 9", printed)
     }
@@ -218,7 +224,7 @@ class InterpreterTest {
         System.setOut(PrintStream(outputStream))
 
         print("Program 6\n Output: ")
-        val case5 =
+        val case6 =
             Program(
                 statements =
                     listOf(
@@ -252,9 +258,10 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
-        interpreter.interpret(case5)
-
+        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val result: InterpreterResult = interpreter.interpret(case6)
+        assertTrue(result.interpretedCorrectly)
+        assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
         assertEquals("Program 6\n Output: 20", printed)
     }
@@ -265,7 +272,7 @@ class InterpreterTest {
         System.setOut(PrintStream(outputStream))
 
         print("Program 7\n Output: ")
-        val case6 =
+        val case7 =
             Program(
                 statements =
                     listOf(
@@ -329,9 +336,10 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
-        interpreter.interpret(case6)
-
+        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val result: InterpreterResult = interpreter.interpret(case7)
+        assertTrue(result.interpretedCorrectly)
+        assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
         assertEquals("Program 7\n Output: 22", printed)
     }
@@ -342,7 +350,7 @@ class InterpreterTest {
         System.setOut(PrintStream(outputStream))
 
         print("Program 8\n Output: ")
-        val case6 =
+        val case8 =
             Program(
                 statements =
                     listOf(
@@ -371,9 +379,10 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
-        interpreter.interpret(case6)
-
+        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val result: InterpreterResult = interpreter.interpret(case8)
+        assertTrue(result.interpretedCorrectly)
+        assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
         assertEquals("Program 8\n Output: 3.3333333333333335", printed)
     }
@@ -383,8 +392,8 @@ class InterpreterTest {
         val outputStream = ByteArrayOutputStream()
         System.setOut(PrintStream(outputStream))
 
-        print("Program 3\n Output: ")
-        val case3 =
+        print("Program 9\n Output: ")
+        val case9 =
             Program(
                 statements =
                     listOf(
@@ -414,11 +423,12 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
-        interpreter.interpret(case3)
-
+        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val result: InterpreterResult = interpreter.interpret(case9)
+        assertTrue(result.interpretedCorrectly)
+        assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
-        assertEquals("Program 3\n Output: 52.0", printed)
+        assertEquals("Program 9\n Output: 52.0", printed)
     }
 
     @Test
@@ -426,8 +436,8 @@ class InterpreterTest {
         val outputStream = ByteArrayOutputStream()
         System.setOut(PrintStream(outputStream))
 
-        print("Program 3\n Output: ")
-        val case3 =
+        print("Program 10\n Output: ")
+        val case10 =
             Program(
                 statements =
                     listOf(
@@ -457,11 +467,12 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
-        interpreter.interpret(case3)
-
+        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val result: InterpreterResult = interpreter.interpret(case10)
+        assertTrue(result.interpretedCorrectly)
+        assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
-        assertEquals("Program 3\n Output: 4.2", printed)
+        assertEquals("Program 10\n Output: 4.2", printed)
     }
 
     @Test
@@ -469,8 +480,8 @@ class InterpreterTest {
         val outputStream = ByteArrayOutputStream()
         System.setOut(PrintStream(outputStream))
 
-        print("Program 3\n Output: ")
-        val case3 =
+        print("Program 11\n Output: ")
+        val case11 =
             Program(
                 statements =
                     listOf(
@@ -500,11 +511,12 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
-        interpreter.interpret(case3)
-
+        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val result: InterpreterResult = interpreter.interpret(case11)
+        assertTrue(result.interpretedCorrectly)
+        assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
-        assertEquals("Program 3\n Output: 420.0", printed)
+        assertEquals("Program 11\n Output: 420.0", printed)
     }
 
     @Test
@@ -512,8 +524,8 @@ class InterpreterTest {
         val outputStream = ByteArrayOutputStream()
         System.setOut(PrintStream(outputStream))
 
-        print("Program 3\n Output: ")
-        val case3 =
+        print("Program 12\n Output: ")
+        val case12 =
             Program(
                 statements =
                     listOf(
@@ -543,10 +555,11 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = Interpreter(InOrderExecutor(ExpressionExecutor(), StatementExecutor()))
-        interpreter.interpret(case3)
-
+        val interpreter = Interpreter(ExpressionExecutor(), StatementExecutor())
+        val result: InterpreterResult = interpreter.interpret(case12)
+        assertTrue(result.interpretedCorrectly)
+        assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
-        assertEquals("Program 3\n Output: 32.0", printed)
+        assertEquals("Program 12\n Output: 32.0", printed)
     }
 }

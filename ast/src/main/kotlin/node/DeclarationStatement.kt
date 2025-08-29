@@ -1,7 +1,6 @@
-package node.statement
+package node
 
 import Token
-import node.expression.Expression
 
 class DeclarationStatement(
     private val identifier: Token,

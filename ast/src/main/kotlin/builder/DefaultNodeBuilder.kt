@@ -2,16 +2,16 @@ package builder
 
 import Token
 import node.Program
-import node.expression.BinaryExpression
-import node.expression.Expression
-import node.expression.IdentifierExpression
-import node.expression.LiteralExpression
-import node.statement.AssignmentStatement
-import node.statement.DeclarationStatement
-import node.statement.EmptyStatement
-import node.statement.ExpressionStatement
-import node.statement.PrintStatement
-import node.statement.Statement
+import node.BinaryExpression
+import node.Expression
+import node.IdentifierExpression
+import node.LiteralExpression
+import node.AssignmentStatement
+import node.DeclarationStatement
+import node.EmptyStatement
+import node.ExpressionStatement
+import node.PrintStatement
+import node.Statement
 
 class DefaultNodeBuilder : NodeBuilder {
     override fun buildLiteralExpressionNode(token: Token): LiteralExpression = LiteralExpression(token)

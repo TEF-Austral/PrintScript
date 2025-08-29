@@ -2,7 +2,7 @@ package parser.expression.primary
 
 import Token
 import TokenType
-import node.expression.Expression
+import node.Expression
 import parser.Parser
 
 object LiteralBuilder : ExpressionBuilder {

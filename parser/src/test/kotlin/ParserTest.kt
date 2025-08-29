@@ -1,10 +1,10 @@
 import builder.DefaultNodeBuilder
 import node.Program
-import node.expression.BinaryExpression
-import node.expression.IdentifierExpression
-import node.expression.LiteralExpression
-import node.statement.DeclarationStatement
-import node.statement.ExpressionStatement
+import node.BinaryExpression
+import node.IdentifierExpression
+import node.LiteralExpression
+import node.DeclarationStatement
+import node.ExpressionStatement
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assertions.fail

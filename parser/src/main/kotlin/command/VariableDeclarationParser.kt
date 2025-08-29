@@ -2,8 +2,8 @@ package parser.command
 
 import Token
 import TokenType
-import node.expression.Expression
-import node.statement.Statement
+import node.Expression
+import node.Statement
 import parser.Parser
 import parser.result.ParseResult
 

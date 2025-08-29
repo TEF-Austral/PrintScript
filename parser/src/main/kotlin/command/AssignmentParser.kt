@@ -2,7 +2,7 @@ package parser.command
 
 import Token
 import TokenType
-import node.statement.Statement
+import node.Statement
 import parser.Parser
 import parser.result.ParseResult
 

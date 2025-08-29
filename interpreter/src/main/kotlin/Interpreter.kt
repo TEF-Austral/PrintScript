@@ -1,10 +1,32 @@
-import executor.Executor
+import executor.ExpressionExecutor
+import executor.StatementExecutor
+import executor.result.InterpreterResult
+import node.ASTNode
 import node.Program
+import node.Expression
+import node.Statement
 
-class Interpreter(
-    private val executor: Executor,
-) {
-    fun interpret(program: Program) {
-        executor.execute(program)
+class Interpreter(private val expression: ExpressionExecutor, private val statementExecutor: StatementExecutor) {
+
+    fun interpret(node: ASTNode): InterpreterResult {
+        return try {
+            when (node) {
+                is Program -> handleProgram(node)
+                is Statement -> statementExecutor.execute(node)
+                is Expression -> expression.execute(node)
+            }
+        } catch (e: Exception) {
+            InterpreterResult(false, "Error executing in order: ${e.message}", null)
+        }
+    }
+
+    private fun handleProgram(program: Program): InterpreterResult {
+        for (statement in program.getStatements()) {
+            val result = interpret(statement)
+            if (!result.interpretedCorrectly) {
+                return result
+            }
+        }
+        return InterpreterResult(true, "Program executed successfully", null)
     }
 }

@@ -1,6 +1,4 @@
-package node.statement
-
-import node.expression.Expression
+package node
 
 class PrintStatement(
     private val expression: Expression,

@@ -1,7 +1,7 @@
 package parser.expression
 
 import Token
-import node.expression.Expression
+import node.Expression
 import parser.Parser
 
 interface TokenToExpression {

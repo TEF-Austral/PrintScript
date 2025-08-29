@@ -4,10 +4,6 @@ import Position
 import PrintScriptToken
 import Token
 import builder.DefaultNodeBuilder
-import node.expression.BinaryExpression
-import node.expression.EmptyExpression
-import node.expression.LiteralExpression
-import node.statement.DeclarationStatement
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull

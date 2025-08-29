@@ -1,7 +1,7 @@
 package parser.expression.binary
 
 import Token
-import node.expression.Expression
+import node.Expression
 import parser.Parser
 
 sealed interface ParseBinary {

@@ -1,6 +1,6 @@
 package parser.command
 
-import node.statement.Statement
+import node.Statement
 import parser.Parser
 import parser.result.ParseResult
 

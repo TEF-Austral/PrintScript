@@ -2,8 +2,8 @@ package builder
 
 import Token
 import node.Program
-import node.expression.Expression
-import node.statement.Statement
+import node.Expression
+import node.Statement
 
 sealed interface NodeBuilder {
     fun buildLiteralExpressionNode(token: Token): Expression

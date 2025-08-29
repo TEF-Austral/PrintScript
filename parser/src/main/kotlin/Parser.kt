@@ -5,7 +5,7 @@ import Token
 import TokenType
 import builder.NodeBuilder
 import node.Program
-import node.statement.Statement
+import node.Statement
 import parser.expression.ExpressionParser
 import parser.result.ParseError
 import parser.result.ParseResult

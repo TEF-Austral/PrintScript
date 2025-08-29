@@ -1,7 +1,7 @@
 package parser.expression
 
-import node.expression.EmptyExpression
-import node.expression.Expression
+import node.EmptyExpression
+import node.Expression
 import parser.Parser
 import parser.expression.binary.ParseBinary
 

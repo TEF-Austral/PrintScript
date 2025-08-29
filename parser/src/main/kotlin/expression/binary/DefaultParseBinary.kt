@@ -2,7 +2,7 @@ package parser.expression.binary
 
 import Token
 import TokenType
-import node.expression.Expression
+import node.Expression
 import parser.Parser
 import parser.expression.TokenToExpression
 
