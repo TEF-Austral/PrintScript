@@ -55,4 +55,45 @@ class LexerIntegrationTest {
         Assertions.assertEquals(1, tokens[4].getCoordinates().getRow())
         Assertions.assertEquals(11, tokens[4].getCoordinates().getColumn())
     }
+
+    @Test
+    fun largerScriptTest() {
+        val content = largeScriptReader.read()
+        println("Contenido leído: '$content'") // Debug: ver qué lee
+        println("Longitud: ${content.length}")
+
+        val splitter = SplitterFactory.createSplitter()
+        val tokenConverter = StringToTokenConverterFactory.createDefaultsTokenConverter()
+        val lexer = Lexer(splitter, tokenConverter)
+        val tokens = lexer.tokenize(largeScriptReader)
+
+        println("Total tokens: ${tokens.size}") // Debug: cuántos tokens
+        for (token in tokens) {
+            println("Token: ${token.getValue()} Type: ${token.getType()} Coordinates: ${token.getCoordinates()}")
+        }
+    }
+
+    @Test
+    fun simpleDeclarationTest() {
+        val splitter = SplitterFactory.createSplitter()
+        val tokenConverter = StringToTokenConverterFactory.createDefaultsTokenConverter()
+        val lexer = Lexer(splitter, tokenConverter)
+        val filePathScriptV2 = "src/test/resources/scriptV2.txt"
+        val scriptReader = FileReader(filePathScriptV2)
+        val tokens = lexer.tokenize(scriptReader)
+
+        for (token in tokens) {
+            println("Token: ${token.getValue()} Type: ${token.getType()} Coordinates: ${token.getCoordinates()}")
+        }
+
+        // let x:String = "123";
+        // let y:Number = 123;
+
+        Assertions.assertEquals(14, tokens.size)
+        Assertions.assertEquals(TokenType.DECLARATION, tokens[0].getType())
+        Assertions.assertEquals("let", tokens[0].getValue())
+        Assertions.assertEquals(1, tokens[0].getCoordinates().getRow())
+        Assertions.assertEquals(1, tokens[0].getCoordinates().getColumn())
+        Assertions.assertEquals(TokenType.IDENTIFIER, tokens[1].getType())
+    }
 }

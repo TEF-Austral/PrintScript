@@ -15,6 +15,6 @@ class Stream(
                 StandardCharsets.UTF_8,
             ),
         ).use { reader ->
-            reader.readText()
+            reader.readLines().joinToString("\n")
         }
 }

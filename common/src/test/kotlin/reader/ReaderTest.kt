@@ -1,11 +1,8 @@
 package reader
 
-import Lexer
-import converter.StringToTokenConverterFactory
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
-import splitter.SplitterFactory
 import java.io.File
 
 class ReaderTest {
@@ -47,32 +44,6 @@ class ReaderTest {
             val actualContent = stream.read()
 
             assertEquals(testContent, actualContent)
-        } finally {
-            testFile.delete()
-        }
-    }
-
-    @Test
-    fun `Stream should work with Lexer for tokenization`() {
-        val testFile = File("test_lexer.txt")
-        val testContent = "let x = 42;"
-
-        testFile.writeText(testContent)
-
-        try {
-            val splitter = SplitterFactory.createSplitter()
-            val tokenConverter = StringToTokenConverterFactory.createDefaultsTokenConverter()
-            val lexer = Lexer(splitter, tokenConverter)
-            val stream = Stream("test_lexer.txt")
-
-            val tokens = lexer.tokenize(stream)
-
-            assertEquals(5, tokens.size)
-            assertEquals("let", tokens[0].getValue())
-            assertEquals("x", tokens[1].getValue())
-            assertEquals("=", tokens[2].getValue())
-            assertEquals("42", tokens[3].getValue())
-            assertEquals(";", tokens[4].getValue())
         } finally {
             testFile.delete()
         }
@@ -170,5 +141,17 @@ class ReaderTest {
             jsonFile.delete()
             yamlFile.delete()
         }
+    }
+
+    @Test
+    fun `Large ReaderTest`() {
+        val filePath = "src/test/resources/largerScript.txt"
+        val expectedContent = File(filePath).readText()
+        val reader = FileReader(filePath)
+        val actualContent = reader.read()
+        assertEquals(expectedContent, actualContent)
+        println("Actual content:$actualContent")
+        println("Expected content:$expectedContent")
+        assertEquals(expectedContent, actualContent)
     }
 }
