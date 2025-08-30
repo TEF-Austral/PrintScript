@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 import java.io.File
 
 class ReaderTest {
-
     @Test
     fun `FileReader should read content from a valid file`() {
         val filePath = "src/test/resources/script.txt"
@@ -145,7 +144,7 @@ class ReaderTest {
     }
 
     @Test
-    fun `Large ReaderTest`(){
+    fun `Large ReaderTest`() {
         val filePath = "src/test/resources/largerScript.txt"
         val expectedContent = File(filePath).readText()
         val reader = FileReader(filePath)

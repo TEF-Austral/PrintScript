@@ -16,7 +16,6 @@ class LexerIntegrationTest {
         scriptReader = FileReader(filePathScript)
         val filePathLargerScript = "src/test/resources/largerScript.txt"
         largeScriptReader = FileReader(filePathLargerScript)
-
     }
 
     @Test

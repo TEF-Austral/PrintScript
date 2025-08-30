@@ -11,7 +11,9 @@ import splitter.extractor.TokenExtractor
 import splitter.extractor.WhitespaceExtractor
 import splitter.extractor.WordExtractor
 
-class Splitter(specialChars: List<Char>) {
+class Splitter(
+    specialChars: List<Char>,
+) {
     private val extractors: List<TokenExtractor> = createExtractors(specialChars)
 
     fun split(input: String): List<Pair<String, Coordinates>> {
@@ -27,8 +29,8 @@ class Splitter(specialChars: List<Char>) {
         return context.getTokens()
     }
 
-    private fun createExtractors(specialChars: List<Char>): List<TokenExtractor> {
-        return listOf(
+    private fun createExtractors(specialChars: List<Char>): List<TokenExtractor> =
+        listOf(
             WhitespaceExtractor,
             CommentExtractor,
             StringLiteralExtractor,
@@ -36,7 +38,6 @@ class Splitter(specialChars: List<Char>) {
             SpecialTokenExtractor(specialChars),
             WordExtractor(specialChars),
         )
-    }
 
     private fun tryExtractToken(context: SplitContext): Boolean {
         for (extractor in extractors) {
@@ -48,8 +49,11 @@ class Splitter(specialChars: List<Char>) {
         return false
     }
 
-    private fun processExtraction(extraction: Extraction, context: SplitContext): Boolean {
-        return when (extraction) {
+    private fun processExtraction(
+        extraction: Extraction,
+        context: SplitContext,
+    ): Boolean =
+        when (extraction) {
             is Extraction.NoMatch -> false
             is Extraction.Skip -> {
                 context.skip(extraction.text)
@@ -61,13 +65,14 @@ class Splitter(specialChars: List<Char>) {
                 true
             }
         }
-    }
 
     private fun handleUnmatchedCharacter(context: SplitContext) {
         context.skipSingleCharacter()
     }
 
-    private class SplitContext(val input: String) {
+    private class SplitContext(
+        val input: String,
+    ) {
         private val tokens = mutableListOf<Pair<String, Coordinates>>()
         var position = 0
             private set

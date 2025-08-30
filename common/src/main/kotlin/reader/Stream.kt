@@ -8,7 +8,6 @@ import java.nio.charset.StandardCharsets
 class Stream(
     private val filePath: String,
 ) : Reader {
-
     override fun read(): String =
         BufferedReader(
             InputStreamReader(
