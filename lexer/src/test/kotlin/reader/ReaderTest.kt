@@ -32,12 +32,13 @@ class ReaderTest {
     @Test
     fun `Stream should read content from a valid file`() {
         val testFile = File("test_stream.txt")
-        val testContent = """
+        val testContent =
+            """
             let x = 42;
             if (x > 10) {
                 println("Hello World");
             }
-        """.trimIndent()
+            """.trimIndent()
 
         testFile.writeText(testContent)
 
@@ -80,13 +81,14 @@ class ReaderTest {
     @Test
     fun `JsonReader should read JSON content from a valid file`() {
         val testFile = File("test.json")
-        val jsonContent = """
+        val jsonContent =
+            """
             {
                 "name": "John",
                 "age": 30,
                 "city": "New York"
             }
-        """.trimIndent()
+            """.trimIndent()
 
         testFile.writeText(jsonContent)
 
@@ -112,7 +114,8 @@ class ReaderTest {
     @Test
     fun `YamlReader should read YAML content from a valid file`() {
         val testFile = File("test.yaml")
-        val yamlContent = """
+        val yamlContent =
+            """
             name: John
             age: 30
             city: New York
@@ -120,7 +123,7 @@ class ReaderTest {
               - Java
               - Kotlin
               - Python
-        """.trimIndent()
+            """.trimIndent()
 
         testFile.writeText(yamlContent)
 
@@ -149,8 +152,10 @@ class ReaderTest {
         val yamlFile = File("config.yml")
 
         val jsonContent = """{"version": "1.0", "debug": true}"""
-        val yamlContent = """version: "1.0"
-            |debug: true""".trimMargin()
+        val yamlContent =
+            """version: "1.0"
+            |debug: true
+            """.trimMargin()
 
         jsonFile.writeText(jsonContent)
         yamlFile.writeText(yamlContent)
