@@ -5,15 +5,17 @@ import java.io.FileInputStream
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
 
-class Stream(private val filePath: String) : Reader {
-    override fun read(): String {
-        return BufferedReader(
+class Stream(
+    private val filePath: String,
+) : Reader {
+
+    override fun read(): String =
+        BufferedReader(
             InputStreamReader(
                 FileInputStream(filePath),
-                StandardCharsets.UTF_8
-            )
+                StandardCharsets.UTF_8,
+            ),
         ).use { reader ->
-            reader.readText()
+            reader.readLines().joinToString("\n")
         }
-    }
 }

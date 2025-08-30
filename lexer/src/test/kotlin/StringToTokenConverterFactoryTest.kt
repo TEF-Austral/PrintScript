@@ -37,12 +37,13 @@ class StringToTokenConverterFactoryTest {
 
     @Test
     fun `createCustomTokenConverter should only recognize specified converters`() {
-        val customConverters = listOf(
-            NumberLiteralToToken,
-            StringLiteralToToken,
-            DelimiterToToken,
-            OperatorToToken
-        )
+        val customConverters =
+            listOf(
+                NumberLiteralToToken,
+                StringLiteralToToken,
+                DelimiterToToken,
+                OperatorToToken,
+            )
 
         val customTokenConverter = StringToTokenConverterFactory.createCustomTokenConverter(customConverters)
 
