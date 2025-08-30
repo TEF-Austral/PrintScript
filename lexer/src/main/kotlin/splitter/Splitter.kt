@@ -1,7 +1,7 @@
 package splitter
 
-import Coordinates
-import Position
+import type.Coordinates
+import type.Position
 import splitter.extractor.CommentExtractor
 import splitter.extractor.Extraction
 import splitter.extractor.NumberExtractor

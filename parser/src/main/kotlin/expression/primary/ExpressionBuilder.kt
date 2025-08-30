@@ -1,8 +1,8 @@
 package parser.expression.primary
 
-import TokenType
 import parser.expression.TokenToExpression
+import type.CommonTypes
 
 interface ExpressionBuilder : TokenToExpression {
-    fun canHandle(token: TokenType): Boolean
+    fun canHandle(token: CommonTypes): Boolean
 }

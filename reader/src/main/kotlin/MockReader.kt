@@ -1,5 +1,3 @@
-package reader
-
 class MockReader(
     private val content: String,
 ) : Reader {

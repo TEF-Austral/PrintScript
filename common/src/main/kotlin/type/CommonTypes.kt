@@ -1,4 +1,6 @@
-enum class TokenType {
+package type
+
+enum class CommonTypes {
     // New Token Types
     DELIMITERS, // ( ) { } , . ; : ?
     OPERATORS, // + - * / %

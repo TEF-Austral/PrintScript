@@ -1,12 +1,12 @@
 package parser.expression.primary
 
 import Token
-import TokenType
 import node.Expression
 import parser.Parser
+import type.CommonTypes
 
 object LiteralBuilder : ExpressionBuilder {
-    override fun canHandle(token: TokenType): Boolean = token == TokenType.NUMBER_LITERAL || token == TokenType.STRING_LITERAL
+    override fun canHandle(token: CommonTypes): Boolean = token == CommonTypes.NUMBER_LITERAL || token == CommonTypes.STRING_LITERAL
 
     override fun build(
         parser: Parser,

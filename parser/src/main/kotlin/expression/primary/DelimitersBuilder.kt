@@ -1,13 +1,11 @@
 package parser.expression.primary
 
 import Token
-import TokenType
 import node.Expression
 import parser.Parser
+import type.CommonTypes
 
 object DelimitersBuilder : ExpressionBuilder {
-    override fun canHandle(token: TokenType): Boolean = token == TokenType.DELIMITERS
-
     override fun build(
         parser: Parser,
         current: Token,
@@ -20,4 +18,6 @@ object DelimitersBuilder : ExpressionBuilder {
         val afterClose = afterExpr.advance()
         return Pair(expr, afterClose)
     }
+
+    override fun canHandle(token: CommonTypes): Boolean = token == CommonTypes.DELIMITERS
 }

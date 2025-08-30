@@ -1,10 +1,10 @@
 package parser.expression.binary
 
 import Token
-import TokenType
 import node.Expression
 import parser.Parser
 import parser.expression.TokenToExpression
+import type.CommonTypes
 
 class DefaultParseBinary(
     private val tokenToExpression: TokenToExpression,
@@ -89,18 +89,18 @@ class DefaultParseBinary(
 
     override fun isOperatorToken(token: Token): Boolean =
         when (token.getType()) {
-            TokenType.OPERATORS,
-            TokenType.COMPARISON,
-            TokenType.LOGICAL_OPERATORS,
+            CommonTypes.OPERATORS,
+            CommonTypes.COMPARISON,
+            CommonTypes.LOGICAL_OPERATORS,
             -> true
             else -> false
         }
 
     override fun getOperatorPrecedence(token: Token): Int =
         when (token.getType()) {
-            TokenType.LOGICAL_OPERATORS -> 1
-            TokenType.COMPARISON -> 2
-            TokenType.OPERATORS ->
+            CommonTypes.LOGICAL_OPERATORS -> 1
+            CommonTypes.COMPARISON -> 2
+            CommonTypes.OPERATORS ->
                 when (token.getValue()) {
                     "+", "-" -> 3
                     "*", "/", "%" -> 4

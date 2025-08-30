@@ -1,9 +1,12 @@
+import type.CommonTypes
+import type.Coordinates
+
 class PrintScriptToken(
-    private val type: TokenType,
+    private val type: CommonTypes,
     private val value: String,
     private val coordinates: Coordinates,
 ) : Token {
-    override fun getType(): TokenType = type
+    override fun getType(): CommonTypes = type
 
     override fun getValue(): String = value
 

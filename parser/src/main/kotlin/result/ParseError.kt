@@ -1,6 +1,6 @@
 package parser.result
 
-import Coordinates
+import type.Coordinates
 
 data class ParseError(
     val message: String,

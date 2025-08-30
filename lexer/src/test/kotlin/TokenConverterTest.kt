@@ -15,6 +15,8 @@ import converter.specific.ReturnToToken
 import converter.specific.StringLiteralToToken
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import type.CommonTypes
+import type.Position
 
 class TokenConverterTest {
     private val position = Position(1, 1)
@@ -32,7 +34,7 @@ class TokenConverterTest {
         Assertions.assertTrue(DelimiterToToken.canHandle("?"))
         Assertions.assertFalse(DelimiterToToken.canHandle("a"))
         val token = DelimiterToToken.convert("(", position)
-        Assertions.assertEquals(TokenType.DELIMITERS, token.getType())
+        Assertions.assertEquals(CommonTypes.DELIMITERS, token.getType())
     }
 
     @Test
@@ -43,7 +45,7 @@ class TokenConverterTest {
         Assertions.assertTrue(OperatorToToken.canHandle("/"))
         Assertions.assertFalse(OperatorToToken.canHandle("="))
         val token = OperatorToToken.convert("+", position)
-        Assertions.assertEquals(TokenType.OPERATORS, token.getType())
+        Assertions.assertEquals(CommonTypes.OPERATORS, token.getType())
     }
 
     @Test
@@ -51,7 +53,7 @@ class TokenConverterTest {
         Assertions.assertTrue(AssignmentToToken.canHandle("="))
         Assertions.assertFalse(AssignmentToToken.canHandle("=="))
         val token = AssignmentToToken.convert("=", position)
-        Assertions.assertEquals(TokenType.ASSIGNMENT, token.getType())
+        Assertions.assertEquals(CommonTypes.ASSIGNMENT, token.getType())
     }
 
     @Test
@@ -64,7 +66,7 @@ class TokenConverterTest {
         Assertions.assertTrue(ComparisonToToken.canHandle("<="))
         Assertions.assertFalse(ComparisonToToken.canHandle("="))
         val token = ComparisonToToken.convert("==", position)
-        Assertions.assertEquals(TokenType.COMPARISON, token.getType())
+        Assertions.assertEquals(CommonTypes.COMPARISON, token.getType())
     }
 
     @Test
@@ -73,7 +75,7 @@ class TokenConverterTest {
         Assertions.assertTrue(LogicalOperatorToken.canHandle("||"))
         Assertions.assertFalse(LogicalOperatorToken.canHandle("&"))
         val token = LogicalOperatorToken.convert("&&", position)
-        Assertions.assertEquals(TokenType.LOGICAL_OPERATORS, token.getType())
+        Assertions.assertEquals(CommonTypes.LOGICAL_OPERATORS, token.getType())
     }
 
     @Test
@@ -82,7 +84,7 @@ class TokenConverterTest {
         Assertions.assertTrue(ConditionalToToken.canHandle("else"))
         Assertions.assertFalse(ConditionalToToken.canHandle("for"))
         val token = ConditionalToToken.convert("if", position)
-        Assertions.assertEquals(TokenType.CONDITIONALS, token.getType())
+        Assertions.assertEquals(CommonTypes.CONDITIONALS, token.getType())
     }
 
     @Test
@@ -91,7 +93,7 @@ class TokenConverterTest {
         Assertions.assertTrue(LoopToToken.canHandle("while"))
         Assertions.assertFalse(LoopToToken.canHandle("if"))
         val token = LoopToToken.convert("for", position)
-        Assertions.assertEquals(TokenType.LOOPS, token.getType())
+        Assertions.assertEquals(CommonTypes.LOOPS, token.getType())
     }
 
     @Test
@@ -99,7 +101,7 @@ class TokenConverterTest {
         Assertions.assertTrue(FunctionToToken.canHandle("function"))
         Assertions.assertFalse(FunctionToToken.canHandle("func"))
         val token = FunctionToToken.convert("function", position)
-        Assertions.assertEquals(TokenType.FUNCTION, token.getType())
+        Assertions.assertEquals(CommonTypes.FUNCTION, token.getType())
     }
 
     @Test
@@ -107,7 +109,7 @@ class TokenConverterTest {
         Assertions.assertTrue(PrintToToken.canHandle("println"))
         Assertions.assertFalse(PrintToToken.canHandle("print"))
         val token = PrintToToken.convert("println", position)
-        Assertions.assertEquals(TokenType.PRINT, token.getType())
+        Assertions.assertEquals(CommonTypes.PRINT, token.getType())
     }
 
     @Test
@@ -115,14 +117,14 @@ class TokenConverterTest {
         Assertions.assertTrue(ReturnToToken.canHandle("return"))
         Assertions.assertFalse(ReturnToToken.canHandle("ret"))
         val token = ReturnToToken.convert("return", position)
-        Assertions.assertEquals(TokenType.RETURN, token.getType())
+        Assertions.assertEquals(CommonTypes.RETURN, token.getType())
     }
 
     @Test
     fun `test DeclarationToToken`() {
         Assertions.assertTrue(DeclarationToToken.canHandle("let"))
         val token = DeclarationToToken.convert("let", position)
-        Assertions.assertEquals(TokenType.DECLARATION, token.getType())
+        Assertions.assertEquals(CommonTypes.DECLARATION, token.getType())
     }
 
     @Test
@@ -130,7 +132,7 @@ class TokenConverterTest {
         Assertions.assertTrue(DataTypeToToken.canHandle("Number"))
         Assertions.assertTrue(DataTypeToToken.canHandle("String"))
         val token = DataTypeToToken.convert("Number", position)
-        Assertions.assertEquals(TokenType.DATA_TYPES, token.getType())
+        Assertions.assertEquals(CommonTypes.DATA_TYPES, token.getType())
     }
 
     @Test
@@ -138,7 +140,7 @@ class TokenConverterTest {
         Assertions.assertTrue(DataTypeToToken.canHandle("String"))
         Assertions.assertTrue(DataTypeToToken.canHandle("Number"))
         val token = DataTypeToToken.convert("string", position)
-        Assertions.assertEquals(TokenType.DATA_TYPES, token.getType())
+        Assertions.assertEquals(CommonTypes.DATA_TYPES, token.getType())
     }
 
     @Test
@@ -147,7 +149,7 @@ class TokenConverterTest {
         Assertions.assertTrue(NumberLiteralToToken.canHandle("123.45"))
         Assertions.assertFalse(NumberLiteralToToken.canHandle("abc"))
         val token = NumberLiteralToToken.convert("123", position)
-        Assertions.assertEquals(TokenType.NUMBER_LITERAL, token.getType())
+        Assertions.assertEquals(CommonTypes.NUMBER_LITERAL, token.getType())
     }
 
     @Test
@@ -156,7 +158,7 @@ class TokenConverterTest {
         Assertions.assertTrue(StringLiteralToToken.canHandle("\"hello\""))
         Assertions.assertFalse(StringLiteralToToken.canHandle("hello"))
         val token = StringLiteralToToken.convert("'hello'", position)
-        Assertions.assertEquals(TokenType.STRING_LITERAL, token.getType())
+        Assertions.assertEquals(CommonTypes.STRING_LITERAL, token.getType())
     }
 
     @Test
@@ -170,12 +172,12 @@ class TokenConverterTest {
         val registry = TokenConverterRegistry(converters)
 
         val openParen = registry.convert("(", position)
-        Assertions.assertEquals(TokenType.DELIMITERS, openParen.getType())
+        Assertions.assertEquals(CommonTypes.DELIMITERS, openParen.getType())
 
         val number = registry.convert("123", position)
-        Assertions.assertEquals(TokenType.NUMBER_LITERAL, number.getType())
+        Assertions.assertEquals(CommonTypes.NUMBER_LITERAL, number.getType())
 
         val identifier = registry.convert("someVar", position)
-        Assertions.assertEquals(TokenType.IDENTIFIER, identifier.getType())
+        Assertions.assertEquals(CommonTypes.IDENTIFIER, identifier.getType())
     }
 }

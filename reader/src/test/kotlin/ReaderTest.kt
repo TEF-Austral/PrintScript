@@ -1,9 +1,7 @@
-package reader
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrows
-import org.junit.jupiter.api.Test
 import java.io.File
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 
 class ReaderTest {
     @Test
@@ -15,7 +13,7 @@ class ReaderTest {
         val actualContent = reader.read()
         print(expectedContent)
 
-        assertEquals(expectedContent, actualContent)
+        Assertions.assertEquals(expectedContent, actualContent)
     }
 
     @Test
@@ -23,7 +21,7 @@ class ReaderTest {
         val nonExistentFilePath = "non/existent/file.txt"
         val reader = FileReader(nonExistentFilePath)
 
-        assertEquals("", reader.read())
+        Assertions.assertEquals("", reader.read())
     }
 
     @Test
@@ -43,7 +41,7 @@ class ReaderTest {
             val stream = Stream("test_stream.txt")
             val actualContent = stream.read()
 
-            assertEquals(testContent, actualContent)
+            Assertions.assertEquals(testContent, actualContent)
         } finally {
             testFile.delete()
         }
@@ -67,7 +65,7 @@ class ReaderTest {
             val jsonReader = JsonReader("test.json")
             val actualContent = jsonReader.read()
 
-            assertEquals(jsonContent, actualContent)
+            Assertions.assertEquals(jsonContent, actualContent)
         } finally {
             testFile.delete()
         }
@@ -77,7 +75,7 @@ class ReaderTest {
     fun `JsonReader should throw exception for non-existent file`() {
         val jsonReader = JsonReader("non/existent/file.json")
 
-        assertThrows(Exception::class.java) {
+        Assertions.assertThrows(Exception::class.java) {
             jsonReader.read()
         }
     }
@@ -102,7 +100,7 @@ class ReaderTest {
             val yamlReader = YamlReader("test.yaml")
             val actualContent = yamlReader.read()
 
-            assertEquals(yamlContent, actualContent)
+            Assertions.assertEquals(yamlContent, actualContent)
         } finally {
             testFile.delete()
         }
@@ -112,7 +110,7 @@ class ReaderTest {
     fun `YamlReader should throw exception for non-existent file`() {
         val yamlReader = YamlReader("non/existent/file.yaml")
 
-        assertThrows(Exception::class.java) {
+        Assertions.assertThrows(Exception::class.java) {
             yamlReader.read()
         }
     }
@@ -135,8 +133,8 @@ class ReaderTest {
             val jsonReader = JsonReader("config.json")
             val yamlReader = YamlReader("config.yml")
 
-            assertEquals(jsonContent, jsonReader.read())
-            assertEquals(yamlContent, yamlReader.read())
+            Assertions.assertEquals(jsonContent, jsonReader.read())
+            Assertions.assertEquals(yamlContent, yamlReader.read())
         } finally {
             jsonFile.delete()
             yamlFile.delete()
@@ -149,9 +147,9 @@ class ReaderTest {
         val expectedContent = File(filePath).readText()
         val reader = FileReader(filePath)
         val actualContent = reader.read()
-        assertEquals(expectedContent, actualContent)
+        Assertions.assertEquals(expectedContent, actualContent)
         println("Actual content:$actualContent")
         println("Expected content:$expectedContent")
-        assertEquals(expectedContent, actualContent)
+        Assertions.assertEquals(expectedContent, actualContent)
     }
 }

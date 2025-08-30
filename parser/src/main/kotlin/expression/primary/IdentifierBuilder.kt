@@ -1,12 +1,12 @@
 package parser.expression.primary
 
 import Token
-import TokenType
 import node.Expression
 import parser.Parser
+import type.CommonTypes
 
 object IdentifierBuilder : ExpressionBuilder {
-    override fun canHandle(token: TokenType): Boolean = token == TokenType.IDENTIFIER
+    override fun canHandle(token: CommonTypes): Boolean = token == CommonTypes.IDENTIFIER
 
     override fun build(
         parser: Parser,

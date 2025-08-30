@@ -1,3 +1,5 @@
+package type
+
 class Position(
     private val row: Int,
     private val column: Int,

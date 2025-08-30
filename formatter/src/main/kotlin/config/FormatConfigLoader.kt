@@ -1,7 +1,7 @@
 package formatter.config
 
-import reader.JsonReader
-import reader.YamlReader
+import JsonReader
+import YamlReader
 
 object FormatConfigLoader {
     private val jsonParser = JsonFormatConfigParser()

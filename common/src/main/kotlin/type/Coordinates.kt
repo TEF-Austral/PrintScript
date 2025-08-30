@@ -1,3 +1,5 @@
+package type
+
 interface Coordinates {
     fun getRow(): Int
 

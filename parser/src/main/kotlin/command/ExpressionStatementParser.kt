@@ -1,10 +1,10 @@
 package parser.command
 
 import Token
-import TokenType
 import node.Statement
 import parser.Parser
 import parser.result.ParseResult
+import type.CommonTypes
 
 class ExpressionStatementParser : StatementParserCommand {
     override fun canHandle(
@@ -14,17 +14,17 @@ class ExpressionStatementParser : StatementParserCommand {
         if (token == null) return false
         val type = token.getType()
         val value = token.getValue()
-        return type == TokenType.NUMBER_LITERAL ||
-            type == TokenType.STRING_LITERAL ||
-            type == TokenType.IDENTIFIER ||
-            (type == TokenType.DELIMITERS && value == "(")
+        return type == CommonTypes.NUMBER_LITERAL ||
+            type == CommonTypes.STRING_LITERAL ||
+            type == CommonTypes.IDENTIFIER ||
+            (type == CommonTypes.DELIMITERS && value == "(")
     }
 
     override fun parse(parser: Parser): Pair<ParseResult<Statement>, Parser> {
         // parse the expression
         val (expr, p1) = parser.getExpressionParser().parseExpression(parser)
         // consume the semicolon
-        val (semiRes, p2) = p1.consumeOrError(TokenType.DELIMITERS)
+        val (semiRes, p2) = p1.consumeOrError(CommonTypes.DELIMITERS)
         if (semiRes is ParseResult.Failure) return Pair(semiRes, p2)
         // build and return the expression statement
         val stmt = p2.getNodeBuilder().buildExpressionStatementNode(expr)
