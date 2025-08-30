@@ -5,17 +5,17 @@ import formatter.config.FormatterConstants.MAX_BLANK_LINES_BEFORE_PRINTLN
 import formatter.config.FormatterConstants.MIN_BLANK_LINES_BEFORE_PRINTLN
 import formatter.config.FormatterConstants.MULTI_SPACE_REGEX
 import node.Program
-import node.expression.LiteralExpression
-import node.expression.IdentifierExpression
-import node.expression.BinaryExpression
-import node.expression.EmptyExpression
-import node.expression.Expression
-import node.statement.DeclarationStatement
-import node.statement.AssignmentStatement
-import node.statement.ExpressionStatement
-import node.statement.PrintStatement
-import node.statement.EmptyStatement
-import node.statement.Statement
+import node.LiteralExpression
+import node.IdentifierExpression
+import node.BinaryExpression
+import node.EmptyExpression
+import node.Expression
+import node.DeclarationStatement
+import node.AssignmentStatement
+import node.ExpressionStatement
+import node.PrintStatement
+import node.EmptyStatement
+import node.Statement
 import java.io.Writer
 
 class DefaultFormatter : Formatter {

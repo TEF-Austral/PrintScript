@@ -6,7 +6,7 @@ import reader.FileReader
 import reader.Reader
 import splitter.SplitterFactory
 
-class FullIntegrationTest {
+class LexerIntegrationTest {
     private lateinit var scriptReader: Reader
     private lateinit var largeScriptReader: Reader
 

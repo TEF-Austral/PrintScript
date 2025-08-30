@@ -29,7 +29,6 @@ object StringToTokenConverterFactory {
                 LoopToToken,
                 DeclarationToToken,
                 PrintToToken,
-                // Operators and Delimiters
                 OperatorToToken,
                 AssignmentToToken,
                 ComparisonToToken,

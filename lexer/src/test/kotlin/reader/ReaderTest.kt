@@ -1,7 +1,11 @@
 package reader
 
+import Lexer
+import converter.StringToTokenConverterFactory
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
+import splitter.SplitterFactory
 import java.io.File
 
 class ReaderTest {
@@ -23,5 +27,143 @@ class ReaderTest {
         val reader = FileReader(nonExistentFilePath)
 
         assertEquals("", reader.read())
+    }
+
+    @Test
+    fun `Stream should read content from a valid file`() {
+        val testFile = File("test_stream.txt")
+        val testContent = """
+            let x = 42;
+            if (x > 10) {
+                println("Hello World");
+            }
+        """.trimIndent()
+
+        testFile.writeText(testContent)
+
+        try {
+            val stream = Stream("test_stream.txt")
+            val actualContent = stream.read()
+
+            assertEquals(testContent, actualContent)
+        } finally {
+            testFile.delete()
+        }
+    }
+
+    @Test
+    fun `Stream should work with Lexer for tokenization`() {
+        val testFile = File("test_lexer.txt")
+        val testContent = "let x = 42;"
+
+        testFile.writeText(testContent)
+
+        try {
+            val splitter = SplitterFactory.createSplitter()
+            val tokenConverter = StringToTokenConverterFactory.createDefaultsTokenConverter()
+            val lexer = Lexer(splitter, tokenConverter)
+            val stream = Stream("test_lexer.txt")
+
+            val tokens = lexer.tokenize(stream)
+
+            assertEquals(5, tokens.size)
+            assertEquals("let", tokens[0].getValue())
+            assertEquals("x", tokens[1].getValue())
+            assertEquals("=", tokens[2].getValue())
+            assertEquals("42", tokens[3].getValue())
+            assertEquals(";", tokens[4].getValue())
+        } finally {
+            testFile.delete()
+        }
+    }
+
+    @Test
+    fun `JsonReader should read JSON content from a valid file`() {
+        val testFile = File("test.json")
+        val jsonContent = """
+            {
+                "name": "John",
+                "age": 30,
+                "city": "New York"
+            }
+        """.trimIndent()
+
+        testFile.writeText(jsonContent)
+
+        try {
+            val jsonReader = JsonReader("test.json")
+            val actualContent = jsonReader.read()
+
+            assertEquals(jsonContent, actualContent)
+        } finally {
+            testFile.delete()
+        }
+    }
+
+    @Test
+    fun `JsonReader should throw exception for non-existent file`() {
+        val jsonReader = JsonReader("non/existent/file.json")
+
+        assertThrows(Exception::class.java) {
+            jsonReader.read()
+        }
+    }
+
+    @Test
+    fun `YamlReader should read YAML content from a valid file`() {
+        val testFile = File("test.yaml")
+        val yamlContent = """
+            name: John
+            age: 30
+            city: New York
+            skills:
+              - Java
+              - Kotlin
+              - Python
+        """.trimIndent()
+
+        testFile.writeText(yamlContent)
+
+        try {
+            val yamlReader = YamlReader("test.yaml")
+            val actualContent = yamlReader.read()
+
+            assertEquals(yamlContent, actualContent)
+        } finally {
+            testFile.delete()
+        }
+    }
+
+    @Test
+    fun `YamlReader should throw exception for non-existent file`() {
+        val yamlReader = YamlReader("non/existent/file.yaml")
+
+        assertThrows(Exception::class.java) {
+            yamlReader.read()
+        }
+    }
+
+    @Test
+    fun `JsonReader and YamlReader should work with different file extensions`() {
+        val jsonFile = File("config.json")
+        val yamlFile = File("config.yml")
+
+        val jsonContent = """{"version": "1.0", "debug": true}"""
+        val yamlContent = """version: "1.0"
+            |debug: true""".trimMargin()
+
+        jsonFile.writeText(jsonContent)
+        yamlFile.writeText(yamlContent)
+
+        try {
+            val jsonReader = JsonReader("config.json")
+            val yamlReader = YamlReader("config.yml")
+
+            assertEquals(jsonContent, jsonReader.read())
+            assertEquals(yamlContent, yamlReader.read())
+        } finally {
+            jsonFile.delete()
+            yamlFile.delete()
+        }
     }
 }

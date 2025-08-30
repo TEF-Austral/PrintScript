@@ -1,7 +1,7 @@
 import builder.DefaultNodeBuilder
 import formatter.DefaultFormatter
 import formatter.config.FormatConfig
-import node.expression.LiteralExpression
+import node.LiteralExpression
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.StringWriter
