@@ -1,9 +1,9 @@
 package converter
 
-import Coordinates
+import type.Coordinates
 import PrintScriptToken
 import Token
-import TokenType
+import type.CommonTypes
 import converter.specific.StringToTokenConverter
 
 data class TokenConverterRegistry(
@@ -18,6 +18,6 @@ data class TokenConverterRegistry(
                 return converter.convert(input, position)
             }
         }
-        return PrintScriptToken(type = TokenType.IDENTIFIER, value = input, coordinates = position)
+        return PrintScriptToken(type = CommonTypes.IDENTIFIER, value = input, coordinates = position)
     }
 }

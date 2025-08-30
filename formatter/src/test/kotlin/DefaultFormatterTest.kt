@@ -5,13 +5,15 @@ import node.LiteralExpression
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.StringWriter
+import type.CommonTypes
+import type.Position
 
 class DefaultFormatterTest {
     private val builder = DefaultNodeBuilder()
     private val fmt = DefaultFormatter()
 
     private fun tok(
-        type: TokenType,
+        type: CommonTypes,
         value: String,
     ) = PrintScriptToken(type, value, Position(1, 1))
 
@@ -19,8 +21,8 @@ class DefaultFormatterTest {
     fun `declaration with default config`() {
         val decl =
             builder.buildVariableDeclarationStatementNode(
-                identifier = tok(TokenType.IDENTIFIER, "x"),
-                dataType = tok(TokenType.DATA_TYPES, "number"),
+                identifier = tok(CommonTypes.IDENTIFIER, "x"),
+                dataType = tok(CommonTypes.DATA_TYPES, "number"),
                 initialValue = null,
             )
 
@@ -34,8 +36,8 @@ class DefaultFormatterTest {
     fun `assignment with no spaces around equals`() {
         val assign =
             builder.buildAssignmentStatementNode(
-                identifier = tok(TokenType.IDENTIFIER, "a"),
-                value = LiteralExpression(tok(TokenType.NUMBER_LITERAL, "42")),
+                identifier = tok(CommonTypes.IDENTIFIER, "a"),
+                value = LiteralExpression(tok(CommonTypes.NUMBER_LITERAL, "42")),
             )
 
         val config = FormatConfig(spaceAroundAssignment = false)
@@ -49,7 +51,7 @@ class DefaultFormatterTest {
     fun `println with blank line before`() {
         val printStmt =
             builder.buildPrintStatementNode(
-                builder.buildLiteralExpressionNode(tok(TokenType.STRING_LITERAL, "\"hi\"")),
+                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"hi\"")),
             )
 
         val config = FormatConfig(blankLinesBeforePrintln = 1)
@@ -63,9 +65,9 @@ class DefaultFormatterTest {
     fun `custom colon spacing in declaration`() {
         val decl =
             builder.buildVariableDeclarationStatementNode(
-                identifier = tok(TokenType.IDENTIFIER, "msg"),
-                dataType = tok(TokenType.DATA_TYPES, "string"),
-                initialValue = LiteralExpression(tok(TokenType.STRING_LITERAL, "\"ok\"")),
+                identifier = tok(CommonTypes.IDENTIFIER, "msg"),
+                dataType = tok(CommonTypes.DATA_TYPES, "string"),
+                initialValue = LiteralExpression(tok(CommonTypes.STRING_LITERAL, "\"ok\"")),
             )
 
         val config =
@@ -84,8 +86,8 @@ class DefaultFormatterTest {
     fun `formatToWriter writes declaration with default config`() {
         val decl =
             builder.buildVariableDeclarationStatementNode(
-                identifier = tok(TokenType.IDENTIFIER, "x"),
-                dataType = tok(TokenType.DATA_TYPES, "number"),
+                identifier = tok(CommonTypes.IDENTIFIER, "x"),
+                dataType = tok(CommonTypes.DATA_TYPES, "number"),
                 initialValue = null,
             )
         val program = builder.buildProgramNode(listOf(decl))
@@ -100,8 +102,8 @@ class DefaultFormatterTest {
     fun `formatToWriter writes assignment without spaces around equals`() {
         val assign =
             builder.buildAssignmentStatementNode(
-                identifier = tok(TokenType.IDENTIFIER, "a"),
-                value = LiteralExpression(tok(TokenType.NUMBER_LITERAL, "42")),
+                identifier = tok(CommonTypes.IDENTIFIER, "a"),
+                value = LiteralExpression(tok(CommonTypes.NUMBER_LITERAL, "42")),
             )
         val config = FormatConfig(spaceAroundAssignment = false)
         val program = builder.buildProgramNode(listOf(assign))

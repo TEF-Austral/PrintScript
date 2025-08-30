@@ -1,5 +1,4 @@
 import converter.TokenConverter
-import reader.Reader
 import splitter.Splitter
 
 class Lexer(

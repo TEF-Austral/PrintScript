@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import parser.factory.RecursiveParserFactory
 import parser.result.ParseResult
+import type.CommonTypes
+import type.Position
 
 class ParserErrorTest {
     private fun parseResult(tokens: List<PrintScriptToken>) =
@@ -16,10 +18,10 @@ class ParserErrorTest {
     fun testMissingTypeInDeclarationReturnsFailure() {
         val tokens =
             listOf(
-                PrintScriptToken(TokenType.DECLARATION, "let", Position(1, 1)),
-                PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 5)),
-                PrintScriptToken(TokenType.DELIMITERS, ":", Position(1, 6)),
-                PrintScriptToken(TokenType.DELIMITERS, ";", Position(1, 7)),
+                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 6)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 7)),
             )
 
         val result = parseResult(tokens)
@@ -35,10 +37,10 @@ class ParserErrorTest {
     fun testMissingSemicolonInDeclarationReturnsFailure() {
         val tokens =
             listOf(
-                PrintScriptToken(TokenType.DECLARATION, "let", Position(1, 1)),
-                PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 5)),
-                PrintScriptToken(TokenType.DELIMITERS, ":", Position(1, 6)),
-                PrintScriptToken(TokenType.DATA_TYPES, "NUMBER", Position(1, 8)),
+                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 6)),
+                PrintScriptToken(CommonTypes.DATA_TYPES, "NUMBER", Position(1, 8)),
             )
 
         val result = parseResult(tokens)
@@ -54,9 +56,9 @@ class ParserErrorTest {
     fun testAssignmentMissingTerminatorReturnsFailure() {
         val tokens =
             listOf(
-                PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 1)),
-                PrintScriptToken(TokenType.ASSIGNMENT, "=", Position(1, 3)),
-                PrintScriptToken(TokenType.DELIMITERS, ";", Position(1, 4)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 1)),
+                PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 3)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 4)),
             )
 
         val result = parseResult(tokens)

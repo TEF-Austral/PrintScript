@@ -1,8 +1,8 @@
 package parser
 
-import Position
+import type.Position
 import Token
-import TokenType
+
 import builder.NodeBuilder
 import node.Program
 import node.Statement
@@ -10,6 +10,7 @@ import parser.expression.ExpressionParser
 import parser.result.ParseError
 import parser.result.ParseResult
 import parser.statement.StatementParser
+import type.CommonTypes
 
 data class Parser(
     private val tokens: List<Token>,
@@ -28,7 +29,7 @@ data class Parser(
     fun advance(): Parser = copy(current = if (!isAtEnd()) current + 1 else current)
 
     // returns the consumed token (if any) and the new Parser
-    fun consumeOrError(expected: TokenType): Pair<ParseResult<Token>, Parser> {
+    fun consumeOrError(expected: CommonTypes): Pair<ParseResult<Token>, Parser> {
         val tok = getCurrentToken()
         val pos = tok?.getCoordinates() ?: Position(-1, -1)
         return if (tok?.getType() == expected) {

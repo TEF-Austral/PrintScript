@@ -1,8 +1,9 @@
 package converter.specific
 
-import Coordinates
+import type.Coordinates
 import PrintScriptToken
 import Token
+import type.CommonTypes
 
 object ReturnToToken : StringToTokenConverter {
     override fun canHandle(input: String): Boolean = input == "return"
@@ -10,5 +11,5 @@ object ReturnToToken : StringToTokenConverter {
     override fun convert(
         input: String,
         position: Coordinates,
-    ): Token = PrintScriptToken(type = TokenType.RETURN, value = input, coordinates = position)
+    ): Token = PrintScriptToken(type = CommonTypes.RETURN, value = input, coordinates = position)
 }

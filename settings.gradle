@@ -23,5 +23,7 @@ include(
         'token',
         'ast',
         'cli',
-        'common',
+        'reader',
+        'common'
 )
+include 'reader'

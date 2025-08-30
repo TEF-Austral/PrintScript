@@ -2,9 +2,8 @@ import converter.StringToTokenConverterFactory
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import reader.FileReader
-import reader.Reader
 import splitter.SplitterFactory
+import type.CommonTypes
 
 class LexerIntegrationTest {
     private lateinit var scriptReader: Reader
@@ -30,27 +29,27 @@ class LexerIntegrationTest {
 
         Assertions.assertEquals(5, tokens.size)
 
-        Assertions.assertEquals(TokenType.DECLARATION, tokens[0].getType())
+        Assertions.assertEquals(CommonTypes.DECLARATION, tokens[0].getType())
         Assertions.assertEquals("let", tokens[0].getValue())
         Assertions.assertEquals(1, tokens[0].getCoordinates().getRow())
         Assertions.assertEquals(1, tokens[0].getCoordinates().getColumn())
 
-        Assertions.assertEquals(TokenType.IDENTIFIER, tokens[1].getType())
+        Assertions.assertEquals(CommonTypes.IDENTIFIER, tokens[1].getType())
         Assertions.assertEquals("x", tokens[1].getValue())
         Assertions.assertEquals(1, tokens[1].getCoordinates().getRow())
         Assertions.assertEquals(5, tokens[1].getCoordinates().getColumn())
 
-        Assertions.assertEquals(TokenType.ASSIGNMENT, tokens[2].getType())
+        Assertions.assertEquals(CommonTypes.ASSIGNMENT, tokens[2].getType())
         Assertions.assertEquals("=", tokens[2].getValue())
         Assertions.assertEquals(1, tokens[2].getCoordinates().getRow())
         Assertions.assertEquals(7, tokens[2].getCoordinates().getColumn())
 
-        Assertions.assertEquals(TokenType.NUMBER_LITERAL, tokens[3].getType())
+        Assertions.assertEquals(CommonTypes.NUMBER_LITERAL, tokens[3].getType())
         Assertions.assertEquals("42", tokens[3].getValue())
         Assertions.assertEquals(1, tokens[3].getCoordinates().getRow())
         Assertions.assertEquals(9, tokens[3].getCoordinates().getColumn())
 
-        Assertions.assertEquals(TokenType.DELIMITERS, tokens[4].getType())
+        Assertions.assertEquals(CommonTypes.DELIMITERS, tokens[4].getType())
         Assertions.assertEquals(";", tokens[4].getValue())
         Assertions.assertEquals(1, tokens[4].getCoordinates().getRow())
         Assertions.assertEquals(11, tokens[4].getCoordinates().getColumn())
@@ -90,10 +89,10 @@ class LexerIntegrationTest {
         // let y:Number = 123;
 
         Assertions.assertEquals(14, tokens.size)
-        Assertions.assertEquals(TokenType.DECLARATION, tokens[0].getType())
+        Assertions.assertEquals(CommonTypes.DECLARATION, tokens[0].getType())
         Assertions.assertEquals("let", tokens[0].getValue())
         Assertions.assertEquals(1, tokens[0].getCoordinates().getRow())
         Assertions.assertEquals(1, tokens[0].getCoordinates().getColumn())
-        Assertions.assertEquals(TokenType.IDENTIFIER, tokens[1].getType())
+        Assertions.assertEquals(CommonTypes.IDENTIFIER, tokens[1].getType())
     }
 }

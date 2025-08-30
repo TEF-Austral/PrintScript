@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.Test
 import parser.factory.RecursiveParserFactory
 import parser.result.ParseResult
+import type.CommonTypes
+import type.Position
 
 class ParserTest {
     private fun parseProgram(tokens: List<PrintScriptToken>): Program {
@@ -30,13 +32,13 @@ class ParserTest {
     fun testSingleVariableDeclaration() {
         val tokens =
             listOf(
-                PrintScriptToken(TokenType.DECLARATION, "let", Position(1, 1)),
-                PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 5)),
-                PrintScriptToken(TokenType.DELIMITERS, ":", Position(1, 7)),
-                PrintScriptToken(TokenType.DATA_TYPES, "NUMBER", Position(1, 9)),
-                PrintScriptToken(TokenType.ASSIGNMENT, "=", Position(1, 16)),
-                PrintScriptToken(TokenType.NUMBER_LITERAL, "5", Position(1, 18)),
-                PrintScriptToken(TokenType.DELIMITERS, ";", Position(1, 19)),
+                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 7)),
+                PrintScriptToken(CommonTypes.DATA_TYPES, "NUMBER", Position(1, 9)),
+                PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 16)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 18)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 19)),
             )
 
         val program = parseProgram(tokens)
@@ -57,24 +59,24 @@ class ParserTest {
     fun testMultipleStatementsWithBinaryExpression() {
         val tokens =
             listOf(
-                PrintScriptToken(TokenType.DECLARATION, "let", Position(1, 1)),
-                PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 5)),
-                PrintScriptToken(TokenType.DELIMITERS, ":", Position(1, 7)),
-                PrintScriptToken(TokenType.DATA_TYPES, "NUMBER", Position(1, 9)),
-                PrintScriptToken(TokenType.ASSIGNMENT, "=", Position(1, 16)),
-                PrintScriptToken(TokenType.NUMBER_LITERAL, "5", Position(1, 18)),
-                PrintScriptToken(TokenType.DELIMITERS, ";", Position(1, 19)),
-                PrintScriptToken(TokenType.DECLARATION, "let", Position(2, 1)),
-                PrintScriptToken(TokenType.IDENTIFIER, "y", Position(2, 5)),
-                PrintScriptToken(TokenType.DELIMITERS, ":", Position(2, 7)),
-                PrintScriptToken(TokenType.DATA_TYPES, "NUMBER", Position(2, 9)),
-                PrintScriptToken(TokenType.ASSIGNMENT, "=", Position(2, 16)),
-                PrintScriptToken(TokenType.NUMBER_LITERAL, "5", Position(2, 18)),
-                PrintScriptToken(TokenType.DELIMITERS, ";", Position(2, 19)),
-                PrintScriptToken(TokenType.IDENTIFIER, "x", Position(3, 1)),
-                PrintScriptToken(TokenType.OPERATORS, "+", Position(3, 2)),
-                PrintScriptToken(TokenType.IDENTIFIER, "y", Position(3, 3)),
-                PrintScriptToken(TokenType.DELIMITERS, ";", Position(3, 4)),
+                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 7)),
+                PrintScriptToken(CommonTypes.DATA_TYPES, "NUMBER", Position(1, 9)),
+                PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 16)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 18)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 19)),
+                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(2, 1)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "y", Position(2, 5)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(2, 7)),
+                PrintScriptToken(CommonTypes.DATA_TYPES, "NUMBER", Position(2, 9)),
+                PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(2, 16)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(2, 18)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(2, 19)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(3, 1)),
+                PrintScriptToken(CommonTypes.OPERATORS, "+", Position(3, 2)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "y", Position(3, 3)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(3, 4)),
             )
 
         val program = parseProgram(tokens)
@@ -106,16 +108,16 @@ class ParserTest {
     fun testComplexExpressionWithParenthesesAndPrecedence() {
         val tokens =
             listOf(
-                PrintScriptToken(TokenType.DELIMITERS, "(", Position(1, 1)),
-                PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 2)),
-                PrintScriptToken(TokenType.OPERATORS, "+", Position(1, 4)),
-                PrintScriptToken(TokenType.NUMBER_LITERAL, "5", Position(1, 6)),
-                PrintScriptToken(TokenType.DELIMITERS, ")", Position(1, 7)),
-                PrintScriptToken(TokenType.OPERATORS, "*", Position(1, 9)),
-                PrintScriptToken(TokenType.NUMBER_LITERAL, "2", Position(1, 11)),
-                PrintScriptToken(TokenType.COMPARISON, ">", Position(1, 13)),
-                PrintScriptToken(TokenType.NUMBER_LITERAL, "10", Position(1, 15)),
-                PrintScriptToken(TokenType.DELIMITERS, ";", Position(1, 17)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 1)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 2)),
+                PrintScriptToken(CommonTypes.OPERATORS, "+", Position(1, 4)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 6)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 7)),
+                PrintScriptToken(CommonTypes.OPERATORS, "*", Position(1, 9)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "2", Position(1, 11)),
+                PrintScriptToken(CommonTypes.COMPARISON, ">", Position(1, 13)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 15)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 17)),
             )
 
         val program = parseProgram(tokens)
@@ -141,14 +143,14 @@ class ParserTest {
     fun testExpressionWithMultiplePrecedenceLevels() {
         val tokens =
             listOf(
-                PrintScriptToken(TokenType.NUMBER_LITERAL, "2", Position(1, 1)),
-                PrintScriptToken(TokenType.OPERATORS, "+", Position(1, 3)),
-                PrintScriptToken(TokenType.NUMBER_LITERAL, "3", Position(1, 5)),
-                PrintScriptToken(TokenType.OPERATORS, "*", Position(1, 7)),
-                PrintScriptToken(TokenType.NUMBER_LITERAL, "4", Position(1, 9)),
-                PrintScriptToken(TokenType.COMPARISON, ">", Position(1, 11)),
-                PrintScriptToken(TokenType.NUMBER_LITERAL, "10", Position(1, 14)),
-                PrintScriptToken(TokenType.DELIMITERS, ";", Position(1, 16)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "2", Position(1, 1)),
+                PrintScriptToken(CommonTypes.OPERATORS, "+", Position(1, 3)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "3", Position(1, 5)),
+                PrintScriptToken(CommonTypes.OPERATORS, "*", Position(1, 7)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "4", Position(1, 9)),
+                PrintScriptToken(CommonTypes.COMPARISON, ">", Position(1, 11)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 14)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 16)),
             )
 
         val program = parseProgram(tokens)
@@ -171,20 +173,20 @@ class ParserTest {
     fun testNestedParenthesesExpression() {
         val tokens =
             listOf(
-                PrintScriptToken(TokenType.DELIMITERS, "(", Position(1, 1)),
-                PrintScriptToken(TokenType.DELIMITERS, "(", Position(1, 2)),
-                PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 3)),
-                PrintScriptToken(TokenType.OPERATORS, "+", Position(1, 5)),
-                PrintScriptToken(TokenType.NUMBER_LITERAL, "1", Position(1, 7)),
-                PrintScriptToken(TokenType.DELIMITERS, ")", Position(1, 8)),
-                PrintScriptToken(TokenType.OPERATORS, "*", Position(1, 10)),
-                PrintScriptToken(TokenType.DELIMITERS, "(", Position(1, 12)),
-                PrintScriptToken(TokenType.IDENTIFIER, "y", Position(1, 13)),
-                PrintScriptToken(TokenType.OPERATORS, "-", Position(1, 15)),
-                PrintScriptToken(TokenType.NUMBER_LITERAL, "2", Position(1, 17)),
-                PrintScriptToken(TokenType.DELIMITERS, ")", Position(1, 18)),
-                PrintScriptToken(TokenType.DELIMITERS, ")", Position(1, 19)),
-                PrintScriptToken(TokenType.DELIMITERS, ";", Position(1, 20)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 2)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 3)),
+                PrintScriptToken(CommonTypes.OPERATORS, "+", Position(1, 5)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "1", Position(1, 7)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 8)),
+                PrintScriptToken(CommonTypes.OPERATORS, "*", Position(1, 10)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 12)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "y", Position(1, 13)),
+                PrintScriptToken(CommonTypes.OPERATORS, "-", Position(1, 15)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "2", Position(1, 17)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 18)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 19)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 20)),
             )
 
         val program = parseProgram(tokens)

@@ -1,8 +1,9 @@
 package converter.specific
 
-import Coordinates
+import type.Coordinates
 import PrintScriptToken
 import Token
+import type.CommonTypes
 
 object OperatorToToken : StringToTokenConverter {
     override fun canHandle(input: String): Boolean = input in listOf("+", "-", "*", "/", "%")
@@ -10,5 +11,5 @@ object OperatorToToken : StringToTokenConverter {
     override fun convert(
         input: String,
         position: Coordinates,
-    ): Token = PrintScriptToken(type = TokenType.OPERATORS, value = input, coordinates = position)
+    ): Token = PrintScriptToken(type = CommonTypes.OPERATORS, value = input, coordinates = position)
 }

@@ -1,6 +1,6 @@
 package node
 
-import Position
+import type.Position
 import PrintScriptToken
 import Token
 import builder.DefaultNodeBuilder
@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import type.CommonTypes
 
 class NodeTest {
     private lateinit var nodeBuilder: DefaultNodeBuilder
@@ -24,11 +25,11 @@ class NodeTest {
 
         // Create mock tokens for testing
         val coordinates = Position(1, 1)
-        mockToken = PrintScriptToken(TokenType.STRING_LITERAL, "test", coordinates)
-        numberToken = PrintScriptToken(TokenType.NUMBER_LITERAL, "42", coordinates)
-        identifierToken = PrintScriptToken(TokenType.IDENTIFIER, "myVar", coordinates)
-        operatorToken = PrintScriptToken(TokenType.OPERATORS, "+", coordinates)
-        dataTypeToken = PrintScriptToken(TokenType.DATA_TYPES, "NUMBER", coordinates)
+        mockToken = PrintScriptToken(CommonTypes.STRING_LITERAL, "test", coordinates)
+        numberToken = PrintScriptToken(CommonTypes.NUMBER_LITERAL, "42", coordinates)
+        identifierToken = PrintScriptToken(CommonTypes.IDENTIFIER, "myVar", coordinates)
+        operatorToken = PrintScriptToken(CommonTypes.OPERATORS, "+", coordinates)
+        dataTypeToken = PrintScriptToken(CommonTypes.DATA_TYPES, "NUMBER", coordinates)
     }
 
     @Test
@@ -151,18 +152,18 @@ class NodeTest {
         // Build a more complex AST: let x: NUMBER = 5 + 10;
         val leftOperand =
             nodeBuilder.buildLiteralExpressionNode(
-                PrintScriptToken(TokenType.NUMBER_LITERAL, "5", Position(1, 15)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 15)),
             )
         val rightOperand =
             nodeBuilder.buildLiteralExpressionNode(
-                PrintScriptToken(TokenType.NUMBER_LITERAL, "10", Position(1, 19)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 19)),
             )
         val binaryExpr = nodeBuilder.buildBinaryExpressionNode(leftOperand, operatorToken, rightOperand)
 
         val varDecl =
             nodeBuilder.buildVariableDeclarationStatementNode(
-                PrintScriptToken(TokenType.IDENTIFIER, "x", Position(1, 5)),
-                PrintScriptToken(TokenType.DATA_TYPES, "NUMBER", Position(1, 8)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
+                PrintScriptToken(CommonTypes.DATA_TYPES, "NUMBER", Position(1, 8)),
                 binaryExpr,
             )
 

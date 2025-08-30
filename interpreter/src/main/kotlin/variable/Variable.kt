@@ -1,0 +1,3 @@
+package variable
+
+class Variable

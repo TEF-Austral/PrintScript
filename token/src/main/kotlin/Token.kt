@@ -1,5 +1,8 @@
+import type.CommonTypes
+import type.Coordinates
+
 sealed interface Token {
-    fun getType(): TokenType
+    fun getType(): CommonTypes
 
     fun getValue(): String
 
