@@ -1,6 +1,6 @@
 package converter.specific
 
-import type.Coordinates
+import coordinates.Coordinates
 import PrintScriptToken
 import Token
 import type.CommonTypes

@@ -1,4 +1,5 @@
 import builder.DefaultNodeBuilder
+import coordinates.Position
 import formatter.DefaultFormatter
 import formatter.config.FormatConfig
 import node.LiteralExpression
@@ -6,8 +7,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.StringWriter
 import type.CommonTypes
-import coordinates.Position
-
+// TODO USE TITLECASE/ ENFORCE TITLECASE
 class DefaultFormatterTest {
     private val builder = DefaultNodeBuilder()
     private val fmt = DefaultFormatter()
@@ -22,14 +22,14 @@ class DefaultFormatterTest {
         val decl =
             builder.buildVariableDeclarationStatementNode(
                 identifier = tok(CommonTypes.IDENTIFIER, "x"),
-                dataType = tok(CommonTypes.DATA_TYPES, "number"),
+                dataType = tok(CommonTypes.NUMBER, "number"),
                 initialValue = null,
             )
 
         val program = builder.buildProgramNode(listOf(decl))
         val result = fmt.formatToString(program, FormatConfig())
 
-        assertEquals("let x: number;\n\n", result)
+        assertEquals("let x: NUMBER;\n\n", result)
     }
 
     @Test
@@ -66,7 +66,7 @@ class DefaultFormatterTest {
         val decl =
             builder.buildVariableDeclarationStatementNode(
                 identifier = tok(CommonTypes.IDENTIFIER, "msg"),
-                dataType = tok(CommonTypes.DATA_TYPES, "string"),
+                dataType = tok(CommonTypes.STRING, "string"),
                 initialValue = LiteralExpression(tok(CommonTypes.STRING_LITERAL, "\"ok\"")),
             )
 
@@ -79,7 +79,7 @@ class DefaultFormatterTest {
         val program = builder.buildProgramNode(listOf(decl))
         val result = fmt.formatToString(program, config)
 
-        assertEquals("let msg :string = \"ok\";\n\n", result)
+        assertEquals("let msg :STRING = \"ok\";\n\n", result)
     }
 
     @Test
@@ -87,7 +87,7 @@ class DefaultFormatterTest {
         val decl =
             builder.buildVariableDeclarationStatementNode(
                 identifier = tok(CommonTypes.IDENTIFIER, "x"),
-                dataType = tok(CommonTypes.DATA_TYPES, "number"),
+                dataType = tok(CommonTypes.NUMBER, "number"),
                 initialValue = null,
             )
         val program = builder.buildProgramNode(listOf(decl))
@@ -95,7 +95,7 @@ class DefaultFormatterTest {
 
         fmt.formatToWriter(program, FormatConfig(), writer)
 
-        assertEquals("let x: number;\n\n", writer.toString())
+        assertEquals("let x: NUMBER;\n\n", writer.toString())
     }
 
     @Test

@@ -18,9 +18,15 @@ class PrintStatementExecutor(
                 return expressionResult
             }
 
-            val value = expressionResult.interpreter ?: ""
-            println(value)
-            InterpreterResult(true, "Print executed successfully", null)
+            val value =
+                expressionResult.interpreter ?: return InterpreterResult(
+                    false,
+                    "Error: No value to print",
+                    null,
+                )
+
+            println(value.getValue())
+            InterpreterResult(true, "Print executed successfully", value)
         } catch (e: Exception) {
             InterpreterResult(false, "Error executing print statement: ${e.message}", null)
         }

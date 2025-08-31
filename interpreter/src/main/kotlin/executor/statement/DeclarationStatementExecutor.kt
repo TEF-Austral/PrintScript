@@ -4,9 +4,11 @@ import executor.expression.DefaultExpressionExecutor
 import executor.result.InterpreterResult
 import node.DeclarationStatement
 import node.Statement
+import utils.areTypesCompatible
+import variable.Variable
 
 class DeclarationStatementExecutor(
-    private val variables: MutableMap<String, Any>,
+    private val variables: MutableMap<String, Variable>,
     private val defaultExpressionExecutor: DefaultExpressionExecutor,
 ) : SpecificStatementExecutor {
     override fun canHandle(statement: Statement): Boolean = statement is DeclarationStatement
@@ -14,29 +16,39 @@ class DeclarationStatementExecutor(
     override fun execute(statement: Statement): InterpreterResult {
         return try {
             val declarationStatement = statement as DeclarationStatement
-            val initialValue = declarationStatement.getInitialValue()
+            val identifier = declarationStatement.getIdentifier()
+            val declaredType = declarationStatement.getDataType() // El tipo declarado (ej: NUMBER)
+            val initialValueExpression = declarationStatement.getInitialValue()
 
-            if (initialValue != null) {
-                val expressionResult = defaultExpressionExecutor.execute(initialValue)
+            val variable: Variable
+
+            if (initialValueExpression != null) {
+                val expressionResult = defaultExpressionExecutor.execute(initialValueExpression)
                 if (!expressionResult.interpretedCorrectly) {
                     return expressionResult
                 }
-                val value = expressionResult.interpreter ?: ""
-                variables[declarationStatement.getIdentifier()] = value
+
+                val initialValue = expressionResult.interpreter
+                    ?: return InterpreterResult(false, "Error: Expression did not yield a value", null)
+
+                if (!areTypesCompatible(declaredType, initialValue.getType())) {
+                    return InterpreterResult(
+                        false,
+                        "Error: Type mismatch. Cannot assign value of type '${initialValue.getType()}' to variable '$identifier' declared as '$declaredType'",
+                        null,
+                    )
+                }
+                variable = Variable(declaredType, initialValue.getValue())
+
             } else {
-                variables[declarationStatement.getIdentifier()] = getDefaultValue(declarationStatement.getDataType())
+                variable = Variable(declaredType, null)
             }
+
+            variables[identifier] = variable
 
             InterpreterResult(true, "Declaration executed successfully", null)
         } catch (e: Exception) {
             InterpreterResult(false, "Error executing declaration statement: ${e.message}", null)
         }
     }
-
-    private fun getDefaultValue(dataType: String): Any =
-        when (dataType.lowercase()) {
-            "string" -> ""
-            "number", "int" -> 0
-            else -> ""
-        }
 }

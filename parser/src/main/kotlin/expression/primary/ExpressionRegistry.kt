@@ -5,6 +5,7 @@ import node.EmptyExpression
 import parser.Parser
 import parser.expression.TokenToExpression
 import parser.result.ExpressionBuiltResult
+import parser.result.ExpressionResult
 
 class ExpressionRegistry(
     private val expressionBuilder: List<ExpressionBuilder>,
@@ -12,7 +13,7 @@ class ExpressionRegistry(
     override fun build(
         parser: Parser,
         current: Token,
-    ): ExpressionBuiltResult {
+    ): ExpressionResult {
         for (builder in expressionBuilder) {
             if (builder.canHandle(current.getType())) {
                 return builder.build(parser, current)

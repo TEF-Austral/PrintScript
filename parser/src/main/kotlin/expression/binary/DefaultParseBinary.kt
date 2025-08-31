@@ -5,6 +5,7 @@ import node.Expression
 import parser.Parser
 import parser.expression.TokenToExpression
 import parser.result.ExpressionBuiltResult
+import parser.result.ExpressionErrorResult
 import parser.result.ExpressionResult
 import type.CommonTypes
 
@@ -28,8 +29,10 @@ class DefaultParseBinary(
 
         val operator = parserAtOperator.peak()!!
         val parserAfterOperator = consumeOperator(parserAtOperator)
-
         val rightOperand = parseRightOperand(parserAfterOperator)
+        if (!rightOperand.isSuccess()) {
+            throw Exception(rightOperand.message())
+        }
         val processedRight = processRightAssociativity(parserAfterOperator, rightOperand, operator)
 
         val newExpression =

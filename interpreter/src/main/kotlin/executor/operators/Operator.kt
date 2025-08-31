@@ -1,10 +1,12 @@
 package executor.operators
 
+import variable.Variable
+
 interface Operator {
     fun canHandle(symbol: String): Boolean
 
     fun operate(
-        left: String,
-        right: String,
-    ): OperatorResult
+        left: Variable,
+        right: Variable,
+    ): Variable
 }

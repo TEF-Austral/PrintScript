@@ -1,36 +1,48 @@
 package executor.operators
 
+import variable.Variable
+import type.CommonTypes
+
 object Subtraction : Operator {
     override fun canHandle(symbol: String): Boolean = symbol == "-"
 
     override fun operate(
-        left: String,
-        right: String,
-    ): OperatorResult {
-        val toInt = toInt(left, right)
-        if (toInt.wasSuccessful) return toInt
-        val toDouble = toDouble(left, right)
-        if (toDouble.wasSuccessful) return toDouble
-        return OperatorResult("You can't subtract strings", false)
+        left: Variable,
+        right: Variable,
+    ): Variable {
+        val intResult = subtractAsInt(left, right)
+        if (intResult != null) return intResult
+
+        val doubleResult = subtractAsDouble(left, right)
+        if (doubleResult != null) return doubleResult
+
+        // TODO deberia de haber un type para error quisa?
+        return Variable(CommonTypes.STRING_LITERAL, null)
     }
 
-    private fun toInt(
-        left: String,
-        right: String,
-    ): OperatorResult {
-        val l = left.toIntOrNull()
-        val r = right.toIntOrNull()
-        if (l != null && r != null) return OperatorResult(l - r, true)
-        return OperatorResult("Can't be converted to Int", false)
+    private fun subtractAsInt(
+        left: Variable,
+        right: Variable,
+    ): Variable? {
+        val leftInt = left.getValue()?.toString()?.toIntOrNull()
+        val rightInt = right.getValue()?.toString()?.toIntOrNull()
+        return if (leftInt != null && rightInt != null) {
+            Variable(CommonTypes.NUMBER_LITERAL, leftInt - rightInt)
+        } else {
+            null
+        }
     }
 
-    private fun toDouble(
-        left: String,
-        right: String,
-    ): OperatorResult {
-        val l = left.toDoubleOrNull()
-        val r = right.toDoubleOrNull()
-        if (l != null && r != null) return OperatorResult(l - r, true)
-        return OperatorResult("Can't be converted to Double", false)
+    private fun subtractAsDouble(
+        left: Variable,
+        right: Variable,
+    ): Variable? {
+        val leftDouble = left.getValue()?.toString()?.toDoubleOrNull()
+        val rightDouble = right.getValue()?.toString()?.toDoubleOrNull()
+        return if (leftDouble != null && rightDouble != null) {
+            Variable(CommonTypes.NUMBER_LITERAL, leftDouble - rightDouble)
+        } else {
+            null
+        }
     }
 }

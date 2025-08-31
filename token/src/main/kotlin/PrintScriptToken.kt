@@ -1,5 +1,5 @@
 import type.CommonTypes
-import type.Coordinates
+import coordinates.Coordinates
 
 class PrintScriptToken(
     private val type: CommonTypes,

@@ -1,6 +1,6 @@
 package converter
 
-import type.Coordinates
+import coordinates.Coordinates
 import Token
 
 interface TokenConverter {

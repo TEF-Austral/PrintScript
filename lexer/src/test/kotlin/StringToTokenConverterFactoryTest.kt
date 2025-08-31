@@ -6,7 +6,7 @@ import converter.specific.StringLiteralToToken
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import type.CommonTypes
-import type.Position
+import coordinates.Position
 
 class StringToTokenConverterFactoryTest {
     private val position = Position(1, 1)

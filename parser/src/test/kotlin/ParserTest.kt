@@ -2,6 +2,7 @@ import builder.DefaultNodeBuilder
 import coordinates.Position
 import node.BinaryExpression
 import node.DeclarationStatement
+import node.EmptyExpression
 import node.ExpressionStatement
 import node.IdentifierExpression
 import node.LiteralExpression
@@ -35,7 +36,7 @@ class ParserTest {
 
         val varDecl = statement as DeclarationStatement
         assertEquals("x", varDecl.getIdentifier())
-        assertEquals("NUMBER", varDecl.getDataType())
+        assertEquals(CommonTypes.NUMBER, varDecl.getDataType())
         assertTrue(varDecl.getInitialValue() is LiteralExpression)
 
         val literal = varDecl.getInitialValue() as LiteralExpression
@@ -76,14 +77,14 @@ class ParserTest {
         assertTrue(firstStatement is DeclarationStatement)
         val firstVarDecl = firstStatement as DeclarationStatement
         assertEquals("x", firstVarDecl.getIdentifier())
-        assertEquals("NUMBER", firstVarDecl.getDataType())
+        assertEquals(CommonTypes.NUMBER, firstVarDecl.getDataType())
         assertEquals("5", (firstVarDecl.getInitialValue() as LiteralExpression).getValue())
 
         val secondStatement = program.getStatements()[1]
         assertTrue(secondStatement is DeclarationStatement)
         val secondVarDecl = secondStatement as DeclarationStatement
         assertEquals("y", secondVarDecl.getIdentifier())
-        assertEquals("NUMBER", secondVarDecl.getDataType())
+        assertEquals(CommonTypes.NUMBER, secondVarDecl.getDataType())
         assertEquals("5", (secondVarDecl.getInitialValue() as LiteralExpression).getValue())
 
         val thirdStatement = program.getStatements()[2]
@@ -304,7 +305,7 @@ class ParserTest {
 
         val varDecl = statement as DeclarationStatement
         assertEquals("x", varDecl.getIdentifier())
-        assertEquals("NUMBER", varDecl.getDataType())
-        assertTrue(varDecl.getInitialValue() is LiteralExpression)
+        assertEquals(CommonTypes.NUMBER, varDecl.getDataType())
+        assertTrue(varDecl.getInitialValue() is EmptyExpression)
     }
 }

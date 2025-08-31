@@ -1,8 +1,8 @@
 package builder
 
 import Token
-import node.Program
 import node.Expression
+import node.Program
 import node.Statement
 
 sealed interface NodeBuilder {
