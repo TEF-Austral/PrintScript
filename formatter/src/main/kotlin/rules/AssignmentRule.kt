@@ -11,14 +11,16 @@ class AssignmentRule : FormatRule {
         node: ASTNode,
         sb: StringBuilder,
         config: FormatConfig,
-        indentLevel: Int
+        indentLevel: Int,
     ) {
         val stmt = node as AssignmentStatement
-        sb.append(" ".repeat(indentLevel * config.indentSize))
+        sb
+            .append(" ".repeat(indentLevel * config.indentSize))
             .append(stmt.getIdentifier())
 
         if (config.spaceAroundAssignment) sb.append(" = ") else sb.append("=")
-        RuleRegistry.rules.first { it.matches(stmt.getValue()) }
+        RuleRegistry.rules
+            .first { it.matches(stmt.getValue()) }
             .apply(stmt.getValue(), sb, config, indentLevel)
 
         sb.append(";").appendLine()

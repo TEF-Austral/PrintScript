@@ -11,7 +11,7 @@ class LiteralExpressionRule : FormatRule {
         node: ASTNode,
         sb: StringBuilder,
         config: FormatConfig,
-        indentLevel: Int
+        indentLevel: Int,
     ) {
         sb.append((node as LiteralExpression).getValue())
     }

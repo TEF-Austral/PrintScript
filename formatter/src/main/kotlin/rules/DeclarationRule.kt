@@ -11,10 +11,11 @@ class DeclarationRule : FormatRule {
         node: ASTNode,
         sb: StringBuilder,
         config: FormatConfig,
-        indentLevel: Int
+        indentLevel: Int,
     ) {
         val stmt = node as DeclarationStatement
-        sb.append(" ".repeat(indentLevel * config.indentSize))
+        sb
+            .append(" ".repeat(indentLevel * config.indentSize))
             .append("let ")
             .append(stmt.getIdentifier())
 
@@ -25,7 +26,8 @@ class DeclarationRule : FormatRule {
 
         stmt.getInitialValue()?.also { expr ->
             if (config.spaceAroundAssignment) sb.append(" = ") else sb.append("=")
-            RuleRegistry.rules.first { it.matches(expr) }
+            RuleRegistry.rules
+                .first { it.matches(expr) }
                 .apply(expr, sb, config, indentLevel)
         }
 

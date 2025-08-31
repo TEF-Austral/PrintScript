@@ -11,11 +11,12 @@ class ExpressionStatementRule : FormatRule {
         node: ASTNode,
         sb: StringBuilder,
         config: FormatConfig,
-        indentLevel: Int
+        indentLevel: Int,
     ) {
         val stmt = node as ExpressionStatement
         sb.append(" ".repeat(indentLevel * config.indentSize))
-        RuleRegistry.rules.first { it.matches(stmt.getExpression()) }
+        RuleRegistry.rules
+            .first { it.matches(stmt.getExpression()) }
             .apply(stmt.getExpression(), sb, config, indentLevel)
         sb.append(";").appendLine()
     }

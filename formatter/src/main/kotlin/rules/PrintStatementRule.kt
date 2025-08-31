@@ -13,17 +13,20 @@ class PrintStatementRule : FormatRule {
         node: ASTNode,
         sb: StringBuilder,
         config: FormatConfig,
-        indentLevel: Int
+        indentLevel: Int,
     ) {
         val stmt = node as PrintStatement
-        val lines = config.blankLinesBeforePrintln
-            .coerceIn(MIN_BLANK_LINES_BEFORE_PRINTLN, MAX_BLANK_LINES_BEFORE_PRINTLN)
+        val lines =
+            config.blankLinesBeforePrintln
+                .coerceIn(MIN_BLANK_LINES_BEFORE_PRINTLN, MAX_BLANK_LINES_BEFORE_PRINTLN)
         repeat(lines) { sb.appendLine() }
 
-        sb.append(" ".repeat(indentLevel * config.indentSize))
+        sb
+            .append(" ".repeat(indentLevel * config.indentSize))
             .append("println(")
 
-        RuleRegistry.rules.first { it.matches(stmt.getExpression()) }
+        RuleRegistry.rules
+            .first { it.matches(stmt.getExpression()) }
             .apply(stmt.getExpression(), sb, config, indentLevel)
 
         sb.append(");").appendLine()

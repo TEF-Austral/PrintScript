@@ -11,16 +11,18 @@ class BinaryExpressionRule : FormatRule {
         node: ASTNode,
         sb: StringBuilder,
         config: FormatConfig,
-        indentLevel: Int
+        indentLevel: Int,
     ) {
         val expr = node as BinaryExpression
 
-        RuleRegistry.rules.first { it.matches(expr.getLeft()) }
+        RuleRegistry.rules
+            .first { it.matches(expr.getLeft()) }
             .apply(expr.getLeft(), sb, config, indentLevel)
 
         sb.append(" ${expr.getOperator().getValue()} ")
 
-        RuleRegistry.rules.first { it.matches(expr.getRight()) }
+        RuleRegistry.rules
+            .first { it.matches(expr.getRight()) }
             .apply(expr.getRight(), sb, config, indentLevel)
     }
 }
