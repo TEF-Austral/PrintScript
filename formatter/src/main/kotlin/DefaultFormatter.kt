@@ -17,7 +17,7 @@ class DefaultFormatter : Formatter {
         program.getStatements().forEach { stmt ->
             RuleRegistry.rules
                 .first { rule -> rule.matches(stmt as ASTNode) }
-                .apply(stmt, sb, config,0)
+                .apply(stmt, sb, config, 0)
         }
 
         // Collapse multi-spaces, ensure one final newline
