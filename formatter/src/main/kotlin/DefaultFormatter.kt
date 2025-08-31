@@ -1,21 +1,10 @@
 package formatter
 
 import formatter.config.FormatConfig
-import formatter.config.FormatterConstants.MAX_BLANK_LINES_BEFORE_PRINTLN
-import formatter.config.FormatterConstants.MIN_BLANK_LINES_BEFORE_PRINTLN
 import formatter.config.FormatterConstants.MULTI_SPACE_REGEX
+import formatter.rules.RuleRegistry
+import node.ASTNode
 import node.Program
-import node.LiteralExpression
-import node.IdentifierExpression
-import node.BinaryExpression
-import node.EmptyExpression
-import node.DeclarationStatement
-import node.AssignmentStatement
-import node.PrintStatement
-import node.EmptyStatement
-import node.Expression
-import node.ExpressionStatement
-import node.Statement
 import java.io.Writer
 
 class DefaultFormatter : Formatter {
@@ -24,74 +13,14 @@ class DefaultFormatter : Formatter {
         config: FormatConfig,
     ): String {
         val sb = StringBuilder()
-        val indentLevel = 0
-
-        fun indent() = sb.append(" ".repeat(indentLevel * config.indentSize))
-
-        fun formatExpression(expr: Expression) {
-            when (expr) {
-                is LiteralExpression -> sb.append(expr.getValue())
-                is IdentifierExpression -> sb.append(expr.getName())
-                is BinaryExpression -> {
-                    formatExpression(expr.getLeft())
-                    sb.append(" ${expr.getOperator().getValue()} ")
-                    formatExpression(expr.getRight())
-                }
-                is EmptyExpression -> { /* nothing */ }
-            }
+        // Format each top-level statement via the rule registry
+        program.getStatements().forEach { stmt ->
+            RuleRegistry.rules
+                .first { rule -> rule.matches(stmt as ASTNode) }
+                .apply(stmt, sb, config, 0)
         }
 
-        fun formatStatement(stmt: Statement) {
-            when (stmt) {
-                is DeclarationStatement -> {
-                    indent()
-                    sb
-                        .append("let ")
-                        .append(stmt.getIdentifier())
-                    if (config.spaceBeforeColon) sb.append(" ")
-                    sb.append(":")
-                    if (config.spaceAfterColon) sb.append(" ")
-                    sb.append(stmt.getDataType())
-                    stmt.getInitialValue()?.also {
-                        if (config.spaceAroundAssignment) sb.append(" = ") else sb.append("=")
-                        formatExpression(it)
-                    }
-                    sb.append(";")
-                }
-                is AssignmentStatement -> {
-                    indent()
-                    sb.append(stmt.getIdentifier())
-                    if (config.spaceAroundAssignment) sb.append(" = ") else sb.append("=")
-                    formatExpression(stmt.getValue())
-                    sb.append(";")
-                }
-                is ExpressionStatement -> {
-                    indent()
-                    formatExpression(stmt.getExpression())
-                    sb.append(";")
-                }
-                is PrintStatement -> {
-                    val lines =
-                        config.blankLinesBeforePrintln.coerceIn(
-                            MIN_BLANK_LINES_BEFORE_PRINTLN,
-                            MAX_BLANK_LINES_BEFORE_PRINTLN,
-                        )
-                    repeat(lines) { sb.appendLine() }
-                    indent()
-                    sb.append("println(")
-                    formatExpression(stmt.getExpression())
-                    sb.append(");")
-                }
-                is EmptyStatement -> {
-                    indent()
-                    sb.append(";")
-                }
-            }
-            sb.appendLine()
-        }
-
-        program.getStatements().forEach { formatStatement(it) }
-
+        // Collapse multi-spaces, ensure one final newline
         return sb
             .toString()
             .lines()
