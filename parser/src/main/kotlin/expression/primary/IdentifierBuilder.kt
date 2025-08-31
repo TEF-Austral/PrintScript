@@ -1,9 +1,9 @@
 package parser.expression.primary
 
 import Token
-import node.Expression
-import parser.Parser
 import type.CommonTypes
+import parser.Parser
+import parser.result.ExpressionBuiltResult
 
 object IdentifierBuilder : ExpressionBuilder {
     override fun canHandle(token: CommonTypes): Boolean = token == CommonTypes.IDENTIFIER
@@ -11,9 +11,11 @@ object IdentifierBuilder : ExpressionBuilder {
     override fun build(
         parser: Parser,
         current: Token,
-    ): Pair<Expression, Parser> {
-        val nextParser = parser.advance()
-        val expr = nextParser.getNodeBuilder().buildIdentifierNode(current)
-        return Pair(expr, nextParser)
+    ): ExpressionBuiltResult {
+        val newParser = parser.advance()
+        return ExpressionBuiltResult(
+            newParser,
+            newParser.getNodeBuilder().buildIdentifierNode(current),
+        )
     }
 }

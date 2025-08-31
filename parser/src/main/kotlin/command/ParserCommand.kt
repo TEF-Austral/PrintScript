@@ -1,9 +1,8 @@
 package parser.command
 
-import node.Statement
 import parser.Parser
-import parser.result.ParseResult
+import parser.result.StatementResult
 
 sealed interface ParserCommand {
-    fun parse(parser: Parser): Pair<ParseResult<Statement>, Parser>
+    fun parse(parser: Parser): StatementResult
 }

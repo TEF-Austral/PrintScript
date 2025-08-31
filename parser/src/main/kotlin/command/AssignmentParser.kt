@@ -1,9 +1,11 @@
 package parser.command
 
 import Token
-import node.Statement
 import parser.Parser
-import parser.result.ParseResult
+import parser.result.StatementBuiltResult
+import parser.result.StatementResult
+import parser.utils.checkType
+import parser.utils.isValidResultAndCurrentToken
 import type.CommonTypes
 
 class AssignmentParser : StatementParserCommand {
@@ -12,28 +14,20 @@ class AssignmentParser : StatementParserCommand {
         parser: Parser,
     ): Boolean {
         if (token?.getType() != CommonTypes.IDENTIFIER) return false
-        return parser.advance().getCurrentToken()?.getType() == CommonTypes.ASSIGNMENT
+        val newParser = parser.advance()
+        val isAssign = checkType(CommonTypes.ASSIGNMENT, newParser.peak())
+        return isAssign
     }
 
-    override fun parse(parser: Parser): Pair<ParseResult<Statement>, Parser> {
-        val (idRes, p1) = parser.consumeOrError(CommonTypes.IDENTIFIER)
-        if (idRes is ParseResult.Failure) return Pair(idRes, p1)
-        val idToken = (idRes as ParseResult.Success).value
-
-        val (eqRes, p2) = p1.consumeOrError(CommonTypes.ASSIGNMENT)
-        if (eqRes is ParseResult.Failure) return Pair(eqRes, p2)
-
-        // parse the expression and get the updated parser
-        val (valueExpr, p3) = p2.getExpressionParser().parseExpression(p2)
-
-        val (semiRes, p4) = p3.consumeOrError(CommonTypes.DELIMITERS)
-        if (semiRes is ParseResult.Failure) return Pair(semiRes, p4)
-
-        // pass only the Expression to the builder
-        val stmt =
-            p4
-                .getNodeBuilder()
-                .buildAssignmentStatementNode(idToken, valueExpr)
-        return Pair(ParseResult.Success(stmt), p4)
+    override fun parse(parser: Parser): StatementResult {
+        val identifier = parser.consume(CommonTypes.IDENTIFIER)
+        if (!isValidResultAndCurrentToken(identifier)) {
+            throw Exception("Expected identifier")
+        }
+        val assigmentParser = identifier.getParser().consume(CommonTypes.ASSIGNMENT).getParser() // =
+        val value = assigmentParser.getExpressionParser().parseExpression(assigmentParser.advance())
+        val delimiterParser = parser.consume(CommonTypes.DELIMITERS).getParser() // ;
+        val builtStatement = delimiterParser.getNodeBuilder().buildAssignmentStatementNode(identifier.getParser().peak()!!, value.getExpression())
+        return StatementBuiltResult(delimiterParser, builtStatement)
     }
 }

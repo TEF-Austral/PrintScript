@@ -3,13 +3,13 @@ package parser.expression.binary
 import Token
 import node.Expression
 import parser.Parser
+import parser.result.ExpressionResult
 
 sealed interface ParseBinary {
     fun parseBinary(
-        parser: Parser,
-        left: Expression,
+        left: ExpressionResult,
         minPrecedence: Int,
-    ): Pair<Expression, Parser>
+    ): ExpressionResult
 
     fun hasValidOperatorToken(parser: Parser): Boolean
 
@@ -18,22 +18,22 @@ sealed interface ParseBinary {
         minPrecedence: Int,
     ): Boolean
 
-    fun consumeOperator(parser: Parser): Pair<Token, Parser>
+    fun consumeOperator(parser: Parser): Parser
 
-    fun parseRightOperand(parser: Parser): Pair<Expression, Parser>
+    fun parseRightOperand(parser: Parser): ExpressionResult
 
     fun processRightAssociativity(
         parser: Parser,
-        right: Expression,
+        right: ExpressionResult,
         operator: Token,
-    ): Pair<Expression, Parser>
+    ): ExpressionResult
 
     fun buildBinaryExpression(
         parser: Parser,
         left: Expression,
         operator: Token,
         right: Expression,
-    ): Pair<Expression, Parser>
+    ): Expression
 
     fun getOperatorPrecedence(token: Token): Int
 

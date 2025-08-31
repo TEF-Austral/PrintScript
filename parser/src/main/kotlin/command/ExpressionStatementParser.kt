@@ -1,9 +1,9 @@
 package parser.command
 
 import Token
-import node.Statement
 import parser.Parser
-import parser.result.ParseResult
+import parser.result.StatementBuiltResult
+import parser.result.StatementResult
 import type.CommonTypes
 
 class ExpressionStatementParser : StatementParserCommand {
@@ -12,22 +12,31 @@ class ExpressionStatementParser : StatementParserCommand {
         parser: Parser,
     ): Boolean {
         if (token == null) return false
-        val type = token.getType()
-        val value = token.getValue()
-        return type == CommonTypes.NUMBER_LITERAL ||
-            type == CommonTypes.STRING_LITERAL ||
-            type == CommonTypes.IDENTIFIER ||
-            (type == CommonTypes.DELIMITERS && value == "(")
+
+        val commonTypes = token.getType()
+        val tokenValue = token.getValue()
+
+        return isNumberLiteral(commonTypes) ||
+            isStringLiteral(commonTypes) ||
+            isIdentifier(commonTypes) ||
+            isOpeningParenthesis(commonTypes, tokenValue)
     }
 
-    override fun parse(parser: Parser): Pair<ParseResult<Statement>, Parser> {
-        // parse the expression
-        val (expr, p1) = parser.getExpressionParser().parseExpression(parser)
-        // consume the semicolon
-        val (semiRes, p2) = p1.consumeOrError(CommonTypes.DELIMITERS)
-        if (semiRes is ParseResult.Failure) return Pair(semiRes, p2)
-        // build and return the expression statement
-        val stmt = p2.getNodeBuilder().buildExpressionStatementNode(expr)
-        return Pair(ParseResult.Success(stmt), p2)
+    private fun isNumberLiteral(commonTypes: CommonTypes): Boolean = commonTypes == CommonTypes.NUMBER_LITERAL
+
+    private fun isStringLiteral(commonTypes: CommonTypes): Boolean = commonTypes == CommonTypes.STRING_LITERAL
+
+    private fun isIdentifier(commonTypes: CommonTypes): Boolean = commonTypes == CommonTypes.IDENTIFIER
+
+    private fun isOpeningParenthesis(
+        commonTypes: CommonTypes,
+        tokenValue: String,
+    ): Boolean = commonTypes == CommonTypes.DELIMITERS && tokenValue == "("
+
+    override fun parse(parser: Parser): StatementResult {
+        val expression = parser.getExpressionParser().parseExpression(parser)
+        val delimiterParser = expression.getParser().consume(CommonTypes.DELIMITERS).getParser() // ;
+        val builtStatement = delimiterParser.getNodeBuilder().buildExpressionStatementNode(expression.getExpression())
+        return StatementBuiltResult(delimiterParser, builtStatement)
     }
 }

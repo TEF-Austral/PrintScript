@@ -1,12 +1,12 @@
 package parser.expression
 
 import Token
-import node.Expression
 import parser.Parser
+import parser.result.ExpressionBuiltResult
 
 interface TokenToExpression {
     fun build(
         parser: Parser,
         current: Token,
-    ): Pair<Expression, Parser>
+    ): ExpressionBuiltResult
 }

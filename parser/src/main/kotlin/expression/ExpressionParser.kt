@@ -1,27 +1,21 @@
 package parser.expression
 
 import node.EmptyExpression
-import node.Expression
 import parser.Parser
 import parser.expression.binary.ParseBinary
+import parser.result.ExpressionBuiltResult
+import parser.result.ExpressionResult
 
 class ExpressionParser(
-    private val expressionBuilder: TokenToExpression,
-    private val binaryBuilder: ParseBinary,
+    val expressionBuilder: TokenToExpression,
+    val binaryBuilder: ParseBinary,
 ) {
-    fun parseExpression(parser: Parser): Pair<Expression, Parser> {
-        val (left, parserAfterPrimary) = parsePrimary(parser)
-        return parseBinary(parserAfterPrimary, left, 0)
-    }
+    fun parseExpression(parser: Parser): ExpressionResult = parseBinary(parsePrimary(parser))
 
-    fun parsePrimary(parser: Parser): Pair<Expression, Parser> {
-        val current = parser.getCurrentToken() ?: return EmptyExpression() to parser
+    fun parsePrimary(parser: Parser): ExpressionResult {
+        val current = parser.peak() ?: return ExpressionBuiltResult(parser, EmptyExpression())
         return expressionBuilder.build(parser, current)
     }
 
-    fun parseBinary(
-        parser: Parser,
-        left: Expression,
-        minPrecedence: Int,
-    ): Pair<Expression, Parser> = binaryBuilder.parseBinary(parser, left, minPrecedence)
+    fun parseBinary(left: ExpressionResult): ExpressionResult = binaryBuilder.parseBinary(left, 0)
 }

@@ -1,26 +1,19 @@
 package parser.statement
 
-import node.Statement
 import parser.Parser
 import parser.command.DefaultStatementParserRegistry
-import parser.command.StatementParserCommand
-import parser.result.ParseResult
+import parser.result.StatementResult
 
-class StatementParser {
-    private val registry: DefaultStatementParserRegistry
-
-    init {
-        val commands = createStatementCommands()
-        registry = DefaultStatementParserRegistry(commands)
-    }
-
-    fun parseStatement(parser: Parser): Pair<ParseResult<Statement>, Parser> = registry.parse(parser)
-
-    private fun createStatementCommands(): List<StatementParserCommand> =
-        listOf(
-            parser.command.VariableDeclarationParser(),
-            parser.command.AssignmentParser(),
-            parser.command.PrintStatementParser(),
-            parser.command.ExpressionStatementParser(),
-        )
+class StatementParser(
+    private val registry: DefaultStatementParserRegistry =
+        DefaultStatementParserRegistry(
+            listOf(
+                parser.command.VariableDeclarationParser(),
+                parser.command.AssignmentParser(),
+                parser.command.PrintStatementParser(),
+                parser.command.ExpressionStatementParser(),
+            ),
+        ),
+) {
+    fun parseStatement(parser: Parser): StatementResult = registry.parse(parser)
 }
