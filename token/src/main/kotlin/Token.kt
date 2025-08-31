@@ -1,5 +1,5 @@
 import type.CommonTypes
-import type.Coordinates
+import coordinates.Coordinates
 
 sealed interface Token {
     fun getType(): CommonTypes

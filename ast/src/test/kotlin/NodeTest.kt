@@ -1,6 +1,6 @@
 package node
 
-import type.Position
+import coordinates.Position
 import PrintScriptToken
 import Token
 import builder.DefaultNodeBuilder

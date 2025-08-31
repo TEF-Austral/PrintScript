@@ -25,7 +25,7 @@ import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 import kotlin.test.assertEquals
 import type.CommonTypes
-import type.Position
+import coordinates.Position
 
 class InterpreterTest {
     val mutableMap: MutableMap<String, Any> = mutableMapOf()

@@ -1,4 +1,4 @@
-package type
+package coordinates
 
 class Position(
     private val row: Int,
