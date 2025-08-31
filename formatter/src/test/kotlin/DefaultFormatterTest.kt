@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.StringWriter
 import type.CommonTypes
-import type.Position
+import coordinates.Position
 
 class DefaultFormatterTest {
     private val builder = DefaultNodeBuilder()
