@@ -1,5 +1,6 @@
 package executor.operators
 
+import executor.result.InterpreterResult
 import variable.Variable
 import type.CommonTypes
 
@@ -9,15 +10,15 @@ object Subtraction : Operator {
     override fun operate(
         left: Variable,
         right: Variable,
-    ): Variable {
+    ): InterpreterResult {
         val intResult = subtractAsInt(left, right)
-        if (intResult != null) return intResult
+        if (intResult != null) return InterpreterResult(true, "Succes Substraction", intResult)
 
         val doubleResult = subtractAsDouble(left, right)
-        if (doubleResult != null) return doubleResult
+        if (doubleResult != null) return InterpreterResult(true, "Succes Substraction", doubleResult)
 
         // TODO deberia de haber un type para error quisa?
-        return Variable(CommonTypes.STRING_LITERAL, null)
+        return InterpreterResult(false, "Type mismatch: Incompatible types for Substraction operation", Variable(CommonTypes.STRING_LITERAL, null))
     }
 
     private fun subtractAsInt(

@@ -57,10 +57,10 @@ class BinaryExpressionExecutor(
         }
         val operationResult = performOperation(left, operatorValue, right)
 
-        return if (operationResult.getValue() != null) {
-            InterpreterResult(true, "Binary expression evaluated", operationResult)
+        return if (operationResult.interpretedCorrectly) {
+            InterpreterResult(true, "Binary expression evaluated", operationResult.interpreter)
         } else {
-            createErrorResult("Operation could not be performed")
+            createErrorResult(operationResult.message)
         }
     }
 
@@ -68,9 +68,10 @@ class BinaryExpressionExecutor(
         left: Variable,
         operatorValue: String,
         right: Variable,
-    ): Variable {
+    ): InterpreterResult {
         val operator = operators.find { it.canHandle(operatorValue) }
-        return operator?.operate(left, right) ?: Variable(CommonTypes.STRING_LITERAL, null)
+        return operator?.operate(left, right)
+            ?: InterpreterResult(false, "Can not Support That Operation", Variable(CommonTypes.STRING_LITERAL, null))
     }
 
     private fun createErrorResult(message: String): InterpreterResult = InterpreterResult(false, message, null)

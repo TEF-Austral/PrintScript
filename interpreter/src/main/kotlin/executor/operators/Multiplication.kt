@@ -1,5 +1,6 @@
 package executor.operators
 
+import executor.result.InterpreterResult
 import variable.Variable
 import type.CommonTypes
 
@@ -9,17 +10,14 @@ object Multiplication : Operator {
     override fun operate(
         left: Variable,
         right: Variable,
-    ): Variable {
+    ): InterpreterResult {
         val intResult = multiplyAsInt(left, right)
-        if (intResult != null) return intResult
+        if (intResult != null) return InterpreterResult(true, "Succes Multiplication", intResult)
 
         val doubleResult = multiplyAsDouble(left, right)
-        if (doubleResult != null) return doubleResult
+        if (doubleResult != null) return InterpreterResult(true, "Succes Multiplication", doubleResult)
 
-        val stringResult = multiplyIntString(left, right)
-        if (stringResult != null) return stringResult
-
-        return Variable(CommonTypes.STRING_LITERAL, null)
+        return InterpreterResult(false, "Type mismatch: Incompatible types for Multiplication operation", Variable(CommonTypes.NUMBER_LITERAL, null))
     }
 
     private fun multiplyAsInt(
@@ -47,23 +45,4 @@ object Multiplication : Operator {
             null
         }
     }
-
-    private fun multiplyIntString(
-        left: Variable,
-        right: Variable,
-    ): Variable? {
-        val leftInt = left.getValue()?.toString()?.toIntOrNull()
-        val rightStr = right.getValue()?.toString()
-        if (leftInt != null && rightStr != null) {
-            return Variable(CommonTypes.STRING_LITERAL, rightStr.repeat(leftInt))
-        }
-        val rightInt = right.getValue()?.toString()?.toIntOrNull()
-        val leftStr = left.getValue()?.toString()
-        if (rightInt != null && leftStr != null) {
-            return Variable(CommonTypes.STRING_LITERAL, leftStr.repeat(rightInt))
-        }
-        return null
-    }
-
-    // TODO se podria cmabair la ultima funcion, quiero ver que ande primero
 }

@@ -1,5 +1,6 @@
 package executor.operators
 
+import executor.result.InterpreterResult
 import variable.Variable
 
 interface Operator {
@@ -8,5 +9,5 @@ interface Operator {
     fun operate(
         left: Variable,
         right: Variable,
-    ): Variable
+    ): InterpreterResult
 }
