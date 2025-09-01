@@ -8,12 +8,17 @@ class CLI(
     private val formatter: Formatter,
     private val interpreter: Interpreter,
     private val parser: Parser,
-    private val lexer: Lexer
-){
-    fun execute(flags: CliFlags,configFileRoutes: String,){
+    private val lexer: Lexer,
+) {
+    fun execute(
+        flags: CliFlags,
+        configFileRoutes: String? = null,
+        src: String,
+
+
+    ) {
 
     }
-
 }
 /*
         private val splitter = SplitterFactory.createSplitter()
