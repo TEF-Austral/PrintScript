@@ -4,4 +4,5 @@ enum class CliFlags {
     FORMATTING,
     ANALYZING,
     VALIDATION,
+    EXECUTION,
 }

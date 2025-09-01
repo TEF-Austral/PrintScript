@@ -1,8 +1,8 @@
 import flags.CliFlags
-import formatter.Formatter
 import formatter.FormatterService
 import org.example.Analyzer
 import parser.Parser
+import parser.factory.RecursiveParserFactory
 
 class CLI(
     private val linter: Analyzer,
@@ -12,55 +12,61 @@ class CLI(
     private val lexer: Lexer,
 ) {
     fun execute(
-        flags: CliFlags,
-        configFileRoutes: String? = null,
-        src: String,
-    ) {
+        flag: CliFlags,
+        srcCodePath: String,
+        analyzerConfigFilePath: String? = null,
+        formatterConfigFilePath: String? = null,
+    ): String =
+        when (flag) {
+            CliFlags.FORMATTING -> handleFormatting(formatterConfigFilePath, srcCodePath, formatter, parser, lexer)
+            CliFlags.ANALYZING -> handleAnalyzing(analyzerConfigFilePath, srcCodePath, linter)
+            CliFlags.VALIDATION -> handleValidation(analyzerConfigFilePath, linter, formatterConfigFilePath, formatter)
+            CliFlags.EXECUTION -> handleExecution(srcCodePath, interpreter, parser, lexer)
+        }
+
+    private fun handleFormatting(
+        formatterConfigFilePath: String?,
+        srcCodePath: String,
+        formatter: FormatterService,
+        parser: Parser,
+        lexer: Lexer,
+    ): String {
+        val tokens = lexer.tokenize(getDefaultReader(srcCodePath))
+        val program = RecursiveParserFactory().withNewTokens(tokens, parser).parse().getProgram()
+        return formatter.formatToString(program, formatterConfigFilePath ?: "formatter_config.json")
     }
+
+    private fun handleAnalyzing(
+        analyzerConfigFilePath: String?,
+        srcCodePath: String,
+        linter: Analyzer,
+    ): String = "TODO implement this"
+
+    private fun handleValidation(
+        analyzerConfigFilePath: String?,
+        linter: Analyzer,
+        formatterConfigFilePath: String?,
+        formatter: FormatterService,
+    ): String {
+        val formatingResult = handleFormatting(formatterConfigFilePath, "src/test/resources/test_code.psl", formatter, parser, lexer)
+        val linterResult = handleAnalyzing(analyzerConfigFilePath, "src/test/resources/test_code.psl", linter)
+        return formatingResult + linterResult
+    }
+
+    private fun handleExecution(
+        srcCodePath: String,
+        interpreter: Interpreter,
+        parser: Parser,
+        lexer: Lexer,
+    ): String {
+        val tokens = lexer.tokenize(getDefaultReader(srcCodePath))
+        val program = RecursiveParserFactory().withNewTokens(tokens, parser).parse().getProgram()
+        val result = interpreter.interpret(program)
+        if (result.interpretedCorrectly){
+            return "Program executed successfully"
+        }
+        return "Program executed with errors: ${result.message}"
+    }
+
+    private fun getDefaultReader(path: String): Reader = FileReader(path)
 }
-/*
-        private val splitter = SplitterFactory.createSplitter()
-        private val tokenConverter = StringToTokenConverterFactory.createDefaultsTokenConverter()
-        val mutableMap: MutableMap<String, Any> = mutableMapOf()
-
-        val listForBinaryExpressionExecutor: List<SpecificExpressionExecutor> =
-            listOf(
-                EmptyExpressionExecutor(),
-                IdentifierExpressionExecutor(mutableMap),
-                LiteralExpressionExecutor(),
-            )
-
-        val specificExpressionExecutors: List<SpecificExpressionExecutor> =
-            listOf(
-                BinaryExpressionExecutor(expressions = listForBinaryExpressionExecutor),
-                EmptyExpressionExecutor(),
-                IdentifierExpressionExecutor(mutableMap),
-                LiteralExpressionExecutor(),
-            )
-
-        val specificStatementExecutor: List<SpecificStatementExecutor> =
-            listOf(
-                DeclarationStatementExecutor(mutableMap, DefaultExpressionExecutor(specificExpressionExecutors)),
-                AssignmentStatementExecutor(mutableMap, DefaultExpressionExecutor(specificExpressionExecutors)),
-                ExpressionStatementExecutor(DefaultExpressionExecutor(specificExpressionExecutors)),
-                PrintStatementExecutor(DefaultExpressionExecutor(specificExpressionExecutors)),
-            )
-
-        fun validation() {
-            TODO("Implement this function to complete the task")
-        }
-
-        fun execution(): InterpreterResult {
-            val parseResult: ParseResult.Success<Program> = RecursiveParserFactory().createParser(
-                Lexer(splitter, tokenConverter).tokenize(Stream(src)),
-                DefaultNodeBuilder()).parse().first as ParseResult.Success
-            return Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),).interpret(parseResult.value)
-        }
-
-        fun formatting() {
-            TODO("Implement this function to complete the task")
-        }
-
- */

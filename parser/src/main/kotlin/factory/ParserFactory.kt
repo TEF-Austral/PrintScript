@@ -9,4 +9,9 @@ interface ParserFactory {
         tokens: List<Token>,
         nodeBuilder: NodeBuilder,
     ): Parser
+
+    fun withNewTokens(
+        tokens: List<Token>,
+        parser: Parser,
+    ): Parser
 }

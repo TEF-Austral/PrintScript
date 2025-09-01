@@ -15,10 +15,10 @@ import parser.utils.checkType
 import type.CommonTypes
 
 class Parser(
-    private val tokens: List<Token>,
-    private val nodeBuilder: NodeBuilder,
-    private val expressionParser: ExpressionParser,
-    private val statementParser: StatementParser,
+    val tokens: List<Token>,
+    val nodeBuilder: NodeBuilder,
+    val expressionParser: ExpressionParser,
+    val statementParser: StatementParser,
     val current: Int = 0,
 ) {
     fun isAtEnd(): Boolean = current >= tokens.size
