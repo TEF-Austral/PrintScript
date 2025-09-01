@@ -6,11 +6,11 @@ import java.io.Writer
 import node.Program
 
 class FormatterService(
-    private val formatter: Formatter = DefaultFormatter()
+    private val formatter: Formatter = DefaultFormatter(),
 ) {
     fun formatToString(
         program: Program,
-        configPath: String
+        configPath: String,
     ): String {
         val config: FormatConfig = FormatConfigLoader.load(configPath)
         return formatter.formatToString(program, config)
@@ -19,7 +19,7 @@ class FormatterService(
     fun formatToWriter(
         program: Program,
         configPath: String,
-        writer: Writer
+        writer: Writer,
     ) {
         val config: FormatConfig = FormatConfigLoader.load(configPath)
         formatter.formatToWriter(program, config, writer)

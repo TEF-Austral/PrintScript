@@ -32,7 +32,7 @@ class BinaryExpressionExecutor(
         val rightResult = executeSubExpression(expression.getRight())
         if (!rightResult.interpretedCorrectly) return rightResult
 
-        return evaluateOperation(leftResult, rightResult, expression.getOperator().getValue())
+        return evaluateOperation(leftResult, rightResult, expression.getOperator())
     }
 
     private fun executeSubExpression(expression: Expression): InterpreterResult {

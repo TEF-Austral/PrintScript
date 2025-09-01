@@ -1,11 +1,12 @@
 import flags.CliFlags
 import formatter.Formatter
+import formatter.FormatterService
 import org.example.Analyzer
 import parser.Parser
 
 class CLI(
     private val linter: Analyzer,
-    private val formatter: Formatter,
+    private val formatter: FormatterService,
     private val interpreter: Interpreter,
     private val parser: Parser,
     private val lexer: Lexer,
@@ -14,10 +15,7 @@ class CLI(
         flags: CliFlags,
         configFileRoutes: String? = null,
         src: String,
-
-
     ) {
-
     }
 }
 /*

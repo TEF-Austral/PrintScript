@@ -8,12 +8,12 @@ import java.io.Writer
 interface Formatter {
     fun formatToString(
         program: Program,
-        config: FormatConfig
+        config: FormatConfig,
     ): String
 
     fun formatToWriter(
         program: Program,
         config: FormatConfig,
-        writer: Writer
+        writer: Writer,
     )
 }

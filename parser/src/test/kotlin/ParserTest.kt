@@ -95,7 +95,7 @@ class ParserTest {
         val binaryExpr = exprStatement.getExpression() as BinaryExpression
         assertTrue(binaryExpr.getLeft() is IdentifierExpression)
         assertTrue(binaryExpr.getRight() is IdentifierExpression)
-        assertEquals("+", binaryExpr.getOperator().getValue())
+        assertEquals("+", binaryExpr.getOperator())
 
         val leftIdentifier = binaryExpr.getLeft() as IdentifierExpression
         val rightIdentifier = binaryExpr.getRight() as IdentifierExpression
@@ -137,7 +137,7 @@ class ParserTest {
         val rootBinary = rootExpression as BinaryExpression
 
         // Verificar operador raíz (>)
-        assertEquals(">", rootBinary.getOperator().getValue())
+        assertEquals(">", rootBinary.getOperator())
 
         // Verificar operando derecho (10)
         assertTrue(rootBinary.getRight() is LiteralExpression)
@@ -149,7 +149,7 @@ class ParserTest {
         val leftMultiplication = rootBinary.getLeft() as BinaryExpression
 
         // Verificar multiplicación (*)
-        assertEquals("*", leftMultiplication.getOperator().getValue())
+        assertEquals("*", leftMultiplication.getOperator())
 
         // Verificar operando derecho de la multiplicación (2)
         assertTrue(leftMultiplication.getRight() is LiteralExpression)
@@ -161,7 +161,7 @@ class ParserTest {
         val addition = leftMultiplication.getLeft() as BinaryExpression
 
         // Verificar suma (+)
-        assertEquals("+", addition.getOperator().getValue())
+        assertEquals("+", addition.getOperator())
 
         // Verificar operandos de la suma
         assertTrue(addition.getLeft() is IdentifierExpression)
@@ -203,17 +203,17 @@ class ParserTest {
 
         // El AST debe ser: (2 + (3 * 4)) > 10
         val rootBinary = rootExpression as BinaryExpression
-        assertEquals(">", rootBinary.getOperator().getValue())
+        assertEquals(">", rootBinary.getOperator())
 
         // Verificar que el lado izquierdo es 2 + (3 * 4)
         assertTrue(rootBinary.getLeft() is BinaryExpression)
         val leftAddition = rootBinary.getLeft() as BinaryExpression
-        assertEquals("+", leftAddition.getOperator().getValue())
+        assertEquals("+", leftAddition.getOperator())
 
         // Verificar que 3 * 4 se agrupa correctamente
         assertTrue(leftAddition.getRight() is BinaryExpression)
         val multiplication = leftAddition.getRight() as BinaryExpression
-        assertEquals("*", multiplication.getOperator().getValue())
+        assertEquals("*", multiplication.getOperator())
 
         // Verificar operandos finales
         val two = leftAddition.getLeft() as LiteralExpression
@@ -261,7 +261,7 @@ class ParserTest {
         assertTrue(rootExpression is BinaryExpression)
 
         val rootBinary = rootExpression as BinaryExpression
-        assertEquals("*", rootBinary.getOperator().getValue())
+        assertEquals("*", rootBinary.getOperator())
 
         // Verificar sub-expresiones
         assertTrue(rootBinary.getLeft() is BinaryExpression)
@@ -270,8 +270,8 @@ class ParserTest {
         val leftAddition = rootBinary.getLeft() as BinaryExpression
         val rightSubtraction = rootBinary.getRight() as BinaryExpression
 
-        assertEquals("+", leftAddition.getOperator().getValue())
-        assertEquals("-", rightSubtraction.getOperator().getValue())
+        assertEquals("+", leftAddition.getOperator())
+        assertEquals("-", rightSubtraction.getOperator())
 
         // Verificar identificadores y literales
         val xIdentifier = leftAddition.getLeft() as IdentifierExpression
