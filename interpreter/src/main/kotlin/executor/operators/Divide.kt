@@ -1,43 +1,62 @@
 package executor.operators
 
+import result.InterpreterResult
+import variable.Variable
+import type.CommonTypes
+
 object Divide : Operator {
     override fun canHandle(symbol: String): Boolean = symbol == "/"
 
     override fun operate(
-        left: String,
-        right: String,
-    ): OperatorResult {
-        val toInt = toInt(left, right)
-        if (toInt.wasSuccessful) return toInt
-        val toDouble = toDouble(left, right)
-        if (toDouble.wasSuccessful) return toDouble
-        return OperatorResult("You can't divide strings", false)
+        left: Variable,
+        right: Variable,
+    ): InterpreterResult {
+        if (isZeroDivisor(right)) return InterpreterResult(false, "Can't divide by zero", Variable(CommonTypes.NUMBER_LITERAL, null))
+
+        val intResult = divideAsInt(left, right)
+        if (intResult != null) return InterpreterResult(true, "Success Division", intResult)
+
+        val doubleResult = divideAsDouble(left, right)
+        if (doubleResult != null) return InterpreterResult(true, "Success Division", doubleResult)
+
+        return InterpreterResult(
+            false,
+            "Type mismatch: Incompatible types for division operator",
+            Variable(CommonTypes.NUMBER_LITERAL, null),
+        )
     }
 
-    private fun toInt(
-        left: String,
-        right: String,
-    ): OperatorResult {
-        val l = left.toIntOrNull()
-        val r = right.toIntOrNull()
-        if (l != null && r != null) {
-            if (r == 0) return OperatorResult("Division by zero", false)
-            if (l % r != 0) return OperatorResult(l.toDouble() / r, true)
-            return OperatorResult(l / r, true)
+    private fun divideAsInt(
+        left: Variable,
+        right: Variable,
+    ): Variable? {
+        val leftInt = left.getValue()?.toString()?.toIntOrNull()
+        val rightInt = right.getValue()?.toString()?.toIntOrNull()
+        if (leftInt != null && rightInt != null) {
+            if (rightInt == 0) return null
+            if (leftInt % rightInt != 0) {
+                return Variable(CommonTypes.NUMBER_LITERAL, leftInt.toDouble() / rightInt)
+            }
+            return Variable(CommonTypes.NUMBER_LITERAL, leftInt / rightInt)
         }
-        return OperatorResult("Can't be converted to Int", false)
+        return null
     }
 
-    private fun toDouble(
-        left: String,
-        right: String,
-    ): OperatorResult {
-        val l = left.toDoubleOrNull()
-        val r = right.toDoubleOrNull()
-        if (l != null && r != null) {
-            if (r == 0.0) return OperatorResult("Division by zero", false)
-            return OperatorResult(l / r, true)
+    private fun divideAsDouble(
+        left: Variable,
+        right: Variable,
+    ): Variable? {
+        val leftDouble = left.getValue()?.toString()?.toDoubleOrNull()
+        val rightDouble = right.getValue()?.toString()?.toDoubleOrNull()
+        if (leftDouble != null && rightDouble != null) {
+            if (rightDouble == 0.0) return null
+            return Variable(CommonTypes.NUMBER_LITERAL, leftDouble / rightDouble)
         }
-        return OperatorResult("Can't be converted to Double", false)
+        return null
+    }
+
+    private fun isZeroDivisor(right: Variable): Boolean {
+        val rightValueAsDouble = right.getValue()?.toString()?.toDoubleOrNull()
+        return rightValueAsDouble == 0.0
     }
 }

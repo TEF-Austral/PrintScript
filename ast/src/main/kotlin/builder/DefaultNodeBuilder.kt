@@ -3,12 +3,12 @@ package builder
 import Token
 import node.Program
 import node.BinaryExpression
-import node.Expression
 import node.IdentifierExpression
 import node.LiteralExpression
 import node.AssignmentStatement
 import node.DeclarationStatement
 import node.EmptyStatement
+import node.Expression
 import node.ExpressionStatement
 import node.PrintStatement
 import node.Statement

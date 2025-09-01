@@ -28,8 +28,10 @@ class DefaultParseBinary(
 
         val operator = parserAtOperator.peak()!!
         val parserAfterOperator = consumeOperator(parserAtOperator)
-
         val rightOperand = parseRightOperand(parserAfterOperator)
+        if (!rightOperand.isSuccess()) {
+            throw Exception(rightOperand.message())
+        }
         val processedRight = processRightAssociativity(parserAfterOperator, rightOperand, operator)
 
         val newExpression =

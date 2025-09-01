@@ -1,6 +1,7 @@
 package node
 
 import Token
+import type.CommonTypes
 
 class DeclarationStatement(
     private val identifier: Token,
@@ -9,7 +10,7 @@ class DeclarationStatement(
 ) : Statement {
     fun getIdentifier(): String = identifier.getValue()
 
-    fun getDataType(): String = dataType.getValue()
+    fun getDataType(): CommonTypes = dataType.getType()
 
     fun getInitialValue(): Expression? = initialValue
 }

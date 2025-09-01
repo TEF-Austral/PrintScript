@@ -25,11 +25,11 @@ class DefaultStatementParserRegistry {
   + parse(Parser): Statement
 }
 class DelimitersBuilder {
-  + canHandle(TokenType): Boolean
+  + canHandle(CommonTypes): Boolean
   + build(Parser, Token): Expression
 }
 interface ExpressionBuilder << interface >> {
-  + canHandle(TokenType): Boolean
+  + canHandle(CommonTypes): Boolean
 }
 class ExpressionParser {
   + ExpressionParser(TokenToExpression, ParseBinary): 
@@ -47,18 +47,18 @@ class ExpressionStatementParser {
   + ExpressionStatementParser(): 
   + canHandle(Token?, Parser): Boolean
   + parse(Parser): Statement
-  - isStringLiteral(TokenType): Boolean
-  - isIdentifier(TokenType): Boolean
-  - isOpeningParenthesis(TokenType, String): Boolean
-  - isNumberLiteral(TokenType): Boolean
+  - isStringLiteral(CommonTypes): Boolean
+  - isIdentifier(CommonTypes): Boolean
+  - isOpeningParenthesis(CommonTypes, String): Boolean
+  - isNumberLiteral(CommonTypes): Boolean
 }
 class IdentifierBuilder {
-  + canHandle(TokenType): Boolean
+  + canHandle(CommonTypes): Boolean
   + build(Parser, Token): Expression
 }
 class LiteralBuilder {
   + build(Parser, Token): Expression
-  + canHandle(TokenType): Boolean
+  + canHandle(CommonTypes): Boolean
 }
 interface ParseBinary << interface >> {
   + parseRightOperand(Parser): Expression
@@ -80,10 +80,10 @@ class Parser {
   + Parser(List<Token>, NodeBuilder, ExpressionParser, StatementParser): 
   + advance(): Token?
   + previous(): Token?
-  + check(TokenType): Boolean
+  + check(CommonTypes): Boolean
   + parse(): Program
-  + match(TokenType[]): Boolean
-  + consume(TokenType): Token
+  + match(CommonTypes[]): Boolean
+  + consume(CommonTypes): Token
    nodeBuilder: NodeBuilder
    expressionParser: ExpressionParser
    current: Int

@@ -16,5 +16,8 @@ enum class CommonTypes {
     RETURN, // return
     FUNCTION, // function
     DECLARATION, // let const var
-    PRINT, // println
+    PRINT, // print
+    NUMBER,
+    STRING,
+    EMPTY,
 }

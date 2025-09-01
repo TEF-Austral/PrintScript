@@ -1,6 +1,6 @@
 package executor.expression
 
-import executor.result.InterpreterResult
+import result.InterpreterResult
 import node.Expression
 
 class DefaultExpressionExecutor(

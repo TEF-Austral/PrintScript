@@ -10,17 +10,14 @@ import java.io.Writer
 class DefaultFormatter : Formatter {
     override fun formatToString(
         program: Program,
-        config: FormatConfig,
+        config: FormatConfig
     ): String {
         val sb = StringBuilder()
-        // Format each top-level statement via the rule registry
         program.getStatements().forEach { stmt ->
             RuleRegistry.rules
-                .first { rule -> rule.matches(stmt as ASTNode) }
+                .first { it.matches(stmt as ASTNode) }
                 .apply(stmt, sb, config, 0)
         }
-
-        // Collapse multi-spaces, ensure one final newline
         return sb
             .toString()
             .lines()
@@ -34,7 +31,7 @@ class DefaultFormatter : Formatter {
     override fun formatToWriter(
         program: Program,
         config: FormatConfig,
-        writer: Writer,
+        writer: Writer
     ) {
         writer.write(formatToString(program, config))
     }

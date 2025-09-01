@@ -1,7 +1,9 @@
-package executor.result
+package result
+
+import variable.Variable
 
 data class InterpreterResult(
     val interpretedCorrectly: Boolean,
     val message: String,
-    val interpreter: Any? = null,
+    val interpreter: Variable?,
 )

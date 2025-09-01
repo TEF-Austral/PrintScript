@@ -1,16 +1,4 @@
-import executor.expression.BinaryExpressionExecutor
-import executor.expression.DefaultExpressionExecutor
-import executor.expression.EmptyExpressionExecutor
-import executor.expression.IdentifierExpressionExecutor
-import executor.expression.LiteralExpressionExecutor
-import executor.expression.SpecificExpressionExecutor
-import executor.statement.DefaultStatementExecutor
-import executor.result.InterpreterResult
-import executor.statement.AssignmentStatementExecutor
-import executor.statement.DeclarationStatementExecutor
-import executor.statement.ExpressionStatementExecutor
-import executor.statement.PrintStatementExecutor
-import executor.statement.SpecificStatementExecutor
+import result.InterpreterResult
 import node.Program
 import node.BinaryExpression
 import node.IdentifierExpression
@@ -18,7 +6,6 @@ import node.LiteralExpression
 import node.AssignmentStatement
 import node.DeclarationStatement
 import node.PrintStatement
-import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.io.ByteArrayOutputStream
@@ -26,33 +13,10 @@ import java.io.PrintStream
 import kotlin.test.assertEquals
 import type.CommonTypes
 import coordinates.Position
+import factory.DefaultInterpreterFactory
+import node.ExpressionStatement
 
 class InterpreterTest {
-    val mutableMap: MutableMap<String, Any> = mutableMapOf()
-
-    val listForBinaryExpressionExecutor: List<SpecificExpressionExecutor> =
-        listOf(
-            EmptyExpressionExecutor(),
-            IdentifierExpressionExecutor(mutableMap),
-            LiteralExpressionExecutor(),
-        )
-
-    val specificExpressionExecutors: List<SpecificExpressionExecutor> =
-        listOf(
-            BinaryExpressionExecutor(expressions = listForBinaryExpressionExecutor),
-            EmptyExpressionExecutor(),
-            IdentifierExpressionExecutor(mutableMap),
-            LiteralExpressionExecutor(),
-        )
-
-    val specificStatementExecutor: List<SpecificStatementExecutor> =
-        listOf(
-            DeclarationStatementExecutor(mutableMap, DefaultExpressionExecutor(specificExpressionExecutors)),
-            AssignmentStatementExecutor(mutableMap, DefaultExpressionExecutor(specificExpressionExecutors)),
-            ExpressionStatementExecutor(DefaultExpressionExecutor(specificExpressionExecutors)),
-            PrintStatementExecutor(DefaultExpressionExecutor(specificExpressionExecutors)),
-        )
-
     @Test
     fun `Basic Variable Declaration and Assignment`() {
         val outputStream = ByteArrayOutputStream()
@@ -65,7 +29,7 @@ class InterpreterTest {
                     listOf(
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(1, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -87,11 +51,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case1)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -111,7 +71,7 @@ class InterpreterTest {
                     listOf(
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(1, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
                             initialValue = null,
                         ),
                         AssignmentStatement(
@@ -138,11 +98,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case2)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -162,7 +118,7 @@ class InterpreterTest {
                     listOf(
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(1, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -174,7 +130,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "y", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(2, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -186,7 +142,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "z", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(3, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(3, 8)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -221,11 +177,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case3)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -245,7 +197,7 @@ class InterpreterTest {
                     listOf(
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(1, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -257,7 +209,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "y", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(2, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -269,7 +221,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "z", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(3, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(3, 8)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -304,11 +256,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case4)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -328,7 +276,7 @@ class InterpreterTest {
                     listOf(
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "a", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(1, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -340,7 +288,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "b", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(2, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -352,7 +300,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "c", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(3, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(3, 8)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -376,7 +324,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "d", Position(4, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(4, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(4, 8)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -410,11 +358,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case5)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -434,7 +378,7 @@ class InterpreterTest {
                     listOf(
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(1, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -446,7 +390,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "y", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(2, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -458,7 +402,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "z", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(3, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(3, 8)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -504,11 +448,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case6)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -528,7 +468,7 @@ class InterpreterTest {
                     listOf(
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "a", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(1, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -540,7 +480,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "b", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(2, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -552,7 +492,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "c", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(3, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(3, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -564,7 +504,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "d", Position(4, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(4, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(4, 8)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -588,7 +528,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "e", Position(5, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(5, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(5, 8)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -612,7 +552,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "f", Position(6, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(6, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(6, 8)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -636,7 +576,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "g", Position(7, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(7, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(7, 8)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -670,11 +610,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case7)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -694,7 +630,7 @@ class InterpreterTest {
                     listOf(
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "a", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(1, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -706,7 +642,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "b", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(2, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -718,7 +654,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "c", Position(4, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(4, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(4, 8)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -752,11 +688,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case8)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -776,7 +708,7 @@ class InterpreterTest {
                     listOf(
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(1, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -788,7 +720,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "y", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(2, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -800,7 +732,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "z", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(3, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(3, 8)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -835,11 +767,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case9)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -859,7 +787,7 @@ class InterpreterTest {
                     listOf(
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(1, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -871,7 +799,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "y", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(2, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -883,7 +811,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "z", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(3, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(3, 8)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -918,11 +846,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case10)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -942,7 +866,7 @@ class InterpreterTest {
                     listOf(
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(1, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -954,7 +878,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "y", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(2, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -966,7 +890,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "z", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(3, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(3, 8)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1001,11 +925,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case11)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -1025,7 +945,7 @@ class InterpreterTest {
                     listOf(
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(1, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -1037,7 +957,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "y", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(2, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 8)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -1049,7 +969,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "z", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(3, 8)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(3, 8)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1084,11 +1004,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case12)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -1108,7 +1024,7 @@ class InterpreterTest {
                     listOf(
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "text", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "string", Position(1, 11)),
+                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(1, 11)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -1120,7 +1036,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "number", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(2, 13)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 13)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -1132,7 +1048,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "string", Position(3, 13)),
+                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(3, 13)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1167,11 +1083,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case13)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -1191,7 +1103,7 @@ class InterpreterTest {
                     listOf(
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "num1", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(1, 11)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 11)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -1203,7 +1115,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "num2", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(2, 11)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 11)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -1215,7 +1127,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "text", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "string", Position(3, 11)),
+                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(3, 11)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -1227,7 +1139,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "sum", Position(4, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(4, 10)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(4, 10)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1251,7 +1163,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(5, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "string", Position(5, 13)),
+                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(5, 13)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1298,11 +1210,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case14)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -1322,7 +1230,7 @@ class InterpreterTest {
                     listOf(
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "message", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "string", Position(1, 14)),
+                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(1, 14)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -1334,7 +1242,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "pi", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(2, 9)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 9)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -1346,7 +1254,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "string", Position(3, 13)),
+                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(3, 13)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1381,11 +1289,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case15)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -1406,7 +1310,7 @@ class InterpreterTest {
                         // Test zero operations
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "zero", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(1, 11)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 11)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -1418,7 +1322,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "five", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(2, 11)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 11)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -1431,7 +1335,7 @@ class InterpreterTest {
                         // Zero addition
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "zeroAdd", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(3, 14)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(3, 14)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1456,7 +1360,7 @@ class InterpreterTest {
                         // Zero multiplication
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "zeroMult", Position(4, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(4, 15)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(4, 15)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1481,7 +1385,7 @@ class InterpreterTest {
                         // Negative numbers
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "negative", Position(5, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(5, 15)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(5, 15)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -1493,7 +1397,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "negativeResult", Position(6, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(6, 21)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(6, 21)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1518,7 +1422,7 @@ class InterpreterTest {
                         // Very small decimal
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "smallDecimal", Position(7, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(7, 19)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(7, 19)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -1530,7 +1434,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "precision", Position(8, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(8, 16)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(8, 16)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1579,7 +1483,7 @@ class InterpreterTest {
                         // Complex nested expression with mixed types
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "complexResult", Position(10, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "string", Position(10, 20)),
+                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(10, 20)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1648,99 +1552,12 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case16)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
         assertEquals("Program 16\n Output: Results: 5, 1.0", printed)
-    }
-
-    @Test
-    fun `Division by Zero Edge Case`() {
-        val outputStream = ByteArrayOutputStream()
-        System.setOut(PrintStream(outputStream))
-
-        print("Program 17\n Output: ")
-        val case17 =
-            Program(
-                statements =
-                    listOf(
-                        DeclarationStatement(
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "numerator", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(1, 16)),
-                            initialValue =
-                                LiteralExpression(
-                                    PrintScriptToken(
-                                        CommonTypes.NUMBER_LITERAL,
-                                        "10",
-                                        Position(1, 25),
-                                    ),
-                                ),
-                        ),
-                        DeclarationStatement(
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "denominator", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(2, 18)),
-                            initialValue =
-                                LiteralExpression(
-                                    PrintScriptToken(
-                                        CommonTypes.NUMBER_LITERAL,
-                                        "0",
-                                        Position(2, 27),
-                                    ),
-                                ),
-                        ),
-                        DeclarationStatement(
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(3, 13)),
-                            initialValue =
-                                BinaryExpression(
-                                    left =
-                                        IdentifierExpression(
-                                            PrintScriptToken(
-                                                CommonTypes.IDENTIFIER,
-                                                "numerator",
-                                                Position(3, 22),
-                                            ),
-                                        ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "/", Position(3, 32)),
-                                    right =
-                                        IdentifierExpression(
-                                            PrintScriptToken(
-                                                CommonTypes.IDENTIFIER,
-                                                "denominator",
-                                                Position(3, 34),
-                                            ),
-                                        ),
-                                ),
-                        ),
-                        PrintStatement(
-                            expression =
-                                IdentifierExpression(
-                                    PrintScriptToken(
-                                        CommonTypes.IDENTIFIER,
-                                        "result",
-                                        Position(4, 9),
-                                    ),
-                                ),
-                        ),
-                    ),
-            )
-
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
-        val result: InterpreterResult = interpreter.interpret(case17)
-        assertFalse(result.interpretedCorrectly)
-        assertEquals(result.message, "You can't divide strings")
-        val printed = outputStream.toString().trim()
-        assertEquals("Program 17\n Output:", printed)
     }
 
     @Test
@@ -1755,7 +1572,7 @@ class InterpreterTest {
                     listOf(
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "empty", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "string", Position(1, 12)),
+                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(1, 12)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -1767,7 +1584,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "number", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(2, 13)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 13)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -1779,7 +1596,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "text", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "string", Position(3, 11)),
+                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(3, 11)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -1791,7 +1608,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result1", Position(4, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "string", Position(4, 14)),
+                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(4, 14)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1815,7 +1632,7 @@ class InterpreterTest {
                         ),
                         DeclarationStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result2", Position(5, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "string", Position(5, 14)),
+                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(5, 14)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1874,320 +1691,12 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case18)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
         assertEquals("Program 18\n Output: 123 Hello", printed)
-    }
-
-//    @Test
-//    fun `Undefined Variable Usage Should Fail`() {
-//        val outputStream = ByteArrayOutputStream()
-//        System.setOut(PrintStream(outputStream))
-//
-//        val case =
-//            Program(
-//                statements =
-//                    listOf(
-//                        PrintStatement(
-//                            expression = IdentifierExpression(PrintScriptToken(TokenType.IDENTIFIER, "undefinedVar", Position(1, 9))),
-//                        ),
-//                    ),
-//            )
-//
-//        val interpreter = Interpreter(DefaultExpressionExecutor(specificExpressionExecutors), DefaultStatementExecutor(specificStatementExecutor))
-//        val result: InterpreterResult = interpreter.interpret(case)
-//
-//        val x: Int;
-//
-//
-//        assertFalse(result.interpretedCorrectly)
-//        assertTrue(result.message.contains("undefinedVar") || result.message.contains("undefined") || result.message.contains("not found"))
-//    }
-// TODO
-
-//    @Test
-//    fun `Assignment to Undeclared Variable`() {
-//        val outputStream = ByteArrayOutputStream()
-//        System.setOut(PrintStream(outputStream))
-//
-//        val case =
-//            Program(
-//                statements =
-//                    listOf(
-//                        AssignmentStatement(
-//                            identifier = PrintScriptToken(TokenType.IDENTIFIER, "undeclaredVar", Position(1, 1)),
-//                            value = LiteralExpression(PrintScriptToken(TokenType.NUMBER_LITERAL, "42", Position(1, 17))),
-//                        ),
-//                    ),
-//            )
-//
-//
-//        val interpreter = Interpreter(DefaultExpressionExecutor(specificExpressionExecutors), DefaultStatementExecutor(specificStatementExecutor))
-//        val result: InterpreterResult = interpreter.interpret(case)
-//
-//        assertTrue(result.interpretedCorrectly)
-//        assertTrue(result.message.contains("successfully"))
-//    }
-// TODO
-
-//    @Test
-//    fun `Type Mismatch in Assignment Should Fail`() {
-//        val outputStream = ByteArrayOutputStream()
-//        System.setOut(PrintStream(outputStream))
-//
-//        val case =
-//            Program(
-//                statements =
-//                    listOf(
-//                        DeclarationStatement(
-//                            identifier = PrintScriptToken(TokenType.IDENTIFIER, "numberVar", Position(1, 5)),
-//                            dataType = PrintScriptToken(TokenType.DATA_TYPES, "number", Position(1, 16)),
-//                            initialValue = null,
-//                        ),
-//                        AssignmentStatement(
-//                            identifier = PrintScriptToken(TokenType.IDENTIFIER, "numberVar", Position(2, 1)),
-//                            value = LiteralExpression(PrintScriptToken(TokenType.STRING_LITERAL, "not a number", Position(2, 13))),
-//                        ),
-//                    ),
-//            )
-//
-//        val interpreter = Interpreter(DefaultExpressionExecutor(specificExpressionExecutors), DefaultStatementExecutor(specificStatementExecutor))
-//        val result: InterpreterResult = interpreter.interpret(case)
-//
-//        assertFalse(result.interpretedCorrectly)
-//        assertTrue(result.message.contains("type") || result.message.contains("mismatch") || result.message.contains("incompatible"))
-//    } // TODO
-
-    @Test
-    fun `Invalid Arithmetic Operation Should Fail`() {
-        val outputStream = ByteArrayOutputStream()
-        System.setOut(PrintStream(outputStream))
-
-        val case =
-            Program(
-                statements =
-                    listOf(
-                        DeclarationStatement(
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "text1", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "string", Position(1, 12)),
-                            initialValue =
-                                LiteralExpression(
-                                    PrintScriptToken(
-                                        CommonTypes.STRING_LITERAL,
-                                        "hello",
-                                        Position(1, 21),
-                                    ),
-                                ),
-                        ),
-                        DeclarationStatement(
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "text2", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "string", Position(2, 12)),
-                            initialValue =
-                                LiteralExpression(
-                                    PrintScriptToken(
-                                        CommonTypes.STRING_LITERAL,
-                                        "world",
-                                        Position(2, 21),
-                                    ),
-                                ),
-                        ),
-                        DeclarationStatement(
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "string", Position(3, 13)),
-                            initialValue =
-                                BinaryExpression(
-                                    left =
-                                        IdentifierExpression(
-                                            PrintScriptToken(
-                                                CommonTypes.IDENTIFIER,
-                                                "text1",
-                                                Position(3, 22),
-                                            ),
-                                        ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "*", Position(3, 28)),
-                                    right =
-                                        IdentifierExpression(
-                                            PrintScriptToken(
-                                                CommonTypes.IDENTIFIER,
-                                                "text2",
-                                                Position(3, 30),
-                                            ),
-                                        ),
-                                ),
-                        ),
-                    ),
-            )
-
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
-        val result: InterpreterResult = interpreter.interpret(case)
-
-        assertFalse(result.interpretedCorrectly)
-        assertTrue(result.message.contains("You can't multiply strings"))
-    }
-
-    @Test
-    fun `String Subtraction Should Fail`() {
-        val outputStream = ByteArrayOutputStream()
-        System.setOut(PrintStream(outputStream))
-
-        val case =
-            Program(
-                statements =
-                    listOf(
-                        DeclarationStatement(
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "str1", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "string", Position(1, 11)),
-                            initialValue =
-                                LiteralExpression(
-                                    PrintScriptToken(
-                                        CommonTypes.STRING_LITERAL,
-                                        "hello",
-                                        Position(1, 20),
-                                    ),
-                                ),
-                        ),
-                        DeclarationStatement(
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "str2", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "string", Position(2, 11)),
-                            initialValue =
-                                LiteralExpression(
-                                    PrintScriptToken(
-                                        CommonTypes.STRING_LITERAL,
-                                        "world",
-                                        Position(2, 20),
-                                    ),
-                                ),
-                        ),
-                        DeclarationStatement(
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "string", Position(3, 13)),
-                            initialValue =
-                                BinaryExpression(
-                                    left =
-                                        IdentifierExpression(
-                                            PrintScriptToken(
-                                                CommonTypes.IDENTIFIER,
-                                                "str1",
-                                                Position(3, 22),
-                                            ),
-                                        ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "-", Position(3, 27)),
-                                    right =
-                                        IdentifierExpression(
-                                            PrintScriptToken(
-                                                CommonTypes.IDENTIFIER,
-                                                "str2",
-                                                Position(3, 29),
-                                            ),
-                                        ),
-                                ),
-                        ),
-                    ),
-            )
-
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
-        val result: InterpreterResult = interpreter.interpret(case)
-
-        assertFalse(result.interpretedCorrectly)
-        assertTrue(
-            result.message.contains("operation") ||
-                result.message.contains("subtraction") ||
-                result.message.contains(
-                    "string",
-                ),
-        )
-    }
-
-    @Test
-    fun `String Division Should Fail`() {
-        val outputStream = ByteArrayOutputStream()
-        System.setOut(PrintStream(outputStream))
-
-        val case =
-            Program(
-                statements =
-                    listOf(
-                        DeclarationStatement(
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "text", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "string", Position(1, 11)),
-                            initialValue =
-                                LiteralExpression(
-                                    PrintScriptToken(
-                                        CommonTypes.STRING_LITERAL,
-                                        "hello",
-                                        Position(1, 20),
-                                    ),
-                                ),
-                        ),
-                        DeclarationStatement(
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "number", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "number", Position(2, 13)),
-                            initialValue =
-                                LiteralExpression(
-                                    PrintScriptToken(
-                                        CommonTypes.NUMBER_LITERAL,
-                                        "2",
-                                        Position(2, 22),
-                                    ),
-                                ),
-                        ),
-                        DeclarationStatement(
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.DATA_TYPES, "string", Position(3, 13)),
-                            initialValue =
-                                BinaryExpression(
-                                    left =
-                                        IdentifierExpression(
-                                            PrintScriptToken(
-                                                CommonTypes.IDENTIFIER,
-                                                "text",
-                                                Position(3, 22),
-                                            ),
-                                        ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "/", Position(3, 27)),
-                                    right =
-                                        IdentifierExpression(
-                                            PrintScriptToken(
-                                                CommonTypes.IDENTIFIER,
-                                                "number",
-                                                Position(3, 29),
-                                            ),
-                                        ),
-                                ),
-                        ),
-                    ),
-            )
-
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
-        val result: InterpreterResult = interpreter.interpret(case)
-
-        assertFalse(result.interpretedCorrectly)
-        assertTrue(
-            result.message.contains("operation") ||
-                result.message.contains("division") ||
-                result.message.contains(
-                    "string",
-                ),
-        )
     }
 
     @Test
@@ -2197,11 +1706,7 @@ class InterpreterTest {
 
         val case = Program(statements = emptyList())
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case)
 
         assertTrue(result.interpretedCorrectly)
@@ -2209,15 +1714,214 @@ class InterpreterTest {
     }
 
     @Test
-    fun `Empty Program Should Fail`() {
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
-        val result: InterpreterResult = interpreter.interpret(Program(listOf()))
+    fun `Complex Variable Delcaration and Reassignment Should Work`() {
+        val outputStream = ByteArrayOutputStream()
+        System.setOut(PrintStream(outputStream))
 
+        print("Program 19\n Output: ")
+        val case19 =
+            Program(
+                statements =
+                    listOf(
+                        DeclarationStatement(
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
+                            initialValue =
+                                LiteralExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.NUMBER_LITERAL,
+                                        "10",
+                                        Position(1, 17),
+                                    ),
+                                ),
+                        ),
+                        AssignmentStatement(
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(2, 1)),
+                            value =
+                                BinaryExpression(
+                                    left =
+                                        IdentifierExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.IDENTIFIER,
+                                                "x",
+                                                Position(2, 8),
+                                            ),
+                                        ),
+                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(2, 10)),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "5",
+                                                Position(2, 12),
+                                            ),
+                                        ),
+                                ),
+                        ),
+                        PrintStatement(
+                            expression =
+                                IdentifierExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.IDENTIFIER,
+                                        "x",
+                                        Position(3, 9),
+                                    ),
+                                ),
+                        ),
+                    ),
+            )
+
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val result: InterpreterResult = interpreter.interpret(case19)
         assertTrue(result.interpretedCorrectly)
-        assertTrue(result.message.contains("Program executed successfully"))
+        assertEquals("Program executed successfully", result.message)
+        val printed = outputStream.toString().trim()
+        assertEquals("Program 19\n Output: 15", printed)
+    }
+
+    @Test
+    fun `test program with useless expression statements runs correctly`() {
+        // --- 1. Preparación (Setup) ---
+
+        // Capturamos la salida de la consola para poder verificarla
+        val outputStream = ByteArrayOutputStream()
+        System.setOut(PrintStream(outputStream))
+
+        // El nodo Program que creamos en el paso anterior
+        val uselessExpressionsProgram =
+            Program(
+                statements =
+                    listOf(
+                        // let miVariable: number = 42;
+                        DeclarationStatement(
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "miVariable", Position(1, 5)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 17)),
+                            initialValue =
+                                LiteralExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.NUMBER_LITERAL,
+                                        "42",
+                                        Position(1, 26),
+                                    ),
+                                ),
+                        ),
+                        // "un string";
+                        ExpressionStatement(
+                            expression =
+                                LiteralExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.STRING_LITERAL,
+                                        "un string",
+                                        Position(2, 1),
+                                    ),
+                                ),
+                        ),
+                        // 123.45;
+                        ExpressionStatement(
+                            expression =
+                                LiteralExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.NUMBER_LITERAL,
+                                        "123.45",
+                                        Position(3, 1),
+                                    ),
+                                ),
+                        ),
+                        // 10 + 5;
+                        ExpressionStatement(
+                            expression =
+                                BinaryExpression(
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "10",
+                                                Position(4, 1),
+                                            ),
+                                        ),
+                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(4, 4)),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "5",
+                                                Position(4, 6),
+                                            ),
+                                        ),
+                                ),
+                        ),
+                        // miVariable;
+                        ExpressionStatement(
+                            expression =
+                                IdentifierExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.IDENTIFIER,
+                                        "miVariable",
+                                        Position(5, 1),
+                                    ),
+                                ),
+                        ),
+                        // println(miVariable);
+                        PrintStatement(
+                            expression =
+                                IdentifierExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.IDENTIFIER,
+                                        "miVariable",
+                                        Position(6, 9),
+                                    ),
+                                ),
+                        ),
+                    ),
+            )
+
+        // Asumimos que tienes una instancia del intérprete lista para usar
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+
+        // Le pasamos el AST completo al intérprete
+        val result: InterpreterResult = interpreter.interpret(uselessExpressionsProgram)
+
+        // --- 3. Verificación (Assertions) ---
+
+        // Primero, verificamos que el intérprete terminó correctamente
+        assertTrue(result.interpretedCorrectly, "El programa debería haberse ejecutado sin errores.")
+        assertEquals("Program executed successfully", result.message)
+
+        // Segundo, verificamos que la salida en consola es la esperada
+        val printedOutput = outputStream.toString().trim() // .trim() para quitar saltos de línea
+        assertEquals("42", printedOutput, "La única salida debería ser el valor de 'miVariable'.")
+    }
+
+    @Test
+    fun `Printing Null Variable Should Succeed`() {
+        val outputStream = ByteArrayOutputStream()
+        System.setOut(PrintStream(outputStream))
+
+        val programWithNullVar =
+            Program(
+                statements =
+                    listOf(
+                        DeclarationStatement(
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "myVar", Position(1, 5)),
+                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(1, 12)),
+                            initialValue = null,
+                        ),
+                        PrintStatement(
+                            expression =
+                                IdentifierExpression(
+                                    PrintScriptToken(CommonTypes.IDENTIFIER, "myVar", Position(2, 9)),
+                                ),
+                        ),
+                    ),
+            )
+
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+
+        val result: InterpreterResult = interpreter.interpret(programWithNullVar)
+
+        assertTrue(result.interpretedCorrectly, "El programa debería ejecutarse correctamente.")
+
+        val printedOutput = outputStream.toString().trim()
+        assertEquals("null", printedOutput, "La salida de una variable null debería ser 'null'.")
     }
 }

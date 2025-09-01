@@ -29,7 +29,7 @@ class NodeTest {
         numberToken = PrintScriptToken(CommonTypes.NUMBER_LITERAL, "42", coordinates)
         identifierToken = PrintScriptToken(CommonTypes.IDENTIFIER, "myVar", coordinates)
         operatorToken = PrintScriptToken(CommonTypes.OPERATORS, "+", coordinates)
-        dataTypeToken = PrintScriptToken(CommonTypes.DATA_TYPES, "NUMBER", coordinates)
+        dataTypeToken = PrintScriptToken(CommonTypes.NUMBER, "NUMBER", coordinates)
     }
 
     @Test
@@ -72,7 +72,7 @@ class NodeTest {
             )
 
         assertEquals("myVar", varDecl.getIdentifier())
-        assertEquals("NUMBER", varDecl.getDataType())
+        assertEquals(CommonTypes.NUMBER, varDecl.getDataType())
         assertEquals(initialValue, varDecl.getInitialValue())
     }
 
@@ -85,7 +85,7 @@ class NodeTest {
             )
 
         assertEquals("myVar", varDecl.getIdentifier())
-        assertEquals("NUMBER", varDecl.getDataType())
+        assertEquals(CommonTypes.NUMBER, varDecl.getDataType())
         assertNull(varDecl.getInitialValue())
     }
 
@@ -163,7 +163,7 @@ class NodeTest {
         val varDecl =
             nodeBuilder.buildVariableDeclarationStatementNode(
                 PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
-                PrintScriptToken(CommonTypes.DATA_TYPES, "NUMBER", Position(1, 8)),
+                PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 8)),
                 binaryExpr,
             )
 
@@ -172,7 +172,7 @@ class NodeTest {
         assertEquals(1, program.getStatements().size)
         val statement = program.getStatements()[0] as DeclarationStatement
         assertEquals("x", statement.getIdentifier())
-        assertEquals("NUMBER", statement.getDataType())
+        assertEquals(CommonTypes.NUMBER, statement.getDataType())
         assertNotNull(statement.getInitialValue())
 
         val initialValueBinary = statement.getInitialValue() as BinaryExpression
