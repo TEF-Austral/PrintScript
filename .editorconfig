@@ -3,7 +3,7 @@
 # Formatter
 # requiere espacios dentro de las llaves. como esta desactivado, no se requieren espacios.
 ktlint_standard_curly-spacing = disabled
-ktlint_standard_max-line-length = 120
+ktlint_standard_max-line-length = 100
 
 
 # Linter
