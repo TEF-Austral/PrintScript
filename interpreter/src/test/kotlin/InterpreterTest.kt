@@ -1897,16 +1897,33 @@ class InterpreterTest {
                 statements =
                     listOf(
                         PrintStatement(
-                            expression = IdentifierExpression(PrintScriptToken(CommonTypes.IDENTIFIER, "undefinedVar", Position(1, 9))),
+                            expression =
+                                IdentifierExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.IDENTIFIER,
+                                        "undefinedVar",
+                                        Position(1, 9),
+                                    ),
+                                ),
                         ),
                     ),
             )
 
-        val interpreter = Interpreter(DefaultExpressionExecutor(specificExpressionExecutors), DefaultStatementExecutor(specificStatementExecutor))
+        val interpreter =
+            Interpreter(
+                DefaultExpressionExecutor(specificExpressionExecutors),
+                DefaultStatementExecutor(specificStatementExecutor),
+            )
         val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
-        assertTrue(result.message.contains("undefinedVar") || result.message.contains("undefined") || result.message.contains("not found"))
+        assertTrue(
+            result.message.contains("undefinedVar") ||
+                result.message.contains("undefined") ||
+                result.message.contains(
+                    "not found",
+                ),
+        )
     }
 
     @Test
@@ -1920,12 +1937,23 @@ class InterpreterTest {
                     listOf(
                         AssignmentStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "undeclaredVar", Position(1, 1)),
-                            value = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "42", Position(1, 17))),
+                            value =
+                                LiteralExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.NUMBER_LITERAL,
+                                        "42",
+                                        Position(1, 17),
+                                    ),
+                                ),
                         ),
                     ),
             )
 
-        val interpreter = Interpreter(DefaultExpressionExecutor(specificExpressionExecutors), DefaultStatementExecutor(specificStatementExecutor))
+        val interpreter =
+            Interpreter(
+                DefaultExpressionExecutor(specificExpressionExecutors),
+                DefaultStatementExecutor(specificStatementExecutor),
+            )
         val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
@@ -1948,12 +1976,23 @@ class InterpreterTest {
                         ),
                         AssignmentStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "numberVar", Position(2, 1)),
-                            value = LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "not a number", Position(2, 13))),
+                            value =
+                                LiteralExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.STRING_LITERAL,
+                                        "not a number",
+                                        Position(2, 13),
+                                    ),
+                                ),
                         ),
                     ),
             )
 
-        val interpreter = Interpreter(DefaultExpressionExecutor(specificExpressionExecutors), DefaultStatementExecutor(specificStatementExecutor))
+        val interpreter =
+            Interpreter(
+                DefaultExpressionExecutor(specificExpressionExecutors),
+                DefaultStatementExecutor(specificStatementExecutor),
+            )
         val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
@@ -2190,5 +2229,75 @@ class InterpreterTest {
 
         assertTrue(result.interpretedCorrectly)
         assertEquals("Program executed successfully", result.message)
+    }
+
+    @Test
+    fun `Complex Variable Delcaration and Reassignment Should Work`() {
+        val outputStream = ByteArrayOutputStream()
+        System.setOut(PrintStream(outputStream))
+
+        print("Program 19\n Output: ")
+        val case19 =
+            Program(
+                statements =
+                    listOf(
+                        DeclarationStatement(
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
+                            initialValue =
+                                LiteralExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.NUMBER_LITERAL,
+                                        "10",
+                                        Position(1, 17),
+                                    ),
+                                ),
+                        ),
+                        AssignmentStatement(
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(2, 1)),
+                            value =
+                                BinaryExpression(
+                                    left =
+                                        IdentifierExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.IDENTIFIER,
+                                                "x",
+                                                Position(2, 8),
+                                            ),
+                                        ),
+                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(2, 10)),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "5",
+                                                Position(2, 12),
+                                            ),
+                                        ),
+                                ),
+                        ),
+                        PrintStatement(
+                            expression =
+                                IdentifierExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.IDENTIFIER,
+                                        "x",
+                                        Position(3, 9),
+                                    ),
+                                ),
+                        ),
+                    ),
+            )
+
+        val interpreter =
+            Interpreter(
+                DefaultExpressionExecutor(specificExpressionExecutors),
+                DefaultStatementExecutor(specificStatementExecutor),
+            )
+        val result: InterpreterResult = interpreter.interpret(case19)
+        assertTrue(result.interpretedCorrectly)
+        assertEquals("Program executed successfully", result.message)
+        val printed = outputStream.toString().trim()
+        assertEquals("Program 19\n Output: 15", printed)
     }
 }
