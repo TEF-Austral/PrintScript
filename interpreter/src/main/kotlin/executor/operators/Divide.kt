@@ -1,6 +1,6 @@
 package executor.operators
 
-import executor.result.InterpreterResult
+import result.InterpreterResult
 import variable.Variable
 import type.CommonTypes
 
@@ -49,7 +49,6 @@ object Divide : Operator {
         val leftDouble = left.getValue()?.toString()?.toDoubleOrNull()
         val rightDouble = right.getValue()?.toString()?.toDoubleOrNull()
         if (leftDouble != null && rightDouble != null) {
-            // La comprobación de 'rightDouble == 0.0' se mantiene por seguridad.
             if (rightDouble == 0.0) return null
             return Variable(CommonTypes.NUMBER_LITERAL, leftDouble / rightDouble)
         }

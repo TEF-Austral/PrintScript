@@ -4,13 +4,14 @@ import executor.expression.DefaultExpressionExecutor
 import executor.expression.IdentifierExpressionExecutor
 import executor.expression.LiteralExpressionExecutor
 import executor.expression.SpecificExpressionExecutor
-import executor.result.InterpreterResult
+import result.InterpreterResult
 import executor.statement.AssignmentStatementExecutor
 import executor.statement.DeclarationStatementExecutor
 import executor.statement.DefaultStatementExecutor
 import executor.statement.ExpressionStatementExecutor
 import executor.statement.PrintStatementExecutor
 import executor.statement.SpecificStatementExecutor
+import factory.DefaultInterpreterFactory
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 import kotlin.test.assertEquals
@@ -28,29 +29,6 @@ import type.CommonTypes
 import variable.Variable
 
 class InterpreterFailureTest {
-    val mutableMap: MutableMap<String, Variable> = mutableMapOf()
-
-    val listForBinaryExpressionExecutor: List<SpecificExpressionExecutor> =
-        listOf(
-            IdentifierExpressionExecutor(mutableMap),
-            LiteralExpressionExecutor(),
-        )
-
-    val specificExpressionExecutors: List<SpecificExpressionExecutor> =
-        listOf(
-            BinaryExpressionExecutor(expressions = listForBinaryExpressionExecutor),
-            IdentifierExpressionExecutor(mutableMap),
-            LiteralExpressionExecutor(),
-        )
-
-    val specificStatementExecutor: List<SpecificStatementExecutor> =
-        listOf(
-            DeclarationStatementExecutor(mutableMap, DefaultExpressionExecutor(specificExpressionExecutors)),
-            AssignmentStatementExecutor(mutableMap, DefaultExpressionExecutor(specificExpressionExecutors)),
-            ExpressionStatementExecutor(DefaultExpressionExecutor(specificExpressionExecutors)),
-            PrintStatementExecutor(DefaultExpressionExecutor(specificExpressionExecutors)),
-        )
-
     @Test
     fun `Undefined Variable Usage Should Fail`() {
         val outputStream = ByteArrayOutputStream()
@@ -73,11 +51,8 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+            
         val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
@@ -113,11 +88,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
@@ -152,11 +123,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
@@ -223,11 +190,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
@@ -294,11 +257,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
@@ -365,11 +324,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
@@ -400,11 +355,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
 
         val result: InterpreterResult = interpreter.interpret(programWithInvalidDeclaration)
 
@@ -435,11 +386,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
 
         val result: InterpreterResult = interpreter.interpret(programWithUndefinedVar)
 
@@ -478,11 +425,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
 
         val result: InterpreterResult = interpreter.interpret(programWithInvalidMultiplication)
 
@@ -518,11 +461,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
 
         // --- 2. Ejecución ---
         val result: InterpreterResult = interpreter.interpret(programWithInvalidDivision)
@@ -607,11 +546,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter =
-            Interpreter(
-                DefaultExpressionExecutor(specificExpressionExecutors),
-                DefaultStatementExecutor(specificStatementExecutor),
-            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case17)
         assertFalse(result.interpretedCorrectly)
         assertEquals("Can't divide by zero", result.message)

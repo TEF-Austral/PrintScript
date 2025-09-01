@@ -5,7 +5,7 @@ import executor.operators.Multiplication
 import executor.operators.Operator
 import executor.operators.Subtraction
 import executor.operators.Sum
-import executor.result.InterpreterResult
+import result.InterpreterResult
 import node.BinaryExpression
 import node.Expression
 import type.CommonTypes

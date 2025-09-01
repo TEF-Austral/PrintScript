@@ -1,4 +1,4 @@
-package executor.result
+package result
 
 import variable.Variable
 

@@ -1,6 +1,6 @@
 package executor.operators
 
-import executor.result.InterpreterResult
+import result.InterpreterResult
 import variable.Variable
 import type.CommonTypes
 
