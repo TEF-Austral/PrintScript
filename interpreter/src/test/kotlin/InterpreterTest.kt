@@ -1,15 +1,4 @@
-import executor.expression.BinaryExpressionExecutor
-import executor.expression.DefaultExpressionExecutor
-import executor.expression.IdentifierExpressionExecutor
-import executor.expression.LiteralExpressionExecutor
-import executor.expression.SpecificExpressionExecutor
-import executor.statement.DefaultStatementExecutor
 import result.InterpreterResult
-import executor.statement.AssignmentStatementExecutor
-import executor.statement.DeclarationStatementExecutor
-import executor.statement.ExpressionStatementExecutor
-import executor.statement.PrintStatementExecutor
-import executor.statement.SpecificStatementExecutor
 import node.Program
 import node.BinaryExpression
 import node.IdentifierExpression
@@ -26,10 +15,8 @@ import type.CommonTypes
 import coordinates.Position
 import factory.DefaultInterpreterFactory
 import node.ExpressionStatement
-import variable.Variable
 
 class InterpreterTest {
-
     @Test
     fun `Basic Variable Declaration and Assignment`() {
         val outputStream = ByteArrayOutputStream()

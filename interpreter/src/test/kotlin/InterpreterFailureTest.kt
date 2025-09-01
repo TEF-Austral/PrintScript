@@ -1,16 +1,5 @@
 import coordinates.Position
-import executor.expression.BinaryExpressionExecutor
-import executor.expression.DefaultExpressionExecutor
-import executor.expression.IdentifierExpressionExecutor
-import executor.expression.LiteralExpressionExecutor
-import executor.expression.SpecificExpressionExecutor
 import result.InterpreterResult
-import executor.statement.AssignmentStatementExecutor
-import executor.statement.DeclarationStatementExecutor
-import executor.statement.DefaultStatementExecutor
-import executor.statement.ExpressionStatementExecutor
-import executor.statement.PrintStatementExecutor
-import executor.statement.SpecificStatementExecutor
 import factory.DefaultInterpreterFactory
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
@@ -26,7 +15,6 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import type.CommonTypes
-import variable.Variable
 
 class InterpreterFailureTest {
     @Test
@@ -52,7 +40,7 @@ class InterpreterFailureTest {
             )
 
         val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
-            
+
         val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
