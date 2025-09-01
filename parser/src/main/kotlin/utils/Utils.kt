@@ -1,6 +1,7 @@
 package parser.utils
 
 import Token
+import parser.Parser
 import parser.result.ParserResult
 import type.CommonTypes
 
@@ -13,3 +14,15 @@ fun checkType(
 }
 
 fun isValidResultAndCurrentToken(result: ParserResult): Boolean = (result.isSuccess()) && result.getParser().peak() != null
+
+fun verifyCurrentToken(
+    types: List<CommonTypes>,
+    parser: Parser,
+): Boolean {
+    for (type in types) {
+        if (checkType(type, parser.peak())) {
+            return true
+        }
+    }
+    return false
+}

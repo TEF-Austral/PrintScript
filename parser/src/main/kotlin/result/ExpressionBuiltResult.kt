@@ -11,7 +11,7 @@ class ExpressionBuiltResult(
 
     override fun isSuccess(): Boolean = true
 
-    override fun message(): String = "Success"
+    override fun message(): String = ""
 
     override fun getParser(): Parser = parser
 }

@@ -24,7 +24,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals(result.message(), "Expected delimiter")
+        assertEquals(result.message(), "Semantic error: Expected delimiter Successfully executed: Method consume called advance")
     }
 
     @Test
@@ -44,7 +44,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals(result.message(), "Expected identifier")
+        assertEquals(result.message(), "Semantic error: Expected identifier Successfully executed: Method consume called advance")
     }
 
     @Test
@@ -63,6 +63,7 @@ class ParserErrorTest {
         assertFalse(result.isSuccess())
         assertTrue(result.message().contains("Surpassed parser length"))
     }
+
 /*
     @Test
     fun testInvalidExpressionUnmatchedParentheses() {
@@ -124,7 +125,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals(result.message(), "Variable declaration must end in ;")
+        assertEquals(result.message(), "Semantic error: Variable declaration must end in ; ")
     }
 /*
     @Test

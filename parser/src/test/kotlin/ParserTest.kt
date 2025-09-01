@@ -293,6 +293,7 @@ class ParserTest {
                 PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 7)),
                 PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 9)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 16)),
             )
 
         val nodeBuilder = DefaultNodeBuilder()

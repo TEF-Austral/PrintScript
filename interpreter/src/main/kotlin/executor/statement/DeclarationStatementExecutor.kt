@@ -28,8 +28,9 @@ class DeclarationStatementExecutor(
                     return expressionResult
                 }
 
-                val initialValue = expressionResult.interpreter
-                    ?: return InterpreterResult(false, "Error: Expression did not yield a value", null)
+                val initialValue =
+                    expressionResult.interpreter
+                        ?: return InterpreterResult(false, "Error: Expression did not yield a value", null)
 
                 if (!areTypesCompatible(declaredType, initialValue.getType())) {
                     return InterpreterResult(
@@ -39,7 +40,6 @@ class DeclarationStatementExecutor(
                     )
                 }
                 variable = Variable(declaredType, initialValue.getValue())
-
             } else {
                 variable = Variable(declaredType, null)
             }
