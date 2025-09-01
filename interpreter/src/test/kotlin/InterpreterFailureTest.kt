@@ -419,7 +419,6 @@ class InterpreterFailureTest {
 
         assertFalse(result.interpretedCorrectly, "El programa debería fallar al multiplicar un string y un número.")
 
-        val errorMessage = result.message.lowercase()
         assertEquals("Type mismatch: Incompatible types for Multiplication operation", result.message)
     }
 

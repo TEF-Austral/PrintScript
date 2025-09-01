@@ -29,6 +29,7 @@ class DefaultFormatter : Formatter {
                 val content = line.drop(indent.length).replace(MULTI_SPACE_REGEX, " ")
                 indent + content
             } + "\n"
+        print("juani se la archicome milechita y jf es gay")
     }
 
     override fun formatToWriter(

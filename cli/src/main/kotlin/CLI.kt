@@ -1,8 +1,20 @@
-package org.example
+import flags.CliFlags
+import formatter.Formatter
+import org.example.Analyzer
+import parser.Parser
 
 class CLI(
-    private val src: String,
-)
+    private val linter: Analyzer,
+    private val formatter: Formatter,
+    private val interpreter: Interpreter,
+    private val parser: Parser,
+    private val lexer: Lexer
+){
+    fun execute(flags: CliFlags,configFileRoutes: String,){
+
+    }
+
+}
 /*
         private val splitter = SplitterFactory.createSplitter()
         private val tokenConverter = StringToTokenConverterFactory.createDefaultsTokenConverter()
