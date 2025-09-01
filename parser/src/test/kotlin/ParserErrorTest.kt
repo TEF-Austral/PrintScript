@@ -63,6 +63,7 @@ class ParserErrorTest {
         assertFalse(result.isSuccess())
         assertTrue(result.message().contains("Surpassed parser length"))
     }
+
 /*
     @Test
     fun testInvalidExpressionUnmatchedParentheses() {

@@ -18,8 +18,9 @@ class AssignmentStatementExecutor(
             val assignmentStatement = statement as AssignmentStatement
             val identifier = assignmentStatement.getIdentifier()
 
-            val existingVariable = variables[identifier]
-                ?: return InterpreterResult(false, "Error: Variable '$identifier' not declared", null)
+            val existingVariable =
+                variables[identifier]
+                    ?: return InterpreterResult(false, "Error: Variable '$identifier' not declared", null)
 
             val expressionResult = defaultExpressionExecutor.execute(assignmentStatement.getValue())
             if (!expressionResult.interpretedCorrectly) {

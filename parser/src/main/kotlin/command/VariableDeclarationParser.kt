@@ -9,6 +9,7 @@ import parser.result.StatementBuiltResult
 import parser.utils.checkType
 import parser.utils.isValidResultAndCurrentToken
 import type.CommonTypes
+
 // TODO SEPERATE INTO PRIVATE METHODS
 class VariableDeclarationParser(
     val possibleTokenTypes: List<CommonTypes> = listOf(CommonTypes.NUMBER, CommonTypes.STRING),
@@ -49,8 +50,12 @@ class VariableDeclarationParser(
             initialValue = initialValue.getParser().getExpressionParser().parseExpression(initialValue.getParser().advance())
         }
 
-        if (!initialValue.getParser().consume(CommonTypes.DELIMITERS).isSuccess() || initialValue.getParser().peak()
-                ?.getValue() != ";") {
+        if (!initialValue.getParser().consume(CommonTypes.DELIMITERS).isSuccess() ||
+            initialValue
+                .getParser()
+                .peak()
+                ?.getValue() != ";"
+        ) {
             throw Exception("Variable declaration must end in ;")
         }
 

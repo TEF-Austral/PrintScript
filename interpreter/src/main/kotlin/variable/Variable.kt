@@ -9,10 +9,4 @@ class Variable(
     fun getType(): CommonTypes = type
 
     fun getValue(): Any? = value
-
-    fun changeValue(value: Any?): Variable = Variable(this.type, value)
-
-    fun changeType(type: CommonTypes): Variable = Variable(type, this.value)
-
-    fun isValueNull(): Boolean = value == null
 }

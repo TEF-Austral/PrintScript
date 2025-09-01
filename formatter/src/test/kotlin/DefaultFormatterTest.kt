@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.StringWriter
 import type.CommonTypes
+
 // TODO USE TITLECASE/ ENFORCE TITLECASE
 class DefaultFormatterTest {
     private val builder = DefaultNodeBuilder()

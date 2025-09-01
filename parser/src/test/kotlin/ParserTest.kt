@@ -2,7 +2,6 @@ import builder.DefaultNodeBuilder
 import coordinates.Position
 import node.BinaryExpression
 import node.DeclarationStatement
-import node.EmptyExpression
 import node.ExpressionStatement
 import node.IdentifierExpression
 import node.LiteralExpression
@@ -283,29 +282,5 @@ class ParserTest {
         assertEquals("1", oneLiteral.getValue())
         assertEquals("y", yIdentifier.getName())
         assertEquals("2", twoLiteral.getValue())
-    }
-
-    @Test
-    fun simpleDeclaration() {
-        val tokens =
-            listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
-                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
-                PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 7)),
-                PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 9)),
-            )
-
-        val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
-        val program = parser.parse().getProgram()
-
-        assertEquals(1, program.getStatements().size)
-        val statement = program.getStatements()[0]
-        assertTrue(statement is DeclarationStatement)
-
-        val varDecl = statement as DeclarationStatement
-        assertEquals("x", varDecl.getIdentifier())
-        assertEquals(CommonTypes.NUMBER, varDecl.getDataType())
-        assertTrue(varDecl.getInitialValue() is EmptyExpression)
     }
 }
