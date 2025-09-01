@@ -23,5 +23,5 @@ class RecursiveParserFactory : ParserFactory {
     override fun withNewTokens(
         tokens: List<Token>,
         parser: Parser,
-    ): Parser = Parser(tokens, parser.nodeBuilder, parser.expressionParser, parser.statementParser, 0)
+    ): Parser = Parser(tokens, parser.getNodeBuilder(), parser.getExpressionParser(), parser.getStatementParser(), parser.getCurrent())
 }
