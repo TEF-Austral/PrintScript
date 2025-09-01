@@ -1,7 +1,7 @@
 package executor.statement
 
 import executor.expression.DefaultExpressionExecutor
-import executor.result.InterpreterResult
+import result.InterpreterResult
 import node.ExpressionStatement
 import node.Statement
 

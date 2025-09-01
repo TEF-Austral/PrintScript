@@ -1,6 +1,6 @@
 import executor.expression.DefaultExpressionExecutor
 import executor.statement.DefaultStatementExecutor
-import executor.result.InterpreterResult
+import result.InterpreterResult
 import node.ASTNode
 import node.Program
 import node.Expression

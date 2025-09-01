@@ -3,7 +3,6 @@ plugins {
     id 'org.jlleitschuh.gradle.ktlint'
     id 'jacoco'
     id 'maven-publish'
-//    id "io.gitlab.arturbosch.detekt"
 }
 
 repositories {
@@ -24,7 +23,6 @@ dependencies {
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation 'com.google.guava:guava:29.0-jre'
-
 }
 
 java {
@@ -38,7 +36,7 @@ tasks.named('test') {
 }
 
 tasks.jacocoTestCoverageVerification {
-    dependsOn("test") // asegurarse que los tests se corran antes
+    dependsOn("test")
     violationRules {
         rule {
             limit {
@@ -50,7 +48,6 @@ tasks.jacocoTestCoverageVerification {
 
 tasks.named("check") {
     dependsOn("ktlintCheck")
-//    dependsOn("detekt")
     dependsOn("jacocoTestCoverageVerification")
 }
 

@@ -72,7 +72,7 @@ class NodeTest {
             )
 
         assertEquals("myVar", varDecl.getIdentifier())
-        assertEquals("NUMBER", varDecl.getDataType().toString())
+        assertEquals(CommonTypes.NUMBER, varDecl.getDataType())
         assertEquals(initialValue, varDecl.getInitialValue())
     }
 
@@ -85,7 +85,7 @@ class NodeTest {
             )
 
         assertEquals("myVar", varDecl.getIdentifier())
-        assertEquals("NUMBER", varDecl.getDataType().toString())
+        assertEquals(CommonTypes.NUMBER, varDecl.getDataType())
         assertNull(varDecl.getInitialValue())
     }
 
@@ -172,7 +172,7 @@ class NodeTest {
         assertEquals(1, program.getStatements().size)
         val statement = program.getStatements()[0] as DeclarationStatement
         assertEquals("x", statement.getIdentifier())
-        assertEquals("NUMBER", statement.getDataType().toString())
+        assertEquals(CommonTypes.NUMBER, statement.getDataType())
         assertNotNull(statement.getInitialValue())
 
         val initialValueBinary = statement.getInitialValue() as BinaryExpression

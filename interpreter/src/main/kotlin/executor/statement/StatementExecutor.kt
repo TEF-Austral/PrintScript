@@ -1,6 +1,6 @@
 package executor.statement
 
-import executor.result.InterpreterResult
+import result.InterpreterResult
 import node.Statement
 
 sealed interface StatementExecutor {
