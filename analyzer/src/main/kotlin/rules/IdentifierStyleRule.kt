@@ -11,9 +11,8 @@ import node.IdentifierExpression
 import node.PrintStatement
 import node.Program
 
-
 class IdentifierStyleRule(
-    private val checker: NameChecker
+    private val checker: NameChecker,
 ) : Rule {
     override fun apply(program: Program): List<Diagnostic> {
         val diags = mutableListOf<Diagnostic>()
@@ -35,16 +34,24 @@ class IdentifierStyleRule(
         return diags
     }
 
-    private fun check(name: String, idx: Int, diags: MutableList<Diagnostic>) {
+    private fun check(
+        name: String,
+        idx: Int,
+        diags: MutableList<Diagnostic>,
+    ) {
         if (!checker.pattern.matches(name)) {
-            diags += Diagnostic(
-                "Identifier '$name' does not match ${checker.styleName()}",
-                Position(idx, 0)
-            )
+            diags +=
+                Diagnostic(
+                    "Identifier '$name' does not match ${checker.styleName()}",
+                    Position(idx, 0),
+                )
         }
     }
 
-    private fun Expression.visit(idx: Int, diags: MutableList<Diagnostic>) {
+    private fun Expression.visit(
+        idx: Int,
+        diags: MutableList<Diagnostic>,
+    ) {
         when (this) {
             is IdentifierExpression -> check(getName(), idx, diags)
             is BinaryExpression -> {

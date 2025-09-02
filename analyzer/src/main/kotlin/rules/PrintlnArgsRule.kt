@@ -14,10 +14,11 @@ class PrintlnArgsRule : Rule {
             if (stmt is PrintStatement) {
                 val expr = stmt.getExpression()
                 if (expr !is IdentifierExpression && expr !is LiteralExpression) {
-                    diags += Diagnostic(
-                        "println must take only a literal or identifier",
-                        Position(idx, 0)
-                    )
+                    diags +=
+                        Diagnostic(
+                            "println must take only a literal or identifier",
+                            Position(idx, 0),
+                        )
                 }
             }
         }
