@@ -32,22 +32,22 @@ class Analyzer(
     ) {
         when (stmt) {
             is DeclarationStatement -> checkName(stmt.getIdentifier(), idx, diags)
-            is AssignmentStatement  -> checkName(stmt.getIdentifier(), idx, diags)
-            is PrintStatement       -> {
+            is AssignmentStatement -> checkName(stmt.getIdentifier(), idx, diags)
+            is PrintStatement -> {
                 if (config.restrictPrintlnArgs) {
                     val expr = stmt.getExpression()
                     if (expr !is IdentifierExpression && expr !is LiteralExpression) {
                         diags.add(
                             Diagnostic(
                                 "println must take only a literal or identifier",
-                                Position(idx, 0)
-                            )
+                                Position(idx, 0),
+                            ),
                         )
                     }
                 }
             }
-            is ExpressionStatement  -> analyzeExpression(stmt.getExpression(), idx, diags)
-            else                    -> Unit
+            is ExpressionStatement -> analyzeExpression(stmt.getExpression(), idx, diags)
+            else -> Unit
         }
     }
 
@@ -58,11 +58,11 @@ class Analyzer(
     ) {
         when (expr) {
             is IdentifierExpression -> checkName(expr.getName(), idx, diags)
-            is BinaryExpression     -> {
+            is BinaryExpression -> {
                 analyzeExpression(expr.getLeft(), idx, diags)
                 analyzeExpression(expr.getRight(), idx, diags)
             }
-            else                    -> Unit
+            else -> Unit
         }
     }
 
@@ -80,8 +80,8 @@ class Analyzer(
             diags.add(
                 Diagnostic(
                     "Identifier '$name' does not match ${config.identifierStyle}",
-                    Position(idx, 0)
-                )
+                    Position(idx, 0),
+                ),
             )
         }
     }

@@ -1,11 +1,11 @@
 import analyzer.Diagnostic
 import coordinates.Coordinates
 import coordinates.Position
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
 
 class DiagnosticTest {
-
     @Test
     fun `stores message and coordinates correctly`() {
         val coords: Coordinates = Position(1, 2)
