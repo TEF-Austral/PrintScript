@@ -24,7 +24,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals(result.message(), "Semantic error: Expected delimiter Successfully executed: Method consume called advance")
+        assertEquals("Semantic error: Expected delimiter Successfully executed: Method consume called advance", result.message())
     }
 
     @Test
@@ -44,7 +44,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals(result.message(), "Semantic error: Expected identifier Successfully executed: Method consume called advance")
+        assertEquals("Semantic error: Expected identifier Successfully executed: Method consume called advance", result.message())
     }
 
     @Test
@@ -61,13 +61,11 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertTrue(result.message().contains("Surpassed parser length"))
+        assertEquals("Surpassed parser length", result.message())
     }
 
-/*
     @Test
     fun testInvalidExpressionUnmatchedParentheses() {
-        // Invalid: "(5 + 3;" (missing closing parenthesis)
         val tokens =
             listOf(
                 PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 1)),
@@ -82,34 +80,11 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertTrue(result.message().contains("Error"))
+        assertEquals("Invalid delimiter state", result.message())
     }
 
-
-
-    @Test
-    fun testInvalidExpressionExtraClosingParenthesis() {
-        // Invalid: "5 + 3);" (extra closing parenthesis)
-        val tokens =
-            listOf(
-                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 1)),
-                PrintScriptToken(CommonTypes.OPERATORS, "+", Position(1, 3)),
-                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "3", Position(1, 5)),
-                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 6)),
-                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 7)),
-            )
-
-        val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
-        val result = parser.parse()
-
-        assertFalse(result.isSuccess())
-        assertTrue(result.message().contains("Error"))
-    }
-*/
     @Test
     fun testInvalidVariableDeclarationMissingSemicolon() {
-        // Invalid: "let x: NUMBER = 5" (missing semicolon)
         val tokens =
             listOf(
                 PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
@@ -125,12 +100,30 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals(result.message(), "Semantic error: Variable declaration must end in ; ")
+        assertEquals("Semantic error: Variable declaration must end in ; ", result.message())
     }
 /*
     @Test
+    fun testInvalidExpressionExtraClosingParenthesis() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 1)),
+                PrintScriptToken(CommonTypes.OPERATORS, "+", Position(1, 3)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "3", Position(1, 5)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 6)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 7)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertFalse(result.isSuccess())
+        assertEquals("Was expecting a valid delimiter", result.message())
+    }
+
+    @Test
     fun testInvalidExpressionConsecutiveOperators() {
-        // Invalid: "5 + + 3;" (consecutive operators)
         val tokens =
             listOf(
                 PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 1)),
@@ -145,12 +138,11 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertTrue(result.message().contains("Error"))
+        assertEquals("Can't put operators side by side", result.message())
     }
 
     @Test
     fun testInvalidTokenSequenceEmptyParentheses() {
-        // Invalid: "();" (empty parentheses)
         val tokens =
             listOf(
                 PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 1)),
@@ -163,12 +155,11 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertTrue(result.message().contains("Error"))
+        assertEquals("Was expecting a valid delimiter", result.message())
     }
 
     @Test
     fun testInvalidVariableDeclarationWrongOrder() {
-        // Invalid: "NUMBER x: let = 5;" (wrong order of tokens)
         val tokens =
             listOf(
                 PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 1)),
@@ -185,12 +176,11 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertTrue(result.message().contains("Error"))
+        assertEquals( "Wrong structure is being processed.", result.message())
     }
 
     @Test
     fun testInvalidExpressionMissingOperator() {
-        // Invalid: "5 3;" (missing operator between operands)
         val tokens =
             listOf(
                 PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 1)),
@@ -203,28 +193,11 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertTrue(result.message().contains("Error"))
+        assertEquals( "Was expecting a valid delimiter", result.message())
     }
 
- */
-
-    @Test
-    fun testEmptyTokenList() {
-        // Test with completely empty token list
-        val tokens = emptyList<PrintScriptToken>()
-
-        val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
-        val result = parser.parse()
-
-        // Empty program should be valid and return success with empty statements
-        assertTrue(result.isSuccess())
-        assertEquals(0, result.getProgram().getStatements().size)
-    }
-/*
     @Test
     fun testUnexpectedTokenAfterValidStatement() {
-        // Valid statement followed by unexpected token: "let x: NUMBER = 5; UNEXPECTED"
         val tokens =
             listOf(
                 PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
@@ -234,7 +207,7 @@ class ParserErrorTest {
                 PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 16)),
                 PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 18)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 19)),
-                PrintScriptToken(CommonTypes.OPERATORS, "+", Position(2, 1)), // Unexpected operator without context
+                PrintScriptToken(CommonTypes.OPERATORS, "+", Position(2, 1)),
             )
 
         val nodeBuilder = DefaultNodeBuilder()
@@ -242,8 +215,19 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertTrue(result.message().contains("Error"))
+        assertEquals("Wrong structure is being processed.", result.message())
     }
+*/
 
- */
+    @Test
+    fun testEmptyTokenList() {
+        val tokens = emptyList<PrintScriptToken>()
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertTrue(result.isSuccess())
+        assertEquals(0, result.getProgram().getStatements().size)
+    }
 }

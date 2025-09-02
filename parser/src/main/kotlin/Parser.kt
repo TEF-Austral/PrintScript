@@ -12,6 +12,7 @@ import parser.result.ParserResult
 import parser.result.ParserSuccess
 import parser.statement.StatementParser
 import parser.utils.checkType
+import parser.utils.DelimiterStack
 import type.CommonTypes
 
 class Parser(
@@ -20,6 +21,7 @@ class Parser(
     private val expressionParser: ExpressionParser,
     private val statementParser: StatementParser,
     private val current: Int = 0,
+    private val delimiterStack: DelimiterStack = DelimiterStack(),
 ) {
     fun isAtEnd(): Boolean = current >= tokens.size
 
@@ -36,6 +38,7 @@ class Parser(
         accumulatedStatements: List<Statement>,
     ): List<Statement> {
         if (currentParser.isAtEnd()) {
+            checkDelimiterStack(currentParser)
             return accumulatedStatements
         }
 
@@ -47,14 +50,34 @@ class Parser(
         )
     }
 
+    private fun checkDelimiterStack(currentParser: Parser) {
+        if (!currentParser.delimiterStack.isValidDelimiterState()) {
+            throw Exception(delimiterStack.getValidationError() ?: "Invalid delimiter state")
+        }
+    }
+
     fun peak(): Token? = if (isAtEnd()) null else tokens[current]
 
-    fun advance(): Parser =
-        if (!isAtEnd()) {
-            Parser(tokens, nodeBuilder, expressionParser, statementParser, current + 1)
-        } else {
-            this
-        }
+    fun advance(): Parser {
+        if (isAtEnd()) return this
+
+        val currentToken = tokens[current]
+        val newDelimiterStack =
+            if (currentToken.getType() == CommonTypes.DELIMITERS) {
+                delimiterStack.add(currentToken)
+            } else {
+                delimiterStack
+            }
+
+        return Parser(
+            tokens,
+            nodeBuilder,
+            expressionParser,
+            statementParser,
+            current + 1,
+            newDelimiterStack,
+        )
+    }
 
     fun consume(type: CommonTypes): ParserResult =
         if (checkType(type, peak())) {

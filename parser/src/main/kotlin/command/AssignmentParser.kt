@@ -8,7 +8,7 @@ import parser.utils.checkType
 import parser.utils.isValidResultAndCurrentToken
 import type.CommonTypes
 
-class AssignmentParser : StatementParserCommand {
+class AssignmentParser : StatementCommand {
     override fun canHandle(
         token: Token?,
         parser: Parser,

@@ -191,6 +191,7 @@ class ParserTest {
 
         val nodeBuilder = DefaultNodeBuilder()
         val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)

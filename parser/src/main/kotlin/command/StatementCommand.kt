@@ -3,7 +3,7 @@ package parser.command
 import Token
 import parser.Parser
 
-sealed interface StatementParserCommand : ParserCommand {
+sealed interface StatementCommand : ParserCommand {
     fun canHandle(
         token: Token?,
         parser: Parser,

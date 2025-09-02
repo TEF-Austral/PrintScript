@@ -32,6 +32,7 @@ class DefaultParseBinary(
         if (!rightOperand.isSuccess()) {
             throw Exception(rightOperand.message())
         }
+
         val processedRight = processRightAssociativity(parserAfterOperator, rightOperand, operator)
 
         val newExpression =

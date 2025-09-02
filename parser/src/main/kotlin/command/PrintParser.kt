@@ -6,7 +6,7 @@ import parser.result.StatementBuiltResult
 import parser.result.StatementResult
 import type.CommonTypes
 
-class PrintStatementParser : StatementParserCommand {
+class PrintParser : StatementCommand {
     override fun canHandle(
         token: Token?,
         parser: Parser,

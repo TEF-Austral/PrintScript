@@ -29,7 +29,7 @@ class VariableDeclarationParser(
                 ),
             ),
         ),
-) : StatementParserCommand {
+) : StatementCommand {
     override fun canHandle(
         token: Token?,
         parser: Parser,
