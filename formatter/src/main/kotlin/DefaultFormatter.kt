@@ -10,7 +10,7 @@ import java.io.Writer
 class DefaultFormatter : Formatter {
     override fun formatToString(
         program: Program,
-        config: FormatConfig
+        config: FormatConfig,
     ): String {
         val sb = StringBuilder()
         program.getStatements().forEach { stmt ->
@@ -31,7 +31,7 @@ class DefaultFormatter : Formatter {
     override fun formatToWriter(
         program: Program,
         config: FormatConfig,
-        writer: Writer
+        writer: Writer,
     ) {
         writer.write(formatToString(program, config))
     }
