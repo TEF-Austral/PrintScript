@@ -10,7 +10,7 @@ import parser.result.FinalResult
 import parser.result.ParserError
 import parser.result.ParserResult
 import parser.result.ParserSuccess
-import parser.statement.StatementParser
+import parser.command.StatementParser
 import parser.utils.checkType
 import parser.utils.DelimiterStack
 import type.CommonTypes
@@ -42,7 +42,7 @@ class Parser(
             return accumulatedStatements
         }
 
-        val statementResult = statementParser.parseStatement(currentParser)
+        val statementResult = statementParser.parse(currentParser)
 
         return parseStatementsRecursive(
             statementResult.getParser(),

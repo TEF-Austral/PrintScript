@@ -1,4 +1,4 @@
-package parser.expression.primary
+package parser.expression
 
 import Token
 import node.EmptyExpression

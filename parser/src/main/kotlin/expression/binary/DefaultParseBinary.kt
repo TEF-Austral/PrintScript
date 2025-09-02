@@ -8,6 +8,7 @@ import parser.result.ExpressionBuiltResult
 import parser.result.ExpressionResult
 import type.CommonTypes
 
+// TODO REFACTOR AND ADD () LOGIC
 class DefaultParseBinary(
     private val tokenToExpression: TokenToExpression,
 ) : ParseBinary {

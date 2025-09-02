@@ -1,4 +1,4 @@
-package command.rules
+package command.enforcers
 
 import parser.result.SemanticResult
 

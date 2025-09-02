@@ -1,12 +1,12 @@
-package parser.expression.primary
+package parser.expression
 
 import Token
 import type.CommonTypes
 import parser.Parser
 import parser.result.ExpressionBuiltResult
 
-object IdentifierBuilder : ExpressionBuilder {
-    override fun canHandle(token: CommonTypes): Boolean = token == CommonTypes.IDENTIFIER
+object LiteralBuilder : ExpressionBuilder {
+    override fun canHandle(token: CommonTypes): Boolean = token == CommonTypes.NUMBER_LITERAL || token == CommonTypes.STRING_LITERAL
 
     override fun build(
         parser: Parser,
@@ -15,7 +15,7 @@ object IdentifierBuilder : ExpressionBuilder {
         val newParser = parser.advance()
         return ExpressionBuiltResult(
             newParser,
-            newParser.getNodeBuilder().buildIdentifierNode(current),
+            newParser.getNodeBuilder().buildLiteralExpressionNode(current),
         )
     }
 }

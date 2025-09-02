@@ -1,34 +1,33 @@
-package command.rules
+package command.enforcers
 
 import parser.result.SemanticError
 import parser.result.SemanticResult
 import parser.result.SemanticSuccess
+import parser.utils.verifyCurrentToken
 import type.CommonTypes
 
-class AssignmentEnforcer(
+class DataTypeEnforcer(
     private val nextEnforcer: SemanticEnforcers,
+    private val possibleTypes: List<CommonTypes> = listOf(CommonTypes.NUMBER, CommonTypes.STRING),
 ) : SemanticEnforcers {
     override fun enforce(result: SemanticResult): SemanticResult {
         val currentParser = result.getParser()
-        if (!result.isSuccess()) {
+        if (!(verifyCurrentToken(possibleTypes, currentParser)) || !result.isSuccess()){
             return SemanticError(
-                "Expected Assignment " + result.message(),
+                "Expected data type " + result.message(),
                 result.identifier(),
                 result.dataType(),
                 result.initialValue(),
                 currentParser,
             )
-        } else if (!currentParser.consume(CommonTypes.ASSIGNMENT).isSuccess()) {
-            return SemiColonEnforcer().enforce(result)
         }
-        val parserResult = currentParser.getExpressionParser().parseExpression(currentParser.advance())
         return nextEnforcer.enforce(
             SemanticSuccess(
-                parserResult.message(),
+                result.message(),
                 result.identifier(),
-                result.dataType(),
-                parserResult.getExpression(),
-                parserResult.getParser(),
+                currentParser.peak()!!,
+                result.initialValue(),
+                currentParser.advance(),
             ),
         )
     }

@@ -12,10 +12,10 @@ class ExpressionParser(
 ) {
     fun parseExpression(parser: Parser): ExpressionResult = parseBinary(parsePrimary(parser))
 
-    fun parsePrimary(parser: Parser): ExpressionResult {
+    private fun parsePrimary(parser: Parser): ExpressionResult {
         val current = parser.peak() ?: return ExpressionBuiltResult(parser, EmptyExpression())
         return expressionBuilder.build(parser, current)
     }
 
-    fun parseBinary(left: ExpressionResult): ExpressionResult = binaryBuilder.parseBinary(left, 0)
+    private fun parseBinary(left: ExpressionResult): ExpressionResult = binaryBuilder.parseBinary(left, 0)
 }

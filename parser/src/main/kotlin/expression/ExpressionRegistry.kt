@@ -1,9 +1,8 @@
-package parser.expression.primary
+package parser.expression
 
 import Token
 import node.EmptyExpression
 import parser.Parser
-import parser.expression.TokenToExpression
 import parser.result.ExpressionBuiltResult
 import parser.result.ExpressionResult
 

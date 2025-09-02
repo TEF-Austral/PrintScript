@@ -1,4 +1,4 @@
-package command.rules
+package command.enforcers
 
 import parser.Parser
 import parser.result.SemanticError
@@ -6,25 +6,25 @@ import parser.result.SemanticResult
 import parser.result.SemanticSuccess
 import type.CommonTypes
 
-class ColonEnforcer(
+class IdentifierEnforcer(
     private val nextEnforcer: SemanticEnforcers,
 ) : SemanticEnforcers {
     override fun enforce(result: SemanticResult): SemanticResult {
         val currentParser = result.getParser()
-        if (isColon(currentParser) || !result.isSuccess()) {
+        if (isIdentifier(currentParser) || !result.isSuccess()) {
             return SemanticError(
-                "Expected delimiter " + result.message(),
+                "Expected identifier " + result.message(),
                 result.identifier(),
                 result.dataType(),
                 result.initialValue(),
                 currentParser,
             )
         }
-        val parserResult = currentParser.consume(CommonTypes.DELIMITERS)
+        val parserResult = currentParser.consume(CommonTypes.IDENTIFIER)
         return nextEnforcer.enforce(
             SemanticSuccess(
                 parserResult.message(),
-                result.identifier(),
+                currentParser.peak()!!,
                 result.dataType(),
                 result.initialValue(),
                 parserResult.getParser(),
@@ -32,7 +32,5 @@ class ColonEnforcer(
         )
     }
 
-    private fun isColon(currentParser: Parser): Boolean =
-        !currentParser.consume(CommonTypes.DELIMITERS).isSuccess() ||
-            currentParser.peak()?.getValue() != ":"
+    private fun isIdentifier(currentParser: Parser): Boolean = !currentParser.consume(CommonTypes.IDENTIFIER).isSuccess()
 }

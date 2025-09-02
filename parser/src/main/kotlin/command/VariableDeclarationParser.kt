@@ -2,13 +2,13 @@ package parser.command
 
 import PrintScriptToken
 import Token
-import command.rules.AssignmentEnforcer
-import command.rules.ColonEnforcer
-import command.rules.DataTypeEnforcer
-import command.rules.DeclarationEnforcer
-import command.rules.IdentifierEnforcer
-import command.rules.SemanticEnforcers
-import command.rules.SemiColonEnforcer
+import command.enforcers.AssignmentEnforcer
+import command.enforcers.ColonEnforcer
+import command.enforcers.DataTypeEnforcer
+import command.enforcers.DeclarationEnforcer
+import command.enforcers.IdentifierEnforcer
+import command.enforcers.SemanticEnforcers
+import command.enforcers.SemiColonEnforcer
 import coordinates.Position
 import node.EmptyExpression
 import parser.Parser

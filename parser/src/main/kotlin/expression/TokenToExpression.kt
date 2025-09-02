@@ -4,7 +4,7 @@ import Token
 import parser.Parser
 import parser.result.ExpressionResult
 
-interface TokenToExpression {
+sealed interface TokenToExpression {
     fun build(
         parser: Parser,
         current: Token,
