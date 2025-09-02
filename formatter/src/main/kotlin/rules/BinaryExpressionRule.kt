@@ -19,7 +19,7 @@ class BinaryExpressionRule : FormatRule {
             .first { it.matches(expr.getLeft()) }
             .apply(expr.getLeft(), sb, config, indentLevel)
 
-        sb.append(" ${expr.getOperator().getValue()} ")
+        sb.append(" ${expr.getOperator()} ")
 
         RuleRegistry.rules
             .first { it.matches(expr.getRight()) }

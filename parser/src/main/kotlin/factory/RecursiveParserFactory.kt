@@ -19,4 +19,9 @@ class RecursiveParserFactory : ParserFactory {
         val statementParser = StatementParser()
         return Parser(tokens, nodeBuilder, expressionParser, statementParser, 0)
     }
+
+    override fun withNewTokens(
+        tokens: List<Token>,
+        parser: Parser,
+    ): Parser = Parser(tokens, parser.getNodeBuilder(), parser.getExpressionParser(), parser.getStatementParser(), parser.getCurrent())
 }

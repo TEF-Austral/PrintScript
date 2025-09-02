@@ -11,6 +11,15 @@ repositories {
 
 dependencies {
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
+    implementation project(':lexer')
+    implementation project(':interpreter')
+    implementation project(':parser')
+    implementation project(':formatter')
+    implementation project(':analyzer')
+    implementation project(':common')
+    implementation project(':ast')
+    implementation project(':token')
+    implementation project(":reader")
 }
 
 test {

@@ -26,4 +26,3 @@ include(
         'reader',
         'common'
 )
-include 'reader'

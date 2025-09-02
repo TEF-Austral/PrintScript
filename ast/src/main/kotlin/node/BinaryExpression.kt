@@ -9,7 +9,7 @@ class BinaryExpression(
 ) : Expression {
     fun getLeft(): Expression = left
 
-    fun getOperator(): Token = operator
+    fun getOperator(): String = operator.getValue()
 
     fun getRight(): Expression = right
 }

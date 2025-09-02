@@ -3,7 +3,6 @@ package formatter
 import formatter.config.FormatConfig
 import formatter.config.FormatterConstants.MULTI_SPACE_REGEX
 import formatter.rules.RuleRegistry
-import node.ASTNode
 import node.Program
 import java.io.Writer
 
@@ -15,7 +14,7 @@ class DefaultFormatter : Formatter {
         val sb = StringBuilder()
         program.getStatements().forEach { stmt ->
             RuleRegistry.rules
-                .first { it.matches(stmt as ASTNode) }
+                .first { it.matches(stmt) }
                 .apply(stmt, sb, config, 0)
         }
         return sb

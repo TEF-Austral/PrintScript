@@ -19,7 +19,7 @@ class Parser(
     private val nodeBuilder: NodeBuilder,
     private val expressionParser: ExpressionParser,
     private val statementParser: StatementParser,
-    val current: Int = 0,
+    private val current: Int = 0,
 ) {
     fun isAtEnd(): Boolean = current >= tokens.size
 
@@ -66,4 +66,10 @@ class Parser(
     fun getExpressionParser(): ExpressionParser = expressionParser
 
     fun getNodeBuilder(): NodeBuilder = nodeBuilder
+
+    fun getStatementParser(): StatementParser = statementParser
+
+    fun getCurrent(): Int = current
+
+    fun getTokens(): List<Token> = tokens
 }

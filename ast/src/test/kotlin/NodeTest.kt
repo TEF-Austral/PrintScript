@@ -56,7 +56,7 @@ class NodeTest {
         val binaryExpr = nodeBuilder.buildBinaryExpressionNode(leftExpr, operatorToken, rightExpr)
 
         assertEquals(leftExpr, binaryExpr.getLeft())
-        assertEquals(operatorToken, binaryExpr.getOperator())
+        assertEquals("+", binaryExpr.getOperator())
         assertEquals(rightExpr, binaryExpr.getRight())
     }
 
@@ -177,7 +177,7 @@ class NodeTest {
 
         val initialValueBinary = statement.getInitialValue() as BinaryExpression
         assertEquals("5", (initialValueBinary.getLeft() as LiteralExpression).getValue())
-        assertEquals("+", initialValueBinary.getOperator().getValue())
+        assertEquals("+", initialValueBinary.getOperator())
         assertEquals("10", (initialValueBinary.getRight() as LiteralExpression).getValue())
     }
 }
