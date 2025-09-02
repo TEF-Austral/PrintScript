@@ -1,6 +1,6 @@
 import flags.CliFlags
 import formatter.FormatterService
-import org.example.Analyzer
+import analyzer.Analyzer
 import parser.Parser
 import parser.factory.RecursiveParserFactory
 

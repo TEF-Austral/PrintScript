@@ -1,4 +1,3 @@
-package org.example
+package analyzer
 
-enum class IdentifierType {
-}
+enum class IdentifierStyle { CAMEL_CASE, SNAKE_CASE }

@@ -1,4 +1,3 @@
-// src/main/kotlin/formatter/Formatter.kt
 package formatter
 
 import formatter.config.FormatConfig
