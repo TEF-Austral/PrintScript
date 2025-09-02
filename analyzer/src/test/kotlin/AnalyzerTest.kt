@@ -117,11 +117,11 @@ class AnalyzerTest {
         assertEquals(2, diags.size)
         assertEquals(
             "Identifier 'my_var' does not match CAMEL_CASE",
-            diags[0].message
+            diags[0].message,
         )
         assertEquals(
             "Identifier 'AnotherVar' does not match CAMEL_CASE",
-            diags[1].message
+            diags[1].message,
         )
     }
 
