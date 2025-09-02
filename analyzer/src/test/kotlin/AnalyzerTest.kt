@@ -7,6 +7,7 @@ import coordinates.Position
 import node.AssignmentStatement
 import node.BinaryExpression
 import node.DeclarationStatement
+import node.ExpressionStatement
 import node.IdentifierExpression
 import node.LiteralExpression
 import node.PrintStatement
@@ -99,5 +100,35 @@ class AnalyzerTest {
             "Identifier 'myVar' does not match SNAKE_CASE",
             diags[0].message,
         )
+    }
+
+    @Test
+    fun `expression statement with literal expression produces no diagnostics`() {
+        val stmts = listOf(ExpressionStatement(lit(42)))
+        assertTrue(runAnalyzer(stmts).isEmpty())
+    }
+
+    @Test
+    fun `multiple invalid identifiers produce multiple diagnostics`() {
+        val decl = DeclarationStatement(tok("my_var"), tok("Int"), lit(1))
+        val assign = AssignmentStatement(tok("AnotherVar"), lit(2))
+        val stmts = listOf(decl, assign)
+        val diags = runAnalyzer(stmts)
+        assertEquals(2, diags.size)
+        assertEquals(
+            "Identifier 'my_var' does not match CAMEL_CASE",
+            diags[0].message
+        )
+        assertEquals(
+            "Identifier 'AnotherVar' does not match CAMEL_CASE",
+            diags[1].message
+        )
+    }
+
+    @Test
+    fun `snake_case style accepts snake case identifiers`() {
+        val cfg = AnalyzerConfig(identifierStyle = IdentifierStyle.SNAKE_CASE)
+        val decl = DeclarationStatement(tok("my_var"), tok("Int"), lit(3))
+        assertTrue(runAnalyzer(listOf(decl), cfg).isEmpty())
     }
 }
