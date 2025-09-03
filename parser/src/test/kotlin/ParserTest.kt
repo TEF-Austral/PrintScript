@@ -105,7 +105,6 @@ class ParserTest {
 
     @Test
     fun testComplexExpressionWithParenthesesAndPrecedence() {
-        // Expresión: (x + 5) * 2 > 10;
         val tokens =
             listOf(
                 PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 1)),
@@ -124,7 +123,6 @@ class ParserTest {
         val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
-        // Verificar que se parsea como un ExpressionStatement
         assertEquals(1, program.getStatements().size)
         val statement = program.getStatements()[0]
         assertTrue(statement is ExpressionStatement)
@@ -133,37 +131,28 @@ class ParserTest {
         val rootExpression = exprStatement.getExpression()
         assertTrue(rootExpression is BinaryExpression)
 
-        // El AST debe ser: ((x + 5) * 2) > 10
         val rootBinary = rootExpression as BinaryExpression
 
-        // Verificar operador raíz (>)
         assertEquals(">", rootBinary.getOperator())
 
-        // Verificar operando derecho (10)
         assertTrue(rootBinary.getRight() is LiteralExpression)
         val rightLiteral = rootBinary.getRight() as LiteralExpression
         assertEquals("10", rightLiteral.getValue())
 
-        // Verificar operando izquierdo ((x + 5) * 2)
         assertTrue(rootBinary.getLeft() is BinaryExpression)
         val leftMultiplication = rootBinary.getLeft() as BinaryExpression
 
-        // Verificar multiplicación (*)
         assertEquals("*", leftMultiplication.getOperator())
 
-        // Verificar operando derecho de la multiplicación (2)
         assertTrue(leftMultiplication.getRight() is LiteralExpression)
         val multiplicationRight = leftMultiplication.getRight() as LiteralExpression
         assertEquals("2", multiplicationRight.getValue())
 
-        // Verificar operando izquierdo de la multiplicación (x + 5)
         assertTrue(leftMultiplication.getLeft() is BinaryExpression)
         val addition = leftMultiplication.getLeft() as BinaryExpression
 
-        // Verificar suma (+)
         assertEquals("+", addition.getOperator())
 
-        // Verificar operandos de la suma
         assertTrue(addition.getLeft() is IdentifierExpression)
         assertTrue(addition.getRight() is LiteralExpression)
 
@@ -176,7 +165,6 @@ class ParserTest {
 
     @Test
     fun testExpressionWithMultiplePrecedenceLevels() {
-        // Expresión más simple para verificar precedencia: 2 + 3 * 4 > 10
         val tokens =
             listOf(
                 PrintScriptToken(CommonTypes.NUMBER_LITERAL, "2", Position(1, 1)),
@@ -191,7 +179,6 @@ class ParserTest {
 
         val nodeBuilder = DefaultNodeBuilder()
         val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
-        val result = parser.parse()
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -202,21 +189,17 @@ class ParserTest {
         val rootExpression = exprStatement.getExpression()
         assertTrue(rootExpression is BinaryExpression)
 
-        // El AST debe ser: (2 + (3 * 4)) > 10
         val rootBinary = rootExpression as BinaryExpression
         assertEquals(">", rootBinary.getOperator())
 
-        // Verificar que el lado izquierdo es 2 + (3 * 4)
         assertTrue(rootBinary.getLeft() is BinaryExpression)
         val leftAddition = rootBinary.getLeft() as BinaryExpression
         assertEquals("+", leftAddition.getOperator())
 
-        // Verificar que 3 * 4 se agrupa correctamente
         assertTrue(leftAddition.getRight() is BinaryExpression)
         val multiplication = leftAddition.getRight() as BinaryExpression
         assertEquals("*", multiplication.getOperator())
 
-        // Verificar operandos finales
         val two = leftAddition.getLeft() as LiteralExpression
         val three = multiplication.getLeft() as LiteralExpression
         val four = multiplication.getRight() as LiteralExpression
@@ -230,7 +213,6 @@ class ParserTest {
 
     @Test
     fun testNestedParenthesesExpression() {
-        // Expresión: ((x + 1) * (y - 2))
         val tokens =
             listOf(
                 PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 1)),
@@ -264,7 +246,6 @@ class ParserTest {
         val rootBinary = rootExpression as BinaryExpression
         assertEquals("*", rootBinary.getOperator())
 
-        // Verificar sub-expresiones
         assertTrue(rootBinary.getLeft() is BinaryExpression)
         assertTrue(rootBinary.getRight() is BinaryExpression)
 
@@ -274,7 +255,6 @@ class ParserTest {
         assertEquals("+", leftAddition.getOperator())
         assertEquals("-", rightSubtraction.getOperator())
 
-        // Verificar identificadores y literales
         val xIdentifier = leftAddition.getLeft() as IdentifierExpression
         val oneLiteral = leftAddition.getRight() as LiteralExpression
         val yIdentifier = rightSubtraction.getLeft() as IdentifierExpression
@@ -326,4 +306,5 @@ class ParserTest {
 
         assertTrue(result.isSuccess())
         assertEquals( "Parsed successfully", result.message())
-    }}
+    }
+}
