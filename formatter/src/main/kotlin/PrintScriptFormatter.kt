@@ -1,3 +1,0 @@
-package formatter
-
-class PrintScriptFormatter
