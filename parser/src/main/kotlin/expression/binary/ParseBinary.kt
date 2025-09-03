@@ -13,11 +13,6 @@ sealed interface ParseBinary {
 
     fun hasValidOperatorToken(parser: Parser): Boolean
 
-    fun meetsMinimumPrecedence(
-        parser: Parser,
-        minPrecedence: Int,
-    ): Boolean
-
     fun consumeOperator(parser: Parser): Parser
 
     fun parseRightOperand(parser: Parser): ExpressionResult
@@ -34,8 +29,4 @@ sealed interface ParseBinary {
         operator: Token,
         right: Expression,
     ): Expression
-
-    fun getOperatorPrecedence(token: Token): Int
-
-    fun isOperatorToken(token: Token): Boolean
 }

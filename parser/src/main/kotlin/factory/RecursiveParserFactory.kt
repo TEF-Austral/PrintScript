@@ -4,7 +4,13 @@ import Token
 import builder.NodeBuilder
 import parser.command.StatementParser
 import parser.Parser
-import parser.expression.ExpressionParser
+import parser.command.AssignmentParser
+import parser.command.ExpressionParser
+import parser.command.ParenthesisParser
+import parser.command.PrintParser
+import parser.command.StatementCommand
+import parser.command.VariableDeclarationParser
+import parser.expression.ExpressionParsingBuilder
 import parser.expression.binary.DefaultParseBinary
 import parser.expression.DelimitersBuilder
 import parser.expression.ExpressionRegistry
@@ -34,9 +40,19 @@ class RecursiveParserFactory : ParserFactory {
                     ),
                 ),
             )
-        val expressionParser = ExpressionParser(tokenToExpression, parseBinary)
-        val statementParser = StatementParser()
-        return Parser(tokens, nodeBuilder, expressionParser, statementParser, 0)
+        val expressionParser = ExpressionParsingBuilder(tokenToExpression, parseBinary)
+        val permittedStatementsForParenthesis: List<StatementCommand> = listOf(
+            AssignmentParser(),
+            PrintParser(),
+            ExpressionParser())
+        val statementParser = StatementParser(listOf(
+            VariableDeclarationParser(),
+            AssignmentParser(),
+            PrintParser(),
+            ExpressionParser(),
+            ParenthesisParser(permittedStatementsForParenthesis)
+        ))
+        return Parser(tokens, nodeBuilder, expressionParser, statementParser)
     }
 
     override fun withNewTokens(

@@ -26,3 +26,19 @@ fun verifyCurrentToken(
     }
     return false
 }
+fun isSemiColon(token: Token?): Boolean {
+    if (token == null) return false
+    return token.getType() == CommonTypes.DELIMITERS && token.getValue() == ";"
+}
+
+fun isOpeningParenthesis(parser: Parser): Boolean {
+    val token = parser.peak()
+    if (token == null) return false
+    return token.getType() == CommonTypes.DELIMITERS && token.getValue() == "("
+}
+
+fun isClosingParenthesis(parser: Parser): Boolean {
+    val token = parser.peak()
+    if (token == null) return false
+    return token.getType() == CommonTypes.DELIMITERS && token.getValue() == ")"
+}

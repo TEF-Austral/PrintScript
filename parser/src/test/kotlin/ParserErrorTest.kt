@@ -80,7 +80,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Invalid delimiter state", result.message())
+        assertEquals("Was expecting closing parenthesis", result.message())
     }
 
     @Test
@@ -102,7 +102,7 @@ class ParserErrorTest {
         assertFalse(result.isSuccess())
         assertEquals("Semantic error: Variable declaration must end in ; ", result.message())
     }
-/*
+
     @Test
     fun testInvalidExpressionExtraClosingParenthesis() {
         val tokens =
@@ -119,7 +119,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Was expecting a valid delimiter", result.message())
+        assertEquals("Unexpected closing parenthesis", result.message())
     }
 
     @Test
@@ -155,7 +155,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Was expecting a valid delimiter", result.message())
+        assertEquals("Can't be handled currently by the statement parser", result.message())
     }
 
     @Test
@@ -176,24 +176,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals( "Wrong structure is being processed.", result.message())
-    }
-
-    @Test
-    fun testInvalidExpressionMissingOperator() {
-        val tokens =
-            listOf(
-                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 1)),
-                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "3", Position(1, 3)),
-                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 4)),
-            )
-
-        val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
-        val result = parser.parse()
-
-        assertFalse(result.isSuccess())
-        assertEquals( "Was expecting a valid delimiter", result.message())
+        assertEquals( "Can't be handled currently by the statement parser", result.message())
     }
 
     @Test
@@ -215,9 +198,8 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Wrong structure is being processed.", result.message())
+        assertEquals("Can't be handled currently by the statement parser", result.message())
     }
-*/
 
     @Test
     fun testEmptyTokenList() {

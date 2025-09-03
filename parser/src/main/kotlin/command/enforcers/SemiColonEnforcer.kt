@@ -1,15 +1,15 @@
 package command.enforcers
 
-import parser.Parser
 import parser.result.SemanticError
 import parser.result.SemanticResult
 import parser.result.SemanticSuccess
+import parser.utils.isSemiColon
 import type.CommonTypes
 
 class SemiColonEnforcer : SemanticEnforcers {
     override fun enforce(result: SemanticResult): SemanticResult {
         val currentParser = result.getParser()
-        if (isSemiColon(currentParser) || !result.isSuccess()) {
+        if (!isSemiColon(currentParser.peak()) || !result.isSuccess()) {
             return SemanticError(
                 "Variable declaration must end in ; " + result.message(),
                 result.identifier(),
@@ -27,6 +27,4 @@ class SemiColonEnforcer : SemanticEnforcers {
             parserResult.getParser(),
         )
     }
-
-    private fun isSemiColon(currentParser: Parser): Boolean = !currentParser.consume(CommonTypes.DELIMITERS).isSuccess() || currentParser.peak()?.getValue() != ";"
 }

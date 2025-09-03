@@ -14,6 +14,7 @@ import node.EmptyExpression
 import parser.Parser
 import parser.result.SemanticSuccess
 import parser.result.StatementBuiltResult
+import parser.result.StatementResult
 import type.CommonTypes
 
 class VariableDeclarationParser(
@@ -35,7 +36,7 @@ class VariableDeclarationParser(
         parser: Parser,
     ): Boolean = token?.getType() == CommonTypes.DECLARATION
 
-    override fun parse(parser: Parser): StatementBuiltResult {
+    override fun parse(parser: Parser): StatementResult {
         val emptyToken = PrintScriptToken(CommonTypes.EMPTY, "", Position(0, 0))
         val emptySemanticResult = SemanticSuccess("", emptyToken, emptyToken, EmptyExpression(), parser)
         val result = semanticOrder.enforce(emptySemanticResult)

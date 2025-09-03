@@ -4,6 +4,9 @@ import Token
 import parser.Parser
 import parser.result.StatementBuiltResult
 import parser.result.StatementResult
+import parser.utils.isClosingParenthesis
+import parser.utils.isOpeningParenthesis
+import parser.utils.isSemiColon
 import type.CommonTypes
 
 class PrintParser : StatementCommand {
@@ -14,11 +17,33 @@ class PrintParser : StatementCommand {
 
     override fun parse(parser: Parser): StatementResult {
         val printParser = parser.consume(CommonTypes.PRINT).getParser()
-        val delimiterParser = printParser.consume(CommonTypes.DELIMITERS).getParser() // (
-        val expression = delimiterParser.getExpressionParser().parseExpression(parser)
-        val nextDelimiterParser = delimiterParser.consume(CommonTypes.DELIMITERS).getParser() // )
-        val finalDelimiterParser = nextDelimiterParser.consume(CommonTypes.DELIMITERS).getParser() // ;
+        val beforeOpeningParenthesisParser = openingParenthesisConsumption(printParser)
+        val expression = beforeOpeningParenthesisParser.getExpressionParser().parseExpression(parser)
+        val beforeClosingParenthesisParser = closingParenthesisConsumption(beforeOpeningParenthesisParser)
+        val finalDelimiterParser = consumeSemiColon(beforeClosingParenthesisParser)
         val builtStatement = finalDelimiterParser.getNodeBuilder().buildPrintStatementNode(expression.getExpression())
         return StatementBuiltResult(finalDelimiterParser, builtStatement)
     }
+
+    private fun openingParenthesisConsumption(parser: Parser): Parser {
+        if (isOpeningParenthesis(parser)) {
+            return parser.consume(CommonTypes.DELIMITERS).getParser()
+        }
+        throw Exception("What is printed should be enclose by parenthesis -> (")
+    }
+
+    private fun closingParenthesisConsumption(parser: Parser): Parser {
+        if (isClosingParenthesis(parser)) {
+            return parser.consume(CommonTypes.DELIMITERS).getParser()
+        }
+        throw Exception("What is printed should be enclose by parenthesis -> (")
+    }
+
+    private fun consumeSemiColon(parser: Parser): Parser {
+        if (isSemiColon(parser.peak())) {
+            return parser.consume(CommonTypes.DELIMITERS).getParser()
+        }
+        throw Exception("Was expecting a semicolon")
+    }
+
 }

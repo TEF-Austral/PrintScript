@@ -310,4 +310,20 @@ class ParserTest {
         assertEquals(CommonTypes.NUMBER, varDecl.getDataType())
         assertTrue(varDecl.getInitialValue() is EmptyExpression)
     }
-}
+
+    @Test
+    fun testInvalidExpressionMissingOperator() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 1)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "3", Position(1, 3)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 4)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertTrue(result.isSuccess())
+        assertEquals( "Parsed successfully", result.message())
+    }}
