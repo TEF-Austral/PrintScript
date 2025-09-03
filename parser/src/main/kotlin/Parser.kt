@@ -4,14 +4,14 @@ import Token
 import builder.NodeBuilder
 import node.EmptyStatement
 import node.Statement
-import parser.expression.ExpressionParsingBuilder
+import parser.statement.expression.ExpressionParsingBuilder
 import parser.result.CompleteProgram
 import parser.result.FailedProgram
 import parser.result.FinalResult
 import parser.result.ParserError
 import parser.result.ParserResult
 import parser.result.ParserSuccess
-import parser.command.StatementParser
+import parser.statement.StatementParser
 import parser.result.StatementBuiltResult
 import parser.result.StatementResult
 import parser.utils.checkType

@@ -1,9 +1,9 @@
-package parser.expression.binary
+package parser.statement.expression.binary
 
 import Token
 import node.Expression
 import parser.Parser
-import parser.expression.TokenToExpression
+import parser.statement.expression.TokenToExpression
 import parser.result.ExpressionBuiltResult
 import parser.result.ExpressionResult
 import type.CommonTypes
@@ -32,6 +32,10 @@ class DefaultParseBinary(
         val rightOperand = parseRightOperand(parserAfterOperator)
         if (!rightOperand.isSuccess()) {
             throw Exception(rightOperand.message())
+        }
+
+        if (operator.getType() == parserAfterOperator.peak()?.getType()) {
+            throw Exception("Can't put operators side by side")
         }
 
         val processedRight = processRightAssociativity(parserAfterOperator, rightOperand, operator)
@@ -66,7 +70,10 @@ class DefaultParseBinary(
     override fun consumeOperator(parser: Parser): Parser = parser.advance()
 
     override fun parseRightOperand(parser: Parser): ExpressionResult {
-        val currentToken = parser.peak()!!
+        val currentToken = parser.peak()
+        if (currentToken == null) {
+            throw Exception("Exceeded parsing limits")
+        }
         return tokenToExpression.build(parser, currentToken)
     }
 

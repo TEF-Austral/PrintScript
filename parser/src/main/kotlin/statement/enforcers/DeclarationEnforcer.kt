@@ -1,26 +1,25 @@
-package command.enforcers
+package statement.enforcers
 
-import parser.Parser
 import parser.result.SemanticError
 import parser.result.SemanticResult
 import parser.result.SemanticSuccess
 import type.CommonTypes
 
-class ColonEnforcer(
+class DeclarationEnforcer(
     private val nextEnforcer: SemanticEnforcers,
 ) : SemanticEnforcers {
     override fun enforce(result: SemanticResult): SemanticResult {
         val currentParser = result.getParser()
-        if (isColon(currentParser) || !result.isSuccess()) {
+        if (!currentParser.consume(CommonTypes.DECLARATION).isSuccess() || !result.isSuccess()) {
             return SemanticError(
-                "Expected delimiter " + result.message(),
+                "Expected declaration " + result.message(),
                 result.identifier(),
                 result.dataType(),
                 result.initialValue(),
                 currentParser,
             )
         }
-        val parserResult = currentParser.consume(CommonTypes.DELIMITERS)
+        val parserResult = currentParser.consume(CommonTypes.DECLARATION)
         return nextEnforcer.enforce(
             SemanticSuccess(
                 parserResult.message(),
@@ -31,8 +30,4 @@ class ColonEnforcer(
             ),
         )
     }
-
-    private fun isColon(currentParser: Parser): Boolean =
-        !currentParser.consume(CommonTypes.DELIMITERS).isSuccess() ||
-            currentParser.peak()?.getValue() != ":"
 }

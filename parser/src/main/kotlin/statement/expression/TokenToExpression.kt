@@ -1,4 +1,4 @@
-package parser.expression
+package parser.statement.expression
 
 import Token
 import parser.Parser

@@ -1,14 +1,14 @@
-package parser.command
+package parser.statement
 
 import PrintScriptToken
 import Token
-import command.enforcers.AssignmentEnforcer
-import command.enforcers.ColonEnforcer
-import command.enforcers.DataTypeEnforcer
-import command.enforcers.DeclarationEnforcer
-import command.enforcers.IdentifierEnforcer
-import command.enforcers.SemanticEnforcers
-import command.enforcers.SemiColonEnforcer
+import statement.enforcers.AssignmentEnforcer
+import statement.enforcers.ColonEnforcer
+import statement.enforcers.DataTypeEnforcer
+import statement.enforcers.DeclarationEnforcer
+import statement.enforcers.IdentifierEnforcer
+import statement.enforcers.SemanticEnforcers
+import statement.enforcers.SemiColonEnforcer
 import coordinates.Position
 import node.EmptyExpression
 import parser.Parser
@@ -30,7 +30,7 @@ class VariableDeclarationParser(
                 ),
             ),
         ),
-) : StatementCommand {
+) : StatementBuilder {
     override fun canHandle(
         token: Token?,
         parser: Parser,

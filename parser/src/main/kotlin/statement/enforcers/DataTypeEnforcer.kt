@@ -1,36 +1,34 @@
-package command.enforcers
+package statement.enforcers
 
-import parser.Parser
 import parser.result.SemanticError
 import parser.result.SemanticResult
 import parser.result.SemanticSuccess
+import parser.utils.verifyCurrentToken
 import type.CommonTypes
 
-class IdentifierEnforcer(
+class DataTypeEnforcer(
     private val nextEnforcer: SemanticEnforcers,
+    private val possibleTypes: List<CommonTypes> = listOf(CommonTypes.NUMBER, CommonTypes.STRING),
 ) : SemanticEnforcers {
     override fun enforce(result: SemanticResult): SemanticResult {
         val currentParser = result.getParser()
-        if (isIdentifier(currentParser) || !result.isSuccess()) {
+        if (!(verifyCurrentToken(possibleTypes, currentParser)) || !result.isSuccess()){
             return SemanticError(
-                "Expected identifier " + result.message(),
+                "Expected data type " + result.message(),
                 result.identifier(),
                 result.dataType(),
                 result.initialValue(),
                 currentParser,
             )
         }
-        val parserResult = currentParser.consume(CommonTypes.IDENTIFIER)
         return nextEnforcer.enforce(
             SemanticSuccess(
-                parserResult.message(),
+                result.message(),
+                result.identifier(),
                 currentParser.peak()!!,
-                result.dataType(),
                 result.initialValue(),
-                parserResult.getParser(),
+                currentParser.advance(),
             ),
         )
     }
-
-    private fun isIdentifier(currentParser: Parser): Boolean = !currentParser.consume(CommonTypes.IDENTIFIER).isSuccess()
 }

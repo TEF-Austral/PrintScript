@@ -1,4 +1,4 @@
-package parser.command
+package parser.statement
 
 import Token
 import parser.Parser
@@ -9,7 +9,7 @@ import parser.utils.isSemiColon
 import parser.utils.isValidResultAndCurrentToken
 import type.CommonTypes
 
-class AssignmentParser : StatementCommand {
+class AssignmentParser : StatementBuilder {
     override fun canHandle(
         token: Token?,
         parser: Parser,

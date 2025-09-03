@@ -80,7 +80,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Was expecting closing parenthesis", result.message())
+        assertEquals("Expected closing parenthesis ')'", result.message())
     }
 
     @Test
@@ -119,7 +119,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Unexpected closing parenthesis", result.message())
+        assertEquals("Can't be handled currently by the statement parser", result.message())
     }
 
     @Test
@@ -155,7 +155,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Can't be handled currently by the statement parser", result.message())
+        assertEquals("Surpassed parser length", result.message())
     }
 
     @Test
@@ -198,7 +198,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Can't be handled currently by the statement parser", result.message())
+        assertEquals("Exceeded parsing limits", result.message())
     }
 
     @Test

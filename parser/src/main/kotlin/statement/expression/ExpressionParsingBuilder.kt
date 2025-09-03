@@ -1,8 +1,8 @@
-package parser.expression
+package parser.statement.expression
 
 import node.EmptyExpression
 import parser.Parser
-import parser.expression.binary.ParseBinary
+import parser.statement.expression.binary.ParseBinary
 import parser.result.ExpressionBuiltResult
 import parser.result.ExpressionResult
 

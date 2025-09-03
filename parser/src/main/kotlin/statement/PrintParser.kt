@@ -1,4 +1,4 @@
-package parser.command
+package parser.statement
 
 import Token
 import parser.Parser
@@ -9,7 +9,7 @@ import parser.utils.isOpeningParenthesis
 import parser.utils.isSemiColon
 import type.CommonTypes
 
-class PrintParser : StatementCommand {
+class PrintParser : StatementBuilder {
     override fun canHandle(
         token: Token?,
         parser: Parser,
