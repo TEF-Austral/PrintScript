@@ -2,17 +2,14 @@ import converter.TokenConverter
 import splitter.Splitter
 
 class Lexer(
-    val splitter: Splitter,
-    val tokenConverter: TokenConverter,
+    private val splitter: Splitter,
+    private val tokenConverter: TokenConverter,
 ) {
     fun tokenize(reader: Reader): List<Token> {
         val stringWithCoordinates = splitter.split(reader.read())
-        val tokens = mutableListOf<Token>()
 
-        for ((str, coordinates) in stringWithCoordinates) {
-            val token = tokenConverter.convert(str, coordinates)
-            tokens.add(token)
+        return stringWithCoordinates.map { (str, coordinates) ->
+            tokenConverter.convert(str, coordinates)
         }
-        return tokens
     }
 }

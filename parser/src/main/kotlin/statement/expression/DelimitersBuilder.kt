@@ -1,7 +1,6 @@
 package parser.statement.expression
 
 import Token
-import node.EmptyExpression
 import parser.Parser
 import parser.result.ExpressionBuiltResult
 import parser.result.ExpressionResult
