@@ -121,7 +121,8 @@ class DefaultParseBinary(
             -> true
             else -> false
         }
-    //TODO MAPA
+
+    // TODO MAPA
     private fun getOperatorPrecedence(token: Token): Int =
         when (token.getType()) {
             CommonTypes.LOGICAL_OPERATORS -> 1

@@ -39,12 +39,15 @@ class RecursiveParserFactory : ParserFactory {
                 ),
             )
         val expressionParser = ExpressionParsingBuilder(tokenToExpression, parseBinary)
-        val statementParser = StatementParser(listOf(
-            VariableDeclarationParser(),
-            PrintParser(),
-            AssignmentParser(),
-            ExpressionParser())
-        )
+        val statementParser =
+            StatementParser(
+                listOf(
+                    VariableDeclarationParser(),
+                    PrintParser(),
+                    AssignmentParser(),
+                    ExpressionParser(),
+                ),
+            )
         return Parser(tokens, nodeBuilder, expressionParser, statementParser)
     }
 

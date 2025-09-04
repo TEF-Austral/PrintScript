@@ -22,7 +22,7 @@ class Parser(
     private val nodeBuilder: NodeBuilder,
     private val expressionParser: ExpressionParsingBuilder,
     private val statementParser: StatementParser,
-    private val current: Int = 0
+    private val current: Int = 0,
 ) {
     fun isAtEnd(): Boolean = current >= tokens.size
 
@@ -34,12 +34,15 @@ class Parser(
             FailedProgram(this, e.message.toString())
         }
 
-    private fun parseStatementsRecursive(result: StatementResult, accumulatedStatements: List<Statement>): List<Statement> {
+    private fun parseStatementsRecursive(
+        result: StatementResult,
+        accumulatedStatements: List<Statement>,
+    ): List<Statement> {
         if (result.getParser().isAtEnd()) {
             return accumulatedStatements
         }
         if (!result.isSuccess()){
-            throw Exception(result.message()) //TODO see if it is possible to combine errors.
+            throw Exception(result.message())
         }
         val statementResult = statementParser.parse(result.getParser())
 
@@ -55,7 +58,7 @@ class Parser(
             nodeBuilder,
             expressionParser,
             statementParser,
-            current + 1
+            current + 1,
         )
     }
 

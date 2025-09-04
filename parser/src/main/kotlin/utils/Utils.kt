@@ -26,6 +26,7 @@ fun verifyCurrentToken(
     }
     return false
 }
+
 fun isSemiColon(token: Token?): Boolean {
     if (token == null) return false
     return token.getType() == CommonTypes.DELIMITERS && token.getValue() == ";"

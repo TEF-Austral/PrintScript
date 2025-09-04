@@ -9,13 +9,19 @@ import parser.utils.isSemiColon
 import type.CommonTypes
 
 class ExpressionParser : StatementBuilder {
-    override fun canHandle(token: Token?, parser: Parser): Boolean {
+    override fun canHandle(
+        token: Token?,
+        parser: Parser,
+    ): Boolean {
         if (token == null) return false
         return isValidExpressionStart(token.getType(), parser)
     }
 
-    private fun isValidExpressionStart(types: CommonTypes, parser: Parser): Boolean {
-        return when (types) {
+    private fun isValidExpressionStart(
+        types: CommonTypes,
+        parser: Parser,
+    ): Boolean =
+        when (types) {
             CommonTypes.NUMBER_LITERAL -> true
             CommonTypes.STRING_LITERAL -> true
             CommonTypes.IDENTIFIER -> true
@@ -23,7 +29,6 @@ class ExpressionParser : StatementBuilder {
             CommonTypes.DELIMITERS -> isOpeningParenthesis(parser)
             else -> false
         }
-    }
 
     override fun parse(parser: Parser): StatementResult {
         val expression = parser.getExpressionParser().parseExpression(parser)

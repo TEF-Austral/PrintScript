@@ -17,9 +17,9 @@ class PrintParser : StatementBuilder {
 
     override fun parse(parser: Parser): StatementResult {
         val printParser = parser.consume(CommonTypes.PRINT).getParser()
-        val beforeOpeningParenthesisParser = openingParenthesisConsumption(printParser)
-        val expression = beforeOpeningParenthesisParser.getExpressionParser().parseExpression(parser)
-        val beforeClosingParenthesisParser = closingParenthesisConsumption(beforeOpeningParenthesisParser)
+        val afterOpeningParenthesisParser = openingParenthesisConsumption(printParser)
+        val expression = afterOpeningParenthesisParser.getExpressionParser().parseExpression(afterOpeningParenthesisParser)
+        val beforeClosingParenthesisParser = closingParenthesisConsumption(afterOpeningParenthesisParser)
         val finalDelimiterParser = consumeSemiColon(beforeClosingParenthesisParser)
         val builtStatement = finalDelimiterParser.getNodeBuilder().buildPrintStatementNode(expression.getExpression())
         return StatementBuiltResult(finalDelimiterParser, builtStatement)
@@ -45,5 +45,4 @@ class PrintParser : StatementBuilder {
         }
         throw Exception("Was expecting a semicolon")
     }
-
 }
