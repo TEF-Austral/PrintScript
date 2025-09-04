@@ -4,7 +4,6 @@ import Token
 import node.EmptyExpression
 import parser.Parser
 import parser.result.ExpressionBuiltResult
-import parser.result.ExpressionErrorResult
 import parser.result.ExpressionResult
 import parser.utils.isClosingParenthesis
 import parser.utils.isOpeningParenthesis
@@ -33,9 +32,6 @@ object DelimitersBuilder : ExpressionBuilder {
         }
         val newParser = parser.advance()
         val expression = newParser.getExpressionParser().parseExpression(newParser)
-        if (expression.getExpression() is EmptyExpression) {
-            return ExpressionErrorResult("Surpassed parser length", expression.getParser())
-        }
         return ExpressionBuiltResult(expression.getParser().advance(), expression.getExpression())
     }
 }

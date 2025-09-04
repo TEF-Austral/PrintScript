@@ -31,6 +31,7 @@ class ExpressionParser : StatementBuilder {
         }
 
     override fun parse(parser: Parser): StatementResult {
+        if (isSemiColon(parser.advance().advance().peak())) throw Exception("Invalid structure")
         val expression = parser.getExpressionParser().parseExpression(parser)
         val delimiterParser =
             if (isSemiColon(expression.getParser().peak())) {

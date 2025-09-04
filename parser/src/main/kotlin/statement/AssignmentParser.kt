@@ -14,26 +14,25 @@ class AssignmentParser : StatementBuilder {
         token: Token?,
         parser: Parser,
     ): Boolean {
-        if (token?.getType() != CommonTypes.IDENTIFIER) return false
-        val newParser = parser.advance()
-        val isAssign = checkType(CommonTypes.ASSIGNMENT, newParser.peak())
-        return isAssign
+        if (!checkType(CommonTypes.IDENTIFIER, token)) return false
+        return checkType(CommonTypes.ASSIGNMENT, parser.advance().peak())
     }
 
     override fun parse(parser: Parser): StatementResult {
+        if (isSemiColon(parser.advance().advance().peak())) throw Exception("Invalid structure")
         val identifier = parser.consume(CommonTypes.IDENTIFIER)
         if (!isValidResultAndCurrentToken(identifier)) {
             throw Exception("Expected identifier")
         }
         val assigmentParser = identifier.getParser().consume(CommonTypes.ASSIGNMENT).getParser() // =
-        val value = assigmentParser.getExpressionParser().parseExpression(assigmentParser.advance())
+        val value = assigmentParser.getExpressionParser().parseExpression(assigmentParser)
         val delimiterParser =
             if (isSemiColon(value.getParser().peak())) {
                 value.getParser().consume(CommonTypes.DELIMITERS).getParser()
             } else {
                 value.getParser()
             }
-        val builtStatement = delimiterParser.getNodeBuilder().buildAssignmentStatementNode(identifier.getParser().peak()!!, value.getExpression())
+        val builtStatement = delimiterParser.getNodeBuilder().buildAssignmentStatementNode(parser.peak()!!, value.getExpression())
         return StatementBuiltResult(delimiterParser, builtStatement)
     }
 }

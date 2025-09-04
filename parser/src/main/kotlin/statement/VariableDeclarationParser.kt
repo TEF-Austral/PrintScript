@@ -41,7 +41,7 @@ class VariableDeclarationParser(
         val emptySemanticResult = SemanticSuccess("", emptyToken, emptyToken, EmptyExpression(), parser)
         val result = semanticOrder.enforce(emptySemanticResult)
         if (!result.isSuccess()) {
-            throw Exception("Semantic error: ${result.message()}")
+            throw Exception("Semantic error: ${result.message()} ${result.identifier()} ${result.dataType()}")
         }
         val builtStatement =
             result.getParser().getNodeBuilder().buildVariableDeclarationStatementNode(

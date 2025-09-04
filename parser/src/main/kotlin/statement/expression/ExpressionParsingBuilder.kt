@@ -2,7 +2,7 @@ package parser.statement.expression
 
 import node.EmptyExpression
 import parser.Parser
-import parser.statement.expression.binary.ParseBinary
+import parser.statement.binary.ParseBinary
 import parser.result.ExpressionBuiltResult
 import parser.result.ExpressionResult
 

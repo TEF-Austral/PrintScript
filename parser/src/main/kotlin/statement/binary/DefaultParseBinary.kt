@@ -1,4 +1,4 @@
-package parser.statement.expression.binary
+package parser.statement.binary
 
 import Token
 import node.Expression

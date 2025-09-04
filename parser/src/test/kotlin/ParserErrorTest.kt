@@ -24,7 +24,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Semantic error: Expected delimiter Successfully executed: Method consume called advance", result.message())
+        assertEquals("Semantic error: Expected delimiter Successfully executed: Method consume called advance Token(type=IDENTIFIER, value='x', coordinates=1:5) Token(type=EMPTY, value='', coordinates=0:0)", result.message())
     }
 
     @Test
@@ -44,7 +44,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Semantic error: Expected identifier Successfully executed: Method consume called advance", result.message())
+        assertEquals("Semantic error: Expected identifier Successfully executed: Method consume called advance Token(type=EMPTY, value='', coordinates=0:0) Token(type=EMPTY, value='', coordinates=0:0)", result.message())
     }
 
     @Test
@@ -61,7 +61,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Surpassed parser length", result.message())
+        assertEquals("Invalid structure", result.message())
     }
 
     @Test
@@ -100,7 +100,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Semantic error: Variable declaration must end in ; ", result.message())
+        assertEquals("Semantic error: Variable declaration must end in ;  Token(type=IDENTIFIER, value='x', coordinates=1:5) Token(type=NUMBER, value='NUMBER', coordinates=1:9)", result.message())
     }
 
     @Test
@@ -155,7 +155,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Surpassed parser length", result.message())
+        assertEquals("Invalid structure", result.message())
     }
 
     @Test
@@ -212,7 +212,7 @@ class ParserErrorTest {
         assertTrue(result.isSuccess())
         assertEquals(0, result.getProgram().getStatements().size)
     }
-/*
+
     @Test
     fun testPrintStatementMissingOpeningParenthesis() {
         val tokens = listOf(
@@ -277,25 +277,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertTrue(result.message().contains("length") || result.message().contains("expression"))
-    }
-
-    @Test
-    fun testPrintStatementWithInvalidExpression() {
-        val tokens = listOf(
-            PrintScriptToken(CommonTypes.PRINT, "print", Position(1, 1)),
-            PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 6)),
-            PrintScriptToken(CommonTypes.OPERATORS, "+", Position(1, 7)),
-            PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 9)),
-            PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 10)),
-            PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 11))
-        )
-
-        val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
-        val result = parser.parse()
-
-        assertFalse(result.isSuccess())
+        assertEquals("Was expecting closing parenthesis", result.message() )
     }
 
     @Test
@@ -326,7 +308,8 @@ class ParserErrorTest {
         val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
-        assertTrue(result.isSuccess() || result.message().contains("operator"))
+        assertFalse(result.isSuccess())
+        assertEquals("Invalid structure", result.message())
     }
 
     @Test
@@ -342,24 +325,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertTrue(result.message().contains("length") || result.message().contains("expression"))
-    }
-
-    @Test
-    fun testAssignmentWithInvalidExpression() {
-        val tokens = listOf(
-            PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 1)),
-            PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 3)),
-            PrintScriptToken(CommonTypes.OPERATORS, "+", Position(1, 5)),
-            PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 7)),
-            PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 8))
-        )
-
-        val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
-        val result = parser.parse()
-
-        assertFalse(result.isSuccess())
+        assertEquals("Invalid structure", result.message())
     }
 
     @Test
@@ -482,11 +448,24 @@ class ParserErrorTest {
         val nodeBuilder = DefaultNodeBuilder()
         val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
-
-        if (!result.isSuccess()) {
-            assertTrue(result.message().contains("assignment") || result.message().contains("expression"))
-        }
+        assertFalse(result.isSuccess())
+        assertEquals("Was expecting closing parenthesis", result.message())
     }
 
- */
+    @Test
+    fun testInvalidExpressionMissingOperator() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 1)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "3", Position(1, 3)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 4)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertFalse(result.isSuccess())
+        assertEquals("Invalid structure", result.message())
+    }
 }

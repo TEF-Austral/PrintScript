@@ -9,7 +9,7 @@ import parser.statement.ExpressionParser
 import parser.statement.PrintParser
 import parser.statement.VariableDeclarationParser
 import parser.statement.expression.ExpressionParsingBuilder
-import parser.statement.expression.binary.DefaultParseBinary
+import parser.statement.binary.DefaultParseBinary
 import parser.statement.expression.DelimitersBuilder
 import parser.statement.expression.ExpressionRegistry
 import parser.statement.expression.IdentifierBuilder
