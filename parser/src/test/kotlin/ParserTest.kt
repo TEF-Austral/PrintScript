@@ -138,8 +138,8 @@ class ParserTest {
 
         val leftIdentifier = binaryExpr.getLeft() as IdentifierExpression
         val rightIdentifier = binaryExpr.getRight() as IdentifierExpression
-        assertEquals("x", leftIdentifier.getName())
-        assertEquals("y", rightIdentifier.getName())
+        assertEquals("x", leftIdentifier.getValue())
+        assertEquals("y", rightIdentifier.getValue())
     }
 
     @Test
@@ -198,7 +198,7 @@ class ParserTest {
         val identifier = addition.getLeft() as IdentifierExpression
         val additionRight = addition.getRight() as LiteralExpression
 
-        assertEquals("x", identifier.getName())
+        assertEquals("x", identifier.getValue())
         assertEquals("5", additionRight.getValue())
     }
 
@@ -299,9 +299,9 @@ class ParserTest {
         val yIdentifier = rightSubtraction.getLeft() as IdentifierExpression
         val twoLiteral = rightSubtraction.getRight() as LiteralExpression
 
-        assertEquals("x", xIdentifier.getName())
+        assertEquals("x", xIdentifier.getValue())
         assertEquals("1", oneLiteral.getValue())
-        assertEquals("y", yIdentifier.getName())
+        assertEquals("y", yIdentifier.getValue())
         assertEquals("2", twoLiteral.getValue())
     }
 
@@ -377,7 +377,7 @@ class ParserTest {
         val printStatement = statement as PrintStatement
         assertTrue(printStatement.getExpression() is IdentifierExpression)
         val identifier = printStatement.getExpression() as IdentifierExpression
-        assertEquals("x", identifier.getName())
+        assertEquals("x", identifier.getValue())
     }
 
     @Test

@@ -2,6 +2,7 @@ package builder
 
 import Token
 import node.Expression
+import node.IfStatement
 import node.Program
 import node.Statement
 
@@ -34,4 +35,10 @@ sealed interface NodeBuilder {
     fun buildEmptyStatementNode(): Statement
 
     fun buildProgramNode(statements: List<Statement>): Program
+
+    fun buildIfStatementNode(
+        condition: Expression,
+        consequence: Statement,
+        alternative: Statement? = null,
+    ): IfStatement
 }

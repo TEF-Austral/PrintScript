@@ -53,7 +53,7 @@ class IdentifierStyleRule(
         diags: MutableList<Diagnostic>,
     ) {
         when (this) {
-            is IdentifierExpression -> check(getName(), idx, diags)
+            is IdentifierExpression -> check(getValue(), idx, diags)
             is BinaryExpression -> {
                 getLeft().visit(idx, diags)
                 getRight().visit(idx, diags)

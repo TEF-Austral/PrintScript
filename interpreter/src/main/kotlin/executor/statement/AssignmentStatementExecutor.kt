@@ -1,9 +1,9 @@
 package executor.statement
 
 import executor.expression.DefaultExpressionExecutor
-import result.InterpreterResult
 import node.AssignmentStatement
 import node.Statement
+import result.InterpreterResult
 import utils.areTypesCompatible
 import variable.Variable
 
@@ -15,38 +15,62 @@ class AssignmentStatementExecutor(
 
     override fun execute(statement: Statement): InterpreterResult {
         return try {
-            val assignmentStatement = statement as AssignmentStatement
-            val identifier = assignmentStatement.getIdentifier()
+            val assignStmt = statement as AssignmentStatement
+            val identifier = assignStmt.getIdentifier()
 
             val existingVariable =
-                variables[identifier]
-                    ?: return InterpreterResult(false, "Error: Variable '$identifier' not declared", null)
+                getVariable(identifier)
+                    ?: return createVariableNotFoundError(identifier)
 
-            val expressionResult = defaultExpressionExecutor.execute(assignmentStatement.getValue())
-            if (!expressionResult.interpretedCorrectly) {
-                return expressionResult
-            }
+            val expressionResult = evaluateExpression(assignStmt)
+            if (!expressionResult.interpretedCorrectly) return expressionResult
 
             val newValue =
-                expressionResult.interpreter ?: return InterpreterResult(
-                    false,
-                    "Error: No value to assign",
-                    null,
-                )
+                getNewValueFromResult(expressionResult)
+                    ?: return createNoValueError()
 
-            if (!areTypesCompatible(existingVariable.getType(), newValue.getType())) {
-                return InterpreterResult(
-                    false,
-                    "Error: Type mismatch. Cannot assign type '${newValue.getType()}' to variable '$identifier' of type '${existingVariable.getType()}'",
-                    null,
-                )
-            }
-
-            variables[identifier] = Variable(existingVariable.getType(), newValue.getValue())
-
-            InterpreterResult(true, "Assignment executed successfully", null)
+            assignValueIfCompatible(identifier, existingVariable, newValue)
         } catch (e: Exception) {
-            InterpreterResult(false, "Error executing assignment statement: ${e.message}", null)
+            createGenericError(e)
         }
     }
+
+    private fun getVariable(identifier: String): Variable? = variables[identifier]
+
+    private fun evaluateExpression(statement: AssignmentStatement): InterpreterResult = defaultExpressionExecutor.execute(statement.getValue())
+
+    private fun getNewValueFromResult(result: InterpreterResult): Variable? = result.interpreter
+
+    private fun assignValueIfCompatible(
+        id: String,
+        oldVar: Variable,
+        newVal: Variable,
+    ): InterpreterResult {
+        if (!areTypesCompatible(oldVar.getType(), newVal.getType())) {
+            return createTypeMismatchError(id, oldVar.getType(), newVal.getType())
+        }
+
+        variables[id] = Variable(oldVar.getType(), newVal.getValue())
+        return createSuccessResult()
+    }
+
+    // --- Funciones auxiliares para crear resultados ---
+
+    private fun createVariableNotFoundError(id: String) = InterpreterResult(false, "Error: Variable '$id' not declared", null)
+
+    private fun createNoValueError() = InterpreterResult(false, "Error: No value to assign", null)
+
+    private fun createTypeMismatchError(
+        id: String,
+        oldType: Any,
+        newType: Any,
+    ) = InterpreterResult(
+        false,
+        "Error: Type mismatch. Cannot assign type '$newType' to variable '$id' of type '$oldType'",
+        null,
+    )
+
+    private fun createSuccessResult() = InterpreterResult(true, "Assignment executed successfully", null)
+
+    private fun createGenericError(e: Exception) = InterpreterResult(false, "Error executing assignment statement: ${e.message}", null)
 }

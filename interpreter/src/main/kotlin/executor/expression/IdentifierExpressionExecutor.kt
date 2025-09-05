@@ -13,7 +13,7 @@ class IdentifierExpressionExecutor(
     override fun execute(expression: Expression): InterpreterResult =
         try {
             expression as IdentifierExpression
-            val variable = variables[expression.getName()]
+            val variable = variables[expression.getValue()]
             if (variable == null) {
                 InterpreterResult(false, "Identifier not found", null)
             } else {

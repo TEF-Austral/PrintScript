@@ -44,7 +44,7 @@ class NodeTest {
     fun testIdentifierExpression() {
         val identifierExpr = nodeBuilder.buildIdentifierNode(identifierToken)
 
-        assertEquals("myVar", identifierExpr.getName())
+        assertEquals("myVar", identifierExpr.getValue())
         assertNotNull(identifierExpr)
     }
 

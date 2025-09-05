@@ -10,6 +10,7 @@ enum class CommonTypes {
     CONDITIONALS, // if else switch case
     LOOPS, // for while do
     DATA_TYPES, // NUMBER STRING
+    BOOLEAN_LITERAL,
     STRING_LITERAL, // "Hello" 'World'
     NUMBER_LITERAL, // 123 45.67
     IDENTIFIER, // variable names, function names
@@ -19,5 +20,6 @@ enum class CommonTypes {
     PRINT, // print
     NUMBER,
     STRING,
+    BOOLEAN,
     EMPTY,
 }

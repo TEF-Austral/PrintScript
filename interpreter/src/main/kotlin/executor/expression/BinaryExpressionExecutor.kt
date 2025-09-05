@@ -1,6 +1,13 @@
 package executor.expression
 
 import executor.operators.Divide
+import executor.operators.Equals
+import executor.operators.GraterThan
+import executor.operators.GreaterThanOrEqual
+import executor.operators.LessThan
+import executor.operators.LessThanOrEqual
+import executor.operators.LogicalAnd
+import executor.operators.LogicalOr
 import executor.operators.Multiplication
 import executor.operators.Operator
 import executor.operators.Subtraction
@@ -12,7 +19,20 @@ import type.CommonTypes
 import variable.Variable
 
 class BinaryExpressionExecutor(
-    private val operators: List<Operator> = listOf(Sum, Divide, Multiplication, Subtraction),
+    private val operators: List<Operator> =
+        listOf(
+            Sum,
+            Divide,
+            Multiplication,
+            Subtraction,
+            LogicalAnd,
+            LogicalOr,
+            Equals,
+            GraterThan,
+            GreaterThanOrEqual,
+            LessThanOrEqual,
+            LessThan,
+        ),
     private val expressions: List<SpecificExpressionExecutor>,
 ) : SpecificExpressionExecutor {
     override fun canHandle(expression: Expression): Boolean = expression is BinaryExpression

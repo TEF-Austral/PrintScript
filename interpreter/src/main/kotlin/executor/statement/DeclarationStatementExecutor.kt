@@ -17,7 +17,7 @@ class DeclarationStatementExecutor(
         return try {
             val declarationStatement = statement as DeclarationStatement
             val identifier = declarationStatement.getIdentifier()
-            val declaredType = declarationStatement.getDataType() // El tipo declarado (ej: NUMBER)
+            val declaredType = declarationStatement.getDataType()
             val initialValueExpression = declarationStatement.getInitialValue()
 
             val variable: Variable
@@ -46,7 +46,7 @@ class DeclarationStatementExecutor(
 
             variables[identifier] = variable
 
-            InterpreterResult(true, "Declaration executed successfully", null)
+            InterpreterResult(true, "Declaration executed successfully", variable)
         } catch (e: Exception) {
             InterpreterResult(false, "Error executing declaration statement: ${e.message}", null)
         }

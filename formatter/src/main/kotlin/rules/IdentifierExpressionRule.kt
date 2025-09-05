@@ -13,6 +13,6 @@ class IdentifierExpressionRule : FormatRule {
         config: FormatConfig,
         indentLevel: Int,
     ) {
-        sb.append((node as IdentifierExpression).getName())
+        sb.append((node as IdentifierExpression).getValue())
     }
 }

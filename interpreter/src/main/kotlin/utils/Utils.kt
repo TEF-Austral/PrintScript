@@ -13,5 +13,9 @@ fun areTypesCompatible(
         return true
     }
 
+    if (declaredType == CommonTypes.BOOLEAN && valueType == CommonTypes.BOOLEAN_LITERAL) {
+        return true
+    }
+
     return declaredType == valueType
 }

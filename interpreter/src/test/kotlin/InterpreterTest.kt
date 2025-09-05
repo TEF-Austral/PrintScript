@@ -15,6 +15,7 @@ import type.CommonTypes
 import coordinates.Position
 import factory.DefaultInterpreterFactory
 import node.ExpressionStatement
+import node.IfStatement
 
 class InterpreterTest {
     @Test
@@ -1923,5 +1924,112 @@ class InterpreterTest {
 
         val printedOutput = outputStream.toString().trim()
         assertEquals("null", printedOutput, "La salida de una variable null debería ser 'null'.")
+    }
+
+    @Test
+    fun `Print Simple Sum Without Declaration Should Succeed`() {
+        val outputStream = ByteArrayOutputStream()
+        System.setOut(PrintStream(outputStream))
+
+        // This program represents the code: println(5 + 10);
+        val simpleSumProgram =
+            Program(
+                statements =
+                    listOf(
+                        PrintStatement(
+                            expression =
+                                BinaryExpression(
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "5",
+                                                Position(1, 9),
+                                            ),
+                                        ),
+                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(1, 11)),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "10",
+                                                Position(1, 13),
+                                            ),
+                                        ),
+                                ),
+                        ),
+                    ),
+            )
+
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val result: InterpreterResult = interpreter.interpret(simpleSumProgram)
+
+        // Assert that the program executed without errors
+        assertTrue(result.interpretedCorrectly, "The program should have executed successfully.")
+        assertEquals("Program executed successfully", result.message)
+
+        // Assert that the correct output was printed to the console
+        val printedOutput = outputStream.toString().trim()
+        assertEquals("15", printedOutput, "The output should be the result of the sum.")
+    }
+
+    @Test
+    fun `Simple IfStatement Should Pass`() {
+        val outputStream = ByteArrayOutputStream()
+        System.setOut(PrintStream(outputStream))
+
+        /* if( true ){
+            println("ENTRAAAA")
+           }else {
+                println("NO ENTRAAAA")
+           }
+        }
+         * */
+
+        val programWithStatement =
+            Program(
+                listOf(
+                    IfStatement(
+                        LiteralExpression(
+                            PrintScriptToken(
+                                CommonTypes.BOOLEAN_LITERAL,
+                                "true",
+                                Position(1, 1),
+                            ),
+                        ),
+                        PrintStatement(
+                            LiteralExpression(
+                                PrintScriptToken(
+                                    CommonTypes.STRING_LITERAL,
+                                    "ENTRAAAAAAAAAAAAAAAA",
+                                    Position(1, 1),
+                                ),
+                            ),
+                        ),
+                        PrintStatement(
+                            LiteralExpression(
+                                PrintScriptToken(
+                                    CommonTypes.STRING_LITERAL,
+                                    "NO ENTRAAAAAAAAAAAAAAAA",
+                                    Position(1, 1),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            )
+
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+
+        val result: InterpreterResult = interpreter.interpret(programWithStatement)
+
+        assertTrue(result.interpretedCorrectly, "El programa debería ejecutarse correctamente.")
+        assertEquals("Program executed successfully", result.message)
+        val printedOutput = outputStream.toString().trim()
+        assertEquals("ENTRAAAAAAAAAAAAAAAA", printedOutput, "La salida debería ser 'ENTRAAAAAAAAAAAAAAAA'.")
+    }
+
+    @Test
+    fun `Simple Or IfStatement Should Pass`() {
     }
 }

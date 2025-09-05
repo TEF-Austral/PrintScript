@@ -10,6 +10,7 @@ import node.DeclarationStatement
 import node.EmptyStatement
 import node.Expression
 import node.ExpressionStatement
+import node.IfStatement
 import node.PrintStatement
 import node.Statement
 
@@ -42,4 +43,10 @@ class DefaultNodeBuilder : NodeBuilder {
     override fun buildEmptyStatementNode(): EmptyStatement = EmptyStatement()
 
     override fun buildProgramNode(statements: List<Statement>): Program = Program(statements)
+
+    override fun buildIfStatementNode(
+        condition: Expression,
+        consequence: Statement,
+        alternative: Statement?,
+    ): IfStatement = IfStatement(condition, consequence, alternative)
 }
