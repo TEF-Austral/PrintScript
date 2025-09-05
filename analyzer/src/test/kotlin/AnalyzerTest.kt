@@ -162,23 +162,25 @@ class AnalyzerTest {
     @Test
     fun `yaml config loader honors settings`() {
         // Create a .yml config that disables println restriction and sets snake_case
-        val yamlText = """
-        identifierStyle: SNAKE_CASE
-        restrictPrintlnArgs: false
-    """.trimIndent()
-        val tempConfig = File.createTempFile("analyzer", ".yml").apply {
-            writeText(yamlText)
-            deleteOnExit()
-        }
+        val yamlText =
+            """
+            identifierStyle: SNAKE_CASE
+            restrictPrintlnArgs: false
+            """.trimIndent()
+        val tempConfig =
+            File.createTempFile("analyzer", ".yml").apply {
+                writeText(yamlText)
+                deleteOnExit()
+            }
 
         // my_var is valid snake_case and println with complex expr allowed
         val expr = BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2))
-        val stmts = listOf(
-            DeclarationStatement(tok("my_var"), tok("Int"), lit(3)),
-            PrintStatement(expr),
-        )
+        val stmts =
+            listOf(
+                DeclarationStatement(tok("my_var"), tok("Int"), lit(3)),
+                PrintStatement(expr),
+            )
         val diags = Analyzer(tempConfig.absolutePath).analyze(Program(stmts))
         assertTrue(diags.isEmpty())
     }
 }
-
