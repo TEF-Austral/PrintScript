@@ -5,7 +5,6 @@ import parser.Parser
 import parser.factory.RecursiveParserFactory
 
 class CLI(
-    private val linter: Analyzer,
     private val formatter: FormatterService,
     private val interpreter: Interpreter,
     private val parser: Parser,
@@ -18,10 +17,17 @@ class CLI(
         formatterConfigFilePath: String? = null,
     ): String =
         when (flag) {
-            CliFlags.FORMATTING -> handleFormatting(formatterConfigFilePath, srcCodePath, formatter, parser, lexer)
-            CliFlags.ANALYZING -> handleAnalyzing(analyzerConfigFilePath, srcCodePath, linter)
-            CliFlags.VALIDATION -> handleValidation(analyzerConfigFilePath, linter, formatterConfigFilePath, formatter)
-            CliFlags.EXECUTION -> handleExecution(srcCodePath, interpreter, parser, lexer)
+            CliFlags.FORMATTING ->
+                handleFormatting(formatterConfigFilePath, srcCodePath, formatter, parser, lexer)
+
+            CliFlags.ANALYZING ->
+                handleAnalyzing(srcCodePath, analyzerConfigFilePath)
+
+            CliFlags.VALIDATION ->
+                handleValidation(srcCodePath, analyzerConfigFilePath, formatterConfigFilePath)
+
+            CliFlags.EXECUTION ->
+                handleExecution(srcCodePath, interpreter, parser, lexer)
         }
 
     private fun handleFormatting(
@@ -37,20 +43,44 @@ class CLI(
     }
 
     private fun handleAnalyzing(
-        analyzerConfigFilePath: String?,
         srcCodePath: String,
-        linter: Analyzer,
-    ): String = "TODO implement this"
+        analyzerConfigFilePath: String?,
+    ): String {
+        val analyzer = Analyzer(analyzerConfigFilePath)
+        val tokens = lexer.tokenize(getDefaultReader(srcCodePath))
+        val program =
+            RecursiveParserFactory()
+                .withNewTokens(tokens, parser)
+                .parse()
+                .getProgram()
+
+        val diagnostics = analyzer.analyze(program)
+        return if (diagnostics.isEmpty()) {
+            "No issues found"
+        } else {
+            diagnostics.joinToString("\n") { "${it.position}: ${it.message}" }
+        }
+    }
 
     private fun handleValidation(
+        srcCodePath: String,
         analyzerConfigFilePath: String?,
-        linter: Analyzer,
         formatterConfigFilePath: String?,
-        formatter: FormatterService,
     ): String {
-        val formatingResult = handleFormatting(formatterConfigFilePath, "src/test/resources/test_code.psl", formatter, parser, lexer)
-        val linterResult = handleAnalyzing(analyzerConfigFilePath, "src/test/resources/test_code.psl", linter)
-        return formatingResult + linterResult
+        val formatted =
+            handleFormatting(
+                formatterConfigFilePath,
+                srcCodePath,
+                formatter,
+                parser,
+                lexer,
+            )
+        val analyzed =
+            handleAnalyzing(
+                srcCodePath,
+                analyzerConfigFilePath,
+            )
+        return formatted + analyzed
     }
 
     private fun handleExecution(
