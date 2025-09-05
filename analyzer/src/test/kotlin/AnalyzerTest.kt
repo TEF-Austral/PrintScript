@@ -24,15 +24,18 @@ class AnalyzerTest {
         config: AnalyzerConfig = AnalyzerConfig(),
     ): List<Diagnostic> {
         // write config to temp JSON file
-        val tempConfigFile = File.createTempFile("analyzer", ".json").apply {
-            writeText(
-                """{
-                   "identifierStyle":"${config.identifierStyle}",
-                   "restrictPrintlnArgs":${config.restrictPrintlnArgs}
-                }""".trimIndent()
-            )
-            deleteOnExit()
-        }
+        val tempConfigFile =
+            File.createTempFile("analyzer", ".json").apply {
+                writeText(
+                    """
+                    {
+                       "identifierStyle":"${config.identifierStyle}",
+                       "restrictPrintlnArgs":${config.restrictPrintlnArgs}
+                    }
+                    """.trimIndent(),
+                )
+                deleteOnExit()
+            }
 
         val program = Program(stmts)
         val analyzer = Analyzer(tempConfigFile.absolutePath)
@@ -46,24 +49,25 @@ class AnalyzerTest {
     ) = PrintScriptToken(type, text, Position(0, 0))
 
     // helper to build a LiteralExpression from an Int
-    private fun lit(value: Int) =
-        LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, value.toString(), Position(0, 0)))
+    private fun lit(value: Int) = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, value.toString(), Position(0, 0)))
 
     @Test
     fun `valid camelCase identifiers produce no diagnostics`() {
-        val stmts = listOf(
-            DeclarationStatement(tok("myVar"), tok("Int"), lit(123)),
-            AssignmentStatement(tok("anotherVar"), lit(456)),
-            PrintStatement(IdentifierExpression(tok("myVar"))),
-        )
+        val stmts =
+            listOf(
+                DeclarationStatement(tok("myVar"), tok("Int"), lit(123)),
+                AssignmentStatement(tok("anotherVar"), lit(456)),
+                PrintStatement(IdentifierExpression(tok("myVar"))),
+            )
         assertTrue(runAnalyzer(stmts).isEmpty())
     }
 
     @Test
     fun `invalid camelCase identifier is flagged`() {
-        val stmts = listOf(
-            DeclarationStatement(tok("My_var"), tok("Int"), lit(0)),
-        )
+        val stmts =
+            listOf(
+                DeclarationStatement(tok("My_var"), tok("Int"), lit(0)),
+            )
         val diags = runAnalyzer(stmts)
         assertEquals(1, diags.size)
         assertEquals(
@@ -74,11 +78,12 @@ class AnalyzerTest {
 
     @Test
     fun `println with complex expression is flagged when restricted`() {
-        val expr = BinaryExpression(
-            lit(1),
-            tok("+", CommonTypes.OPERATORS),
-            lit(2),
-        )
+        val expr =
+            BinaryExpression(
+                lit(1),
+                tok("+", CommonTypes.OPERATORS),
+                lit(2),
+            )
         val stmts = listOf(PrintStatement(expr))
         val diags = runAnalyzer(stmts)
         assertEquals(1, diags.size)
@@ -99,9 +104,10 @@ class AnalyzerTest {
     @Test
     fun `snake_case style rejects camelCase names`() {
         val cfg = AnalyzerConfig(identifierStyle = IdentifierStyle.SNAKE_CASE)
-        val stmts = listOf(
-            DeclarationStatement(tok("myVar"), tok("Int"), lit(3)),
-        )
+        val stmts =
+            listOf(
+                DeclarationStatement(tok("myVar"), tok("Int"), lit(3)),
+            )
         val diags = runAnalyzer(stmts, cfg)
         assertEquals(1, diags.size)
         assertEquals(
@@ -139,4 +145,40 @@ class AnalyzerTest {
         val decl = DeclarationStatement(tok("my_var"), tok("Int"), lit(3))
         assertTrue(runAnalyzer(listOf(decl), cfg).isEmpty())
     }
+
+    @Test
+    fun `default analyzer constructor applies default settings`() {
+        // By default restrictPrintlnArgs = true, so complex println should be flagged
+        val expr = BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2))
+        val stmts = listOf(PrintStatement(expr))
+        val diags = Analyzer().analyze(Program(stmts))
+        assertEquals(1, diags.size)
+        assertEquals(
+            "println must take only a literal or identifier",
+            diags[0].message,
+        )
+    }
+
+    @Test
+    fun `yaml config loader honors settings`() {
+        // Create a .yml config that disables println restriction and sets snake_case
+        val yamlText = """
+        identifierStyle: SNAKE_CASE
+        restrictPrintlnArgs: false
+    """.trimIndent()
+        val tempConfig = File.createTempFile("analyzer", ".yml").apply {
+            writeText(yamlText)
+            deleteOnExit()
+        }
+
+        // my_var is valid snake_case and println with complex expr allowed
+        val expr = BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2))
+        val stmts = listOf(
+            DeclarationStatement(tok("my_var"), tok("Int"), lit(3)),
+            PrintStatement(expr),
+        )
+        val diags = Analyzer(tempConfig.absolutePath).analyze(Program(stmts))
+        assertTrue(diags.isEmpty())
+    }
 }
+
