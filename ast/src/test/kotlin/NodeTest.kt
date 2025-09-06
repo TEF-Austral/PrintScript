@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import type.CommonTypes
+import kotlin.toString
 
 class NodeTest {
     private lateinit var nodeBuilder: DefaultNodeBuilder
@@ -215,4 +216,59 @@ class NodeTest {
         assertEquals(null, ifStatement.getAlternative())
         assertEquals(false, ifStatement.hasAlternative())
     }
+
+    @Test
+    fun testAssignmentStatementGetIdentifierToken() {
+        val value = nodeBuilder.buildLiteralExpressionNode(numberToken)
+        val assignment = nodeBuilder.buildAssignmentStatementNode(identifierToken, value)
+
+        assertEquals(identifierToken, assignment.getIdentifierToken())
+    }
+
+    @Test
+    fun testPrintStatementGetExpressionTokenWithIdentifier() {
+        val identifierExpr = nodeBuilder.buildIdentifierNode(identifierToken)
+        val printStmt = nodeBuilder.buildPrintStatementNode(identifierExpr)
+
+        assertEquals(identifierToken, printStmt.getExpressionToken())
+    }
+
+    @Test
+    fun testPrintStatementGetExpressionTokenWithNonIdentifier() {
+        val literalExpr = nodeBuilder.buildLiteralExpressionNode(mockToken)
+        val printStmt = nodeBuilder.buildPrintStatementNode(literalExpr)
+
+        assertNull(printStmt.getExpressionToken())
+    }
+
+    @Test
+    fun testIfStatementGetAlternativeWhenNull() {
+        val condition = nodeBuilder.buildLiteralExpressionNode(mockToken)
+        val thenBranch = nodeBuilder.buildEmptyStatementNode()
+        val ifStatement = nodeBuilder.buildIfStatementNode(condition, thenBranch, null)
+
+        assertNull(ifStatement.getAlternative())
+    }
+
+    @Test
+    fun testEmptyExpressionToString() {
+        val emptyExpr = EmptyExpression()
+
+        assertEquals("EmptyExpression", emptyExpr.toString())
+    }
+
+    @Test
+    fun testLiteralExpressionGetType() {
+        val literalExpr = nodeBuilder.buildLiteralExpressionNode(numberToken)
+
+        assertEquals(CommonTypes.NUMBER_LITERAL, literalExpr.getType())
+    }
+
+    @Test
+    fun testProgramWithNoStatements() {
+        val program = nodeBuilder.buildProgramNode(emptyList())
+
+        assertEquals(0, program.getStatements().size)
+    }
+
 }
