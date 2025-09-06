@@ -1,15 +1,13 @@
+import builder.DefaultNodeBuilder
+import converter.StringToTokenConverterFactory
+import factory.DefaultInterpreterFactory
 import flags.CliFlags
 import formatter.FormatterService
-import analyzer.Analyzer
-import parser.Parser
 import parser.factory.RecursiveParserFactory
+import splitter.SplitterFactory
+import node.Program
 
-class CLI(
-    private val formatter: FormatterService,
-    private val interpreter: Interpreter,
-    private val parser: Parser,
-    private val lexer: Lexer,
-) {
+class CLI {
     fun execute(
         flag: CliFlags,
         srcCodePath: String,
@@ -18,7 +16,7 @@ class CLI(
     ): String =
         when (flag) {
             CliFlags.FORMATTING ->
-                handleFormatting(formatterConfigFilePath, srcCodePath, formatter, parser, lexer)
+                handleFormatting(srcCodePath, formatterConfigFilePath)
 
             CliFlags.ANALYZING ->
                 handleAnalyzing(srcCodePath, analyzerConfigFilePath)
@@ -27,18 +25,24 @@ class CLI(
                 handleValidation(srcCodePath, analyzerConfigFilePath, formatterConfigFilePath)
 
             CliFlags.EXECUTION ->
-                handleExecution(srcCodePath, interpreter, parser, lexer)
+                handleExecution(srcCodePath)
         }
 
+    private fun parseSourceCode(srcCodePath: String): Program {
+        val lexer =
+            DefaultLexer(SplitterFactory.createSplitter(), StringToTokenConverterFactory.createDefaultsTokenConverter())
+        val tokenList = lexer.tokenize(getDefaultReader(srcCodePath))
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = RecursiveParserFactory().createParser(tokenList, nodeBuilder)
+        return parser.parse().getProgram()
+    }
+
     private fun handleFormatting(
-        formatterConfigFilePath: String?,
         srcCodePath: String,
-        formatter: FormatterService,
-        parser: Parser,
-        lexer: Lexer,
+        formatterConfigFilePath: String?,
     ): String {
-        val tokens = lexer.tokenize(getDefaultReader(srcCodePath))
-        val program = RecursiveParserFactory().withNewTokens(tokens, parser).parse().getProgram()
+        val program = parseSourceCode(srcCodePath)
+        val formatter = FormatterService()
         return formatter.formatToString(program, formatterConfigFilePath ?: "formatter_config.json")
     }
 
@@ -46,19 +50,13 @@ class CLI(
         srcCodePath: String,
         analyzerConfigFilePath: String?,
     ): String {
-        val analyzer = Analyzer(analyzerConfigFilePath)
-        val tokens = lexer.tokenize(getDefaultReader(srcCodePath))
-        val program =
-            RecursiveParserFactory()
-                .withNewTokens(tokens, parser)
-                .parse()
-                .getProgram()
-
+        val program = parseSourceCode(srcCodePath)
+        val analyzer = DefaultAnalyzer(analyzerConfigFilePath)
         val diagnostics = analyzer.analyze(program)
         return if (diagnostics.isEmpty()) {
             "No issues found"
         } else {
-            diagnostics.joinToString("\n") { "${it.position}: ${it.message}" }
+            diagnostics.joinToString("\n") { it.message } // "${it.position.toString()} -
         }
     }
 
@@ -67,35 +65,28 @@ class CLI(
         analyzerConfigFilePath: String?,
         formatterConfigFilePath: String?,
     ): String {
-        val formatted =
-            handleFormatting(
-                formatterConfigFilePath,
-                srcCodePath,
-                formatter,
-                parser,
-                lexer,
-            )
-        val analyzed =
-            handleAnalyzing(
-                srcCodePath,
-                analyzerConfigFilePath,
-            )
-        return formatted + analyzed
+        val analysisResult = handleAnalyzing(srcCodePath, analyzerConfigFilePath)
+        val formattingResult = handleFormatting(srcCodePath, formatterConfigFilePath)
+
+        return """
+            --- ANALYSIS REPORT---
+            $analysisResult
+
+            ---FORMATTING PREVIEW---
+            $formattingResult
+            """.trimIndent()
     }
 
-    private fun handleExecution(
-        srcCodePath: String,
-        interpreter: Interpreter,
-        parser: Parser,
-        lexer: Lexer,
-    ): String {
-        val tokens = lexer.tokenize(getDefaultReader(srcCodePath))
-        val program = RecursiveParserFactory().withNewTokens(tokens, parser).parse().getProgram()
+    private fun handleExecution(srcCodePath: String): String {
+        val program = parseSourceCode(srcCodePath)
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result = interpreter.interpret(program)
-        if (result.interpretedCorrectly){
-            return "Program executed successfully"
+
+        return if (result.interpretedCorrectly) {
+            "Program executed successfully"
+        } else {
+            "Program executed with errors: ${result.message}"
         }
-        return "Program executed with errors: ${result.message}"
     }
 
     private fun getDefaultReader(path: String): Reader = FileReader(path)

@@ -1,4 +1,3 @@
-import analyzer.Analyzer
 import analyzer.AnalyzerConfig
 import analyzer.Diagnostic
 import analyzer.IdentifierStyle
@@ -38,7 +37,7 @@ class AnalyzerTest {
             }
 
         val program = Program(stmts)
-        val analyzer = Analyzer(tempConfigFile.absolutePath)
+        val analyzer = DefaultAnalyzer(tempConfigFile.absolutePath)
         return analyzer.analyze(program)
     }
 
@@ -151,7 +150,7 @@ class AnalyzerTest {
         // By default restrictPrintlnArgs = true, so complex println should be flagged
         val expr = BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2))
         val stmts = listOf(PrintStatement(expr))
-        val diags = Analyzer().analyze(Program(stmts))
+        val diags = DefaultAnalyzer().analyze(Program(stmts))
         assertEquals(1, diags.size)
         assertEquals(
             "println must take only a literal or identifier",
@@ -180,7 +179,7 @@ class AnalyzerTest {
                 DeclarationStatement(tok("my_var"), tok("Int"), lit(3)),
                 PrintStatement(expr),
             )
-        val diags = Analyzer(tempConfig.absolutePath).analyze(Program(stmts))
+        val diags = DefaultAnalyzer(tempConfig.absolutePath).analyze(Program(stmts))
         assertTrue(diags.isEmpty())
     }
 }

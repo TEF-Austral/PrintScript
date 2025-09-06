@@ -4,6 +4,7 @@ import Token
 import builder.NodeBuilder
 import parser.statement.StatementParser
 import parser.Parser
+import parser.ParserInterface
 import parser.statement.AssignmentParser
 import parser.statement.ExpressionParser
 import parser.statement.PrintParser
@@ -53,6 +54,6 @@ class RecursiveParserFactory : ParserFactory {
 
     override fun withNewTokens(
         tokens: List<Token>,
-        parser: Parser,
+        parser: ParserInterface,
     ): Parser = Parser(tokens, parser.getNodeBuilder(), parser.getExpressionParser(), parser.getStatementParser(), parser.getCurrent())
 }

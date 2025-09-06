@@ -22,14 +22,14 @@ class DefaultFormatterTest {
         val decl =
             builder.buildVariableDeclarationStatementNode(
                 identifier = tok(CommonTypes.IDENTIFIER, "x"),
-                dataType = tok(CommonTypes.NUMBER, "number"),
+                dataType = tok(CommonTypes.NUMBER, "Number"),
                 initialValue = null,
             )
 
         val program = builder.buildProgramNode(listOf(decl))
         val result = fmt.formatToString(program, FormatConfig())
 
-        assertEquals("let x: NUMBER;\n\n", result)
+        assertEquals("let x: Number;\n", result)
     }
 
     @Test
@@ -44,7 +44,7 @@ class DefaultFormatterTest {
         val program = builder.buildProgramNode(listOf(assign))
         val result = fmt.formatToString(program, config)
 
-        assertEquals("a=42;\n\n", result)
+        assertEquals("a=42;\n", result)
     }
 
     @Test
@@ -58,7 +58,7 @@ class DefaultFormatterTest {
         val program = builder.buildProgramNode(listOf(printStmt))
         val result = fmt.formatToString(program, config)
 
-        assertEquals("\nprintln(\"hi\");\n\n", result)
+        assertEquals("\nprintln(\"hi\");\n", result)
     }
 
     @Test
@@ -79,7 +79,7 @@ class DefaultFormatterTest {
         val program = builder.buildProgramNode(listOf(decl))
         val result = fmt.formatToString(program, config)
 
-        assertEquals("let msg :STRING = \"ok\";\n\n", result)
+        assertEquals("let msg :String = \"ok\";\n", result)
     }
 
     @Test
@@ -87,7 +87,7 @@ class DefaultFormatterTest {
         val decl =
             builder.buildVariableDeclarationStatementNode(
                 identifier = tok(CommonTypes.IDENTIFIER, "x"),
-                dataType = tok(CommonTypes.NUMBER, "number"),
+                dataType = tok(CommonTypes.NUMBER, "Number"),
                 initialValue = null,
             )
         val program = builder.buildProgramNode(listOf(decl))
@@ -95,7 +95,7 @@ class DefaultFormatterTest {
 
         fmt.formatToWriter(program, FormatConfig(), writer)
 
-        assertEquals("let x: NUMBER;\n\n", writer.toString())
+        assertEquals("let x: Number;\n", writer.toString())
     }
 
     @Test
@@ -111,6 +111,6 @@ class DefaultFormatterTest {
 
         fmt.formatToWriter(program, config, writer)
 
-        assertEquals("a=42;\n\n", writer.toString())
+        assertEquals("a=42;\n", writer.toString())
     }
 }

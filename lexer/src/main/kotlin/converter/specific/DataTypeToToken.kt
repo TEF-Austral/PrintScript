@@ -11,5 +11,15 @@ object DataTypeToToken : StringToTokenConverter {
     override fun convert(
         input: String,
         position: Coordinates,
-    ): Token = PrintScriptToken(type = CommonTypes.DATA_TYPES, value = input, coordinates = position)
+    ): Token {
+        val dataType = getDataType(input)
+        return PrintScriptToken(dataType, value = input, coordinates = position)
+    }
+
+    private fun getDataType(input: String): CommonTypes =
+        when (input){
+            "String" -> CommonTypes.STRING
+            "Number" -> CommonTypes.NUMBER
+            else -> CommonTypes.DATA_TYPES
+        }
 }

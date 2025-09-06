@@ -18,8 +18,19 @@ enum class CommonTypes {
     FUNCTION, // function
     DECLARATION, // let const var
     PRINT, // print
-    NUMBER,
-    STRING,
-    BOOLEAN,
+    NUMBER {
+        override fun toString(): String = super.toString().lowercase().toTitleCase()
+    },
+    STRING {
+        override fun toString(): String = super.toString().lowercase().toTitleCase()
+    },
+    BOOLEAN {
+        override fun toString(): String = super.toString().lowercase().toTitleCase()
+    },
     EMPTY,
 }
+
+private fun String.toTitleCase(): String =
+    this.split(' ').joinToString(" ") { word ->
+        word.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+    }

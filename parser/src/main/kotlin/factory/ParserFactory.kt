@@ -3,6 +3,7 @@ package parser.factory
 import Token
 import builder.NodeBuilder
 import parser.Parser
+import parser.ParserInterface
 
 sealed interface ParserFactory {
     fun createParser(
@@ -12,6 +13,6 @@ sealed interface ParserFactory {
 
     fun withNewTokens(
         tokens: List<Token>,
-        parser: Parser,
+        parser: ParserInterface,
     ): Parser
 }

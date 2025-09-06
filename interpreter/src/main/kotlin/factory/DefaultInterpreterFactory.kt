@@ -1,6 +1,6 @@
 package factory
 
-import Interpreter
+import DefaultInterpreter
 import executor.expression.BinaryExpressionExecutor
 import executor.expression.DefaultExpressionExecutor
 import executor.expression.IdentifierExpressionExecutor
@@ -57,7 +57,7 @@ object DefaultInterpreterFactory {
                 ),
             )
 
-    fun createDefaultInterpreter(): Interpreter {
+    fun createDefaultInterpreter(): DefaultInterpreter {
         val expressionExecutor = DefaultExpressionExecutor(specificExpressionExecutors)
 
         // --- El Truco para las Sentencias ---
@@ -85,14 +85,14 @@ object DefaultInterpreterFactory {
         completeStatementExecutors.add(ifExecutor) // ¡Importante incluirlo!
 
         // 5. Crea el intérprete final con los componentes ya interconectados correctamente.
-        return Interpreter(expressionExecutor, statementExecutor)
+        return DefaultInterpreter(expressionExecutor, statementExecutor)
     }
 
     fun createCustomInterpreter(
         specificExpressionExecutors: List<SpecificExpressionExecutor>,
         specificStatementExecutor: List<SpecificStatementExecutor>,
-    ): Interpreter =
-        Interpreter(
+    ): DefaultInterpreter =
+        DefaultInterpreter(
             DefaultExpressionExecutor(specificExpressionExecutors),
             DefaultStatementExecutor(specificStatementExecutor),
         )

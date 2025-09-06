@@ -23,10 +23,10 @@ class Parser(
     private val expressionParser: ExpressionParsingBuilder,
     private val statementParser: StatementParser,
     private val current: Int = 0,
-) {
+) : ParserInterface {
     fun isAtEnd(): Boolean = current >= tokens.size
 
-    fun parse(): FinalResult =
+    override fun parse(): FinalResult =
         try {
             val statements = parseStatementsRecursive(StatementBuiltResult(this, EmptyStatement()), emptyList())
             CompleteProgram(this, nodeBuilder.buildProgramNode(statements))
@@ -69,13 +69,13 @@ class Parser(
             ParserError("Can't advance when token is invalid or null", this)
         }
 
-    fun getExpressionParser(): ExpressionParsingBuilder = expressionParser
+    override fun getExpressionParser(): ExpressionParsingBuilder = expressionParser
 
-    fun getNodeBuilder(): NodeBuilder = nodeBuilder
+    override fun getNodeBuilder(): NodeBuilder = nodeBuilder
 
-    fun getStatementParser(): StatementParser = statementParser
+    override fun getStatementParser(): StatementParser = statementParser
 
-    fun getCurrent(): Int = current
+    override fun getCurrent(): Int = current
 
-    fun getTokens(): List<Token> = tokens
+    override fun getTokens(): List<Token> = tokens
 }

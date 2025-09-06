@@ -7,4 +7,6 @@ class Position(
     override fun getRow(): Int = row
 
     override fun getColumn(): Int = column
+
+    override fun toString(): String = "[$row, $column]"
 }

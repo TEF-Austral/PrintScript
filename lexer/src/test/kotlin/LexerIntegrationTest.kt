@@ -21,7 +21,7 @@ class LexerIntegrationTest {
     fun scriptTest() {
         val splitter = SplitterFactory.createSplitter()
         val tokenConverter = StringToTokenConverterFactory.createDefaultsTokenConverter()
-        val lexer = Lexer(splitter, tokenConverter)
+        val lexer = DefaultLexer(splitter, tokenConverter)
         val tokens = lexer.tokenize(scriptReader)
         for (token in tokens) {
             println("Token: ${token.getValue()} Type: ${token.getType()} Coordinates: ${token.getCoordinates()}")
@@ -63,7 +63,7 @@ class LexerIntegrationTest {
 
         val splitter = SplitterFactory.createSplitter()
         val tokenConverter = StringToTokenConverterFactory.createDefaultsTokenConverter()
-        val lexer = Lexer(splitter, tokenConverter)
+        val lexer = DefaultLexer(splitter, tokenConverter)
         val tokens = lexer.tokenize(largeScriptReader)
 
         println("Total tokens: ${tokens.size}") // Debug: cuántos tokens
@@ -76,7 +76,7 @@ class LexerIntegrationTest {
     fun simpleDeclarationTest() {
         val splitter = SplitterFactory.createSplitter()
         val tokenConverter = StringToTokenConverterFactory.createDefaultsTokenConverter()
-        val lexer = Lexer(splitter, tokenConverter)
+        val lexer = DefaultLexer(splitter, tokenConverter)
         val filePathScriptV2 = "src/test/resources/scriptV2.txt"
         val scriptReader = FileReader(filePathScriptV2)
         val tokens = lexer.tokenize(scriptReader)

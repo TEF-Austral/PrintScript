@@ -24,7 +24,7 @@ class DefaultFormatter : Formatter {
                 val indent = line.takeWhile { it == ' ' }
                 val content = line.drop(indent.length).replace(MULTI_SPACE_REGEX, " ")
                 indent + content
-            } + "\n"
+            } // + "\n" // Creo que no va esto
     }
 
     override fun formatToWriter(

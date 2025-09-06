@@ -100,7 +100,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Semantic error: Variable declaration must end in ;  Token(type=IDENTIFIER, value='x', coordinates=1:5) Token(type=NUMBER, value='NUMBER', coordinates=1:9)", result.message())
+        assertEquals("Semantic error: Variable declaration must end in ;  Token(type=IDENTIFIER, value='x', coordinates=1:5) Token(type=Number, value='NUMBER', coordinates=1:9)", result.message())
     }
 
     @Test
