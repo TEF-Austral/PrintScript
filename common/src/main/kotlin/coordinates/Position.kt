@@ -1,6 +1,6 @@
 package coordinates
 
-class Position(
+data class Position(
     private val row: Int,
     private val column: Int,
 ) : Coordinates {

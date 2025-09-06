@@ -1,4 +1,4 @@
-import analyzer.Diagnostic
+import diagnostic.Diagnostic
 import node.Program
 
 interface Analyzer {

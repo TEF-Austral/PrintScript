@@ -1,6 +1,6 @@
-import analyzer.Diagnostic
 import coordinates.Coordinates
 import coordinates.Position
+import diagnostic.Diagnostic
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test

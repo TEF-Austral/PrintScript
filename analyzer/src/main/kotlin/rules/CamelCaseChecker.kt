@@ -1,4 +1,4 @@
-import analyzer.rules.NameChecker
+package rules
 
 class CamelCaseChecker : NameChecker {
     override val pattern = Regex("^[a-z][A-Za-z0-9]*\$")

@@ -1,8 +1,7 @@
-import analyzer.AnalyzerConfig
-import analyzer.Diagnostic
-import analyzer.IdentifierStyle
+import config.AnalyzerConfig
 import node.Statement
 import coordinates.Position
+import diagnostic.Diagnostic
 import node.AssignmentStatement
 import node.BinaryExpression
 import node.DeclarationStatement
@@ -15,7 +14,9 @@ import type.CommonTypes
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import rules.IdentifierStyle
 import java.io.File
+import kotlin.collections.get
 
 class AnalyzerTest {
     private fun runAnalyzer(
@@ -41,14 +42,16 @@ class AnalyzerTest {
         return analyzer.analyze(program)
     }
 
-    // helper to build a Token with a specified type (default IDENTIFIER)
     private fun tok(
         text: String,
         type: CommonTypes = CommonTypes.IDENTIFIER,
-    ) = PrintScriptToken(type, text, Position(0, 0))
+        position: Position = Position(0, 0),
+    ) = PrintScriptToken(type, text, position)
 
-    // helper to build a LiteralExpression from an Int
-    private fun lit(value: Int) = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, value.toString(), Position(0, 0)))
+    private fun lit(
+        value: Int,
+        position: Position = Position(0, 0),
+    ) = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, value.toString(), position))
 
     @Test
     fun `valid camelCase identifiers produce no diagnostics`() {
@@ -77,14 +80,10 @@ class AnalyzerTest {
 
     @Test
     fun `println with complex expression is flagged when restricted`() {
-        val expr =
-            BinaryExpression(
-                lit(1),
-                tok("+", CommonTypes.OPERATORS),
-                lit(2),
-            )
+        val cfg = AnalyzerConfig(restrictPrintlnArgs = true) // Explicitly set restriction
+        val expr = BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2))
         val stmts = listOf(PrintStatement(expr))
-        val diags = runAnalyzer(stmts)
+        val diags = runAnalyzer(stmts, cfg) // Pass the config explicitly
         assertEquals(1, diags.size)
         assertEquals(
             "println must take only a literal or identifier",
@@ -150,7 +149,7 @@ class AnalyzerTest {
         // By default restrictPrintlnArgs = true, so complex println should be flagged
         val expr = BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2))
         val stmts = listOf(PrintStatement(expr))
-        val diags = DefaultAnalyzer().analyze(Program(stmts))
+        val diags = DefaultAnalyzer().analyze(Program(stmts)) // Use default constructor
         assertEquals(1, diags.size)
         assertEquals(
             "println must take only a literal or identifier",
@@ -181,5 +180,30 @@ class AnalyzerTest {
             )
         val diags = DefaultAnalyzer(tempConfig.absolutePath).analyze(Program(stmts))
         assertTrue(diags.isEmpty())
+    }
+
+    @Test
+    fun `diagnostics include correct positions`() {
+        val stmts =
+            listOf(
+                DeclarationStatement(
+                    tok("My_var", CommonTypes.IDENTIFIER, Position(1, 5)),
+                    tok("Int", CommonTypes.DATA_TYPES, Position(1, 10)),
+                    lit(0, Position(1, 15)),
+                ),
+                AssignmentStatement(
+                    tok("AnotherVar", CommonTypes.IDENTIFIER, Position(2, 3)),
+                    lit(42, Position(2, 15)),
+                ),
+            )
+        val diags = runAnalyzer(stmts)
+
+        assertEquals(2, diags.size)
+
+        assertEquals("Identifier 'My_var' does not match CAMEL_CASE", diags[0].message)
+        assertEquals(Position(1, 5), diags[0].position)
+
+        assertEquals("Identifier 'AnotherVar' does not match CAMEL_CASE", diags[1].message)
+        assertEquals(Position(2, 3), diags[1].position)
     }
 }

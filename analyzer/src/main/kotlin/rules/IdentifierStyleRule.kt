@@ -1,7 +1,7 @@
-package analyzer.rules
+package rules
 
-import analyzer.Diagnostic
-import coordinates.Position
+import diagnostic.Diagnostic
+import coordinates.Coordinates
 import node.AssignmentStatement
 import node.BinaryExpression
 import node.DeclarationStatement
@@ -16,18 +16,18 @@ class IdentifierStyleRule(
 ) : Rule {
     override fun apply(program: Program): List<Diagnostic> {
         val diags = mutableListOf<Diagnostic>()
-        program.getStatements().forEachIndexed { idx, stmt ->
+        program.getStatements().forEach { stmt ->
             when (stmt) {
                 is DeclarationStatement -> {
-                    check(stmt.getIdentifier(), idx, diags)
-                    stmt.getInitialValue()?.visit(idx, diags)
+                    check(stmt.getIdentifier(), stmt.getIdentifierToken().getCoordinates(), diags)
+                    stmt.getInitialValue()?.visit(diags)
                 }
                 is AssignmentStatement -> {
-                    check(stmt.getIdentifier(), idx, diags)
-                    stmt.getValue().visit(idx, diags)
+                    check(stmt.getIdentifier(), stmt.getIdentifierToken().getCoordinates(), diags)
+                    stmt.getValue().visit(diags)
                 }
-                is PrintStatement -> stmt.getExpression().visit(idx, diags)
-                is ExpressionStatement -> stmt.getExpression().visit(idx, diags)
+                is PrintStatement -> stmt.getExpression().visit(diags)
+                is ExpressionStatement -> stmt.getExpression().visit(diags)
                 else -> {}
             }
         }
@@ -36,27 +36,26 @@ class IdentifierStyleRule(
 
     private fun check(
         name: String,
-        idx: Int,
+        coordinates: Coordinates,
         diags: MutableList<Diagnostic>,
     ) {
         if (!checker.pattern.matches(name)) {
             diags +=
                 Diagnostic(
                     "Identifier '$name' does not match ${checker.styleName()}",
-                    Position(idx, 0),
+                    coordinates,
                 )
         }
     }
 
     private fun Expression.visit(
-        idx: Int,
         diags: MutableList<Diagnostic>,
     ) {
         when (this) {
-            is IdentifierExpression -> check(getValue(), idx, diags)
+            is IdentifierExpression -> check(getValue(), getToken().getCoordinates(), diags)
             is BinaryExpression -> {
-                getLeft().visit(idx, diags)
-                getRight().visit(idx, diags)
+                getLeft().visit(diags)
+                getRight().visit(diags)
             }
             else -> {}
         }

@@ -1,4 +1,4 @@
-package analyzer
+package config
 
 import JsonReader
 import YamlReader

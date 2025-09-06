@@ -9,4 +9,6 @@ class AssignmentStatement(
     fun getIdentifier(): String = identifier.getValue()
 
     fun getValue(): Expression = value
+
+    fun getIdentifierToken(): Token = identifier
 }

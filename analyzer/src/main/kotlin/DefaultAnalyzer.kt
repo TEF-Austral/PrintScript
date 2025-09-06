@@ -1,11 +1,13 @@
-import analyzer.AnalyzerConfig
-import analyzer.AnalyzerConfigLoader
-import analyzer.Diagnostic
-import analyzer.IdentifierStyle
-import analyzer.rules.IdentifierStyleRule
-import analyzer.rules.PrintlnArgsRule
-import analyzer.rules.Rule
+import config.AnalyzerConfig
+import diagnostic.Diagnostic
+import rules.IdentifierStyleRule
+import rules.PrintlnArgsRule
+import rules.Rule
+import config.AnalyzerConfigLoader
 import node.Program
+import rules.CamelCaseChecker
+import rules.IdentifierStyle
+import rules.SnakeCaseChecker
 
 class DefaultAnalyzer(
     configPath: String? = null,

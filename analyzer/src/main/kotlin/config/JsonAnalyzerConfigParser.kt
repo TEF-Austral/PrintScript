@@ -1,17 +1,18 @@
-// analyzer/src/main/kotlin/analyzer/YamlAnalyzerConfigParser.kt
-package analyzer
+package config
 
-class YamlAnalyzerConfigParser {
+import rules.IdentifierStyle
+
+class JsonAnalyzerConfigParser {
     fun parse(text: String): AnalyzerConfig {
         val entries =
             text
-                .lines()
-                .map(String::trim)
-                .filter { it.isNotEmpty() && !it.startsWith("#") }
-                .mapNotNull {
-                    val parts = it.split(":", limit = 2)
-                    if (parts.size == 2) parts[0].trim() to parts[1].trim() else null
-                }.toMap()
+                .trim()
+                .removePrefix("{")
+                .removeSuffix("}")
+                .split(',')
+                .map { it.trim().split(':', limit = 2).map(String::trim) }
+                .filter { it.size == 2 }
+                .associate { it[0].removeSurrounding("\"") to it[1].removeSurrounding("\"") }
 
         return AnalyzerConfig(
             identifierStyle =

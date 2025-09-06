@@ -13,4 +13,6 @@ class DeclarationStatement(
     fun getDataType(): CommonTypes = dataType.getType()
 
     fun getInitialValue(): Expression? = initialValue
+
+    fun getIdentifierToken(): Token = identifier
 }

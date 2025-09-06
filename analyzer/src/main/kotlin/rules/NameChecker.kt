@@ -1,4 +1,4 @@
-package analyzer.rules
+package rules
 
 interface NameChecker {
     val pattern: Regex

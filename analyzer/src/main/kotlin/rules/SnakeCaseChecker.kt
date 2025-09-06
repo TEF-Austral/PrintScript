@@ -1,4 +1,4 @@
-import analyzer.rules.NameChecker
+package rules
 
 class SnakeCaseChecker : NameChecker {
     override val pattern = Regex("^[a-z][a-z0-9_]*\$")
