@@ -7,12 +7,13 @@ import builder.DefaultNodeBuilder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import type.CommonTypes
-import kotlin.toString
 
-class NodeTest {
+class CompleteNodeTest {
     private lateinit var nodeBuilder: DefaultNodeBuilder
     private lateinit var mockToken: Token
     private lateinit var numberToken: Token
@@ -20,12 +21,14 @@ class NodeTest {
     private lateinit var operatorToken: Token
     private lateinit var dataTypeToken: Token
     private lateinit var declarationTypeToken: Token
+    private lateinit var booleanToken: Token
+    private lateinit var stringToken: Token
+    private lateinit var constToken: Token
 
     @BeforeEach
     fun setUp() {
         nodeBuilder = DefaultNodeBuilder()
 
-        // Create mock tokens for testing
         val coordinates = Position(1, 1)
         mockToken = PrintScriptToken(CommonTypes.STRING_LITERAL, "test", coordinates)
         numberToken = PrintScriptToken(CommonTypes.NUMBER_LITERAL, "42", coordinates)
@@ -33,246 +36,420 @@ class NodeTest {
         operatorToken = PrintScriptToken(CommonTypes.OPERATORS, "+", coordinates)
         dataTypeToken = PrintScriptToken(CommonTypes.NUMBER, "NUMBER", coordinates)
         declarationTypeToken = PrintScriptToken(CommonTypes.LET, "let", coordinates)
+        booleanToken = PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", coordinates)
+        stringToken = PrintScriptToken(CommonTypes.STRING, "STRING", coordinates)
+        constToken = PrintScriptToken(CommonTypes.CONST, "const", coordinates)
     }
 
     @Test
-    fun testLiteralExpression() {
-        val literalExpr = nodeBuilder.buildLiteralExpressionNode(mockToken)
-
-        assertEquals("test", literalExpr.getValue())
-        assertNotNull(literalExpr)
+    fun testEmptyExpressionWithDefaultCoordinates() {
+        val emptyExpr = EmptyExpression()
+        assertEquals("EmptyExpression", emptyExpr.toString())
+        assertEquals(0, emptyExpr.getCoordinates().getRow())
+        assertEquals(0, emptyExpr.getCoordinates().getColumn())
     }
 
     @Test
-    fun testIdentifierExpression() {
-        val identifierExpr = nodeBuilder.buildIdentifierNode(identifierToken)
-
-        assertEquals("myVar", identifierExpr.getValue())
-        assertNotNull(identifierExpr)
+    fun testEmptyExpressionWithCustomCoordinates() {
+        val customCoordinates = Position(5, 10)
+        val emptyExpr = EmptyExpression(customCoordinates)
+        assertEquals("EmptyExpression", emptyExpr.toString())
+        assertEquals(5, emptyExpr.getCoordinates().getRow())
+        assertEquals(10, emptyExpr.getCoordinates().getColumn())
     }
 
     @Test
-    fun testBinaryExpression() {
+    fun testBinaryExpressionAllMethods() {
         val leftExpr = nodeBuilder.buildLiteralExpressionNode(numberToken)
         val rightExpr = nodeBuilder.buildIdentifierNode(identifierToken)
+        val minusOperator = PrintScriptToken(CommonTypes.OPERATORS, "-", Position(2, 5))
 
-        val binaryExpr = nodeBuilder.buildBinaryExpressionNode(leftExpr, operatorToken, rightExpr)
+        val binaryExpr = nodeBuilder.buildBinaryExpressionNode(leftExpr, minusOperator, rightExpr)
 
         assertEquals(leftExpr, binaryExpr.getLeft())
-        assertEquals("+", binaryExpr.getOperator())
+        assertEquals("-", binaryExpr.getOperator())
         assertEquals(rightExpr, binaryExpr.getRight())
+        assertEquals(2, binaryExpr.getCoordinates().getRow())
+        assertEquals(5, binaryExpr.getCoordinates().getColumn())
     }
 
     @Test
-    fun testVariableDeclarationStatement() {
-        val initialValue = nodeBuilder.buildLiteralExpressionNode(numberToken)
+    fun testBinaryExpressionWithDifferentOperators() {
+        val leftExpr = nodeBuilder.buildLiteralExpressionNode(numberToken)
+        val rightExpr = nodeBuilder.buildLiteralExpressionNode(numberToken)
 
-        val varDecl =
-            nodeBuilder.buildVariableDeclarationStatementNode(
-                declarationTypeToken,
-                identifierToken,
-                dataTypeToken,
-                initialValue,
-            )
+        val operators = listOf("*", "/", "%", "==", "!=", "<", ">", "<=", ">=", "&&", "||")
 
-        assertEquals("myVar", varDecl.getIdentifier())
-        assertEquals(CommonTypes.NUMBER, varDecl.getDataType())
-        assertEquals(initialValue, varDecl.getInitialValue())
+        operators.forEach { op ->
+            val operator = PrintScriptToken(CommonTypes.OPERATORS, op, Position(1, 1))
+            val binaryExpr = nodeBuilder.buildBinaryExpressionNode(leftExpr, operator, rightExpr)
+            assertEquals(op, binaryExpr.getOperator())
+        }
     }
 
     @Test
-    fun testVariableDeclarationStatementWithoutInitialValue() {
-        val varDecl =
-            nodeBuilder.buildVariableDeclarationStatementNode(
-                declarationTypeToken,
-                identifierToken,
-                dataTypeToken,
-            )
-
-        assertEquals("myVar", varDecl.getIdentifier())
-        assertEquals(CommonTypes.NUMBER, varDecl.getDataType())
-        assertNull(varDecl.getInitialValue())
-    }
-
-    @Test
-    fun testAssignmentStatement() {
-        val value = nodeBuilder.buildLiteralExpressionNode(numberToken)
-
-        val assignment = nodeBuilder.buildAssignmentStatementNode(identifierToken, value)
-
-        assertEquals("myVar", assignment.getIdentifier())
-        assertEquals(value, assignment.getValue())
-    }
-
-    @Test
-    fun testPrintStatement() {
-        val expression = nodeBuilder.buildLiteralExpressionNode(mockToken)
-
-        val printStmt = nodeBuilder.buildPrintStatementNode(expression)
-
-        assertEquals(expression, printStmt.getExpression())
-    }
-
-    @Test
-    fun testExpressionStatement() {
-        val expression = nodeBuilder.buildIdentifierNode(identifierToken)
-
-        val exprStmt = nodeBuilder.buildExpressionStatementNode(expression)
-
-        assertEquals(expression, exprStmt.getExpression())
-    }
-
-    @Test
-    fun testEmptyStatement() {
-        val emptyStmt = nodeBuilder.buildEmptyStatementNode()
-
-        assertNotNull(emptyStmt)
-        assertEquals("EmptyStatement", emptyStmt.toString())
-    }
-
-    @Test
-    fun testProgram() {
-        val stmt1 = nodeBuilder.buildEmptyStatementNode()
-        val stmt2 =
-            nodeBuilder.buildPrintStatementNode(
-                nodeBuilder.buildLiteralExpressionNode(mockToken),
-            )
-        val statements = listOf(stmt1, stmt2)
-
-        val program = nodeBuilder.buildProgramNode(statements)
-
-        assertEquals(2, program.getStatements().size)
-        assertEquals(statements, program.getStatements())
-    }
-
-    @Test
-    fun testEmptyExpression() {
-        val emptyExpr = EmptyExpression()
-
-        assertEquals("EmptyExpression", emptyExpr.toString())
-    }
-
-    @Test
-    fun testComplexAST() {
-        // Build a more complex AST: let x: NUMBER = 5 + 10;
-        val leftOperand =
-            nodeBuilder.buildLiteralExpressionNode(
-                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 15)),
-            )
-        val rightOperand =
-            nodeBuilder.buildLiteralExpressionNode(
-                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 19)),
-            )
-        val binaryExpr = nodeBuilder.buildBinaryExpressionNode(leftOperand, operatorToken, rightOperand)
-
-        val varDecl =
-            nodeBuilder.buildVariableDeclarationStatementNode(
-                declarationTypeToken,
-                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
-                PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 8)),
-                binaryExpr,
-            )
-
-        val program = nodeBuilder.buildProgramNode(listOf(varDecl))
-
-        assertEquals(1, program.getStatements().size)
-        val statement = program.getStatements()[0] as DeclarationStatement
-        assertEquals("x", statement.getIdentifier())
-        assertEquals(CommonTypes.NUMBER, statement.getDataType())
-        assertNotNull(statement.getInitialValue())
-
-        val initialValueBinary = statement.getInitialValue() as BinaryExpression
-        assertEquals("5", (initialValueBinary.getLeft() as LiteralExpression).getValue())
-        assertEquals("+", initialValueBinary.getOperator())
-        assertEquals("10", (initialValueBinary.getRight() as LiteralExpression).getValue())
-    }
-
-    @Test
-    fun `Simple If Statement with Nodebuilder`() {
-        val condition = nodeBuilder.buildLiteralExpressionNode(mockToken)
-        val thenBranch = nodeBuilder.buildEmptyStatementNode()
-        val elseBranch = nodeBuilder.buildEmptyStatementNode()
-        val ifStatement = nodeBuilder.buildIfStatementNode(condition, thenBranch, elseBranch)
-        assertEquals(condition, ifStatement.getCondition())
-        assertEquals(thenBranch, ifStatement.getConsequence())
-        assertEquals(elseBranch, ifStatement.getAlternative())
-        assertEquals(true, ifStatement.hasAlternative())
-    }
-
-    @Test
-    fun `Simple If Statement`() {
-        val condition = nodeBuilder.buildLiteralExpressionNode(mockToken)
-        val thenBranch = nodeBuilder.buildEmptyStatementNode()
-        val elseBranch = nodeBuilder.buildEmptyStatementNode()
-        val ifStatement = IfStatement(condition, thenBranch, elseBranch, Position(1, 1))
-        assertEquals(condition, ifStatement.getCondition())
-        assertEquals(thenBranch, ifStatement.getConsequence())
-        assertEquals(elseBranch, ifStatement.getAlternative())
-        assertEquals(true, ifStatement.hasAlternative())
-    }
-
-    @Test
-    fun `Simple If Statement Without Else`() {
-        val condition = nodeBuilder.buildLiteralExpressionNode(mockToken)
-        val thenBranch = nodeBuilder.buildEmptyStatementNode()
-        val ifStatement = IfStatement(condition, thenBranch, null, Position(1, 1))
-        assertEquals(condition, ifStatement.getCondition())
-        assertEquals(thenBranch, ifStatement.getConsequence())
-        assertEquals(null, ifStatement.getAlternative())
-        assertEquals(false, ifStatement.hasAlternative())
-    }
-
-    @Test
-    fun testAssignmentStatementGetIdentifierToken() {
-        val value = nodeBuilder.buildLiteralExpressionNode(numberToken)
-        val assignment = nodeBuilder.buildAssignmentStatementNode(identifierToken, value)
-
-        assertEquals(identifierToken, assignment.getIdentifierToken())
-    }
-
-    @Test
-    fun testPrintStatementGetExpressionTokenWithIdentifier() {
+    fun testPrintStatementWithIdentifierExpression() {
         val identifierExpr = nodeBuilder.buildIdentifierNode(identifierToken)
         val printStmt = nodeBuilder.buildPrintStatementNode(identifierExpr)
 
+        assertEquals(identifierExpr, printStmt.getExpression())
         assertEquals(identifierToken, printStmt.getExpressionToken())
+        assertNotNull(printStmt.getExpressionToken())
     }
 
     @Test
-    fun testPrintStatementGetExpressionTokenWithNonIdentifier() {
+    fun testPrintStatementWithLiteralExpression() {
         val literalExpr = nodeBuilder.buildLiteralExpressionNode(mockToken)
         val printStmt = nodeBuilder.buildPrintStatementNode(literalExpr)
 
+        assertEquals(literalExpr, printStmt.getExpression())
         assertNull(printStmt.getExpressionToken())
     }
 
     @Test
-    fun testIfStatementGetAlternativeWhenNull() {
-        val condition = nodeBuilder.buildLiteralExpressionNode(mockToken)
-        val thenBranch = nodeBuilder.buildEmptyStatementNode()
-        val ifStatement = nodeBuilder.buildIfStatementNode(condition, thenBranch, null)
+    fun testPrintStatementWithBinaryExpression() {
+        val leftExpr = nodeBuilder.buildLiteralExpressionNode(numberToken)
+        val rightExpr = nodeBuilder.buildLiteralExpressionNode(numberToken)
+        val binaryExpr = nodeBuilder.buildBinaryExpressionNode(leftExpr, operatorToken, rightExpr)
+        val printStmt = nodeBuilder.buildPrintStatementNode(binaryExpr)
 
-        assertNull(ifStatement.getAlternative())
+        assertEquals(binaryExpr, printStmt.getExpression())
+        assertNull(printStmt.getExpressionToken())
     }
 
     @Test
-    fun testEmptyExpressionToString() {
+    fun testProgramWithMultipleStatementTypes() {
+        val emptyStmt = nodeBuilder.buildEmptyStatementNode()
+        val printStmt = nodeBuilder.buildPrintStatementNode(nodeBuilder.buildLiteralExpressionNode(mockToken))
+        val assignmentStmt = nodeBuilder.buildAssignmentStatementNode(identifierToken, nodeBuilder.buildLiteralExpressionNode(numberToken))
+        val declStmt = nodeBuilder.buildVariableDeclarationStatementNode(declarationTypeToken, identifierToken, dataTypeToken, nodeBuilder.buildLiteralExpressionNode(numberToken))
+
+        val statements = listOf(emptyStmt, printStmt, assignmentStmt, declStmt)
+        val program = nodeBuilder.buildProgramNode(statements)
+
+        assertEquals(4, program.getStatements().size)
+        assertEquals(statements, program.getStatements())
+        assertEquals(0, program.getCoordinates().getRow())
+        assertEquals(0, program.getCoordinates().getColumn())
+    }
+
+    @Test
+    fun testEmptyStatementWithDefaultCoordinates() {
+        val emptyStmt = nodeBuilder.buildEmptyStatementNode()
+        assertEquals("EmptyStatement", emptyStmt.toString())
+        assertEquals(0, emptyStmt.getCoordinates().getRow())
+        assertEquals(0, emptyStmt.getCoordinates().getColumn())
+    }
+
+    @Test
+    fun testEmptyStatementWithCustomCoordinates() {
+        val customCoordinates = Position(3, 7)
+        val emptyStmt = EmptyStatement(customCoordinates)
+        assertEquals("EmptyStatement", emptyStmt.toString())
+        assertEquals(3, emptyStmt.getCoordinates().getRow())
+        assertEquals(7, emptyStmt.getCoordinates().getColumn())
+    }
+
+    @Test
+    fun testLiteralExpressionWithDifferentTypes() {
+        val stringLiteral = PrintScriptToken(CommonTypes.STRING_LITERAL, "hello", Position(1, 1))
+        val numberLiteral = PrintScriptToken(CommonTypes.NUMBER_LITERAL, "3.14", Position(2, 2))
+        val booleanLiteral = PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(3, 3))
+
+        val stringExpr = nodeBuilder.buildLiteralExpressionNode(stringLiteral)
+        val numberExpr = nodeBuilder.buildLiteralExpressionNode(numberLiteral)
+        val booleanExpr = nodeBuilder.buildLiteralExpressionNode(booleanLiteral)
+
+        assertEquals("hello", stringExpr.getValue())
+        assertEquals(CommonTypes.STRING_LITERAL, stringExpr.getType())
+        assertEquals(1, stringExpr.getCoordinates().getRow())
+
+        assertEquals("3.14", numberExpr.getValue())
+        assertEquals(CommonTypes.NUMBER_LITERAL, numberExpr.getType())
+        assertEquals(2, numberExpr.getCoordinates().getRow())
+
+        assertEquals("false", booleanExpr.getValue())
+        assertEquals(CommonTypes.BOOLEAN_LITERAL, booleanExpr.getType())
+        assertEquals(3, booleanExpr.getCoordinates().getRow())
+    }
+
+    @Test
+    fun testIdentifierExpressionAllMethods() {
+        val customIdentifier = PrintScriptToken(CommonTypes.IDENTIFIER, "customVar", Position(4, 8))
+        val identifierExpr = nodeBuilder.buildIdentifierNode(customIdentifier)
+
+        assertEquals("customVar", identifierExpr.getValue())
+        assertEquals(customIdentifier, identifierExpr.getToken())
+        assertEquals(4, identifierExpr.getCoordinates().getRow())
+        assertEquals(8, identifierExpr.getCoordinates().getColumn())
+    }
+
+    @Test
+    fun testAssignmentStatementAllMethods() {
+        val customIdentifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5))
+        val value = nodeBuilder.buildLiteralExpressionNode(numberToken)
+
+        val assignment = nodeBuilder.buildAssignmentStatementNode(customIdentifier, value)
+
+        assertEquals("x", assignment.getIdentifier())
+        assertEquals(value, assignment.getValue())
+        assertEquals(customIdentifier, assignment.getIdentifierToken())
+        assertEquals(value.getCoordinates(), assignment.getCoordinates())
+    }
+
+    @Test
+    fun testDeclarationStatementWithAllDataTypes() {
+        val numberDecl =
+            nodeBuilder.buildVariableDeclarationStatementNode(
+                declarationTypeToken,
+                identifierToken,
+                dataTypeToken,
+                nodeBuilder.buildLiteralExpressionNode(numberToken),
+            )
+
+        val stringDecl =
+            nodeBuilder.buildVariableDeclarationStatementNode(
+                constToken,
+                identifierToken,
+                stringToken,
+                nodeBuilder.buildLiteralExpressionNode(mockToken),
+            )
+
+        val booleanType = PrintScriptToken(CommonTypes.BOOLEAN, "BOOLEAN", Position(1, 1))
+        val booleanDecl =
+            nodeBuilder.buildVariableDeclarationStatementNode(
+                declarationTypeToken,
+                identifierToken,
+                booleanType,
+                nodeBuilder.buildLiteralExpressionNode(booleanToken),
+            )
+
+        assertEquals(CommonTypes.LET, numberDecl.declarationType())
+        assertEquals("myVar", numberDecl.getIdentifier())
+        assertEquals(CommonTypes.NUMBER, numberDecl.getDataType())
+        assertNotNull(numberDecl.getInitialValue())
+        assertEquals(identifierToken, numberDecl.getIdentifierToken())
+
+        assertEquals(CommonTypes.CONST, stringDecl.declarationType())
+        assertEquals(CommonTypes.STRING, stringDecl.getDataType())
+
+        assertEquals(CommonTypes.BOOLEAN, booleanDecl.getDataType())
+    }
+
+    @Test
+    fun testDeclarationStatementWithoutInitialValue() {
+        val decl =
+            nodeBuilder.buildVariableDeclarationStatementNode(
+                declarationTypeToken,
+                identifierToken,
+                dataTypeToken,
+                null,
+            )
+
+        assertEquals(CommonTypes.LET, decl.declarationType())
+        assertEquals("myVar", decl.getIdentifier())
+        assertEquals(CommonTypes.NUMBER, decl.getDataType())
+        assertNull(decl.getInitialValue())
+        assertEquals(identifierToken, decl.getIdentifierToken())
+    }
+
+    @Test
+    fun testIfStatementWithAlternative() {
+        val condition = nodeBuilder.buildLiteralExpressionNode(booleanToken)
+        val consequence = nodeBuilder.buildPrintStatementNode(nodeBuilder.buildLiteralExpressionNode(mockToken))
+        val alternative = nodeBuilder.buildEmptyStatementNode()
+
+        val ifStmt = nodeBuilder.buildIfStatementNode(condition, consequence, alternative)
+
+        assertEquals(condition, ifStmt.getCondition())
+        assertEquals(consequence, ifStmt.getConsequence())
+        assertEquals(alternative, ifStmt.getAlternative())
+        assertTrue(ifStmt.hasAlternative())
+        assertEquals(consequence.getCoordinates(), ifStmt.getCoordinates())
+    }
+
+    @Test
+    fun testIfStatementWithoutAlternative() {
+        val condition = nodeBuilder.buildLiteralExpressionNode(booleanToken)
+        val consequence = nodeBuilder.buildPrintStatementNode(nodeBuilder.buildLiteralExpressionNode(mockToken))
+
+        val ifStmt = nodeBuilder.buildIfStatementNode(condition, consequence, null)
+
+        assertEquals(condition, ifStmt.getCondition())
+        assertEquals(consequence, ifStmt.getConsequence())
+        assertNull(ifStmt.getAlternative())
+        assertFalse(ifStmt.hasAlternative())
+    }
+
+    @Test
+    fun testIfStatementDirectConstructor() {
+        val condition = nodeBuilder.buildLiteralExpressionNode(booleanToken)
+        val consequence = nodeBuilder.buildEmptyStatementNode()
+        val customCoordinates = Position(5, 15)
+
+        val ifStmt = IfStatement(condition, consequence, null, customCoordinates)
+
+        assertEquals(condition, ifStmt.getCondition())
+        assertEquals(consequence, ifStmt.getConsequence())
+        assertNull(ifStmt.getAlternative())
+        assertFalse(ifStmt.hasAlternative())
+        assertEquals(5, ifStmt.getCoordinates().getRow())
+        assertEquals(15, ifStmt.getCoordinates().getColumn())
+    }
+
+    @Test
+    fun testExpressionStatementAllMethods() {
+        val binaryExpr =
+            nodeBuilder.buildBinaryExpressionNode(
+                nodeBuilder.buildLiteralExpressionNode(numberToken),
+                operatorToken,
+                nodeBuilder.buildLiteralExpressionNode(numberToken),
+            )
+
+        val exprStmt = nodeBuilder.buildExpressionStatementNode(binaryExpr)
+
+        assertEquals(binaryExpr, exprStmt.getExpression())
+        assertEquals(binaryExpr.getCoordinates(), exprStmt.getCoordinates())
+    }
+
+    @Test
+    fun testNestedBinaryExpressions() {
+        val num1 = nodeBuilder.buildLiteralExpressionNode(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "1", Position(1, 1)))
+        val num2 = nodeBuilder.buildLiteralExpressionNode(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "2", Position(1, 5)))
+        val num3 = nodeBuilder.buildLiteralExpressionNode(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "3", Position(1, 9)))
+
+        val plusOp = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(1, 3))
+        val multiplyOp = PrintScriptToken(CommonTypes.OPERATORS, "*", Position(1, 7))
+
+        val innerBinary = nodeBuilder.buildBinaryExpressionNode(num2, multiplyOp, num3)
+        val outerBinary = nodeBuilder.buildBinaryExpressionNode(num1, plusOp, innerBinary)
+
+        assertEquals(num1, outerBinary.getLeft())
+        assertEquals("+", outerBinary.getOperator())
+        assertEquals(innerBinary, outerBinary.getRight())
+
+        val rightSide = outerBinary.getRight() as BinaryExpression
+        assertEquals("2", (rightSide.getLeft() as LiteralExpression).getValue())
+        assertEquals("*", rightSide.getOperator())
+        assertEquals("3", (rightSide.getRight() as LiteralExpression).getValue())
+    }
+
+    @Test
+    fun testComplexProgramStructure() {
+        val varDecl =
+            nodeBuilder.buildVariableDeclarationStatementNode(
+                declarationTypeToken,
+                PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(1, 5)),
+                dataTypeToken,
+                nodeBuilder.buildBinaryExpressionNode(
+                    nodeBuilder.buildLiteralExpressionNode(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 15))),
+                    PrintScriptToken(CommonTypes.OPERATORS, "*", Position(1, 18)),
+                    nodeBuilder.buildLiteralExpressionNode(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 20))),
+                ),
+            )
+
+        val condition =
+            nodeBuilder.buildBinaryExpressionNode(
+                nodeBuilder.buildIdentifierNode(PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(2, 5))),
+                PrintScriptToken(CommonTypes.COMPARISON, ">", Position(2, 12)),
+                nodeBuilder.buildLiteralExpressionNode(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "0", Position(2, 14))),
+            )
+
+        val printStmt =
+            nodeBuilder.buildPrintStatementNode(
+                nodeBuilder.buildIdentifierNode(PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(3, 11))),
+            )
+
+        val ifStmt = nodeBuilder.buildIfStatementNode(condition, printStmt, null)
+
+        val program = nodeBuilder.buildProgramNode(listOf(varDecl, ifStmt))
+
+        assertEquals(2, program.getStatements().size)
+
+        val firstStmt = program.getStatements()[0] as DeclarationStatement
+        assertEquals("result", firstStmt.getIdentifier())
+        assertNotNull(firstStmt.getInitialValue())
+
+        val secondStmt = program.getStatements()[1] as IfStatement
+        assertNotNull(secondStmt.getCondition())
+        assertNotNull(secondStmt.getConsequence())
+        assertFalse(secondStmt.hasAlternative())
+    }
+
+    @Test
+    fun testCoordinatesFromTokens() {
+        val customCoords = Position(10, 20)
+        val tokenWithCoords = PrintScriptToken(CommonTypes.IDENTIFIER, "test", customCoords)
+
+        val identifierExpr = nodeBuilder.buildIdentifierNode(tokenWithCoords)
+        val literalExpr = nodeBuilder.buildLiteralExpressionNode(tokenWithCoords)
+        val assignment = nodeBuilder.buildAssignmentStatementNode(tokenWithCoords, literalExpr)
+
+        assertEquals(10, identifierExpr.getCoordinates().getRow())
+        assertEquals(20, identifierExpr.getCoordinates().getColumn())
+        assertEquals(10, literalExpr.getCoordinates().getRow())
+        assertEquals(20, literalExpr.getCoordinates().getColumn())
+        assertEquals(literalExpr.getCoordinates(), assignment.getCoordinates())
+    }
+
+    @Test
+    fun testAllNodeTypesInheritFromCorrectInterfaces() {
         val emptyExpr = EmptyExpression()
+        val literalExpr = nodeBuilder.buildLiteralExpressionNode(mockToken)
+        val identifierExpr = nodeBuilder.buildIdentifierNode(identifierToken)
+        val binaryExpr = nodeBuilder.buildBinaryExpressionNode(literalExpr, operatorToken, identifierExpr)
 
-        assertEquals("EmptyExpression", emptyExpr.toString())
+        val emptyStmt = nodeBuilder.buildEmptyStatementNode()
+        val printStmt = nodeBuilder.buildPrintStatementNode(literalExpr)
+        val assignmentStmt = nodeBuilder.buildAssignmentStatementNode(identifierToken, literalExpr)
+        val declStmt = nodeBuilder.buildVariableDeclarationStatementNode(declarationTypeToken, identifierToken, dataTypeToken)
+        val exprStmt = nodeBuilder.buildExpressionStatementNode(literalExpr)
+        val ifStmt = nodeBuilder.buildIfStatementNode(literalExpr, emptyStmt, null)
+
+        val program = nodeBuilder.buildProgramNode(listOf(emptyStmt))
+
+        assertTrue(emptyExpr is Expression)
+        assertTrue(literalExpr is Expression)
+        assertTrue(identifierExpr is Expression)
+        assertTrue(binaryExpr is Expression)
+
+        assertTrue(emptyStmt is Statement)
+        assertTrue(printStmt is Statement)
+        assertTrue(assignmentStmt is Statement)
+        assertTrue(declStmt is Statement)
+        assertTrue(exprStmt is Statement)
+        assertTrue(ifStmt is Statement)
+
+        assertTrue(program is ASTNode)
+        assertTrue(emptyExpr is ASTNode)
+        assertTrue(emptyStmt is ASTNode)
     }
 
     @Test
-    fun testLiteralExpressionGetType() {
-        val literalExpr = nodeBuilder.buildLiteralExpressionNode(numberToken)
-
-        assertEquals(CommonTypes.NUMBER_LITERAL, literalExpr.getType())
-    }
-
-    @Test
-    fun testProgramWithNoStatements() {
+    fun testEmptyProgramCoordinates() {
         val program = nodeBuilder.buildProgramNode(emptyList())
 
         assertEquals(0, program.getStatements().size)
+        assertEquals(0, program.getCoordinates().getRow())
+        assertEquals(0, program.getCoordinates().getColumn())
+    }
+
+    @Test
+    fun testDefaultNodeBuilderCoordinateHandling() {
+        val tokenCoords = Position(5, 10)
+        val token = PrintScriptToken(CommonTypes.NUMBER_LITERAL, "42", tokenCoords)
+        val expr = nodeBuilder.buildLiteralExpressionNode(token)
+
+        assertEquals(tokenCoords, expr.getCoordinates())
+
+        val binaryExpr =
+            nodeBuilder.buildBinaryExpressionNode(
+                expr,
+                PrintScriptToken(CommonTypes.OPERATORS, "+", Position(5, 15)),
+                expr,
+            )
+
+        assertEquals(5, binaryExpr.getCoordinates().getRow())
+        assertEquals(15, binaryExpr.getCoordinates().getColumn())
     }
 }
