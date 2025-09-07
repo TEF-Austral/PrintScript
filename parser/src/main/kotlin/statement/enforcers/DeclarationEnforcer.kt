@@ -10,7 +10,7 @@ class DeclarationEnforcer(
 ) : SemanticEnforcers {
     override fun enforce(result: SemanticResult): SemanticResult {
         val currentParser = result.getParser()
-        if (!currentParser.consume(CommonTypes.DECLARATION).isSuccess() || !result.isSuccess()) {
+        if (!currentParser.consume(CommonTypes.LET).isSuccess() || !result.isSuccess()) { // TODO CAMBIAR ESTO
             return SemanticError(
                 "Expected declaration " + result.message(),
                 result.identifier(),
@@ -19,7 +19,7 @@ class DeclarationEnforcer(
                 currentParser,
             )
         }
-        val parserResult = currentParser.consume(CommonTypes.DECLARATION)
+        val parserResult = currentParser.consume(CommonTypes.LET) // TODO CAMBIAR ESTO
         return nextEnforcer.enforce(
             SemanticSuccess(
                 parserResult.message(),

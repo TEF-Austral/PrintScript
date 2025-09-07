@@ -1,5 +1,6 @@
 package executor.statement
 
+import data.DataBase
 import executor.expression.DefaultExpressionExecutor
 import node.AssignmentStatement
 import node.Statement
@@ -8,7 +9,7 @@ import utils.areTypesCompatible
 import variable.Variable
 
 class AssignmentStatementExecutor(
-    private val variables: MutableMap<String, Variable>,
+    private val dataBase: DataBase, // Se inyecta la DataBase
     private val defaultExpressionExecutor: DefaultExpressionExecutor,
 ) : SpecificStatementExecutor {
     override fun canHandle(statement: Statement): Boolean = statement is AssignmentStatement
@@ -18,10 +19,12 @@ class AssignmentStatementExecutor(
             val assignStmt = statement as AssignmentStatement
             val identifier = assignStmt.getIdentifier()
 
+            // Obtiene la variable existente de la base de datos
             val existingVariable =
                 getVariable(identifier)
                     ?: return createVariableNotFoundError(identifier)
 
+            // Evalúa la expresión del nuevo valor
             val expressionResult = evaluateExpression(assignStmt)
             if (!expressionResult.interpretedCorrectly) return expressionResult
 
@@ -29,13 +32,14 @@ class AssignmentStatementExecutor(
                 getNewValueFromResult(expressionResult)
                     ?: return createNoValueError()
 
+            // Asigna el nuevo valor si los tipos son compatibles
             assignValueIfCompatible(identifier, existingVariable, newValue)
         } catch (e: Exception) {
             createGenericError(e)
         }
     }
 
-    private fun getVariable(identifier: String): Variable? = variables[identifier]
+    private fun getVariable(identifier: String): Variable? = dataBase.getVariableValue(identifier) as? Variable //
 
     private fun evaluateExpression(statement: AssignmentStatement): InterpreterResult = defaultExpressionExecutor.execute(statement.getValue())
 
@@ -46,11 +50,13 @@ class AssignmentStatementExecutor(
         oldVar: Variable,
         newVal: Variable,
     ): InterpreterResult {
+        // Comprueba la compatibilidad de tipos
         if (!areTypesCompatible(oldVar.getType(), newVal.getType())) {
             return createTypeMismatchError(id, oldVar.getType(), newVal.getType())
         }
 
-        variables[id] = Variable(oldVar.getType(), newVal.getValue())
+        // Cambia el valor de la variable en la base de datos
+        dataBase.changeVariableValue(id, Variable(oldVar.getType(), newVal.getValue()))
         return createSuccessResult()
     }
 

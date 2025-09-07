@@ -26,10 +26,11 @@ class DefaultNodeBuilder : NodeBuilder {
     ): BinaryExpression = BinaryExpression(left, operator, right)
 
     override fun buildVariableDeclarationStatementNode(
+        declarationType: Token,
         identifier: Token,
         dataType: Token,
         initialValue: Expression?,
-    ): DeclarationStatement = DeclarationStatement(identifier, dataType, initialValue)
+    ): DeclarationStatement = DeclarationStatement(declarationType, identifier, dataType, initialValue)
 
     override fun buildAssignmentStatementNode(
         identifier: Token,

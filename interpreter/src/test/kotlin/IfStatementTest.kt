@@ -149,6 +149,7 @@ class IfStatementTest {
                 statements =
                     listOf(
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "condition", Position(1, 5)),
                             dataType = PrintScriptToken(CommonTypes.BOOLEAN, "boolean", Position(1, 16)),
                             initialValue =
@@ -219,6 +220,7 @@ class IfStatementTest {
                 statements =
                     listOf(
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "condition", Position(1, 5)),
                             dataType = PrintScriptToken(CommonTypes.BOOLEAN, "boolean", Position(1, 16)),
                             initialValue =
@@ -386,6 +388,7 @@ class IfStatementTest {
                 statements =
                     listOf(
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "outer", Position(1, 5)),
                             dataType = PrintScriptToken(CommonTypes.BOOLEAN, "boolean", Position(1, 12)),
                             initialValue =
@@ -398,6 +401,7 @@ class IfStatementTest {
                                 ),
                         ),
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "inner", Position(2, 5)),
                             dataType = PrintScriptToken(CommonTypes.BOOLEAN, "boolean", Position(2, 12)),
                             initialValue =
@@ -589,11 +593,13 @@ class IfStatementTest {
                 statements =
                     listOf(
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "a", Position(1, 5)),
                             dataType = PrintScriptToken(CommonTypes.BOOLEAN, "boolean", Position(1, 8)),
                             initialValue = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 18))),
                         ),
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "b", Position(2, 5)),
                             dataType = PrintScriptToken(CommonTypes.BOOLEAN, "boolean", Position(2, 8)),
                             initialValue = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(2, 18))),
@@ -685,11 +691,13 @@ class IfStatementTest {
                 statements =
                     listOf(
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "a", Position(1, 5)),
                             dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
                             initialValue = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 17))),
                         ),
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "b", Position(2, 5)),
                             dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 8)),
                             initialValue = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(2, 17))),

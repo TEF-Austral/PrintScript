@@ -1,7 +1,6 @@
 package type
 
 enum class CommonTypes {
-    // New Token Types
     DELIMITERS, // ( ) { } , . ; : ?
     OPERATORS, // + - * / %
     ASSIGNMENT, // =
@@ -16,7 +15,8 @@ enum class CommonTypes {
     IDENTIFIER, // variable names, function names
     RETURN, // return
     FUNCTION, // function
-    DECLARATION, // let const var
+    LET,
+    CONST,
     PRINT, // print
     NUMBER {
         override fun toString(): String = super.toString().lowercase().toTitleCase()

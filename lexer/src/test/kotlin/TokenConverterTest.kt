@@ -3,7 +3,7 @@ import converter.specific.AssignmentToToken
 import converter.specific.ComparisonToToken
 import converter.specific.ConditionalToToken
 import converter.specific.DataTypeToToken
-import converter.specific.DeclarationToToken
+import converter.specific.LetDeclarationToToken
 import converter.specific.DelimiterToToken
 import converter.specific.FunctionToToken
 import converter.specific.LogicalOperatorToken
@@ -122,9 +122,9 @@ class TokenConverterTest {
 
     @Test
     fun `test DeclarationToToken`() {
-        Assertions.assertTrue(DeclarationToToken.canHandle("let"))
-        val token = DeclarationToToken.convert("let", position)
-        Assertions.assertEquals(CommonTypes.DECLARATION, token.getType())
+        Assertions.assertTrue(LetDeclarationToToken.canHandle("let"))
+        val token = LetDeclarationToToken.convert("let", position)
+        Assertions.assertEquals(CommonTypes.LET, token.getType())
     }
 
     @Test

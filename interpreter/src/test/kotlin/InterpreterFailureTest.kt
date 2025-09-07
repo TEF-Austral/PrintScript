@@ -93,6 +93,7 @@ class InterpreterFailureTest {
                 statements =
                     listOf(
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "numberVar", Position(1, 5)),
                             dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 16)),
                             initialValue = null,
@@ -128,6 +129,7 @@ class InterpreterFailureTest {
                 statements =
                     listOf(
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "text1", Position(1, 5)),
                             dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(1, 12)),
                             initialValue =
@@ -140,6 +142,7 @@ class InterpreterFailureTest {
                                 ),
                         ),
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "text2", Position(2, 5)),
                             dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(2, 12)),
                             initialValue =
@@ -152,6 +155,7 @@ class InterpreterFailureTest {
                                 ),
                         ),
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(3, 5)),
                             dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(3, 13)),
                             initialValue =
@@ -195,6 +199,7 @@ class InterpreterFailureTest {
                 statements =
                     listOf(
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "str1", Position(1, 5)),
                             dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(1, 11)),
                             initialValue =
@@ -207,6 +212,7 @@ class InterpreterFailureTest {
                                 ),
                         ),
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "str2", Position(2, 5)),
                             dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(2, 11)),
                             initialValue =
@@ -219,6 +225,7 @@ class InterpreterFailureTest {
                                 ),
                         ),
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(3, 5)),
                             dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(3, 13)),
                             initialValue =
@@ -262,6 +269,7 @@ class InterpreterFailureTest {
                 statements =
                     listOf(
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "text", Position(1, 5)),
                             dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(1, 11)),
                             initialValue =
@@ -274,6 +282,7 @@ class InterpreterFailureTest {
                                 ),
                         ),
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "number", Position(2, 5)),
                             dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 13)),
                             initialValue =
@@ -286,6 +295,7 @@ class InterpreterFailureTest {
                                 ),
                         ),
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(3, 5)),
                             dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(3, 13)),
                             initialValue =
@@ -329,6 +339,7 @@ class InterpreterFailureTest {
                 statements =
                     listOf(
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
                             dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
                             initialValue =
@@ -473,6 +484,7 @@ class InterpreterFailureTest {
                 statements =
                     listOf(
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "numerator", Position(1, 5)),
                             dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 16)),
                             initialValue =
@@ -485,6 +497,7 @@ class InterpreterFailureTest {
                                 ),
                         ),
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "denominator", Position(2, 5)),
                             dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 18)),
                             initialValue =
@@ -497,6 +510,7 @@ class InterpreterFailureTest {
                                 ),
                         ),
                         DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(3, 5)),
                             dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(3, 13)),
                             initialValue =

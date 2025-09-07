@@ -19,6 +19,7 @@ class NodeTest {
     private lateinit var identifierToken: Token
     private lateinit var operatorToken: Token
     private lateinit var dataTypeToken: Token
+    private lateinit var declarationTypeToken: Token
 
     @BeforeEach
     fun setUp() {
@@ -31,6 +32,7 @@ class NodeTest {
         identifierToken = PrintScriptToken(CommonTypes.IDENTIFIER, "myVar", coordinates)
         operatorToken = PrintScriptToken(CommonTypes.OPERATORS, "+", coordinates)
         dataTypeToken = PrintScriptToken(CommonTypes.NUMBER, "NUMBER", coordinates)
+        declarationTypeToken = PrintScriptToken(CommonTypes.LET, "let", coordinates)
     }
 
     @Test
@@ -67,6 +69,7 @@ class NodeTest {
 
         val varDecl =
             nodeBuilder.buildVariableDeclarationStatementNode(
+                declarationTypeToken,
                 identifierToken,
                 dataTypeToken,
                 initialValue,
@@ -81,6 +84,7 @@ class NodeTest {
     fun testVariableDeclarationStatementWithoutInitialValue() {
         val varDecl =
             nodeBuilder.buildVariableDeclarationStatementNode(
+                declarationTypeToken,
                 identifierToken,
                 dataTypeToken,
             )
@@ -163,6 +167,7 @@ class NodeTest {
 
         val varDecl =
             nodeBuilder.buildVariableDeclarationStatementNode(
+                declarationTypeToken,
                 PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
                 PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 8)),
                 binaryExpr,
@@ -270,5 +275,4 @@ class NodeTest {
 
         assertEquals(0, program.getStatements().size)
     }
-
 }

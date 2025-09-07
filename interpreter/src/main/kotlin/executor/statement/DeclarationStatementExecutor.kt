@@ -1,14 +1,15 @@
 package executor.statement
 
+import data.DataBase
 import executor.expression.DefaultExpressionExecutor
-import result.InterpreterResult
 import node.DeclarationStatement
 import node.Statement
+import result.InterpreterResult
 import utils.areTypesCompatible
 import variable.Variable
 
 class DeclarationStatementExecutor(
-    private val variables: MutableMap<String, Variable>,
+    private val dataBase: DataBase,
     private val defaultExpressionExecutor: DefaultExpressionExecutor,
 ) : SpecificStatementExecutor {
     override fun canHandle(statement: Statement): Boolean = statement is DeclarationStatement
@@ -44,7 +45,7 @@ class DeclarationStatementExecutor(
                 variable = Variable(declaredType, null)
             }
 
-            variables[identifier] = variable
+            dataBase.addVariable(identifier, variable)
 
             InterpreterResult(true, "Declaration executed successfully", variable)
         } catch (e: Exception) {

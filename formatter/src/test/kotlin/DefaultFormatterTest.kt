@@ -21,6 +21,7 @@ class DefaultFormatterTest {
     fun `declaration with default config`() {
         val decl =
             builder.buildVariableDeclarationStatementNode(
+                tok(CommonTypes.LET, "let"),
                 identifier = tok(CommonTypes.IDENTIFIER, "x"),
                 dataType = tok(CommonTypes.NUMBER, "Number"),
                 initialValue = null,
@@ -65,6 +66,7 @@ class DefaultFormatterTest {
     fun `custom colon spacing in declaration`() {
         val decl =
             builder.buildVariableDeclarationStatementNode(
+                tok(CommonTypes.LET, "let"),
                 identifier = tok(CommonTypes.IDENTIFIER, "msg"),
                 dataType = tok(CommonTypes.STRING, "string"),
                 initialValue = LiteralExpression(tok(CommonTypes.STRING_LITERAL, "\"ok\"")),
@@ -86,6 +88,7 @@ class DefaultFormatterTest {
     fun `formatToWriter writes declaration with default config`() {
         val decl =
             builder.buildVariableDeclarationStatementNode(
+                tok(CommonTypes.LET, "let"),
                 identifier = tok(CommonTypes.IDENTIFIER, "x"),
                 dataType = tok(CommonTypes.NUMBER, "Number"),
                 initialValue = null,

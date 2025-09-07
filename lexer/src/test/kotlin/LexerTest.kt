@@ -17,7 +17,7 @@ class LexerTest {
         val tokens = lex("let x = 5;")
         assertEquals(5, tokens.size)
 
-        assertEquals(CommonTypes.DECLARATION, tokens[0].getType())
+        assertEquals(CommonTypes.LET, tokens[0].getType())
         assertEquals("let", tokens[0].getValue())
 
         assertEquals(CommonTypes.IDENTIFIER, tokens[1].getType())
