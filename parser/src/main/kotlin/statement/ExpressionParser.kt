@@ -39,7 +39,7 @@ class ExpressionParser : StatementBuilder {
             } else {
                 expression.getParser()
             }
-        val builtStatement = delimiterParser.getNodeBuilder().buildExpressionStatementNode(expression.getExpression())
+        val builtStatement = delimiterParser.getNodeBuilder().buildExpressionStatementNode(expression.getExpression(), expression.getExpression().getCoordinates())
         return StatementBuiltResult(delimiterParser, builtStatement)
     }
 }

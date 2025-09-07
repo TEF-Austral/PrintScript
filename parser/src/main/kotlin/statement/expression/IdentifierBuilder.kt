@@ -15,7 +15,7 @@ class IdentifierBuilder : ExpressionBuilder {
         val newParser = parser.advance()
         return ExpressionBuiltResult(
             newParser,
-            newParser.getNodeBuilder().buildIdentifierNode(current),
+            newParser.getNodeBuilder().buildIdentifierNode(current, current.getCoordinates()),
         )
     }
 }

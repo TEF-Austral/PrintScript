@@ -32,7 +32,7 @@ class AssignmentParser : StatementBuilder {
             } else {
                 value.getParser()
             }
-        val builtStatement = delimiterParser.getNodeBuilder().buildAssignmentStatementNode(parser.peak()!!, value.getExpression())
+        val builtStatement = delimiterParser.getNodeBuilder().buildAssignmentStatementNode(parser.peak()!!, value.getExpression(), value.getExpression().getCoordinates())
         return StatementBuiltResult(delimiterParser, builtStatement)
     }
 }

@@ -35,7 +35,7 @@ class VariableDeclarationParser(
     override fun canHandle(
         token: Token?,
         parser: Parser,
-    ): Boolean = token?.getType() == CommonTypes.LET || token?.getType() == CommonTypes.CONST // TODO CHEQUEUAR EL CONST
+    ): Boolean = token?.getType() == CommonTypes.LET || token?.getType() == CommonTypes.CONST
 
     override fun parse(parser: Parser): StatementResult {
         val emptyToken = PrintScriptToken(CommonTypes.EMPTY, "", Position(0, 0))
@@ -46,11 +46,12 @@ class VariableDeclarationParser(
         }
         val builtStatement =
             result.getParser().getNodeBuilder().buildVariableDeclarationStatementNode(
-                PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)), // TODO Verificar Esto EL CONST
+                PrintScriptToken(parser.peak()!!.getType(), parser.peak()!!.getValue(), parser.peak()!!.getCoordinates()),
                 result.identifier(),
                 result.dataType(),
                 result.initialValue(),
-            )
+                result.identifier().getCoordinates()
+                )
         return StatementBuiltResult(result.getParser(), builtStatement)
     }
 }

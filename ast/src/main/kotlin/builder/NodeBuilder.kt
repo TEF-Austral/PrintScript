@@ -1,20 +1,22 @@
 package builder
 
 import Token
+import coordinates.Coordinates
 import node.Expression
 import node.IfStatement
 import node.Program
 import node.Statement
 
 sealed interface NodeBuilder {
-    fun buildLiteralExpressionNode(token: Token): Expression
+    fun buildLiteralExpressionNode(token: Token, coordinates: Coordinates): Expression
 
-    fun buildIdentifierNode(token: Token): Expression
+    fun buildIdentifierNode(token: Token, coordinates: Coordinates): Expression
 
     fun buildBinaryExpressionNode(
         left: Expression,
         operator: Token,
         right: Expression,
+        coordinates: Coordinates
     ): Expression
 
     fun buildVariableDeclarationStatementNode(
@@ -22,16 +24,18 @@ sealed interface NodeBuilder {
         identifier: Token,
         dataType: Token,
         initialValue: Expression? = null,
+        coordinates: Coordinates
     ): Statement
 
     fun buildAssignmentStatementNode(
         identifier: Token,
         value: Expression,
+        coordinates: Coordinates
     ): Statement
 
-    fun buildPrintStatementNode(expression: Expression): Statement
+    fun buildPrintStatementNode(expression: Expression, coordinates: Coordinates): Statement
 
-    fun buildExpressionStatementNode(expression: Expression): Statement
+    fun buildExpressionStatementNode(expression: Expression, coordinates: Coordinates): Statement
 
     fun buildEmptyStatementNode(): Statement
 
@@ -41,5 +45,6 @@ sealed interface NodeBuilder {
         condition: Expression,
         consequence: Statement,
         alternative: Statement? = null,
+        coordinates: Coordinates
     ): IfStatement
 }
