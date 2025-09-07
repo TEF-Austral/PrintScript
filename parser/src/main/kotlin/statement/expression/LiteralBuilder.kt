@@ -6,9 +6,9 @@ import parser.Parser
 import parser.result.ExpressionBuiltResult
 
 class LiteralBuilder(
-    private val handleableLiteralTypes: List<CommonTypes>
-    = listOf(CommonTypes.NUMBER_LITERAL, CommonTypes.STRING_LITERAL)
-): ExpressionBuilder {
+    private val handleableLiteralTypes: List<CommonTypes> =
+        listOf(CommonTypes.NUMBER_LITERAL, CommonTypes.STRING_LITERAL),
+) : ExpressionBuilder {
     override fun canHandle(token: CommonTypes): Boolean {
         for (type in handleableLiteralTypes) {
             if (token == type) return true

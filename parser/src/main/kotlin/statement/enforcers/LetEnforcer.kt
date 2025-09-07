@@ -33,8 +33,8 @@ class LetEnforcer(
 
     private fun checkForLetAndValidState(result: SemanticResult): Boolean {
         val currentParser = result.getParser()
-        return !currentParser.consume(CommonTypes.DECLARATION).isSuccess()
-                || !result.isSuccess()
-                || currentParser.peak()?.getValue() != "let"
+        return !currentParser.consume(CommonTypes.DECLARATION).isSuccess() ||
+            !result.isSuccess() ||
+            currentParser.peak()?.getValue() != "let"
     }
 }

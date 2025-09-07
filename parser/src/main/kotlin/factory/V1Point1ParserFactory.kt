@@ -26,7 +26,7 @@ import statement.enforcers.LetEnforcer
 import statement.enforcers.SemiColonEnforcer
 import type.CommonTypes
 
-class V1Point1ParserFactory: ParserFactory {
+class V1Point1ParserFactory : ParserFactory {
     override fun createParser(
         tokens: List<Token>,
         nodeBuilder: NodeBuilder,
@@ -59,7 +59,7 @@ class V1Point1ParserFactory: ParserFactory {
                     PrintParser(),
                     AssignmentParser(),
                     ExpressionParser(),
-                    IfStatement()
+                    IfStatement(),
                 ),
             )
         return Parser(tokens, nodeBuilder, expressionParser, statementParser)

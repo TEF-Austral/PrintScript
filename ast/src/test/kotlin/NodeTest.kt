@@ -270,5 +270,4 @@ class NodeTest {
 
         assertEquals(0, program.getStatements().size)
     }
-
 }

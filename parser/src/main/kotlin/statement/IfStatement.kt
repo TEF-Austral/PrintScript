@@ -16,9 +16,7 @@ class IfStatement : StatementBuilder {
     override fun canHandle(
         token: Token?,
         parser: Parser,
-    ): Boolean {
-        return checkType(CommonTypes.CONDITIONALS, token) && token?.getValue() == "if"
-    }
+    ): Boolean = checkType(CommonTypes.CONDITIONALS, token) && token?.getValue() == "if"
 
     override fun parse(parser: Parser): StatementResult {
         val ifKeyword = parser.consume(CommonTypes.CONDITIONALS)
@@ -47,35 +45,42 @@ class IfStatement : StatementBuilder {
 
         val (afterThenStatement, thenStatement) = parseBlockWithBraces(afterCloseParen, "then")
 
-        val (finalParser, elseStatement) = if (checkType(CommonTypes.CONDITIONALS, afterThenStatement.peak()) &&
-            afterThenStatement.peak()?.getValue() == "else") {
-            val afterElse = afterThenStatement.advance()
+        val (finalParser, elseStatement) =
+            if (checkType(CommonTypes.CONDITIONALS, afterThenStatement.peak()) &&
+                afterThenStatement.peak()?.getValue() == "else"
+            ) {
+                val afterElse = afterThenStatement.advance()
 
-            if (checkType(CommonTypes.CONDITIONALS, afterElse.peak()) &&
-                afterElse.peak()?.getValue() == "if") {
-                val elseIfResult = parse(afterElse)
-                if (!elseIfResult.isSuccess()) {
-                    throw Exception("Error parsing else-if statement: ${elseIfResult.message()}")
+                if (checkType(CommonTypes.CONDITIONALS, afterElse.peak()) &&
+                    afterElse.peak()?.getValue() == "if"
+                ) {
+                    val elseIfResult = parse(afterElse)
+                    if (!elseIfResult.isSuccess()) {
+                        throw Exception("Error parsing else-if statement: ${elseIfResult.message()}")
+                    }
+                    Pair(elseIfResult.getParser(), elseIfResult.getStatement())
+                } else {
+                    val (afterElseStatement, elseStmt) = parseBlockWithBraces(afterElse, "else")
+                    Pair(afterElseStatement, elseStmt)
                 }
-                Pair(elseIfResult.getParser(), elseIfResult.getStatement())
             } else {
-                val (afterElseStatement, elseStmt) = parseBlockWithBraces(afterElse, "else")
-                Pair(afterElseStatement, elseStmt)
+                Pair(afterThenStatement, null)
             }
-        } else {
-            Pair(afterThenStatement, null)
-        }
 
-        val ifStatement = finalParser.getNodeBuilder().buildIfStatementNode(
-            conditionResult.getExpression(),
-            thenStatement,
-            elseStatement
-        )
+        val ifStatement =
+            finalParser.getNodeBuilder().buildIfStatementNode(
+                conditionResult.getExpression(),
+                thenStatement,
+                elseStatement,
+            )
 
         return StatementBuiltResult(finalParser, ifStatement)
     }
 
-    private fun parseBlockWithBraces(parser: Parser, blockType: String): Pair<Parser, Statement> {
+    private fun parseBlockWithBraces(
+        parser: Parser,
+        blockType: String,
+    ): Pair<Parser, Statement> {
         if (!isOpeningBrace(parser)) {
             throw Exception("Expected '{' to start $blockType block")
         }

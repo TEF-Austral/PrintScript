@@ -28,6 +28,7 @@ enum class CommonTypes {
         override fun toString(): String = super.toString().lowercase().toTitleCase()
     },
     EMPTY,
+    READ_INPUT,
 }
 
 private fun String.toTitleCase(): String =
