@@ -10,7 +10,11 @@ class StatementParser(
     fun parse(parser: Parser): StatementResult {
         for (command in statementCommands) {
             if (command.canHandle(parser.peak(), parser)) {
-                return command.parse(parser)
+                val result = command.parse(parser)
+                if (!result.isSuccess()) {
+                    continue
+                }
+                return result
             }
         }
         return StatementErrorResult(parser, "Can't be handled currently by the statement parser")

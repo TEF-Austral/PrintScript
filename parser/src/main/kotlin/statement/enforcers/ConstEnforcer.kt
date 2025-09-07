@@ -5,31 +5,33 @@ import parser.result.SemanticResult
 import parser.result.SemanticSuccess
 import type.CommonTypes
 
-class AssignmentEnforcer(
-    private val nextEnforcer: SemanticEnforcers,
-) : SemanticEnforcers {
+class ConstEnforcer(private val nextEnforcer: SemanticEnforcers) : SemanticEnforcers {
     override fun enforce(result: SemanticResult): SemanticResult {
         val currentParser = result.getParser()
-        if (!result.isSuccess()) {
+        if (checkForConstAndValidState(result)) {
             return SemanticError(
-                "Expected Assignment " + result.message(),
+                "Expected const declaration " + result.message(),
                 result.identifier(),
                 result.dataType(),
                 result.initialValue(),
                 currentParser,
             )
-        } else if (!currentParser.consume(CommonTypes.ASSIGNMENT).isSuccess()) {
-            return SemiColonEnforcer().enforce(result)
         }
-        val parserResult = currentParser.getExpressionParser().parseExpression(currentParser.advance())
+        val parserResult = currentParser.consume(CommonTypes.DECLARATION)
         return nextEnforcer.enforce(
             SemanticSuccess(
                 parserResult.message(),
                 result.identifier(),
                 result.dataType(),
-                parserResult.getExpression(),
+                result.initialValue(),
                 parserResult.getParser(),
-            ),
+            )
         )
+    }
+    private fun checkForConstAndValidState(result: SemanticResult): Boolean {
+        val currentParser = result.getParser()
+        return !currentParser.consume(CommonTypes.DECLARATION).isSuccess()
+                || !result.isSuccess()
+                || currentParser.peak()?.getValue() != "const"
     }
 }
