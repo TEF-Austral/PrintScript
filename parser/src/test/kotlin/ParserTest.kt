@@ -618,7 +618,7 @@ class ParserTest {
     fun testConstDeclaration() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "const", Position(1, 1)),
+                PrintScriptToken(CommonTypes.CONST, "const", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "PI", Position(1, 7)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 9)),
                 PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 11)),
@@ -647,7 +647,7 @@ class ParserTest {
     fun testBooleanDeclaration() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "isTrue", Position(1, 5)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 11)),
                 PrintScriptToken(CommonTypes.BOOLEAN, "BOOLEAN", Position(1, 13)),
@@ -853,7 +853,7 @@ class ParserTest {
     fun testConstDeclarationWithoutExplicitType() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "const", Position(1, 1)),
+                PrintScriptToken(CommonTypes.CONST, "const", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "message", Position(1, 7)),
                 PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 15)),
                 PrintScriptToken(CommonTypes.STRING_LITERAL, "\"Hello World\"", Position(1, 17)),
@@ -879,7 +879,7 @@ class ParserTest {
     fun testConstDeclarationWithoutTypeNumberInference() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "const", Position(1, 1)),
+                PrintScriptToken(CommonTypes.CONST, "const", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "count", Position(1, 7)),
                 PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 13)),
                 PrintScriptToken(CommonTypes.NUMBER_LITERAL, "42", Position(1, 15)),
@@ -905,7 +905,7 @@ class ParserTest {
     fun testConstDeclarationWithoutTypeBooleanInference() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "const", Position(1, 1)),
+                PrintScriptToken(CommonTypes.CONST, "const", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "isReady", Position(1, 7)),
                 PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 15)),
                 PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 17)),

@@ -35,7 +35,7 @@ class VariableDeclarationParser(
     override fun canHandle(
         token: Token?,
         parser: Parser,
-    ): Boolean = token?.getType() == CommonTypes.LET // TODO CHEQUEUAR EL CONST
+    ): Boolean = token?.getType() == CommonTypes.LET || token?.getType() == CommonTypes.CONST // TODO CHEQUEUAR EL CONST
 
     override fun parse(parser: Parser): StatementResult {
         val emptyToken = PrintScriptToken(CommonTypes.EMPTY, "", Position(0, 0))

@@ -19,7 +19,7 @@ class LetEnforcer(
                 currentParser,
             )
         }
-        val parserResult = currentParser.consume(CommonTypes.DECLARATION)
+        val parserResult = currentParser.consume(CommonTypes.LET)
         return nextEnforcer.enforce(
             SemanticSuccess(
                 parserResult.message(),
@@ -33,7 +33,7 @@ class LetEnforcer(
 
     private fun checkForLetAndValidState(result: SemanticResult): Boolean {
         val currentParser = result.getParser()
-        return !currentParser.consume(CommonTypes.DECLARATION).isSuccess() ||
+        return !currentParser.consume(CommonTypes.LET).isSuccess() ||
             !result.isSuccess() ||
             currentParser.peak()?.getValue() != "let"
     }
