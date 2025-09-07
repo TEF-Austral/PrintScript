@@ -2,10 +2,10 @@ package parser.statement
 
 import PrintScriptToken
 import Token
-import statement.enforcers.AssignmentEnforcer
+import statement.enforcers.LetAssignmentEnforcer
 import statement.enforcers.ColonEnforcer
 import statement.enforcers.DataTypeEnforcer
-import statement.enforcers.DeclarationEnforcer
+import statement.enforcers.LetEnforcer
 import statement.enforcers.IdentifierEnforcer
 import statement.enforcers.SemanticEnforcers
 import statement.enforcers.SemiColonEnforcer
@@ -14,16 +14,17 @@ import node.EmptyExpression
 import parser.Parser
 import parser.result.SemanticSuccess
 import parser.result.StatementBuiltResult
+import parser.result.StatementErrorResult
 import parser.result.StatementResult
 import type.CommonTypes
 
 class VariableDeclarationParser(
     val semanticOrder: SemanticEnforcers =
-        DeclarationEnforcer(
+        LetEnforcer(
             IdentifierEnforcer(
                 ColonEnforcer(
                     DataTypeEnforcer(
-                        AssignmentEnforcer(
+                        LetAssignmentEnforcer(
                             SemiColonEnforcer(),
                         ),
                     ),
@@ -41,7 +42,7 @@ class VariableDeclarationParser(
         val emptySemanticResult = SemanticSuccess("", emptyToken, emptyToken, EmptyExpression(), parser)
         val result = semanticOrder.enforce(emptySemanticResult)
         if (!result.isSuccess()) {
-            throw Exception("Semantic error: ${result.message()} ${result.identifier()} ${result.dataType()}")
+            return StatementErrorResult(result.getParser(), result.message())
         }
         val builtStatement =
             result.getParser().getNodeBuilder().buildVariableDeclarationStatementNode(

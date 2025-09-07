@@ -8,7 +8,7 @@ import parser.utils.isClosingParenthesis
 import parser.utils.isOpeningParenthesis
 import type.CommonTypes
 
-object DelimitersBuilder : ExpressionBuilder {
+class DelimitersBuilder : ExpressionBuilder {
     override fun canHandle(token: CommonTypes): Boolean = token == CommonTypes.DELIMITERS
 
     override fun build(
