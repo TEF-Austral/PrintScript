@@ -204,7 +204,7 @@ class NodeTest {
         val condition = nodeBuilder.buildLiteralExpressionNode(mockToken)
         val thenBranch = nodeBuilder.buildEmptyStatementNode()
         val elseBranch = nodeBuilder.buildEmptyStatementNode()
-        val ifStatement = IfStatement(condition, thenBranch, elseBranch)
+        val ifStatement = IfStatement(condition, thenBranch, elseBranch, Position(1, 1))
         assertEquals(condition, ifStatement.getCondition())
         assertEquals(thenBranch, ifStatement.getConsequence())
         assertEquals(elseBranch, ifStatement.getAlternative())
@@ -215,7 +215,7 @@ class NodeTest {
     fun `Simple If Statement Without Else`() {
         val condition = nodeBuilder.buildLiteralExpressionNode(mockToken)
         val thenBranch = nodeBuilder.buildEmptyStatementNode()
-        val ifStatement = IfStatement(condition, thenBranch, null)
+        val ifStatement = IfStatement(condition, thenBranch, null, Position(1, 1))
         assertEquals(condition, ifStatement.getCondition())
         assertEquals(thenBranch, ifStatement.getConsequence())
         assertEquals(null, ifStatement.getAlternative())

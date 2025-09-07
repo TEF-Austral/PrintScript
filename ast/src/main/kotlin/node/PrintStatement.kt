@@ -2,10 +2,11 @@ package node
 
 import Token
 import coordinates.Coordinates
+import coordinates.Position
 
 class PrintStatement(
     private val expression: Expression,
-    private val coordinates: Coordinates,
+    private val coordinates: Coordinates = Position(0, 0),
 ) : Statement {
     fun getExpression(): Expression = expression
 

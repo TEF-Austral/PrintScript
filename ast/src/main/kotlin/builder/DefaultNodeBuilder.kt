@@ -51,5 +51,5 @@ class DefaultNodeBuilder : NodeBuilder {
         condition: Expression,
         consequence: Statement,
         alternative: Statement?,
-    ): IfStatement = IfStatement(condition, consequence, alternative, condition.getCoordinates())
+    ): IfStatement = IfStatement(condition, consequence, alternative, consequence.getCoordinates())
 }

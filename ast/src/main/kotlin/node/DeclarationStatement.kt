@@ -2,6 +2,7 @@ package node
 
 import Token
 import coordinates.Coordinates
+import coordinates.Position
 import type.CommonTypes
 
 class DeclarationStatement(
@@ -9,7 +10,7 @@ class DeclarationStatement(
     private val identifier: Token,
     private val dataType: Token,
     private val initialValue: Expression? = null,
-    private val coordinates: Coordinates,
+    private val coordinates: Coordinates = Position(0, 0),
 ) : Statement {
     fun declarationType(): CommonTypes = declarationType.getType()
 
