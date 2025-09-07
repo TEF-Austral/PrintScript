@@ -1,7 +1,6 @@
 package builder
 
 import Token
-import coordinates.Coordinates
 import node.Program
 import node.BinaryExpression
 import node.IdentifierExpression
@@ -16,34 +15,33 @@ import node.PrintStatement
 import node.Statement
 
 class DefaultNodeBuilder : NodeBuilder {
-    override fun buildLiteralExpressionNode(token: Token, coordinates: Coordinates): LiteralExpression = LiteralExpression(token, coordinates)
+    override fun buildLiteralExpressionNode(token: Token): LiteralExpression = LiteralExpression(token, token.getCoordinates())
 
-    override fun buildIdentifierNode(token: Token, coordinates: Coordinates): IdentifierExpression = IdentifierExpression(token, coordinates)
+    override fun buildIdentifierNode(token: Token): IdentifierExpression = IdentifierExpression(token, token.getCoordinates())
 
     override fun buildBinaryExpressionNode(
         left: Expression,
         operator: Token,
         right: Expression,
-        coordinates: Coordinates
-    ): BinaryExpression = BinaryExpression(left, operator, right, coordinates)
+    ): BinaryExpression = BinaryExpression(left, operator, right, operator.getCoordinates())
 
     override fun buildVariableDeclarationStatementNode(
         declarationType: Token,
         identifier: Token,
         dataType: Token,
         initialValue: Expression?,
-        coordinates: Coordinates
-    ): DeclarationStatement = DeclarationStatement(declarationType, identifier, dataType, initialValue, coordinates)
+    ): DeclarationStatement = DeclarationStatement(declarationType, identifier, dataType, initialValue, identifier.getCoordinates())
 
     override fun buildAssignmentStatementNode(
         identifier: Token,
         value: Expression,
-        coordinates: Coordinates
-    ): AssignmentStatement = AssignmentStatement(identifier, value, coordinates)
+    ): AssignmentStatement = AssignmentStatement(identifier, value, value.getCoordinates())
 
-    override fun buildPrintStatementNode(expression: Expression, coordinates: Coordinates): PrintStatement = PrintStatement(expression, coordinates)
+    override fun buildPrintStatementNode(expression: Expression): PrintStatement = PrintStatement(expression, expression.getCoordinates())
 
-    override fun buildExpressionStatementNode(expression: Expression, coordinates: Coordinates): ExpressionStatement = ExpressionStatement(expression, coordinates)
+    override fun buildExpressionStatementNode(
+        expression: Expression,
+    ): ExpressionStatement = ExpressionStatement(expression, expression.getCoordinates())
 
     override fun buildEmptyStatementNode(): EmptyStatement = EmptyStatement()
 
@@ -53,6 +51,5 @@ class DefaultNodeBuilder : NodeBuilder {
         condition: Expression,
         consequence: Statement,
         alternative: Statement?,
-        coordinates: Coordinates
-    ): IfStatement = IfStatement(condition, consequence, alternative, coordinates)
+    ): IfStatement = IfStatement(condition, consequence, alternative, condition.getCoordinates())
 }

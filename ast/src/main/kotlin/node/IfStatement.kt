@@ -6,7 +6,7 @@ class IfStatement(
     private val condition: Expression,
     private val consequence: Statement,
     private val alternative: Statement? = null,
-    private val coordinates: Coordinates
+    private val coordinates: Coordinates,
 ) : Statement {
     fun getCondition(): Expression = condition
 

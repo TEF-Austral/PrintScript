@@ -5,7 +5,7 @@ import coordinates.Coordinates
 
 class PrintStatement(
     private val expression: Expression,
-    private val coordinates: Coordinates
+    private val coordinates: Coordinates,
 ) : Statement {
     fun getExpression(): Expression = expression
 

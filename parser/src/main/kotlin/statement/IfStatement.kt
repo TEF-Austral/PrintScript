@@ -72,7 +72,6 @@ class IfStatement : StatementBuilder {
                 conditionResult.getExpression(),
                 thenStatement,
                 elseStatement,
-                conditionResult.getExpression().getCoordinates()
             )
 
         return StatementBuiltResult(finalParser, ifStatement)

@@ -6,7 +6,7 @@ import type.CommonTypes
 
 class LiteralExpression(
     private val token: Token,
-    private val coordinates: Coordinates
+    private val coordinates: Coordinates,
 ) : Expression {
     fun getValue(): String = token.getValue()
 

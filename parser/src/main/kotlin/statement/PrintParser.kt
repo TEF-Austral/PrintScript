@@ -21,7 +21,7 @@ class PrintParser : StatementBuilder {
         val expression = afterOpeningParenthesisParser.getExpressionParser().parseExpression(afterOpeningParenthesisParser)
         val beforeClosingParenthesisParser = closingParenthesisConsumption(expression.getParser())
         val finalDelimiterParser = consumeSemiColon(beforeClosingParenthesisParser)
-        val builtStatement = finalDelimiterParser.getNodeBuilder().buildPrintStatementNode(expression.getExpression(), parser.peak()!!.getCoordinates())
+        val builtStatement = finalDelimiterParser.getNodeBuilder().buildPrintStatementNode(expression.getExpression())
         return StatementBuiltResult(finalDelimiterParser, builtStatement)
     }
 

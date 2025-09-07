@@ -46,12 +46,11 @@ class VariableDeclarationParser(
         }
         val builtStatement =
             result.getParser().getNodeBuilder().buildVariableDeclarationStatementNode(
-                PrintScriptToken(parser.peak()!!.getType(), parser.peak()!!.getValue(), parser.peak()!!.getCoordinates()),
+                parser.peak()!!,
                 result.identifier(),
                 result.dataType(),
                 result.initialValue(),
-                result.identifier().getCoordinates()
-                )
+            )
         return StatementBuiltResult(result.getParser(), builtStatement)
     }
 }

@@ -110,7 +110,7 @@ class DefaultParseBinary(
         left: Expression,
         operator: Token,
         right: Expression,
-    ): Expression = parser.getNodeBuilder().buildBinaryExpressionNode(left, operator, right, operator.getCoordinates())
+    ): Expression = parser.getNodeBuilder().buildBinaryExpressionNode(left, operator, right)
 
     private fun isOperatorToken(token: Token): Boolean =
         when (token.getType()) {

@@ -23,7 +23,7 @@ class LiteralBuilder(
         val newParser = parser.advance()
         return ExpressionBuiltResult(
             newParser,
-            newParser.getNodeBuilder().buildLiteralExpressionNode(current, current.getCoordinates()),
+            newParser.getNodeBuilder().buildLiteralExpressionNode(current),
         )
     }
 }
