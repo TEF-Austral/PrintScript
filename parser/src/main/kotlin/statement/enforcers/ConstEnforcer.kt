@@ -5,7 +5,9 @@ import parser.result.SemanticResult
 import parser.result.SemanticSuccess
 import type.CommonTypes
 
-class ConstEnforcer(private val nextEnforcer: SemanticEnforcers) : SemanticEnforcers {
+class ConstEnforcer(
+    private val nextEnforcer: SemanticEnforcers,
+) : SemanticEnforcers {
     override fun enforce(result: SemanticResult): SemanticResult {
         val currentParser = result.getParser()
         if (checkForConstAndValidState(result)) {
@@ -25,14 +27,12 @@ class ConstEnforcer(private val nextEnforcer: SemanticEnforcers) : SemanticEnfor
                 result.dataType(),
                 result.initialValue(),
                 parserResult.getParser(),
-            )
+            ),
         )
     }
 
-    private fun checkForConstAndValidState(result: SemanticResult): Boolean { // TODO CHEQUEAR
+    private fun checkForConstAndValidState(result: SemanticResult): Boolean {
         val currentParser = result.getParser()
-        return !currentParser.consume(CommonTypes.CONST).isSuccess() ||
-            !result.isSuccess() ||
-            currentParser.peak()?.getValue() != "const"
+        return !currentParser.consume(CommonTypes.CONST).isSuccess() || !result.isSuccess()
     }
 }
