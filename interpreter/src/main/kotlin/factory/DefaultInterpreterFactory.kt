@@ -1,6 +1,7 @@
 package factory
 
 import DefaultInterpreter
+import data.DefaultDataBase
 import executor.expression.BinaryExpressionExecutor
 import executor.expression.DefaultExpressionExecutor
 import executor.expression.IdentifierExpressionExecutor
@@ -17,33 +18,32 @@ import executor.statement.ExpressionStatementExecutor
 import executor.statement.IfStatementExecutor
 import executor.statement.PrintStatementExecutor
 import executor.statement.SpecificStatementExecutor
-import variable.Variable
 import executor.operators.Operator
 import executor.operators.Sum
 import executor.operators.Divide
 
 object DefaultInterpreterFactory {
-    val mutableMap: MutableMap<String, Variable> = mutableMapOf()
+    val dataBase: DefaultDataBase = DefaultDataBase()
 
     val operators: List<Operator> = listOf(Sum, Divide, Multiplication, Subtraction, LogicalOr, LogicalAnd)
 
     val listForBinaryExpressionExecutor: List<SpecificExpressionExecutor> =
         listOf(
-            IdentifierExpressionExecutor(mutableMap),
+            IdentifierExpressionExecutor(dataBase),
             LiteralExpressionExecutor(),
         )
 
     val specificExpressionExecutors: List<SpecificExpressionExecutor> =
         listOf(
             BinaryExpressionExecutor(expressions = listForBinaryExpressionExecutor),
-            IdentifierExpressionExecutor(mutableMap),
+            IdentifierExpressionExecutor(dataBase),
             LiteralExpressionExecutor(),
         )
 
     val basicSpecificStatementExecutor: List<SpecificStatementExecutor> =
         listOf(
-            DeclarationStatementExecutor(mutableMap, DefaultExpressionExecutor(specificExpressionExecutors)),
-            AssignmentStatementExecutor(mutableMap, DefaultExpressionExecutor(specificExpressionExecutors)),
+            DeclarationStatementExecutor(dataBase, DefaultExpressionExecutor(specificExpressionExecutors)),
+            AssignmentStatementExecutor(dataBase, DefaultExpressionExecutor(specificExpressionExecutors)),
             ExpressionStatementExecutor(DefaultExpressionExecutor(specificExpressionExecutors)),
             PrintStatementExecutor(DefaultExpressionExecutor(specificExpressionExecutors)),
         )
@@ -70,8 +70,8 @@ object DefaultInterpreterFactory {
         val statementExecutor = DefaultStatementExecutor(completeStatementExecutors)
 
         // 3. Ahora, crea CADA especialista pasándole el director de orquesta principal.
-        val declarationExecutor = DeclarationStatementExecutor(mutableMap, expressionExecutor)
-        val assignmentExecutor = AssignmentStatementExecutor(mutableMap, expressionExecutor)
+        val declarationExecutor = DeclarationStatementExecutor(dataBase, expressionExecutor)
+        val assignmentExecutor = AssignmentStatementExecutor(dataBase, expressionExecutor)
         val expressionStatementExecutor = ExpressionStatementExecutor(expressionExecutor)
         val printExecutor = PrintStatementExecutor(expressionExecutor)
 

@@ -57,7 +57,7 @@ class AnalyzerTest {
     fun `valid camelCase identifiers produce no diagnostics`() {
         val stmts =
             listOf(
-                DeclarationStatement(tok("myVar"), tok("Int"), lit(123)),
+                DeclarationStatement(tok("let", CommonTypes.LET), tok("myVar"), tok("Int"), lit(123)),
                 AssignmentStatement(tok("anotherVar"), lit(456)),
                 PrintStatement(IdentifierExpression(tok("myVar"))),
             )
@@ -68,7 +68,7 @@ class AnalyzerTest {
     fun `invalid camelCase identifier is flagged`() {
         val stmts =
             listOf(
-                DeclarationStatement(tok("My_var"), tok("Int"), lit(0)),
+                DeclarationStatement(tok("let", CommonTypes.LET), tok("My_var"), tok("Int"), lit(0)),
             )
         val diags = runAnalyzer(stmts)
         assertEquals(1, diags.size)
@@ -104,7 +104,7 @@ class AnalyzerTest {
         val cfg = AnalyzerConfig(identifierStyle = IdentifierStyle.SNAKE_CASE)
         val stmts =
             listOf(
-                DeclarationStatement(tok("myVar"), tok("Int"), lit(3)),
+                DeclarationStatement(tok("let", CommonTypes.LET), tok("myVar"), tok("Int"), lit(3)),
             )
         val diags = runAnalyzer(stmts, cfg)
         assertEquals(1, diags.size)
@@ -122,7 +122,7 @@ class AnalyzerTest {
 
     @Test
     fun `multiple invalid identifiers produce multiple diagnostics`() {
-        val decl = DeclarationStatement(tok("my_var"), tok("Int"), lit(1))
+        val decl = DeclarationStatement(tok("let", CommonTypes.LET), tok("my_var"), tok("Int"), lit(1))
         val assign = AssignmentStatement(tok("AnotherVar"), lit(2))
         val stmts = listOf(decl, assign)
         val diags = runAnalyzer(stmts)
@@ -140,7 +140,7 @@ class AnalyzerTest {
     @Test
     fun `snake_case style accepts snake case identifiers`() {
         val cfg = AnalyzerConfig(identifierStyle = IdentifierStyle.SNAKE_CASE)
-        val decl = DeclarationStatement(tok("my_var"), tok("Int"), lit(3))
+        val decl = DeclarationStatement(tok("let", CommonTypes.LET), tok("my_var"), tok("Int"), lit(3))
         assertTrue(runAnalyzer(listOf(decl), cfg).isEmpty())
     }
 
@@ -175,7 +175,7 @@ class AnalyzerTest {
         val expr = BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2))
         val stmts =
             listOf(
-                DeclarationStatement(tok("my_var"), tok("Int"), lit(3)),
+                DeclarationStatement(tok("let", CommonTypes.LET), tok("my_var"), tok("Int"), lit(3)),
                 PrintStatement(expr),
             )
         val diags = DefaultAnalyzer(tempConfig.absolutePath).analyze(Program(stmts))
@@ -187,6 +187,7 @@ class AnalyzerTest {
         val stmts =
             listOf(
                 DeclarationStatement(
+                    tok("let", CommonTypes.LET),
                     tok("My_var", CommonTypes.IDENTIFIER, Position(1, 5)),
                     tok("Int", CommonTypes.DATA_TYPES, Position(1, 10)),
                     lit(0, Position(1, 15)),

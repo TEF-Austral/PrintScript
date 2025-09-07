@@ -1,23 +1,27 @@
 package executor.expression
 
-import result.InterpreterResult
+import data.DataBase
 import node.Expression
 import node.IdentifierExpression
+import result.InterpreterResult
 import variable.Variable
 
 class IdentifierExpressionExecutor(
-    private val variables: MutableMap<String, Variable>,
+    private val dataBase: DataBase, // Se inyecta la DataBase en lugar del mapa
 ) : SpecificExpressionExecutor {
     override fun canHandle(expression: Expression): Boolean = expression is IdentifierExpression
 
     override fun execute(expression: Expression): InterpreterResult =
         try {
-            expression as IdentifierExpression
-            val variable = variables[expression.getValue()]
+            val identifierExpression = expression as IdentifierExpression
+            val identifier = identifierExpression.getValue()
+
+            val variable = dataBase.getVariableValue(identifier)
+
             if (variable == null) {
-                InterpreterResult(false, "Identifier not found", null)
+                InterpreterResult(false, "Identifier '$identifier' not found", null)
             } else {
-                InterpreterResult(true, "Identifier evaluated", variable)
+                InterpreterResult(true, "Identifier evaluated", variable as Variable)
             }
         } catch (e: Exception) {
             InterpreterResult(false, "Error executing identifier expression: ${e.message}", null)

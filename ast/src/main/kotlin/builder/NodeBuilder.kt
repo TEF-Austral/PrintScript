@@ -18,6 +18,7 @@ sealed interface NodeBuilder {
     ): Expression
 
     fun buildVariableDeclarationStatementNode(
+        declarationType: Token,
         identifier: Token,
         dataType: Token,
         initialValue: Expression? = null,

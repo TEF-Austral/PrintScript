@@ -13,7 +13,7 @@ class ParserErrorTest {
     fun testInvalidVariableDeclarationMissingType() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
                 PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 7)),
                 PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 9)),
@@ -32,7 +32,7 @@ class ParserErrorTest {
     fun testInvalidVariableDeclarationMissingIdentifier() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 5)),
                 PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 7)),
                 PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 14)),
@@ -88,7 +88,7 @@ class ParserErrorTest {
     fun testInvalidVariableDeclarationMissingSemicolon() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 7)),
                 PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 9)),
@@ -166,7 +166,7 @@ class ParserErrorTest {
                 PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 8)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 10)),
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 12)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 12)),
                 PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 16)),
                 PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 18)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 19)),
@@ -184,7 +184,7 @@ class ParserErrorTest {
     fun testUnexpectedTokenAfterValidStatement() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 7)),
                 PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 9)),
@@ -361,7 +361,7 @@ class ParserErrorTest {
     fun testDeclarationWithUnknownDataType() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 6)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "UNKNOWN_TYPE", Position(1, 8)),
@@ -379,7 +379,7 @@ class ParserErrorTest {
     fun testDeclarationWithNumberLiteralAsType() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 6)),
                 PrintScriptToken(CommonTypes.NUMBER_LITERAL, "123", Position(1, 8)),
@@ -397,7 +397,7 @@ class ParserErrorTest {
     fun testDeclarationWithStringLiteralAsType() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 6)),
                 PrintScriptToken(CommonTypes.STRING_LITERAL, "\"STRING\"", Position(1, 8)),
@@ -415,7 +415,7 @@ class ParserErrorTest {
     fun testDeclarationWithOperatorAsType() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 6)),
                 PrintScriptToken(CommonTypes.OPERATORS, "+", Position(1, 8)),
@@ -605,7 +605,7 @@ class ParserErrorTest {
     fun testConstDeclarationWithoutInitialValue() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "const", Position(1, 1)),
+                PrintScriptToken(CommonTypes.CONST, "const", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "PI", Position(1, 7)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 9)),
                 PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 11)),
@@ -623,7 +623,7 @@ class ParserErrorTest {
     fun testConstDeclarationMissingAssignment() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "const", Position(1, 1)),
+                PrintScriptToken(CommonTypes.CONST, "const", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "PI", Position(1, 7)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 9)),
                 PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 11)),
@@ -642,7 +642,7 @@ class ParserErrorTest {
     fun testBooleanDeclarationWithInvalidValue() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "isTrue", Position(1, 5)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 11)),
                 PrintScriptToken(CommonTypes.BOOLEAN, "BOOLEAN", Position(1, 13)),
@@ -662,7 +662,7 @@ class ParserErrorTest {
     fun testBooleanDeclarationWithNumberLiteral() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "isTrue", Position(1, 5)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 11)),
                 PrintScriptToken(CommonTypes.BOOLEAN, "BOOLEAN", Position(1, 13)),

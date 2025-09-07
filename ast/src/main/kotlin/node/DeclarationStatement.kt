@@ -4,10 +4,13 @@ import Token
 import type.CommonTypes
 
 class DeclarationStatement(
+    private val declarationType: Token,
     private val identifier: Token,
     private val dataType: Token,
     private val initialValue: Expression? = null,
 ) : Statement {
+    fun declarationType(): CommonTypes = declarationType.getType()
+
     fun getIdentifier(): String = identifier.getValue()
 
     fun getDataType(): CommonTypes = dataType.getType()

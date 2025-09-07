@@ -16,7 +16,7 @@ class StringToTokenConverterFactoryTest {
         val tokenConverter = StringToTokenConverterFactory.createDefaultsTokenConverter()
 
         val letToken = tokenConverter.convert("let", position)
-        assertEquals(CommonTypes.DECLARATION, letToken.getType())
+        assertEquals(CommonTypes.LET, letToken.getType())
 
         val numberToken = tokenConverter.convert("42", position)
         assertEquals(CommonTypes.NUMBER_LITERAL, numberToken.getType())
