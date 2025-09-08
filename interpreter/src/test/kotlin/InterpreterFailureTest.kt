@@ -554,4 +554,101 @@ class InterpreterFailureTest {
         val printed = outputStream.toString().trim()
         assertEquals("Program 17\n Output:", printed)
     }
+
+    @Test
+    fun `Const Assigment With No Value Should Fail`() {
+        val outputStream = ByteArrayOutputStream()
+        System.setOut(PrintStream(outputStream))
+        print("Program 3\n Output: ")
+        val case2 =
+            Program(
+                statements =
+                    listOf(
+                        DeclarationStatement(
+                            PrintScriptToken(CommonTypes.CONST, "const", Position(1, 1)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
+                            initialValue = null,
+                        ),
+                        AssignmentStatement(
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(2, 1)),
+                            value =
+                                LiteralExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.NUMBER_LITERAL,
+                                        "42",
+                                        Position(2, 5),
+                                    ),
+                                ),
+                        ),
+                        PrintStatement(
+                            expression =
+                                IdentifierExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.IDENTIFIER,
+                                        "x",
+                                        Position(3, 9),
+                                    ),
+                                ),
+                        ),
+                    ),
+            )
+
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val result: InterpreterResult = interpreter.interpret(case2)
+        assertFalse(result.interpretedCorrectly)
+        assertEquals("Constant 'x' must be initialized with a value", result.message)
+    }
+
+    @Test
+    fun `Const Assigment And Reasigment Value`() {
+        val outputStream = ByteArrayOutputStream()
+        System.setOut(PrintStream(outputStream))
+        print("Program 3\n Output: ")
+        val case2 =
+            Program(
+                statements =
+                    listOf(
+                        DeclarationStatement(
+                            PrintScriptToken(CommonTypes.CONST, "const", Position(1, 1)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
+                            initialValue =
+                                LiteralExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.NUMBER_LITERAL,
+                                        "42",
+                                        Position(0, 0),
+                                    ),
+                                ),
+                        ),
+                        AssignmentStatement(
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(2, 1)),
+                            value =
+                                LiteralExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.NUMBER_LITERAL,
+                                        "42",
+                                        Position(2, 5),
+                                    ),
+                                ),
+                        ),
+                        PrintStatement(
+                            expression =
+                                IdentifierExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.IDENTIFIER,
+                                        "x",
+                                        Position(3, 9),
+                                    ),
+                                ),
+                        ),
+                    ),
+            )
+
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val result: InterpreterResult = interpreter.interpret(case2)
+        assertFalse(result.interpretedCorrectly)
+        assertEquals("Error: Cannot reassign a value to a constant 'x'", result.message)
+    }
 }

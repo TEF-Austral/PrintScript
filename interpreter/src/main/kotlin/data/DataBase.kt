@@ -25,4 +25,8 @@ interface DataBase {
     fun getVariableValue(key: String): Any?
 
     fun getConstantValue(key: String): Any?
+
+    fun isConstant(key: String): Boolean
+
+    fun getValue(key: String): Any?
 }

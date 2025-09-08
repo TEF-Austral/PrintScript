@@ -480,13 +480,13 @@ class NodeTest {
                 nodeBuilder.buildLiteralExpressionNode(booleanToken),
             )
 
-        assertEquals(CommonTypes.LET, numberDecl.declarationType())
+        assertEquals(CommonTypes.LET, numberDecl.getDeclarationType())
         assertEquals("myVar", numberDecl.getIdentifier())
         assertEquals(CommonTypes.NUMBER, numberDecl.getDataType())
         assertNotNull(numberDecl.getInitialValue())
         assertEquals(identifierToken, numberDecl.getIdentifierToken())
 
-        assertEquals(CommonTypes.CONST, stringDecl.declarationType())
+        assertEquals(CommonTypes.CONST, stringDecl.getDeclarationType())
         assertEquals(CommonTypes.STRING, stringDecl.getDataType())
 
         assertEquals(CommonTypes.BOOLEAN, booleanDecl.getDataType())
@@ -502,7 +502,7 @@ class NodeTest {
                 null,
             )
 
-        assertEquals(CommonTypes.LET, decl.declarationType())
+        assertEquals(CommonTypes.LET, decl.getDeclarationType())
         assertEquals("myVar", decl.getIdentifier())
         assertEquals(CommonTypes.NUMBER, decl.getDataType())
         assertNull(decl.getInitialValue())
@@ -686,7 +686,7 @@ class NodeTest {
 
         val decl = DeclarationStatement(declType, identifier, dataType, initialValue, customCoords)
 
-        assertEquals(CommonTypes.CONST, decl.declarationType())
+        assertEquals(CommonTypes.CONST, decl.getDeclarationType())
         assertEquals("testVar", decl.getIdentifier())
         assertEquals(CommonTypes.STRING, decl.getDataType())
         assertEquals(initialValue, decl.getInitialValue())

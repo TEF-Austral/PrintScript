@@ -7,7 +7,7 @@ import result.InterpreterResult
 import variable.Variable
 
 class IdentifierExpressionExecutor(
-    private val dataBase: DataBase, // Se inyecta la DataBase en lugar del mapa
+    private val dataBase: DataBase,
 ) : SpecificExpressionExecutor {
     override fun canHandle(expression: Expression): Boolean = expression is IdentifierExpression
 
@@ -16,7 +16,7 @@ class IdentifierExpressionExecutor(
             val identifierExpression = expression as IdentifierExpression
             val identifier = identifierExpression.getValue()
 
-            val variable = dataBase.getVariableValue(identifier)
+            val variable = dataBase.getValue(identifier)
 
             if (variable == null) {
                 InterpreterResult(false, "Identifier '$identifier' not found", null)

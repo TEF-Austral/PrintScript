@@ -19,12 +19,14 @@ class AssignmentStatementExecutor(
             val assignStmt = statement as AssignmentStatement
             val identifier = assignStmt.getIdentifier()
 
-            // Obtiene la variable existente de la base de datos
+            if (isConstant(identifier)) {
+                return createConstantReassignmentError(identifier)
+            }
+
             val existingVariable =
                 getVariable(identifier)
                     ?: return createVariableNotFoundError(identifier)
 
-            // Evalúa la expresión del nuevo valor
             val expressionResult = evaluateExpression(assignStmt)
             if (!expressionResult.interpretedCorrectly) return expressionResult
 
@@ -32,12 +34,13 @@ class AssignmentStatementExecutor(
                 getNewValueFromResult(expressionResult)
                     ?: return createNoValueError()
 
-            // Asigna el nuevo valor si los tipos son compatibles
             assignValueIfCompatible(identifier, existingVariable, newValue)
         } catch (e: Exception) {
             createGenericError(e)
         }
     }
+
+    private fun isConstant(identifier: String): Boolean = dataBase.getConstantValue(identifier) != null
 
     private fun getVariable(identifier: String): Variable? = dataBase.getVariableValue(identifier) as? Variable //
 
@@ -60,7 +63,7 @@ class AssignmentStatementExecutor(
         return createSuccessResult()
     }
 
-    // --- Funciones auxiliares para crear resultados ---
+    private fun createConstantReassignmentError(id: String) = InterpreterResult(false, "Error: Cannot reassign a value to a constant '$id'", null)
 
     private fun createVariableNotFoundError(id: String) = InterpreterResult(false, "Error: Variable '$id' not declared", null)
 
