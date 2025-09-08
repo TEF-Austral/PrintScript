@@ -37,4 +37,13 @@ class DefaultDataBase(
     override fun getVariableValue(key: String): Any? = variables[key]
 
     override fun getConstantValue(key: String): Any? = constants[key]
+
+    override fun isConstant(key: String): Boolean = constants.containsKey(key)
+
+    override fun getValue(key: String): Any? = getVariableValue(key) ?: getConstantValue(key)
+
+    fun clear() {
+        variables.clear()
+        constants.clear()
+    }
 }

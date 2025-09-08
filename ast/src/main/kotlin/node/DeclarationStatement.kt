@@ -12,7 +12,7 @@ class DeclarationStatement(
     private val initialValue: Expression? = null,
     private val coordinates: Coordinates = Position(0, 0),
 ) : Statement {
-    fun declarationType(): CommonTypes = declarationType.getType()
+    fun getDeclarationType(): CommonTypes = declarationType.getType()
 
     fun getIdentifier(): String = identifier.getValue()
 

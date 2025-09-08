@@ -16,49 +16,11 @@ import coordinates.Position
 import factory.DefaultInterpreterFactory
 import node.ExpressionStatement
 import node.IfStatement
+import org.junit.jupiter.api.BeforeEach
 
 class InterpreterTest {
-    @Test
-    fun `Basic Variable Declaration and Assignment`() {
-        val outputStream = ByteArrayOutputStream()
-        System.setOut(PrintStream(outputStream))
-
-        print("Program 1\n Output: ")
-        val case1 =
-            Program(
-                statements =
-                    listOf(
-                        DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
-                            initialValue =
-                                LiteralExpression(
-                                    PrintScriptToken(
-                                        CommonTypes.NUMBER_LITERAL,
-                                        "42",
-                                        Position(1, 17),
-                                    ),
-                                ),
-                        ),
-                        PrintStatement(
-                            expression =
-                                IdentifierExpression(
-                                    PrintScriptToken(
-                                        CommonTypes.IDENTIFIER,
-                                        "x",
-                                        Position(2, 9),
-                                    ),
-                                ),
-                        ),
-                    ),
-            )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(case1)
-        assertTrue(result.interpretedCorrectly)
-        assertEquals(result.message, "Program executed successfully")
-        val printed = outputStream.toString().trim()
-        assertEquals("Program 1\n Output: 42", printed)
+    @BeforeEach
+    fun setUp() {
     }
 
     @Test
@@ -107,6 +69,49 @@ class InterpreterTest {
         assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
         assertEquals("Program 2\n Output: 42", printed)
+    }
+
+    @Test
+    fun `Basic Variable Declaration and Assignment`() {
+        val outputStream = ByteArrayOutputStream()
+        System.setOut(PrintStream(outputStream))
+
+        print("Program 1\n Output: ")
+        val case1 =
+            Program(
+                statements =
+                    listOf(
+                        DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
+                            initialValue =
+                                LiteralExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.NUMBER_LITERAL,
+                                        "42",
+                                        Position(1, 17),
+                                    ),
+                                ),
+                        ),
+                        PrintStatement(
+                            expression =
+                                IdentifierExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.IDENTIFIER,
+                                        "x",
+                                        Position(2, 9),
+                                    ),
+                                ),
+                        ),
+                    ),
+            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val result: InterpreterResult = interpreter.interpret(case1)
+        assertTrue(result.interpretedCorrectly)
+        assertEquals(result.message, "Program executed successfully")
+        val printed = outputStream.toString().trim()
+        assertEquals("Program 1\n Output: 42", printed)
     }
 
     @Test
@@ -2095,6 +2100,45 @@ class InterpreterTest {
     }
 
     @Test
-    fun `Simple Or IfStatement Should Pass`() {
+    fun `Simple Const Declaration Should Pass`() {
+        val outputStream = ByteArrayOutputStream()
+        System.setOut(PrintStream(outputStream))
+
+        print("Program 2\n Output: ")
+        val case1 =
+            Program(
+                statements =
+                    listOf(
+                        DeclarationStatement(
+                            PrintScriptToken(CommonTypes.CONST, "const", Position(1, 1)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
+                            initialValue =
+                                LiteralExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.NUMBER_LITERAL,
+                                        "42",
+                                        Position(1, 17),
+                                    ),
+                                ),
+                        ),
+                        PrintStatement(
+                            expression =
+                                IdentifierExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.IDENTIFIER,
+                                        "x",
+                                        Position(2, 9),
+                                    ),
+                                ),
+                        ),
+                    ),
+            )
+        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val result: InterpreterResult = interpreter.interpret(case1)
+        assertEquals("Program executed successfully", result.message)
+        assertTrue(result.interpretedCorrectly)
+        val printed = outputStream.toString().trim()
+        assertEquals("Program 2\n Output: 42", printed)
     }
 }

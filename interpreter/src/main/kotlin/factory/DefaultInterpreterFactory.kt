@@ -12,10 +12,12 @@ import executor.operators.LogicalOr
 import executor.operators.Multiplication
 import executor.operators.Subtraction
 import executor.statement.AssignmentStatementExecutor
+import executor.statement.ConstDeclarationStatementExecutor
 import executor.statement.DeclarationStatementExecutor
 import executor.statement.DefaultStatementExecutor
 import executor.statement.ExpressionStatementExecutor
 import executor.statement.IfStatementExecutor
+import executor.statement.LetDeclarationStatement
 import executor.statement.PrintStatementExecutor
 import executor.statement.SpecificStatementExecutor
 import executor.operators.Operator
@@ -23,69 +25,54 @@ import executor.operators.Sum
 import executor.operators.Divide
 
 object DefaultInterpreterFactory {
-    val dataBase: DefaultDataBase = DefaultDataBase()
-
+    private val dataBase: DefaultDataBase = DefaultDataBase()
     val operators: List<Operator> = listOf(Sum, Divide, Multiplication, Subtraction, LogicalOr, LogicalAnd)
 
-    val listForBinaryExpressionExecutor: List<SpecificExpressionExecutor> =
+    private val identifierAndLiteralExecutors: List<SpecificExpressionExecutor> =
         listOf(
             IdentifierExpressionExecutor(dataBase),
             LiteralExpressionExecutor(),
         )
 
-    val specificExpressionExecutors: List<SpecificExpressionExecutor> =
+    private val allSpecificExpressionExecutors: List<SpecificExpressionExecutor> =
         listOf(
-            BinaryExpressionExecutor(expressions = listForBinaryExpressionExecutor),
+            BinaryExpressionExecutor(expressions = identifierAndLiteralExecutors),
             IdentifierExpressionExecutor(dataBase),
             LiteralExpressionExecutor(),
         )
-
-    val basicSpecificStatementExecutor: List<SpecificStatementExecutor> =
-        listOf(
-            DeclarationStatementExecutor(dataBase, DefaultExpressionExecutor(specificExpressionExecutors)),
-            AssignmentStatementExecutor(dataBase, DefaultExpressionExecutor(specificExpressionExecutors)),
-            ExpressionStatementExecutor(DefaultExpressionExecutor(specificExpressionExecutors)),
-            PrintStatementExecutor(DefaultExpressionExecutor(specificExpressionExecutors)),
-        )
-
-    val completeSpecificStatementExecutor: List<SpecificStatementExecutor> =
-        basicSpecificStatementExecutor +
-            listOf(
-                IfStatementExecutor(
-                    DefaultExpressionExecutor(specificExpressionExecutors),
-                    DefaultStatementExecutor(basicSpecificStatementExecutor),
-                ),
-            )
 
     fun createDefaultInterpreter(): DefaultInterpreter {
-        val expressionExecutor = DefaultExpressionExecutor(specificExpressionExecutors)
+        dataBase.clear()
 
-        // --- El Truco para las Sentencias ---
+        val expressionExecutor = DefaultExpressionExecutor(allSpecificExpressionExecutors)
 
-        // 1. Crea una lista mutable que estará vacía al principio.
-        val completeStatementExecutors = mutableListOf<SpecificStatementExecutor>()
+        val statementSpecialists = mutableListOf<SpecificStatementExecutor>()
 
-        // 2. Crea la instancia ÚNICA y FINAL del director de orquesta.
-        //    En este momento, su lista de especialistas está vacía, pero eso cambiará.
-        val statementExecutor = DefaultStatementExecutor(completeStatementExecutors)
+        val mainStatementExecutor = DefaultStatementExecutor(statementSpecialists)
 
-        // 3. Ahora, crea CADA especialista pasándole el director de orquesta principal.
-        val declarationExecutor = DeclarationStatementExecutor(dataBase, expressionExecutor)
+        val constDeclaration = ConstDeclarationStatementExecutor(dataBase, expressionExecutor)
+        val letDeclaration = LetDeclarationStatement(dataBase, expressionExecutor)
+
+        val declarationExecutor =
+            DeclarationStatementExecutor(
+                dataBase,
+                expressionExecutor,
+                listOf(constDeclaration, letDeclaration),
+            )
+
         val assignmentExecutor = AssignmentStatementExecutor(dataBase, expressionExecutor)
-        val expressionStatementExecutor = ExpressionStatementExecutor(expressionExecutor)
         val printExecutor = PrintStatementExecutor(expressionExecutor)
+        val expressionStatementExecutor = ExpressionStatementExecutor(expressionExecutor)
 
-        // El especialista 'if' también recibe al director principal. ¡Esta es la clave!
-        val ifExecutor = IfStatementExecutor(expressionExecutor, statementExecutor)
+        val ifExecutor = IfStatementExecutor(expressionExecutor, mainStatementExecutor)
 
-        completeStatementExecutors.add(declarationExecutor)
-        completeStatementExecutors.add(assignmentExecutor)
-        completeStatementExecutors.add(expressionStatementExecutor)
-        completeStatementExecutors.add(printExecutor)
-        completeStatementExecutors.add(ifExecutor) // ¡Importante incluirlo!
+        statementSpecialists.add(declarationExecutor)
+        statementSpecialists.add(assignmentExecutor)
+        statementSpecialists.add(printExecutor)
+        statementSpecialists.add(ifExecutor)
+        statementSpecialists.add(expressionStatementExecutor)
 
-        // 5. Crea el intérprete final con los componentes ya interconectados correctamente.
-        return DefaultInterpreter(expressionExecutor, statementExecutor)
+        return DefaultInterpreter(expressionExecutor, mainStatementExecutor)
     }
 
     fun createCustomInterpreter(
