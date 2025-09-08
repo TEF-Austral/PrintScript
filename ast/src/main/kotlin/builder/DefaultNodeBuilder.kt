@@ -12,6 +12,8 @@ import node.Expression
 import node.ExpressionStatement
 import node.IfStatement
 import node.PrintStatement
+import node.ReadEnvStatement
+import node.ReadInputStatement
 import node.Statement
 
 class DefaultNodeBuilder : NodeBuilder {
@@ -52,4 +54,8 @@ class DefaultNodeBuilder : NodeBuilder {
         consequence: Statement,
         alternative: Statement?,
     ): IfStatement = IfStatement(condition, consequence, alternative, consequence.getCoordinates())
+
+    override fun buildReadInputNode(printValue: LiteralExpression): ReadInputStatement = ReadInputStatement(printValue.getValue(), printValue.getCoordinates())
+
+    override fun buildReadEnvNode(envName: LiteralExpression): ReadEnvStatement = ReadEnvStatement(envName.getValue(), envName.getCoordinates())
 }

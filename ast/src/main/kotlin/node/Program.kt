@@ -1,11 +1,11 @@
 package node
 
 import coordinates.Coordinates
-import coordinates.Position
+import coordinates.UnassignedPosition
 
 class Program(
     private val statements: List<Statement>,
-    private val coordinates: Coordinates = Position(0, 0),
+    private val coordinates: Coordinates = UnassignedPosition(),
 ) : ASTNode {
     fun getStatements(): List<Statement> = statements
 

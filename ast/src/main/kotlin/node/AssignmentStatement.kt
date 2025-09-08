@@ -7,7 +7,7 @@ import coordinates.Position
 class AssignmentStatement(
     private val identifier: Token,
     private val value: Expression,
-    private val coordinates: Coordinates = Position(0, 0),
+    private val coordinates: Coordinates,
 ) : Statement {
     fun getIdentifier(): String = identifier.getValue()
 

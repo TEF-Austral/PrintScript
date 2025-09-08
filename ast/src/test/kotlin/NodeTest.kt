@@ -285,8 +285,8 @@ class NodeTest {
     fun testEmptyExpressionWithDefaultCoordinates() {
         val emptyExpr = EmptyExpression()
         assertEquals("EmptyExpression", emptyExpr.toString())
-        assertEquals(0, emptyExpr.getCoordinates().getRow())
-        assertEquals(0, emptyExpr.getCoordinates().getColumn())
+        assertEquals(-1, emptyExpr.getCoordinates().getRow())
+        assertEquals(-1, emptyExpr.getCoordinates().getColumn())
     }
 
     @Test
@@ -347,6 +347,22 @@ class NodeTest {
     }
 
     @Test
+    fun testReadInputStatement() {
+        val literalExpr = nodeBuilder.buildLiteralExpressionNode(mockToken)
+        val readInput = nodeBuilder.buildReadInputNode(literalExpr)
+
+        assertEquals(literalExpr.getValue(), readInput.printValue())
+    }
+
+    @Test
+    fun testReadEnvStatement() {
+        val literalExpr = nodeBuilder.buildLiteralExpressionNode(mockToken)
+        val readEnv = nodeBuilder.buildReadEnvNode(literalExpr)
+
+        assertEquals(literalExpr.getValue(), readEnv.envName())
+    }
+
+    @Test
     fun testPrintStatementWithBinaryExpression() {
         val leftExpr = nodeBuilder.buildLiteralExpressionNode(numberToken)
         val rightExpr = nodeBuilder.buildLiteralExpressionNode(numberToken)
@@ -369,16 +385,16 @@ class NodeTest {
 
         assertEquals(4, program.getStatements().size)
         assertEquals(statements, program.getStatements())
-        assertEquals(0, program.getCoordinates().getRow())
-        assertEquals(0, program.getCoordinates().getColumn())
+        assertEquals(-1, program.getCoordinates().getRow())
+        assertEquals(-1, program.getCoordinates().getColumn())
     }
 
     @Test
     fun testEmptyStatementWithDefaultCoordinates() {
         val emptyStmt = nodeBuilder.buildEmptyStatementNode()
         assertEquals("EmptyStatement", emptyStmt.toString())
-        assertEquals(0, emptyStmt.getCoordinates().getRow())
-        assertEquals(0, emptyStmt.getCoordinates().getColumn())
+        assertEquals(-1, emptyStmt.getCoordinates().getRow())
+        assertEquals(-1, emptyStmt.getCoordinates().getColumn())
     }
 
     @Test
@@ -637,8 +653,8 @@ class NodeTest {
         val program = nodeBuilder.buildProgramNode(emptyList())
 
         assertEquals(0, program.getStatements().size)
-        assertEquals(0, program.getCoordinates().getRow())
-        assertEquals(0, program.getCoordinates().getColumn())
+        assertEquals(-1, program.getCoordinates().getRow())
+        assertEquals(-1, program.getCoordinates().getColumn())
     }
 
     @Test
@@ -854,22 +870,25 @@ class NodeTest {
 
     @Test
     fun testAllNodeTypesWithDefaultCoordinates() {
-        val literal = LiteralExpression(mockToken)
-        val identifier = IdentifierExpression(identifierToken)
+        val literal = LiteralExpression(mockToken, Position(1,1))
+        val identifier = IdentifierExpression(identifierToken, Position(1,1))
         val binary =
             BinaryExpression(
                 nodeBuilder.buildLiteralExpressionNode(numberToken),
                 operatorToken,
                 nodeBuilder.buildLiteralExpressionNode(numberToken),
+                Position(1,1)
             )
-        val assignment = AssignmentStatement(identifierToken, nodeBuilder.buildLiteralExpressionNode(numberToken))
-        val declaration = DeclarationStatement(declarationTypeToken, identifierToken, dataTypeToken)
-        val printStmt = PrintStatement(nodeBuilder.buildLiteralExpressionNode(mockToken))
-        val exprStmt = ExpressionStatement(nodeBuilder.buildLiteralExpressionNode(mockToken))
+        val assignment = AssignmentStatement(identifierToken, nodeBuilder.buildLiteralExpressionNode(numberToken), Position(1,1))
+        val declaration = DeclarationStatement(declarationTypeToken, identifierToken, dataTypeToken, null, Position(1,1))
+        val printStmt = PrintStatement(nodeBuilder.buildLiteralExpressionNode(mockToken), Position(1,1))
+        val exprStmt = ExpressionStatement(nodeBuilder.buildLiteralExpressionNode(mockToken), Position(1,1))
         val ifStmt =
             IfStatement(
                 nodeBuilder.buildLiteralExpressionNode(booleanToken),
                 nodeBuilder.buildEmptyStatementNode(),
+                null,
+                Position(1,1)
             )
         val program = Program(emptyList())
 

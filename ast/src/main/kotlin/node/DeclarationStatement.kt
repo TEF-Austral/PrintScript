@@ -10,7 +10,7 @@ class DeclarationStatement(
     private val identifier: Token,
     private val dataType: Token,
     private val initialValue: Expression? = null,
-    private val coordinates: Coordinates = Position(0, 0),
+    private val coordinates: Coordinates,
 ) : Statement {
     fun declarationType(): CommonTypes = declarationType.getType()
 

@@ -8,7 +8,7 @@ class BinaryExpression(
     private val left: Expression,
     private val operator: Token,
     private val right: Expression,
-    private val coordinates: Coordinates = Position(0, 0),
+    private val coordinates: Coordinates,
 ) : Expression {
     fun getLeft(): Expression = left
 

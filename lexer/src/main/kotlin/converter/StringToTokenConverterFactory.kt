@@ -39,7 +39,7 @@ object StringToTokenConverterFactory {
                 DelimiterToToken,
                 ConstDeclarationToToken,
                 ReadInputToToken,
-                ReadEnvToToken
+                ReadEnvToToken,
             ),
         )
 

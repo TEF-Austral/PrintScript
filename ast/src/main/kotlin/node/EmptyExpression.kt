@@ -1,10 +1,10 @@
 package node
 
 import coordinates.Coordinates
-import coordinates.Position
+import coordinates.UnassignedPosition
 
 class EmptyExpression(
-    private val coordinates: Coordinates = Position(0, 0),
+    private val coordinates: Coordinates = UnassignedPosition(),
 ) : Expression {
     override fun toString(): String = "EmptyExpression"
 
