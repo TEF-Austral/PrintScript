@@ -4,6 +4,7 @@ import Token
 import parser.Parser
 import parser.result.StatementBuiltResult
 import parser.result.StatementResult
+import parser.utils.advancePastSemiColon
 import parser.utils.checkType
 import parser.utils.isSemiColon
 import parser.utils.isValidResultAndCurrentToken
@@ -26,12 +27,7 @@ class AssignmentParser : StatementBuilder {
         }
         val assigmentParser = identifier.getParser().consume(CommonTypes.ASSIGNMENT).getParser() // =
         val value = assigmentParser.getExpressionParser().parseExpression(assigmentParser)
-        val delimiterParser =
-            if (isSemiColon(value.getParser().peak())) {
-                value.getParser().consume(CommonTypes.DELIMITERS).getParser()
-            } else {
-                value.getParser()
-            }
+        val delimiterParser = advancePastSemiColon(value.getParser())
         val builtStatement = delimiterParser.getNodeBuilder().buildAssignmentStatementNode(parser.peak()!!, value.getExpression())
         return StatementBuiltResult(delimiterParser, builtStatement)
     }

@@ -3,7 +3,7 @@ import converter.specific.AssignmentToToken
 import converter.specific.ComparisonToToken
 import converter.specific.ConditionalToToken
 import converter.specific.DataTypeToToken
-import converter.specific.DeclarationToToken
+import converter.specific.LetDeclarationToToken
 import converter.specific.DelimiterToToken
 import converter.specific.FunctionToToken
 import converter.specific.LogicalOperatorToken
@@ -11,6 +11,8 @@ import converter.specific.LoopToToken
 import converter.specific.NumberLiteralToToken
 import converter.specific.OperatorToToken
 import converter.specific.PrintToToken
+import converter.specific.ReadEnvToToken
+import converter.specific.ReadInputToToken
 import converter.specific.ReturnToToken
 import converter.specific.StringLiteralToToken
 import org.junit.jupiter.api.Assertions
@@ -113,6 +115,20 @@ class TokenConverterTest {
     }
 
     @Test
+    fun `test readInputToToken`() {
+        Assertions.assertTrue(ReadInputToToken.canHandle("readInput"))
+        val token = ReadInputToToken.convert("readInput", position)
+        Assertions.assertEquals(CommonTypes.READ_INPUT, token.getType())
+    }
+
+    @Test
+    fun `test readEnvToToken`() {
+        Assertions.assertTrue(ReadEnvToToken.canHandle("readEnv"))
+        val token = ReadEnvToToken.convert("readEnv", position)
+        Assertions.assertEquals(CommonTypes.READ_ENV, token.getType())
+    }
+
+    @Test
     fun `test ReturnToToken`() {
         Assertions.assertTrue(ReturnToToken.canHandle("return"))
         Assertions.assertFalse(ReturnToToken.canHandle("ret"))
@@ -122,9 +138,9 @@ class TokenConverterTest {
 
     @Test
     fun `test DeclarationToToken`() {
-        Assertions.assertTrue(DeclarationToToken.canHandle("let"))
-        val token = DeclarationToToken.convert("let", position)
-        Assertions.assertEquals(CommonTypes.DECLARATION, token.getType())
+        Assertions.assertTrue(LetDeclarationToToken.canHandle("let"))
+        val token = LetDeclarationToToken.convert("let", position)
+        Assertions.assertEquals(CommonTypes.LET, token.getType())
     }
 
     @Test

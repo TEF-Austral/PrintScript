@@ -21,6 +21,7 @@ class DefaultFormatterTest {
     fun `declaration with default config`() {
         val decl =
             builder.buildVariableDeclarationStatementNode(
+                tok(CommonTypes.LET, "let"),
                 identifier = tok(CommonTypes.IDENTIFIER, "x"),
                 dataType = tok(CommonTypes.NUMBER, "Number"),
                 initialValue = null,
@@ -37,7 +38,7 @@ class DefaultFormatterTest {
         val assign =
             builder.buildAssignmentStatementNode(
                 identifier = tok(CommonTypes.IDENTIFIER, "a"),
-                value = LiteralExpression(tok(CommonTypes.NUMBER_LITERAL, "42")),
+                value = LiteralExpression(tok(CommonTypes.NUMBER_LITERAL, "42"), Position(0, 0)),
             )
 
         val config = FormatConfig(spaceAroundAssignment = false)
@@ -65,9 +66,10 @@ class DefaultFormatterTest {
     fun `custom colon spacing in declaration`() {
         val decl =
             builder.buildVariableDeclarationStatementNode(
+                tok(CommonTypes.LET, "let"),
                 identifier = tok(CommonTypes.IDENTIFIER, "msg"),
                 dataType = tok(CommonTypes.STRING, "string"),
-                initialValue = LiteralExpression(tok(CommonTypes.STRING_LITERAL, "\"ok\"")),
+                initialValue = LiteralExpression(tok(CommonTypes.STRING_LITERAL, "\"ok\""), Position(0, 0)),
             )
 
         val config =
@@ -86,6 +88,7 @@ class DefaultFormatterTest {
     fun `formatToWriter writes declaration with default config`() {
         val decl =
             builder.buildVariableDeclarationStatementNode(
+                tok(CommonTypes.LET, "let"),
                 identifier = tok(CommonTypes.IDENTIFIER, "x"),
                 dataType = tok(CommonTypes.NUMBER, "Number"),
                 initialValue = null,
@@ -103,7 +106,7 @@ class DefaultFormatterTest {
         val assign =
             builder.buildAssignmentStatementNode(
                 identifier = tok(CommonTypes.IDENTIFIER, "a"),
-                value = LiteralExpression(tok(CommonTypes.NUMBER_LITERAL, "42")),
+                value = LiteralExpression(tok(CommonTypes.NUMBER_LITERAL, "42"), Position(0, 0)),
             )
         val config = FormatConfig(spaceAroundAssignment = false)
         val program = builder.buildProgramNode(listOf(assign))

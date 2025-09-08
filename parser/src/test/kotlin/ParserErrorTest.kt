@@ -1,10 +1,11 @@
 import builder.DefaultNodeBuilder
 import coordinates.Position
-import parser.factory.RecursiveParserFactory
+import parser.factory.V1Point0ParserFactory
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
+import parser.factory.V1Point1ParserFactory
 import type.CommonTypes
 
 class ParserErrorTest {
@@ -12,7 +13,7 @@ class ParserErrorTest {
     fun testInvalidVariableDeclarationMissingType() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
                 PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 7)),
                 PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 9)),
@@ -20,18 +21,18 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Semantic error: Expected delimiter Successfully executed: Method consume called advance Token(type=IDENTIFIER, value='x', coordinates=1:5) Token(type=EMPTY, value='', coordinates=0:0)", result.message())
+        assertEquals("Can't be handled currently by the statement parser", result.message())
     }
 
     @Test
     fun testInvalidVariableDeclarationMissingIdentifier() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 5)),
                 PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 7)),
                 PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 14)),
@@ -40,11 +41,11 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Semantic error: Expected identifier Successfully executed: Method consume called advance Token(type=EMPTY, value='', coordinates=0:0) Token(type=EMPTY, value='', coordinates=0:0)", result.message())
+        assertEquals("Can't be handled currently by the statement parser", result.message())
     }
 
     @Test
@@ -57,7 +58,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -76,7 +77,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -87,7 +88,7 @@ class ParserErrorTest {
     fun testInvalidVariableDeclarationMissingSemicolon() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 7)),
                 PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 9)),
@@ -96,11 +97,11 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Semantic error: Variable declaration must end in ;  Token(type=IDENTIFIER, value='x', coordinates=1:5) Token(type=Number, value='NUMBER', coordinates=1:9)", result.message())
+        assertEquals("Can't be handled currently by the statement parser", result.message())
     }
 
     @Test
@@ -115,7 +116,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -134,7 +135,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -151,7 +152,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -165,14 +166,14 @@ class ParserErrorTest {
                 PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 8)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 10)),
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 12)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 12)),
                 PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 16)),
                 PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 18)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 19)),
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -183,7 +184,7 @@ class ParserErrorTest {
     fun testUnexpectedTokenAfterValidStatement() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 7)),
                 PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 9)),
@@ -194,7 +195,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -206,7 +207,7 @@ class ParserErrorTest {
         val tokens = emptyList<PrintScriptToken>()
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertTrue(result.isSuccess())
@@ -223,7 +224,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -241,7 +242,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -259,7 +260,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -277,7 +278,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -294,7 +295,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -311,7 +312,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -328,7 +329,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -349,7 +350,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -360,7 +361,7 @@ class ParserErrorTest {
     fun testDeclarationWithUnknownDataType() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 6)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "UNKNOWN_TYPE", Position(1, 8)),
@@ -368,7 +369,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -378,7 +379,7 @@ class ParserErrorTest {
     fun testDeclarationWithNumberLiteralAsType() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 6)),
                 PrintScriptToken(CommonTypes.NUMBER_LITERAL, "123", Position(1, 8)),
@@ -386,7 +387,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -396,7 +397,7 @@ class ParserErrorTest {
     fun testDeclarationWithStringLiteralAsType() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 6)),
                 PrintScriptToken(CommonTypes.STRING_LITERAL, "\"STRING\"", Position(1, 8)),
@@ -404,7 +405,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -414,7 +415,7 @@ class ParserErrorTest {
     fun testDeclarationWithOperatorAsType() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.DECLARATION, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 6)),
                 PrintScriptToken(CommonTypes.OPERATORS, "+", Position(1, 8)),
@@ -422,7 +423,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -440,7 +441,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -460,7 +461,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
         assertFalse(result.isSuccess())
         assertEquals("Was expecting closing parenthesis", result.message())
@@ -476,10 +477,284 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = RecursiveParserFactory().createParser(tokens, nodeBuilder)
+        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
         assertEquals("Invalid structure", result.message())
+    }
+
+    @Test
+    fun testIfStatementMissingOpeningParenthesis() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.CONDITIONALS, "if", Position(1, 1)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 4)),
+                PrintScriptToken(CommonTypes.COMPARISON, ">", Position(1, 6)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "0", Position(1, 8)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 9)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "{", Position(1, 11)),
+                PrintScriptToken(CommonTypes.PRINT, "print", Position(1, 12)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 17)),
+                PrintScriptToken(CommonTypes.STRING_LITERAL, "\"test\"", Position(1, 18)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 24)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 25)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "}", Position(1, 26)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertFalse(result.isSuccess())
+        assertTrue(result.message().contains("(") || result.message().contains("parenthesis"))
+    }
+
+    @Test
+    fun testIfStatementMissingClosingParenthesis() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.CONDITIONALS, "if", Position(1, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 4)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
+                PrintScriptToken(CommonTypes.COMPARISON, ">", Position(1, 7)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "0", Position(1, 9)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "{", Position(1, 11)),
+                PrintScriptToken(CommonTypes.PRINT, "print", Position(1, 12)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 17)),
+                PrintScriptToken(CommonTypes.STRING_LITERAL, "\"test\"", Position(1, 18)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 24)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 25)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "}", Position(1, 26)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertFalse(result.isSuccess())
+        assertTrue(result.message().contains(")") || result.message().contains("parenthesis"))
+    }
+
+    @Test
+    fun testIfStatementMissingCondition() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.CONDITIONALS, "if", Position(1, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 4)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 5)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "{", Position(1, 7)),
+                PrintScriptToken(CommonTypes.PRINT, "print", Position(1, 8)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 13)),
+                PrintScriptToken(CommonTypes.STRING_LITERAL, "\"test\"", Position(1, 14)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 20)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 21)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "}", Position(1, 22)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertFalse(result.isSuccess())
+        assertTrue(result.message().contains("condition") || result.message().contains("expression"))
+    }
+
+    @Test
+    fun testIfStatementMissingThenStatement() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.CONDITIONALS, "if", Position(1, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 4)),
+                PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 5)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 9)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "{", Position(1, 11)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "}", Position(1, 12)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertFalse(result.isSuccess())
+    }
+
+    @Test
+    fun testElseWithoutIf() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.CONDITIONALS, "else", Position(1, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "{", Position(1, 6)),
+                PrintScriptToken(CommonTypes.PRINT, "print", Position(1, 7)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 12)),
+                PrintScriptToken(CommonTypes.STRING_LITERAL, "\"else\"", Position(1, 13)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 19)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 20)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "}", Position(1, 21)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertFalse(result.isSuccess())
+        assertEquals("Can't be handled currently by the statement parser", result.message())
+    }
+
+    @Test
+    fun testConstDeclarationWithoutInitialValue() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.CONST, "const", Position(1, 1)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "PI", Position(1, 7)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 9)),
+                PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 11)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 18)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertFalse(result.isSuccess())
+    }
+
+    @Test
+    fun testConstDeclarationMissingAssignment() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.CONST, "const", Position(1, 1)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "PI", Position(1, 7)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 9)),
+                PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 11)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "3.14", Position(1, 18)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 22)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertFalse(result.isSuccess())
+    }
+
+    @Test
+    fun testBooleanDeclarationWithInvalidValue() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "isTrue", Position(1, 5)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 11)),
+                PrintScriptToken(CommonTypes.BOOLEAN, "BOOLEAN", Position(1, 13)),
+                PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 21)),
+                PrintScriptToken(CommonTypes.STRING_LITERAL, "\"true\"", Position(1, 23)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 29)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertTrue(result.isSuccess())
+    }
+
+    @Test
+    fun testBooleanDeclarationWithNumberLiteral() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "isTrue", Position(1, 5)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 11)),
+                PrintScriptToken(CommonTypes.BOOLEAN, "BOOLEAN", Position(1, 13)),
+                PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 21)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "1", Position(1, 23)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 24)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertTrue(result.isSuccess())
+    }
+
+    @Test
+    fun `readEnv with identifier fails`() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.READ_ENV, "readEnv", Position(1, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 8)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 9)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 10)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 11)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertFalse(result.isSuccess())
+        assertEquals("Only a literal expression can be inside of readEnv", result.message())
+    }
+
+    @Test
+    fun `readEnv with complex expression fails`() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.READ_ENV, "readEnv", Position(1, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 8)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 9)),
+                PrintScriptToken(CommonTypes.OPERATORS, "+", Position(1, 11)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 13)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 14)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 15)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertFalse(result.isSuccess())
+        assertEquals("Only a literal expression can be inside of readEnv", result.message())
+    }
+
+    @Test
+    fun `readInput with identifier fails`() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.READ_INPUT, "readInput", Position(1, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 10)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "msg", Position(1, 11)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 14)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 15)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertFalse(result.isSuccess())
+        assertEquals("Only a literal expression can be inside of readInput", result.message())
+    }
+
+    @Test
+    fun `readInput with complex expression fails`() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.READ_INPUT, "readInput", Position(1, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 10)),
+                PrintScriptToken(CommonTypes.STRING_LITERAL, "\"a\"", Position(1, 11)),
+                PrintScriptToken(CommonTypes.OPERATORS, "+", Position(1, 14)),
+                PrintScriptToken(CommonTypes.STRING_LITERAL, "\"b\"", Position(1, 16)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 19)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 20)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertFalse(result.isSuccess())
+        assertEquals("Only a literal expression can be inside of readInput", result.message())
     }
 }

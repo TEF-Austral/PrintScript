@@ -16,7 +16,7 @@ import parser.statement.expression.ExpressionRegistry
 import parser.statement.expression.IdentifierBuilder
 import parser.statement.expression.LiteralBuilder
 
-class RecursiveParserFactory : ParserFactory {
+class V1Point0ParserFactory : ParserFactory {
     override fun createParser(
         tokens: List<Token>,
         nodeBuilder: NodeBuilder,
@@ -24,18 +24,18 @@ class RecursiveParserFactory : ParserFactory {
         val tokenToExpression =
             ExpressionRegistry(
                 listOf(
-                    IdentifierBuilder,
-                    LiteralBuilder,
-                    DelimitersBuilder,
+                    IdentifierBuilder(),
+                    LiteralBuilder(),
+                    DelimitersBuilder(),
                 ),
             )
         val parseBinary =
             DefaultParseBinary(
                 ExpressionRegistry(
                     listOf(
-                        IdentifierBuilder,
-                        LiteralBuilder,
-                        DelimitersBuilder,
+                        IdentifierBuilder(),
+                        LiteralBuilder(),
+                        DelimitersBuilder(),
                     ),
                 ),
             )

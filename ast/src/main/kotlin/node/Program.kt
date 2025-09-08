@@ -1,8 +1,13 @@
 package node
 
+import coordinates.Coordinates
+import coordinates.UnassignedPosition
+
 class Program(
     private val statements: List<Statement>,
-) : ASTNode { // Root del AST, pero usando Composite (creo)
-
+    private val coordinates: Coordinates = UnassignedPosition(),
+) : ASTNode {
     fun getStatements(): List<Statement> = statements
+
+    override fun getCoordinates(): Coordinates = coordinates
 }

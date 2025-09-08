@@ -5,7 +5,7 @@ import type.CommonTypes
 import parser.Parser
 import parser.result.ExpressionBuiltResult
 
-object IdentifierBuilder : ExpressionBuilder {
+class IdentifierBuilder : ExpressionBuilder {
     override fun canHandle(token: CommonTypes): Boolean = token == CommonTypes.IDENTIFIER
 
     override fun build(

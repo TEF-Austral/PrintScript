@@ -1,5 +1,6 @@
 package executor.statement
 
+import data.DataBase
 import executor.expression.DefaultExpressionExecutor
 import node.AssignmentStatement
 import node.Statement
@@ -8,7 +9,7 @@ import utils.areTypesCompatible
 import variable.Variable
 
 class AssignmentStatementExecutor(
-    private val variables: MutableMap<String, Variable>,
+    private val dataBase: DataBase, // Se inyecta la DataBase
     private val defaultExpressionExecutor: DefaultExpressionExecutor,
 ) : SpecificStatementExecutor {
     override fun canHandle(statement: Statement): Boolean = statement is AssignmentStatement
@@ -17,6 +18,10 @@ class AssignmentStatementExecutor(
         return try {
             val assignStmt = statement as AssignmentStatement
             val identifier = assignStmt.getIdentifier()
+
+            if (isConstant(identifier)) {
+                return createConstantReassignmentError(identifier)
+            }
 
             val existingVariable =
                 getVariable(identifier)
@@ -35,7 +40,9 @@ class AssignmentStatementExecutor(
         }
     }
 
-    private fun getVariable(identifier: String): Variable? = variables[identifier]
+    private fun isConstant(identifier: String): Boolean = dataBase.getConstantValue(identifier) != null
+
+    private fun getVariable(identifier: String): Variable? = dataBase.getVariableValue(identifier) as? Variable //
 
     private fun evaluateExpression(statement: AssignmentStatement): InterpreterResult = defaultExpressionExecutor.execute(statement.getValue())
 
@@ -46,15 +53,17 @@ class AssignmentStatementExecutor(
         oldVar: Variable,
         newVal: Variable,
     ): InterpreterResult {
+        // Comprueba la compatibilidad de tipos
         if (!areTypesCompatible(oldVar.getType(), newVal.getType())) {
             return createTypeMismatchError(id, oldVar.getType(), newVal.getType())
         }
 
-        variables[id] = Variable(oldVar.getType(), newVal.getValue())
+        // Cambia el valor de la variable en la base de datos
+        dataBase.changeVariableValue(id, Variable(oldVar.getType(), newVal.getValue()))
         return createSuccessResult()
     }
 
-    // --- Funciones auxiliares para crear resultados ---
+    private fun createConstantReassignmentError(id: String) = InterpreterResult(false, "Error: Cannot reassign a value to a constant '$id'", null)
 
     private fun createVariableNotFoundError(id: String) = InterpreterResult(false, "Error: Variable '$id' not declared", null)
 

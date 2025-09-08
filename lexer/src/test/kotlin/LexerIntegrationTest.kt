@@ -29,7 +29,7 @@ class LexerIntegrationTest {
 
         Assertions.assertEquals(5, tokens.size)
 
-        Assertions.assertEquals(CommonTypes.DECLARATION, tokens[0].getType())
+        Assertions.assertEquals(CommonTypes.LET, tokens[0].getType())
         Assertions.assertEquals("let", tokens[0].getValue())
         Assertions.assertEquals(1, tokens[0].getCoordinates().getRow())
         Assertions.assertEquals(1, tokens[0].getCoordinates().getColumn())
@@ -89,7 +89,7 @@ class LexerIntegrationTest {
         // let y:Number = 123;
 
         Assertions.assertEquals(14, tokens.size)
-        Assertions.assertEquals(CommonTypes.DECLARATION, tokens[0].getType())
+        Assertions.assertEquals(CommonTypes.LET, tokens[0].getType())
         Assertions.assertEquals("let", tokens[0].getValue())
         Assertions.assertEquals(1, tokens[0].getCoordinates().getRow())
         Assertions.assertEquals(1, tokens[0].getCoordinates().getColumn())

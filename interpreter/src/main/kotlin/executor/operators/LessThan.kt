@@ -11,28 +11,24 @@ object LessThan : Operator {
         left: Variable,
         right: Variable,
     ): InterpreterResult {
-        // 1. Intenta comparar como números.
         val numericResult = compareAsDouble(left, right)
         if (numericResult != null) {
             val resultVar = Variable(CommonTypes.BOOLEAN_LITERAL, numericResult)
             return InterpreterResult(true, "Success LessThan (Numeric)", resultVar)
         }
 
-        // 2. Intenta comparar como booleanos.
         val booleanResult = compareAsBoolean(left, right)
         if (booleanResult != null) {
             val resultVar = Variable(CommonTypes.BOOLEAN_LITERAL, booleanResult)
             return InterpreterResult(true, "Success LessThan (Boolean)", resultVar)
         }
 
-        // 3. Intenta comparar si ambos son explícitamente del tipo STRING.
         val stringResult = compareIfBothAreStrings(left, right)
         if (stringResult != null) {
             val resultVar = Variable(CommonTypes.BOOLEAN_LITERAL, stringResult)
             return InterpreterResult(true, "Success LessThan (String)", resultVar)
         }
 
-        // 4. Si ninguna de las comparaciones anteriores fue posible, falla.
         return InterpreterResult(
             false,
             "Type mismatch: Incompatible types for < operation between ${left.getType()} and ${right.getType()}.",
@@ -60,7 +56,6 @@ object LessThan : Operator {
         val leftBool = toBooleanOrNull(left.getValue())
         val rightBool = toBooleanOrNull(right.getValue())
         return if (leftBool != null && rightBool != null) {
-            // El único caso verdadero es `false < true`.
             !leftBool && rightBool
         } else {
             null

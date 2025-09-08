@@ -12,12 +12,11 @@ object Subtraction : Operator {
         right: Variable,
     ): InterpreterResult {
         val intResult = subtractAsInt(left, right)
-        if (intResult != null) return InterpreterResult(true, "Succes Substraction", intResult)
+        if (intResult != null) return InterpreterResult(true, "Success Substraction", intResult)
 
         val doubleResult = subtractAsDouble(left, right)
-        if (doubleResult != null) return InterpreterResult(true, "Succes Substraction", doubleResult)
+        if (doubleResult != null) return InterpreterResult(true, "Success Substraction", doubleResult)
 
-        // TODO deberia de haber un type para error quisa?
         return InterpreterResult(false, "Type mismatch: Incompatible types for Substraction operation", Variable(CommonTypes.STRING_LITERAL, null))
     }
 

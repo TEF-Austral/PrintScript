@@ -17,8 +17,29 @@ class LexerTest {
         val tokens = lex("let x = 5;")
         assertEquals(5, tokens.size)
 
-        assertEquals(CommonTypes.DECLARATION, tokens[0].getType())
+        assertEquals(CommonTypes.LET, tokens[0].getType())
         assertEquals("let", tokens[0].getValue())
+
+        assertEquals(CommonTypes.IDENTIFIER, tokens[1].getType())
+        assertEquals("x", tokens[1].getValue())
+
+        assertEquals(CommonTypes.ASSIGNMENT, tokens[2].getType())
+        assertEquals("=", tokens[2].getValue())
+
+        assertEquals(CommonTypes.NUMBER_LITERAL, tokens[3].getType())
+        assertEquals("5", tokens[3].getValue())
+
+        assertEquals(CommonTypes.DELIMITERS, tokens[4].getType())
+        assertEquals(";", tokens[4].getValue())
+    }
+
+    @Test
+    fun tokenizeDeclarationConstAssignmentWithNumberLiteral() {
+        val tokens = lex("const x = 5;")
+        assertEquals(5, tokens.size)
+
+        assertEquals(CommonTypes.CONST, tokens[0].getType())
+        assertEquals("const", tokens[0].getValue())
 
         assertEquals(CommonTypes.IDENTIFIER, tokens[1].getType())
         assertEquals("x", tokens[1].getValue())

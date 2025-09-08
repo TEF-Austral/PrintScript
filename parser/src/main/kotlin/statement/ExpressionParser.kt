@@ -4,11 +4,14 @@ import Token
 import parser.Parser
 import parser.result.StatementBuiltResult
 import parser.result.StatementResult
+import parser.utils.advancePastSemiColon
 import parser.utils.isOpeningParenthesis
 import parser.utils.isSemiColon
 import type.CommonTypes
 
-class ExpressionParser : StatementBuilder {
+class ExpressionParser(
+    private val acceptedTypes: Map<CommonTypes, Boolean> = mapOf(CommonTypes.NUMBER_LITERAL to true, CommonTypes.STRING_LITERAL to true, CommonTypes.IDENTIFIER to true, CommonTypes.OPERATORS to true),
+) : StatementBuilder {
     override fun canHandle(
         token: Token?,
         parser: Parser,
@@ -20,25 +23,19 @@ class ExpressionParser : StatementBuilder {
     private fun isValidExpressionStart(
         types: CommonTypes,
         parser: Parser,
-    ): Boolean =
-        when (types) {
-            CommonTypes.NUMBER_LITERAL -> true
-            CommonTypes.STRING_LITERAL -> true
-            CommonTypes.IDENTIFIER -> true
-            CommonTypes.OPERATORS -> true
-            CommonTypes.DELIMITERS -> isOpeningParenthesis(parser)
-            else -> false
+    ): Boolean {
+        if (acceptedTypes.containsKey(types)) {
+            return acceptedTypes.getValue(types)
+        } else if (types == CommonTypes.DELIMITERS) {
+            return isOpeningParenthesis(parser)
         }
+        return false
+    }
 
     override fun parse(parser: Parser): StatementResult {
         if (isSemiColon(parser.advance().advance().peak())) throw Exception("Invalid structure")
         val expression = parser.getExpressionParser().parseExpression(parser)
-        val delimiterParser =
-            if (isSemiColon(expression.getParser().peak())) {
-                expression.getParser().consume(CommonTypes.DELIMITERS).getParser()
-            } else {
-                expression.getParser()
-            }
+        val delimiterParser = advancePastSemiColon(expression.getParser())
         val builtStatement = delimiterParser.getNodeBuilder().buildExpressionStatementNode(expression.getExpression())
         return StatementBuiltResult(delimiterParser, builtStatement)
     }

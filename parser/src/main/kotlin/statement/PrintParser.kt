@@ -4,9 +4,9 @@ import Token
 import parser.Parser
 import parser.result.StatementBuiltResult
 import parser.result.StatementResult
+import parser.utils.advancePastSemiColon
 import parser.utils.isClosingParenthesis
 import parser.utils.isOpeningParenthesis
-import parser.utils.isSemiColon
 import type.CommonTypes
 
 class PrintParser : StatementBuilder {
@@ -40,9 +40,10 @@ class PrintParser : StatementBuilder {
     }
 
     private fun consumeSemiColon(parser: Parser): Parser {
-        if (isSemiColon(parser.peak())) {
-            return parser.consume(CommonTypes.DELIMITERS).getParser()
+        val nextParser = advancePastSemiColon(parser)
+        if (nextParser == parser) {
+            throw Exception("Was expecting a semicolon")
         }
-        throw Exception("Was expecting a semicolon")
+        return nextParser
     }
 }

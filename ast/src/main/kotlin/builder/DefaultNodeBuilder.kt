@@ -12,33 +12,38 @@ import node.Expression
 import node.ExpressionStatement
 import node.IfStatement
 import node.PrintStatement
+import node.ReadEnvStatement
+import node.ReadInputStatement
 import node.Statement
 
 class DefaultNodeBuilder : NodeBuilder {
-    override fun buildLiteralExpressionNode(token: Token): LiteralExpression = LiteralExpression(token)
+    override fun buildLiteralExpressionNode(token: Token): LiteralExpression = LiteralExpression(token, token.getCoordinates())
 
-    override fun buildIdentifierNode(token: Token): IdentifierExpression = IdentifierExpression(token)
+    override fun buildIdentifierNode(token: Token): IdentifierExpression = IdentifierExpression(token, token.getCoordinates())
 
     override fun buildBinaryExpressionNode(
         left: Expression,
         operator: Token,
         right: Expression,
-    ): BinaryExpression = BinaryExpression(left, operator, right)
+    ): BinaryExpression = BinaryExpression(left, operator, right, operator.getCoordinates())
 
     override fun buildVariableDeclarationStatementNode(
+        declarationType: Token,
         identifier: Token,
         dataType: Token,
         initialValue: Expression?,
-    ): DeclarationStatement = DeclarationStatement(identifier, dataType, initialValue)
+    ): DeclarationStatement = DeclarationStatement(declarationType, identifier, dataType, initialValue, identifier.getCoordinates())
 
     override fun buildAssignmentStatementNode(
         identifier: Token,
         value: Expression,
-    ): AssignmentStatement = AssignmentStatement(identifier, value)
+    ): AssignmentStatement = AssignmentStatement(identifier, value, value.getCoordinates())
 
-    override fun buildPrintStatementNode(expression: Expression): PrintStatement = PrintStatement(expression)
+    override fun buildPrintStatementNode(expression: Expression): PrintStatement = PrintStatement(expression, expression.getCoordinates())
 
-    override fun buildExpressionStatementNode(expression: Expression): ExpressionStatement = ExpressionStatement(expression)
+    override fun buildExpressionStatementNode(
+        expression: Expression,
+    ): ExpressionStatement = ExpressionStatement(expression, expression.getCoordinates())
 
     override fun buildEmptyStatementNode(): EmptyStatement = EmptyStatement()
 
@@ -48,5 +53,9 @@ class DefaultNodeBuilder : NodeBuilder {
         condition: Expression,
         consequence: Statement,
         alternative: Statement?,
-    ): IfStatement = IfStatement(condition, consequence, alternative)
+    ): IfStatement = IfStatement(condition, consequence, alternative, consequence.getCoordinates())
+
+    override fun buildReadInputNode(printValue: LiteralExpression): ReadInputStatement = ReadInputStatement(printValue.getValue(), printValue.getCoordinates())
+
+    override fun buildReadEnvNode(envName: LiteralExpression): ReadEnvStatement = ReadEnvStatement(envName.getValue(), envName.getCoordinates())
 }

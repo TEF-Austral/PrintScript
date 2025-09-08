@@ -43,3 +43,20 @@ fun isClosingParenthesis(parser: Parser): Boolean {
     if (token == null) return false
     return token.getType() == CommonTypes.DELIMITERS && token.getValue() == ")"
 }
+
+fun isOpeningBrace(parser: Parser): Boolean {
+    val token = parser.peak()
+    return checkType(CommonTypes.DELIMITERS, token) && token?.getValue() == "{"
+}
+
+fun isClosingBrace(parser: Parser): Boolean {
+    val token = parser.peak()
+    return checkType(CommonTypes.DELIMITERS, token) && token?.getValue() == "}"
+}
+
+fun advancePastSemiColon(parser: Parser): Parser =
+    if (isSemiColon(parser.peak())) {
+        parser.consume(CommonTypes.DELIMITERS).getParser()
+    } else {
+        parser
+    }

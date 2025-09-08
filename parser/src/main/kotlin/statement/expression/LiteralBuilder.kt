@@ -5,8 +5,16 @@ import type.CommonTypes
 import parser.Parser
 import parser.result.ExpressionBuiltResult
 
-object LiteralBuilder : ExpressionBuilder {
-    override fun canHandle(token: CommonTypes): Boolean = token == CommonTypes.NUMBER_LITERAL || token == CommonTypes.STRING_LITERAL
+class LiteralBuilder(
+    private val handleableLiteralTypes: List<CommonTypes> =
+        listOf(CommonTypes.NUMBER_LITERAL, CommonTypes.STRING_LITERAL),
+) : ExpressionBuilder {
+    override fun canHandle(token: CommonTypes): Boolean {
+        for (type in handleableLiteralTypes) {
+            if (token == type) return true
+        }
+        return false
+    }
 
     override fun build(
         parser: Parser,

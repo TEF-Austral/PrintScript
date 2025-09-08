@@ -8,7 +8,6 @@ import parser.result.ExpressionBuiltResult
 import parser.result.ExpressionResult
 import type.CommonTypes
 
-// TODO REFACTOR AND ADD () LOGIC
 class DefaultParseBinary(
     private val tokenToExpression: TokenToExpression,
 ) : ParseBinary {
@@ -122,7 +121,6 @@ class DefaultParseBinary(
             else -> false
         }
 
-    // TODO MAPA
     private fun getOperatorPrecedence(token: Token): Int =
         when (token.getType()) {
             CommonTypes.LOGICAL_OPERATORS -> 1

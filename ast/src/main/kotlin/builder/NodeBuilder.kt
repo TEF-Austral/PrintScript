@@ -3,7 +3,10 @@ package builder
 import Token
 import node.Expression
 import node.IfStatement
+import node.LiteralExpression
 import node.Program
+import node.ReadEnvStatement
+import node.ReadInputStatement
 import node.Statement
 
 sealed interface NodeBuilder {
@@ -18,6 +21,7 @@ sealed interface NodeBuilder {
     ): Expression
 
     fun buildVariableDeclarationStatementNode(
+        declarationType: Token,
         identifier: Token,
         dataType: Token,
         initialValue: Expression? = null,
@@ -41,4 +45,8 @@ sealed interface NodeBuilder {
         consequence: Statement,
         alternative: Statement? = null,
     ): IfStatement
+
+    fun buildReadInputNode(printValue: LiteralExpression): ReadInputStatement
+
+    fun buildReadEnvNode(envName: LiteralExpression): ReadEnvStatement
 }

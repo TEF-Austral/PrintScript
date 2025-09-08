@@ -37,6 +37,7 @@ class IfStatementFailureTest {
                                         "123",
                                         Position(1, 4),
                                     ),
+                                    Position(0, 0),
                                 ),
                             consequence =
                                 ExpressionStatement(
@@ -46,11 +47,15 @@ class IfStatementFailureTest {
                                             "This should not happen",
                                             Position(2, 5),
                                         ),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
                             alternative = null,
+                            coordinates = Position(0, 0),
                         ),
                     ),
+                coordinates = Position(0, 0),
             )
 
         val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
@@ -83,6 +88,7 @@ class IfStatementFailureTest {
                                         "not a boolean",
                                         Position(1, 4),
                                     ),
+                                    Position(0, 0),
                                 ),
                             consequence =
                                 ExpressionStatement(
@@ -92,11 +98,15 @@ class IfStatementFailureTest {
                                             "This should not happen",
                                             Position(2, 5),
                                         ),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
                             alternative = null,
+                            coordinates = Position(0, 0),
                         ),
                     ),
+                coordinates = Position(0, 0),
             )
 
         val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
@@ -119,9 +129,10 @@ class IfStatementFailureTest {
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 4))),
+                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 4)), Position(0, 0)),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, "&&", Position(1, 9)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "123", Position(1, 12))),
+                                    right = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "123", Position(1, 12)), Position(0, 0)),
+                                    coordinates = Position(0, 0),
                                 ),
                             consequence =
                                 ExpressionStatement(
@@ -131,11 +142,15 @@ class IfStatementFailureTest {
                                             "never happens",
                                             Position(2, 5),
                                         ),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
                             alternative = null,
+                            coordinates = Position(0, 0),
                         ),
                     ),
+                coordinates = Position(0, 0),
             )
 
         val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
@@ -160,7 +175,7 @@ class IfStatementFailureTest {
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "hello", Position(1, 4))),
+                                    left = LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "hello", Position(1, 4)), Position(0, 0)),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, "||", Position(1, 12)),
                                     right =
                                         LiteralExpression(
@@ -169,7 +184,9 @@ class IfStatementFailureTest {
                                                 "false",
                                                 Position(1, 15),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    coordinates = Position(0, 0),
                                 ),
                             consequence =
                                 ExpressionStatement(
@@ -179,11 +196,15 @@ class IfStatementFailureTest {
                                             "never happens",
                                             Position(2, 5),
                                         ),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
                             alternative = null,
+                            coordinates = Position(0, 0),
                         ),
                     ),
+                coordinates = Position(0, 0),
             )
 
         val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
@@ -209,9 +230,10 @@ class IfStatementFailureTest {
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 4))),
+                                    left = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 4)), Position(0, 0)),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, ">", Position(1, 7)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "five", Position(1, 9))),
+                                    right = LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "five", Position(1, 9)), Position(0, 0)),
+                                    coordinates = Position(0, 0),
                                 ),
                             consequence =
                                 ExpressionStatement(
@@ -221,11 +243,15 @@ class IfStatementFailureTest {
                                             "never happens",
                                             Position(2, 5),
                                         ),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
                             alternative = null,
+                            coordinates = Position(0, 0),
                         ),
                     ),
+                coordinates = Position(0, 0),
             )
 
         val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
