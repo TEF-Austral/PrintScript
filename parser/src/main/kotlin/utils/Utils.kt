@@ -53,3 +53,10 @@ fun isClosingBrace(parser: Parser): Boolean {
     val token = parser.peak()
     return checkType(CommonTypes.DELIMITERS, token) && token?.getValue() == "}"
 }
+
+fun advancePastSemiColon(parser: Parser): Parser =
+    if (isSemiColon(parser.peak())) {
+        parser.consume(CommonTypes.DELIMITERS).getParser()
+    } else {
+        parser
+    }

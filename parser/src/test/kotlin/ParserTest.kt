@@ -9,6 +9,8 @@ import node.IdentifierExpression
 import node.IfStatement
 import node.LiteralExpression
 import node.PrintStatement
+import node.ReadEnvStatement
+import node.ReadInputStatement
 import parser.factory.V1Point0ParserFactory
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -876,6 +878,23 @@ class ParserTest {
     }
 
     @Test
+    fun testIdentifierAssignmentIdentifier() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.IDENTIFIER, "isActive", Position(1, 1)),
+                PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 10)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "yes", Position(1, 12)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 15)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertTrue(result.isSuccess())
+    }
+
+    @Test
     fun testConstDeclarationWithoutTypeNumberInference() {
         val tokens =
             listOf(
@@ -925,5 +944,51 @@ class ParserTest {
         assertTrue(constDecl.getInitialValue() is LiteralExpression)
         val literal = constDecl.getInitialValue() as LiteralExpression
         assertEquals("true", literal.getValue())
+    }
+
+    @Test
+    fun `readEnv with literal works`() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.READ_ENV, "readEnv", Position(1, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 8)),
+                PrintScriptToken(CommonTypes.STRING_LITERAL, "\"USER\"", Position(1, 9)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 15)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 16)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val program = parser.parse().getProgram()
+
+        assertEquals(1, program.getStatements().size)
+        val stmt = program.getStatements()[0]
+        assertEquals(1, stmt.getCoordinates().getRow())
+        assertEquals(9, stmt.getCoordinates().getColumn())
+        val value = (stmt as ReadEnvStatement).envName()
+        assertEquals("\"USER\"", value)
+    }
+
+    @Test
+    fun `readInput with literal works`() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.READ_INPUT, "readInput", Position(1, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 10)),
+                PrintScriptToken(CommonTypes.STRING_LITERAL, "\"Enter your name\"", Position(1, 11)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 31)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 32)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val program = parser.parse().getProgram()
+
+        assertEquals(1, program.getStatements().size)
+        val stmt = program.getStatements()[0]
+        assertEquals(1, stmt.getCoordinates().getRow())
+        assertEquals(11, stmt.getCoordinates().getColumn())
+        val value = (stmt as ReadInputStatement).printValue()
+        assertEquals("\"Enter your name\"", value)
     }
 }

@@ -679,12 +679,34 @@ class ParserErrorTest {
     }
 
     @Test
-    fun testInvalidBooleanLiteral() {
+    fun `readEnv with identifier fails`() {
         val tokens =
             listOf(
-                PrintScriptToken(CommonTypes.IDENTIFIER, "isActive", Position(1, 1)),
-                PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 10)),
-                PrintScriptToken(CommonTypes.IDENTIFIER, "yes", Position(1, 12)),
+                PrintScriptToken(CommonTypes.READ_ENV, "readEnv", Position(1, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 8)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 9)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 10)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 11)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertFalse(result.isSuccess())
+        assertEquals("Only a literal expression can be inside of readEnv", result.message())
+    }
+
+    @Test
+    fun `readEnv with complex expression fails`() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.READ_ENV, "readEnv", Position(1, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 8)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 9)),
+                PrintScriptToken(CommonTypes.OPERATORS, "+", Position(1, 11)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 13)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 14)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 15)),
             )
 
@@ -692,6 +714,47 @@ class ParserErrorTest {
         val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
-        assertTrue(result.isSuccess())
+        assertFalse(result.isSuccess())
+        assertEquals("Only a literal expression can be inside of readEnv", result.message())
+    }
+
+    @Test
+    fun `readInput with identifier fails`() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.READ_INPUT, "readInput", Position(1, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 10)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "msg", Position(1, 11)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 14)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 15)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertFalse(result.isSuccess())
+        assertEquals("Only a literal expression can be inside of readInput", result.message())
+    }
+
+    @Test
+    fun `readInput with complex expression fails`() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.READ_INPUT, "readInput", Position(1, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 10)),
+                PrintScriptToken(CommonTypes.STRING_LITERAL, "\"a\"", Position(1, 11)),
+                PrintScriptToken(CommonTypes.OPERATORS, "+", Position(1, 14)),
+                PrintScriptToken(CommonTypes.STRING_LITERAL, "\"b\"", Position(1, 16)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 19)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 20)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+
+        assertFalse(result.isSuccess())
+        assertEquals("Only a literal expression can be inside of readInput", result.message())
     }
 }

@@ -8,6 +8,8 @@ import parser.statement.AssignmentParser
 import parser.statement.ExpressionParser
 import parser.statement.IfStatement
 import parser.statement.PrintParser
+import parser.statement.ReadEnvParser
+import parser.statement.ReadInputParser
 import parser.statement.StatementParser
 import parser.statement.VariableDeclarationParser
 import parser.statement.binary.DefaultParseBinary
@@ -57,8 +59,10 @@ class V1Point1ParserFactory : ParserFactory {
                     VariableDeclarationParser(ConstEnforcer(IdentifierEnforcer(ConstAssignmentEnforcer(SemiColonEnforcer())))),
                     VariableDeclarationParser(ConstEnforcer(IdentifierEnforcer(ColonEnforcer(DataTypeEnforcer(ConstAssignmentEnforcer(SemiColonEnforcer()), listOf(CommonTypes.NUMBER, CommonTypes.STRING, CommonTypes.BOOLEAN)))))),
                     PrintParser(),
+                    ReadInputParser(),
+                    ReadEnvParser(),
                     AssignmentParser(),
-                    ExpressionParser(),
+                    ExpressionParser(mapOf(CommonTypes.NUMBER_LITERAL to true, CommonTypes.STRING_LITERAL to true, CommonTypes.BOOLEAN_LITERAL to true, CommonTypes.IDENTIFIER to true, CommonTypes.OPERATORS to true)),
                     IfStatement(),
                 ),
             )
