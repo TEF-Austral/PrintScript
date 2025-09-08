@@ -15,7 +15,8 @@ class AssignmentRule : FormatRule {
     ) {
         val stmt = node as AssignmentStatement
 
-        sb.append(" ".repeat(indentLevel * config.indentSize))
+        sb
+            .append(" ".repeat(indentLevel * config.indentSize))
             .append(stmt.getIdentifier())
 
         if (config.spaceAroundAssignment) sb.append(" = ") else sb.append("=")

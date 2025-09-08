@@ -7,7 +7,7 @@ import node.Program
 import java.io.Writer
 
 class DefaultFormatter(
-    private val rules: List<FormatRule>
+    private val rules: List<FormatRule>,
 ) : Formatter {
     // legacy constructor now defaults to v1.0 rule set
     constructor() : this(RuleRegistry.rulesV10)
@@ -18,7 +18,8 @@ class DefaultFormatter(
     ): String {
         val sb = StringBuilder()
         program.getStatements().forEach { stmt ->
-            rules.first { it.matches(stmt) }
+            rules
+                .first { it.matches(stmt) }
                 .apply(stmt, sb, config, 0)
         }
         return sb
@@ -26,8 +27,10 @@ class DefaultFormatter(
             .lines()
             .joinToString("\n") { line ->
                 val indent = line.takeWhile { it == ' ' }
-                indent + line.drop(indent.length)
-                    .replace(formatter.config.FormatterConstants.MULTI_SPACE_REGEX, " ")
+                indent +
+                    line
+                        .drop(indent.length)
+                        .replace(formatter.config.FormatterConstants.MULTI_SPACE_REGEX, " ")
             }
     }
 

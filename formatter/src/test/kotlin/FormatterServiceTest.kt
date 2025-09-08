@@ -25,18 +25,20 @@ class FormatterServiceTest {
 
     @Test
     fun `formatToString loads json config and formats assignment`() {
-        val assign = builder.buildAssignmentStatementNode(
-            identifier = tok(CommonTypes.IDENTIFIER, "a"),
-            value = LiteralExpression(tok(CommonTypes.NUMBER_LITERAL, "42"), Position(0, 0))
-        )
+        val assign =
+            builder.buildAssignmentStatementNode(
+                identifier = tok(CommonTypes.IDENTIFIER, "a"),
+                value = LiteralExpression(tok(CommonTypes.NUMBER_LITERAL, "42"), Position(0, 0)),
+            )
         val program = builder.buildProgramNode(listOf(assign))
 
         val configFile = tempDir.resolve("config.json")
-        val json = """
+        val json =
+            """
             {
               "spaceAroundAssignment": "false"
             }
-        """.trimIndent()
+            """.trimIndent()
         Files.writeString(configFile, json)
 
         val result = service.formatToString(program, version, configFile.toString())
@@ -45,15 +47,17 @@ class FormatterServiceTest {
 
     @Test
     fun `formatToWriter loads yaml config and writes println with blank line`() {
-        val printStmt = builder.buildPrintStatementNode(
-            builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"hi\""))
-        )
+        val printStmt =
+            builder.buildPrintStatementNode(
+                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"hi\"")),
+            )
         val program = builder.buildProgramNode(listOf(printStmt))
 
         val configFile = tempDir.resolve("settings.yml")
-        val yaml = """
+        val yaml =
+            """
             blankLinesBeforePrintln: 1
-        """.trimIndent()
+            """.trimIndent()
         Files.writeString(configFile, yaml)
 
         val writer = StringWriter()

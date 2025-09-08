@@ -6,7 +6,7 @@ import node.DeclarationStatement
 
 class DeclarationRule(
     private val supportedKeywords: Set<String>,
-    private val exprRules: List<FormatRule>
+    private val exprRules: List<FormatRule>,
 ) : FormatRule {
     override fun matches(node: ASTNode) = node is DeclarationStatement
 
@@ -14,18 +14,19 @@ class DeclarationRule(
         node: ASTNode,
         sb: StringBuilder,
         config: FormatConfig,
-        indentLevel: Int
+        indentLevel: Int,
     ) {
         val stmt = node as DeclarationStatement
 
         if (stmt.getKeyword() !in supportedKeywords) {
             throw UnsupportedOperationException(
-                "Declarations with '${stmt.getKeyword()}' are not supported"
+                "Declarations with '${stmt.getKeyword()}' are not supported",
             )
         }
 
         val indent = " ".repeat(indentLevel * config.indentSize)
-        sb.append(indent)
+        sb
+            .append(indent)
             .append(stmt.getKeyword())
             .append(" ")
             .append(stmt.getIdentifier())
@@ -37,7 +38,8 @@ class DeclarationRule(
 
         stmt.getInitialValue()?.also { expr ->
             if (config.spaceAroundAssignment) sb.append(" = ") else sb.append("=")
-            exprRules.first { it.matches(expr) }
+            exprRules
+                .first { it.matches(expr) }
                 .apply(expr, sb, config, indentLevel)
         }
 

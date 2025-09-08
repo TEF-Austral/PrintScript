@@ -26,4 +26,3 @@ class BinaryExpressionRule : FormatRule {
             .apply(expr.getRight(), sb, config, indentLevel)
     }
 }
-

@@ -14,7 +14,8 @@ class ReadInputExpressionRule : FormatRule {
         indentLevel: Int,
     ) {
         val stmt = node as ReadInputStatement
-        sb.append("readInput(")
+        sb
+            .append("readInput(")
             .append("\"${stmt.printValue()}\"")
             .append(")")
     }

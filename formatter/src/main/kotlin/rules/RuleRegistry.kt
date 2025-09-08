@@ -1,15 +1,16 @@
 package formatter.rules
 
 object RuleRegistry {
-    private val baseRules = listOf(
-        AssignmentRule(),
-        ExpressionStatementRule(),
-        PrintStatementRule(),
-        EmptyStatementRule(),
-        BinaryExpressionRule(),
-        LiteralExpressionRule(),
-        IdentifierExpressionRule()
-    )
+    private val baseRules =
+        listOf(
+            AssignmentRule(),
+            ExpressionStatementRule(),
+            PrintStatementRule(),
+            EmptyStatementRule(),
+            BinaryExpressionRule(),
+            LiteralExpressionRule(),
+            IdentifierExpressionRule(),
+        )
 
     val rulesV10: List<FormatRule> by lazy {
         val list = mutableListOf<FormatRule>()
@@ -18,12 +19,13 @@ object RuleRegistry {
         list
     }
 
-    private val rulesV11Body = listOf(
-        BlockStatementRule(),
-        IfStatementRule(),
-        ReadInputExpressionRule(),
-        ReadEnvExpressionRule()
-    )
+    private val rulesV11Body =
+        listOf(
+            BlockStatementRule(),
+            IfStatementRule(),
+            ReadInputExpressionRule(),
+            ReadEnvExpressionRule(),
+        )
 
     val rulesV11: List<FormatRule> by lazy {
         val list = mutableListOf<FormatRule>()

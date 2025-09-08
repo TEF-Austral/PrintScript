@@ -21,7 +21,8 @@ class PrintStatementRule : FormatRule {
                 .coerceIn(MIN_BLANK_LINES_BEFORE_PRINTLN, MAX_BLANK_LINES_BEFORE_PRINTLN)
         repeat(lines) { sb.appendLine() }
 
-        sb.append(" ".repeat(indentLevel * config.indentSize))
+        sb
+            .append(" ".repeat(indentLevel * config.indentSize))
             .append("println(")
 
         RuleRegistry.rulesV10

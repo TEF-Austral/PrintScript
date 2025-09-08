@@ -14,7 +14,8 @@ class ReadEnvExpressionRule : FormatRule {
         indentLevel: Int,
     ) {
         val stmt = node as ReadEnvStatement
-        sb.append("readEnv(")
+        sb
+            .append("readEnv(")
             .append("\"${stmt.envName()}\"")
             .append(")")
     }

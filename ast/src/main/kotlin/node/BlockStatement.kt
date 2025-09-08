@@ -4,7 +4,7 @@ import coordinates.Coordinates
 
 class BlockStatement(
     private val statements: List<Statement>,
-    private val coordinates: Coordinates
+    private val coordinates: Coordinates,
 ) : Statement {
     fun getStatements(): List<Statement> = statements
 

@@ -17,7 +17,8 @@ class IfStatementRule : FormatRule {
         val indent = " ".repeat(indentLevel * config.indentSize)
 
         // if(<condition>) {
-        sb.append(indent)
+        sb
+            .append(indent)
             .append("if(")
         RuleRegistry.rulesV11
             .first { it.matches(stmt.getCondition()) }
