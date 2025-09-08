@@ -1,8 +1,8 @@
 package formatter.rules
 
 import formatter.config.FormatConfig
-import node.BinaryExpression
 import node.ASTNode
+import node.BinaryExpression
 
 class BinaryExpressionRule : FormatRule {
     override fun matches(node: ASTNode) = node is BinaryExpression
@@ -15,14 +15,15 @@ class BinaryExpressionRule : FormatRule {
     ) {
         val expr = node as BinaryExpression
 
-        RuleRegistry.rules
+        RuleRegistry.rulesV10
             .first { it.matches(expr.getLeft()) }
             .apply(expr.getLeft(), sb, config, indentLevel)
 
         sb.append(" ${expr.getOperator()} ")
 
-        RuleRegistry.rules
+        RuleRegistry.rulesV10
             .first { it.matches(expr.getRight()) }
             .apply(expr.getRight(), sb, config, indentLevel)
     }
 }
+

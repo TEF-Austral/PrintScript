@@ -1,20 +1,24 @@
 package formatter
 
 import formatter.config.FormatConfig
-import formatter.config.FormatterConstants.MULTI_SPACE_REGEX
+import formatter.rules.FormatRule
 import formatter.rules.RuleRegistry
 import node.Program
 import java.io.Writer
 
-class DefaultFormatter : Formatter {
+class DefaultFormatter(
+    private val rules: List<FormatRule>
+) : Formatter {
+    // legacy constructor now defaults to v1.0 rule set
+    constructor() : this(RuleRegistry.rulesV10)
+
     override fun formatToString(
         program: Program,
         config: FormatConfig,
     ): String {
         val sb = StringBuilder()
         program.getStatements().forEach { stmt ->
-            RuleRegistry.rules
-                .first { it.matches(stmt) }
+            rules.first { it.matches(stmt) }
                 .apply(stmt, sb, config, 0)
         }
         return sb
@@ -22,9 +26,9 @@ class DefaultFormatter : Formatter {
             .lines()
             .joinToString("\n") { line ->
                 val indent = line.takeWhile { it == ' ' }
-                val content = line.drop(indent.length).replace(MULTI_SPACE_REGEX, " ")
-                indent + content
-            } // + "\n" // Creo que no va esto
+                indent + line.drop(indent.length)
+                    .replace(formatter.config.FormatterConstants.MULTI_SPACE_REGEX, " ")
+            }
     }
 
     override fun formatToWriter(

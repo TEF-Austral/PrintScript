@@ -1,27 +1,29 @@
 package formatter
 
-import formatter.config.FormatConfig
 import formatter.config.FormatConfigLoader
-import java.io.Writer
+import formatter.factory.FormatterFactory
 import node.Program
+import java.io.Writer
 
-class FormatterService(
-    private val formatter: Formatter = DefaultFormatter(),
-) {
+class FormatterService {
     fun formatToString(
         program: Program,
+        version: String,
         configPath: String,
     ): String {
-        val config: FormatConfig = FormatConfigLoader.load(configPath)
+        val config = FormatConfigLoader.load(configPath)
+        val formatter = FormatterFactory.create(version)
         return formatter.formatToString(program, config)
     }
 
     fun formatToWriter(
         program: Program,
+        version: String,
         configPath: String,
         writer: Writer,
     ) {
-        val config: FormatConfig = FormatConfigLoader.load(configPath)
+        val config = FormatConfigLoader.load(configPath)
+        val formatter = FormatterFactory.create(version)
         formatter.formatToWriter(program, config, writer)
     }
 }

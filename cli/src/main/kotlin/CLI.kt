@@ -43,7 +43,7 @@ class CLI {
     ): String {
         val program = parseSourceCode(srcCodePath)
         val formatter = FormatterService()
-        return formatter.formatToString(program, formatterConfigFilePath ?: "formatter_config.json")
+        return formatter.formatToString(program,"1.0", formatterConfigFilePath ?: "formatter_config.json")
     }
 
     private fun handleAnalyzing(

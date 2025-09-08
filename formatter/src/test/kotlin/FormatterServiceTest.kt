@@ -16,6 +16,7 @@ class FormatterServiceTest {
 
     private val builder = DefaultNodeBuilder()
     private val service = FormatterService()
+    private val version = "1.0"
 
     private fun tok(
         type: CommonTypes,
@@ -24,43 +25,39 @@ class FormatterServiceTest {
 
     @Test
     fun `formatToString loads json config and formats assignment`() {
-        val assign =
-            builder.buildAssignmentStatementNode(
-                identifier = tok(CommonTypes.IDENTIFIER, "a"),
-                value = LiteralExpression(tok(CommonTypes.NUMBER_LITERAL, "42"), Position(0, 0)),
-            )
+        val assign = builder.buildAssignmentStatementNode(
+            identifier = tok(CommonTypes.IDENTIFIER, "a"),
+            value = LiteralExpression(tok(CommonTypes.NUMBER_LITERAL, "42"), Position(0, 0))
+        )
         val program = builder.buildProgramNode(listOf(assign))
 
         val configFile = tempDir.resolve("config.json")
-        val json =
-            """
+        val json = """
             {
               "spaceAroundAssignment": "false"
             }
-            """.trimIndent()
+        """.trimIndent()
         Files.writeString(configFile, json)
 
-        val result = service.formatToString(program, configFile.toString())
+        val result = service.formatToString(program, version, configFile.toString())
         assertEquals("a=42;\n", result)
     }
 
     @Test
     fun `formatToWriter loads yaml config and writes println with blank line`() {
-        val printStmt =
-            builder.buildPrintStatementNode(
-                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"hi\"")),
-            )
+        val printStmt = builder.buildPrintStatementNode(
+            builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"hi\""))
+        )
         val program = builder.buildProgramNode(listOf(printStmt))
 
         val configFile = tempDir.resolve("settings.yml")
-        val yaml =
-            """
+        val yaml = """
             blankLinesBeforePrintln: 1
-            """.trimIndent()
+        """.trimIndent()
         Files.writeString(configFile, yaml)
 
         val writer = StringWriter()
-        service.formatToWriter(program, configFile.toString(), writer)
+        service.formatToWriter(program, version, configFile.toString(), writer)
         assertEquals("\nprintln(\"hi\");\n", writer.toString())
     }
 }
