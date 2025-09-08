@@ -1,7 +1,6 @@
 package node
 
 import coordinates.Coordinates
-import coordinates.Position
 
 class IfStatement(
     private val condition: Expression,

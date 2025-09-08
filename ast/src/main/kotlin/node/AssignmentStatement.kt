@@ -2,7 +2,6 @@ package node
 
 import Token
 import coordinates.Coordinates
-import coordinates.Position
 
 class AssignmentStatement(
     private val identifier: Token,

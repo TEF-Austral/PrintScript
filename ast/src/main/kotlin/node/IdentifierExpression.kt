@@ -2,7 +2,6 @@ package node
 
 import Token
 import coordinates.Coordinates
-import coordinates.Position
 
 class IdentifierExpression(
     private val token: Token,

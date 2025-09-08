@@ -870,25 +870,25 @@ class NodeTest {
 
     @Test
     fun testAllNodeTypesWithDefaultCoordinates() {
-        val literal = LiteralExpression(mockToken, Position(1,1))
-        val identifier = IdentifierExpression(identifierToken, Position(1,1))
+        val literal = LiteralExpression(mockToken, Position(1, 1))
+        val identifier = IdentifierExpression(identifierToken, Position(1, 1))
         val binary =
             BinaryExpression(
                 nodeBuilder.buildLiteralExpressionNode(numberToken),
                 operatorToken,
                 nodeBuilder.buildLiteralExpressionNode(numberToken),
-                Position(1,1)
+                Position(1, 1),
             )
-        val assignment = AssignmentStatement(identifierToken, nodeBuilder.buildLiteralExpressionNode(numberToken), Position(1,1))
-        val declaration = DeclarationStatement(declarationTypeToken, identifierToken, dataTypeToken, null, Position(1,1))
-        val printStmt = PrintStatement(nodeBuilder.buildLiteralExpressionNode(mockToken), Position(1,1))
-        val exprStmt = ExpressionStatement(nodeBuilder.buildLiteralExpressionNode(mockToken), Position(1,1))
+        val assignment = AssignmentStatement(identifierToken, nodeBuilder.buildLiteralExpressionNode(numberToken), Position(1, 1))
+        val declaration = DeclarationStatement(declarationTypeToken, identifierToken, dataTypeToken, null, Position(1, 1))
+        val printStmt = PrintStatement(nodeBuilder.buildLiteralExpressionNode(mockToken), Position(1, 1))
+        val exprStmt = ExpressionStatement(nodeBuilder.buildLiteralExpressionNode(mockToken), Position(1, 1))
         val ifStmt =
             IfStatement(
                 nodeBuilder.buildLiteralExpressionNode(booleanToken),
                 nodeBuilder.buildEmptyStatementNode(),
                 null,
-                Position(1,1)
+                Position(1, 1),
             )
         val program = Program(emptyList())
 

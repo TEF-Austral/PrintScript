@@ -41,6 +41,7 @@ class IfStatementTest {
                                         "true",
                                         Position(1, 4),
                                     ),
+                                    Position(0, 0),
                                 ),
                             consequence =
                                 PrintStatement(
@@ -50,7 +51,9 @@ class IfStatementTest {
                                             "Then branch executed",
                                             Position(2, 13),
                                         ),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
                             alternative =
                                 PrintStatement(
@@ -60,8 +63,11 @@ class IfStatementTest {
                                             "Else branch executed",
                                             Position(4, 13),
                                         ),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -98,6 +104,7 @@ class IfStatementTest {
                                         "false",
                                         Position(1, 4),
                                     ),
+                                    Position(0, 0),
                                 ),
                             consequence =
                                 PrintStatement(
@@ -107,7 +114,9 @@ class IfStatementTest {
                                             "Then branch executed",
                                             Position(2, 13),
                                         ),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
                             alternative =
                                 PrintStatement(
@@ -117,8 +126,11 @@ class IfStatementTest {
                                             "Else branch executed",
                                             Position(4, 13),
                                         ),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -159,7 +171,9 @@ class IfStatementTest {
                                         "true",
                                         Position(1, 26),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         IfStatement(
                             condition =
@@ -169,6 +183,7 @@ class IfStatementTest {
                                         "condition",
                                         Position(2, 4),
                                     ),
+                                    Position(0, 0),
                                 ),
                             consequence =
                                 PrintStatement(
@@ -178,7 +193,9 @@ class IfStatementTest {
                                             "Condition is true",
                                             Position(3, 13),
                                         ),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
                             alternative =
                                 PrintStatement(
@@ -188,8 +205,11 @@ class IfStatementTest {
                                             "Condition is false",
                                             Position(5, 13),
                                         ),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -230,7 +250,9 @@ class IfStatementTest {
                                         "false",
                                         Position(1, 26),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         IfStatement(
                             condition =
@@ -240,6 +262,7 @@ class IfStatementTest {
                                         "condition",
                                         Position(2, 4),
                                     ),
+                                    Position(0, 0),
                                 ),
                             consequence =
                                 PrintStatement(
@@ -249,7 +272,9 @@ class IfStatementTest {
                                             "Condition is true",
                                             Position(3, 13),
                                         ),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
                             alternative =
                                 PrintStatement(
@@ -259,8 +284,11 @@ class IfStatementTest {
                                             "Condition is false",
                                             Position(5, 13),
                                         ),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -295,6 +323,7 @@ class IfStatementTest {
                                         "true",
                                         Position(1, 4),
                                     ),
+                                    Position(0, 0),
                                 ),
                             consequence =
                                 PrintStatement(
@@ -304,9 +333,12 @@ class IfStatementTest {
                                             "Only then",
                                             Position(2, 13),
                                         ),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
                             alternative = null,
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -341,6 +373,7 @@ class IfStatementTest {
                                         "false",
                                         Position(1, 4),
                                     ),
+                                    Position(0, 0),
                                 ),
                             consequence =
                                 PrintStatement(
@@ -350,9 +383,12 @@ class IfStatementTest {
                                             "Should not print",
                                             Position(2, 13),
                                         ),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
                             alternative = null,
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -398,7 +434,9 @@ class IfStatementTest {
                                         "true",
                                         Position(1, 22),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
@@ -411,7 +449,9 @@ class IfStatementTest {
                                         "false",
                                         Position(2, 22),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         IfStatement(
                             condition =
@@ -421,6 +461,7 @@ class IfStatementTest {
                                         "outer",
                                         Position(3, 4),
                                     ),
+                                    Position(0, 0),
                                 ),
                             consequence =
                                 IfStatement(
@@ -431,6 +472,7 @@ class IfStatementTest {
                                                 "inner",
                                                 Position(4, 8),
                                             ),
+                                            Position(0, 0),
                                         ),
                                     consequence =
                                         PrintStatement(
@@ -440,7 +482,9 @@ class IfStatementTest {
                                                     "Inner then",
                                                     Position(5, 17),
                                                 ),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
                                     alternative =
                                         PrintStatement(
@@ -450,8 +494,11 @@ class IfStatementTest {
                                                     "Inner else",
                                                     Position(7, 17),
                                                 ),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
                             alternative =
                                 PrintStatement(
@@ -461,8 +508,11 @@ class IfStatementTest {
                                             "Outer else",
                                             Position(9, 13),
                                         ),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -487,12 +537,14 @@ class IfStatementTest {
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 4))),
+                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 4)), Position(0, 0)),
                                     operator = PrintScriptToken(CommonTypes.LOGICAL_OPERATORS, "&&", Position(1, 9)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 12))),
+                                    right = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 12)), Position(0, 0)),
+                                    Position(0, 0),
                                 ),
-                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "both true", Position(2, 13)))),
-                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "something false", Position(4, 13)))),
+                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "both true", Position(2, 13)), Position(0, 0)), Position(0, 0)),
+                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "something false", Position(4, 13)), Position(0, 0)), Position(0, 0)),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -514,12 +566,14 @@ class IfStatementTest {
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 4))),
+                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 4)), Position(0, 0)),
                                     operator = PrintScriptToken(CommonTypes.LOGICAL_OPERATORS, "&&", Position(1, 9)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(1, 12))),
+                                    right = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(1, 12)), Position(0, 0)),
+                                    Position(0, 0),
                                 ),
-                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "both true", Position(2, 13)))),
-                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "something false", Position(4, 13)))),
+                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "both true", Position(2, 13)), Position(0, 0)), Position(0, 0)),
+                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "something false", Position(4, 13)), Position(0, 0)), Position(0, 0)),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -541,12 +595,14 @@ class IfStatementTest {
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(1, 4))),
+                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(1, 4)), Position(0, 0)),
                                     operator = PrintScriptToken(CommonTypes.LOGICAL_OPERATORS, "||", Position(1, 10)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 13))),
+                                    right = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 13)), Position(0, 0)),
+                                    Position(0, 0),
                                 ),
-                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "at least one is true", Position(2, 13)))),
-                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "both false", Position(4, 13)))),
+                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "at least one is true", Position(2, 13)), Position(0, 0)), Position(0, 0)),
+                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "both false", Position(4, 13)), Position(0, 0)), Position(0, 0)),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -568,12 +624,14 @@ class IfStatementTest {
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(1, 4))),
+                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(1, 4)), Position(0, 0)),
                                     operator = PrintScriptToken(CommonTypes.LOGICAL_OPERATORS, "||", Position(1, 10)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(1, 13))),
+                                    right = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(1, 13)), Position(0, 0)),
+                                    Position(0, 0),
                                 ),
-                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "at least one is true", Position(2, 13)))),
-                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "both false", Position(4, 13)))),
+                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "at least one is true", Position(2, 13)), Position(0, 0)), Position(0, 0)),
+                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "both false", Position(4, 13)), Position(0, 0)), Position(0, 0)),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -596,28 +654,33 @@ class IfStatementTest {
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "a", Position(1, 5)),
                             dataType = PrintScriptToken(CommonTypes.BOOLEAN, "boolean", Position(1, 8)),
-                            initialValue = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 18))),
+                            initialValue = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 18)), Position(0, 0)),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "b", Position(2, 5)),
                             dataType = PrintScriptToken(CommonTypes.BOOLEAN, "boolean", Position(2, 8)),
-                            initialValue = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(2, 18))),
+                            initialValue = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(2, 18)), Position(0, 0)),
+                            Position(0, 0),
                         ),
                         IfStatement(
                             condition =
                                 BinaryExpression(
                                     left =
                                         BinaryExpression(
-                                            left = IdentifierExpression(PrintScriptToken(CommonTypes.IDENTIFIER, "a", Position(3, 5))),
+                                            left = IdentifierExpression(PrintScriptToken(CommonTypes.IDENTIFIER, "a", Position(3, 5)), Position(0, 0)),
                                             operator = PrintScriptToken(CommonTypes.LOGICAL_OPERATORS, "&&", Position(3, 9)),
-                                            right = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(3, 12))),
+                                            right = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(3, 12)), Position(0, 0)),
+                                            Position(0, 0),
                                         ),
                                     operator = PrintScriptToken(CommonTypes.LOGICAL_OPERATORS, "||", Position(3, 18)),
-                                    right = IdentifierExpression(PrintScriptToken(CommonTypes.IDENTIFIER, "b", Position(3, 21))),
+                                    right = IdentifierExpression(PrintScriptToken(CommonTypes.IDENTIFIER, "b", Position(3, 21)), Position(0, 0)),
+                                    Position(0, 0),
                                 ),
-                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "complex true", Position(4, 13)))),
-                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "complex false", Position(6, 13)))),
+                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "complex true", Position(4, 13)), Position(0, 0)), Position(0, 0)),
+                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "complex false", Position(6, 13)), Position(0, 0)), Position(0, 0)),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -639,12 +702,14 @@ class IfStatementTest {
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 4))),
+                                    left = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 4)), Position(0, 0)),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, ">", Position(1, 7)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 9))),
+                                    right = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 9)), Position(0, 0)),
+                                    Position(0, 0),
                                 ),
-                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "correct", Position(2, 13)))),
-                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "incorrect", Position(4, 13)))),
+                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "correct", Position(2, 13)), Position(0, 0)), Position(0, 0)),
+                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "incorrect", Position(4, 13)), Position(0, 0)), Position(0, 0)),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -666,12 +731,14 @@ class IfStatementTest {
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 4))),
+                                    left = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 4)), Position(0, 0)),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, "<", Position(1, 7)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 9))),
+                                    right = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 9)), Position(0, 0)),
+                                    Position(0, 0),
                                 ),
-                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "incorrect", Position(2, 13)))),
-                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "correct", Position(4, 13)))),
+                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "incorrect", Position(2, 13)), Position(0, 0)), Position(0, 0)),
+                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "correct", Position(4, 13)), Position(0, 0)), Position(0, 0)),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -694,23 +761,27 @@ class IfStatementTest {
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "a", Position(1, 5)),
                             dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
-                            initialValue = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 17))),
+                            initialValue = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 17)), Position(0, 0)),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "b", Position(2, 5)),
                             dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 8)),
-                            initialValue = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(2, 17))),
+                            initialValue = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(2, 17)), Position(0, 0)),
+                            Position(0, 0),
                         ),
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = IdentifierExpression(PrintScriptToken(CommonTypes.IDENTIFIER, "a", Position(3, 4))),
+                                    left = IdentifierExpression(PrintScriptToken(CommonTypes.IDENTIFIER, "a", Position(3, 4)), Position(0, 0)),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, "==", Position(3, 6)),
-                                    right = IdentifierExpression(PrintScriptToken(CommonTypes.IDENTIFIER, "b", Position(3, 9))),
+                                    right = IdentifierExpression(PrintScriptToken(CommonTypes.IDENTIFIER, "b", Position(3, 9)), Position(0, 0)),
+                                    Position(0, 0),
                                 ),
-                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "equal", Position(4, 13)))),
-                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "not equal", Position(6, 13)))),
+                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "equal", Position(4, 13)), Position(0, 0)), Position(0, 0)),
+                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "not equal", Position(6, 13)), Position(0, 0)), Position(0, 0)),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -732,12 +803,14 @@ class IfStatementTest {
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 4))),
+                                    left = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 4)), Position(0, 0)),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, ">=", Position(1, 7)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 10))),
+                                    right = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 10)), Position(0, 0)),
+                                    Position(0, 0),
                                 ),
-                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "correct", Position(2, 13)))),
-                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "incorrect", Position(4, 13)))),
+                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "correct", Position(2, 13)), Position(0, 0)), Position(0, 0)),
+                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "incorrect", Position(4, 13)), Position(0, 0)), Position(0, 0)),
+                            Position(0, 0),
                         ),
                     ),
             )

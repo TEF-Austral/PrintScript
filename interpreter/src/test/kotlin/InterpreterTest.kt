@@ -38,6 +38,7 @@ class InterpreterTest {
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
                             dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
                             initialValue = null,
+                            Position(0, 0),
                         ),
                         AssignmentStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(2, 1)),
@@ -48,7 +49,9 @@ class InterpreterTest {
                                         "42",
                                         Position(2, 5),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             expression =
@@ -58,7 +61,9 @@ class InterpreterTest {
                                         "x",
                                         Position(3, 9),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -92,7 +97,9 @@ class InterpreterTest {
                                         "42",
                                         Position(1, 17),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             expression =
@@ -102,7 +109,9 @@ class InterpreterTest {
                                         "x",
                                         Position(2, 9),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -135,7 +144,9 @@ class InterpreterTest {
                                         "42",
                                         Position(1, 17),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
@@ -148,7 +159,9 @@ class InterpreterTest {
                                         "10",
                                         Position(2, 17),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
@@ -163,6 +176,7 @@ class InterpreterTest {
                                                 "x",
                                                 Position(3, 17),
                                             ),
+                                            Position(0, 0),
                                         ),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(3, 19)),
                                     right =
@@ -172,8 +186,11 @@ class InterpreterTest {
                                                 "y",
                                                 Position(3, 21),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             expression =
@@ -183,7 +200,9 @@ class InterpreterTest {
                                         "z",
                                         Position(4, 9),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -217,7 +236,9 @@ class InterpreterTest {
                                         "42.2",
                                         Position(1, 17),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
@@ -230,7 +251,9 @@ class InterpreterTest {
                                         "10.0",
                                         Position(2, 17),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
@@ -245,6 +268,7 @@ class InterpreterTest {
                                                 "x",
                                                 Position(3, 17),
                                             ),
+                                            Position(0, 0),
                                         ),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(3, 19)),
                                     right =
@@ -254,8 +278,11 @@ class InterpreterTest {
                                                 "y",
                                                 Position(3, 21),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             expression =
@@ -265,7 +292,9 @@ class InterpreterTest {
                                         "z",
                                         Position(4, 9),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -299,7 +328,9 @@ class InterpreterTest {
                                         "6",
                                         Position(1, 17),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
@@ -312,7 +343,9 @@ class InterpreterTest {
                                         "3",
                                         Position(2, 17),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
@@ -327,6 +360,7 @@ class InterpreterTest {
                                                 "a",
                                                 Position(3, 17),
                                             ),
+                                            Position(0, 0),
                                         ),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, "*", Position(3, 19)),
                                     right =
@@ -336,8 +370,11 @@ class InterpreterTest {
                                                 "b",
                                                 Position(3, 21),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
@@ -352,6 +389,7 @@ class InterpreterTest {
                                                 "c",
                                                 Position(4, 17),
                                             ),
+                                            Position(0, 0),
                                         ),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, "/", Position(4, 19)),
                                     right =
@@ -361,8 +399,11 @@ class InterpreterTest {
                                                 "2",
                                                 Position(4, 21),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             expression =
@@ -372,7 +413,9 @@ class InterpreterTest {
                                         "d",
                                         Position(5, 9),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -405,7 +448,9 @@ class InterpreterTest {
                                         "8",
                                         Position(1, 17),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
@@ -418,7 +463,9 @@ class InterpreterTest {
                                         "2",
                                         Position(2, 17),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
@@ -435,6 +482,7 @@ class InterpreterTest {
                                                         "x",
                                                         Position(3, 17),
                                                     ),
+                                                    Position(0, 0),
                                                 ),
                                             operator = PrintScriptToken(CommonTypes.OPERATORS, "/", Position(3, 19)),
                                             right =
@@ -444,7 +492,9 @@ class InterpreterTest {
                                                         "y",
                                                         Position(3, 21),
                                                     ),
+                                                    Position(0, 0),
                                                 ),
+                                            Position(0, 0),
                                         ),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, "*", Position(3, 23)),
                                     right =
@@ -454,8 +504,11 @@ class InterpreterTest {
                                                 "5",
                                                 Position(3, 25),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             expression =
@@ -465,7 +518,9 @@ class InterpreterTest {
                                         "z",
                                         Position(4, 9),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -498,7 +553,9 @@ class InterpreterTest {
                                         "10",
                                         Position(1, 17),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
@@ -511,7 +568,9 @@ class InterpreterTest {
                                         "5",
                                         Position(2, 17),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
@@ -524,7 +583,9 @@ class InterpreterTest {
                                         "2",
                                         Position(3, 17),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
@@ -539,6 +600,7 @@ class InterpreterTest {
                                                 "a",
                                                 Position(4, 17),
                                             ),
+                                            Position(0, 0),
                                         ),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, "*", Position(4, 19)),
                                     right =
@@ -548,8 +610,11 @@ class InterpreterTest {
                                                 "b",
                                                 Position(4, 21),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
@@ -564,6 +629,7 @@ class InterpreterTest {
                                                 "d",
                                                 Position(5, 17),
                                             ),
+                                            Position(0, 0),
                                         ),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(5, 19)),
                                     right =
@@ -573,8 +639,11 @@ class InterpreterTest {
                                                 "c",
                                                 Position(5, 21),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
@@ -589,6 +658,7 @@ class InterpreterTest {
                                                 "e",
                                                 Position(6, 17),
                                             ),
+                                            Position(0, 0),
                                         ),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, "/", Position(6, 19)),
                                     right =
@@ -598,8 +668,11 @@ class InterpreterTest {
                                                 "2",
                                                 Position(6, 21),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
@@ -614,6 +687,7 @@ class InterpreterTest {
                                                 "f",
                                                 Position(7, 17),
                                             ),
+                                            Position(0, 0),
                                         ),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, "-", Position(7, 19)),
                                     right =
@@ -623,8 +697,11 @@ class InterpreterTest {
                                                 "4",
                                                 Position(7, 21),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             expression =
@@ -634,7 +711,9 @@ class InterpreterTest {
                                         "g",
                                         Position(8, 9),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -657,35 +736,39 @@ class InterpreterTest {
                 statements =
                     listOf(
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "a", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "a", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.NUMBER_LITERAL,
                                         "10",
-                                        Position(1, 17),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "b", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 8)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "b", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.NUMBER_LITERAL,
                                         "3",
-                                        Position(2, 17),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "c", Position(4, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(4, 8)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "c", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -693,19 +776,23 @@ class InterpreterTest {
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "a",
-                                                Position(4, 17),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "/", Position(4, 19)),
+                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "/", Position(0, 0)),
                                     right =
                                         IdentifierExpression(
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "b",
-                                                Position(4, 21),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             expression =
@@ -713,9 +800,11 @@ class InterpreterTest {
                                     PrintScriptToken(
                                         CommonTypes.IDENTIFIER,
                                         "c",
-                                        Position(8, 9),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -738,35 +827,39 @@ class InterpreterTest {
                 statements =
                     listOf(
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.NUMBER_LITERAL,
                                         "42.0",
-                                        Position(1, 17),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "y", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 8)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "y", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.NUMBER_LITERAL,
                                         "10.0",
-                                        Position(2, 17),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "z", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(3, 8)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "z", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -774,19 +867,23 @@ class InterpreterTest {
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "x",
-                                                Position(3, 17),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(3, 19)),
+                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(0, 0)),
                                     right =
                                         IdentifierExpression(
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "y",
-                                                Position(3, 21),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             expression =
@@ -794,11 +891,14 @@ class InterpreterTest {
                                     PrintScriptToken(
                                         CommonTypes.IDENTIFIER,
                                         "z",
-                                        Position(4, 9),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
+                Position(0, 0),
             )
 
         val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
@@ -820,35 +920,39 @@ class InterpreterTest {
                 statements =
                     listOf(
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.NUMBER_LITERAL,
                                         "42.0",
-                                        Position(1, 17),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "y", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 8)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "y", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.NUMBER_LITERAL,
                                         "10.0",
-                                        Position(2, 17),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "z", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(3, 8)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "z", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -856,19 +960,23 @@ class InterpreterTest {
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "x",
-                                                Position(3, 17),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "/", Position(3, 19)),
+                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "/", Position(0, 0)),
                                     right =
                                         IdentifierExpression(
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "y",
-                                                Position(3, 21),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             expression =
@@ -876,11 +984,14 @@ class InterpreterTest {
                                     PrintScriptToken(
                                         CommonTypes.IDENTIFIER,
                                         "z",
-                                        Position(4, 9),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
+                Position(0, 0),
             )
 
         val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
@@ -902,35 +1013,39 @@ class InterpreterTest {
                 statements =
                     listOf(
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.NUMBER_LITERAL,
                                         "42.0",
-                                        Position(1, 17),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "y", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 8)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "y", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.NUMBER_LITERAL,
                                         "10.0",
-                                        Position(2, 17),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "z", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(3, 8)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "z", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -938,19 +1053,23 @@ class InterpreterTest {
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "x",
-                                                Position(3, 17),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "*", Position(3, 19)),
+                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "*", Position(0, 0)),
                                     right =
                                         IdentifierExpression(
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "y",
-                                                Position(3, 21),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             expression =
@@ -958,11 +1077,14 @@ class InterpreterTest {
                                     PrintScriptToken(
                                         CommonTypes.IDENTIFIER,
                                         "z",
-                                        Position(4, 9),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
+                Position(0, 0),
             )
 
         val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
@@ -984,35 +1106,39 @@ class InterpreterTest {
                 statements =
                     listOf(
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.NUMBER_LITERAL,
                                         "42.0",
-                                        Position(1, 17),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "y", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 8)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "y", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.NUMBER_LITERAL,
                                         "10.0",
-                                        Position(2, 17),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "z", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(3, 8)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "z", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1020,19 +1146,23 @@ class InterpreterTest {
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "x",
-                                                Position(3, 17),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "-", Position(3, 19)),
+                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "-", Position(0, 0)),
                                     right =
                                         IdentifierExpression(
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "y",
-                                                Position(3, 21),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             expression =
@@ -1040,11 +1170,14 @@ class InterpreterTest {
                                     PrintScriptToken(
                                         CommonTypes.IDENTIFIER,
                                         "z",
-                                        Position(4, 9),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
+                Position(0, 0),
             )
 
         val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
@@ -1066,35 +1199,39 @@ class InterpreterTest {
                 statements =
                     listOf(
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "text", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(1, 11)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "text", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.STRING_LITERAL,
                                         "Hello",
-                                        Position(1, 20),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "number", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 13)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "number", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.NUMBER_LITERAL,
                                         "42",
-                                        Position(2, 22),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(3, 13)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(0, 0)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1102,19 +1239,23 @@ class InterpreterTest {
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "text",
-                                                Position(3, 22),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(3, 27)),
+                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(0, 0)),
                                     right =
                                         IdentifierExpression(
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "number",
-                                                Position(3, 29),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             expression =
@@ -1122,11 +1263,14 @@ class InterpreterTest {
                                     PrintScriptToken(
                                         CommonTypes.IDENTIFIER,
                                         "result",
-                                        Position(4, 9),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
+                Position(0, 0),
             )
 
         val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
@@ -1148,48 +1292,54 @@ class InterpreterTest {
                 statements =
                     listOf(
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "num1", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 11)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "num1", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.NUMBER_LITERAL,
                                         "10",
-                                        Position(1, 20),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "num2", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 11)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "num2", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.NUMBER_LITERAL,
                                         "5",
-                                        Position(2, 20),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "text", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(3, 11)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "text", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.STRING_LITERAL,
                                         " equals ",
-                                        Position(3, 20),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "sum", Position(4, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(4, 10)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "sum", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1197,24 +1347,28 @@ class InterpreterTest {
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "num1",
-                                                Position(4, 19),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(4, 24)),
+                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(0, 0)),
                                     right =
                                         IdentifierExpression(
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "num2",
-                                                Position(4, 26),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(5, 5)),
-                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(5, 13)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(0, 0)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1224,29 +1378,35 @@ class InterpreterTest {
                                                     PrintScriptToken(
                                                         CommonTypes.IDENTIFIER,
                                                         "num1",
-                                                        Position(5, 22),
+                                                        Position(0, 0),
                                                     ),
+                                                    Position(0, 0),
                                                 ),
-                                            operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(5, 27)),
+                                            operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(0, 0)),
                                             right =
                                                 IdentifierExpression(
                                                     PrintScriptToken(
                                                         CommonTypes.IDENTIFIER,
                                                         "text",
-                                                        Position(5, 29),
+                                                        Position(0, 0),
                                                     ),
+                                                    Position(0, 0),
                                                 ),
+                                            Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(5, 34)),
+                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(0, 0)),
                                     right =
                                         IdentifierExpression(
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "sum",
-                                                Position(5, 36),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             expression =
@@ -1254,11 +1414,14 @@ class InterpreterTest {
                                     PrintScriptToken(
                                         CommonTypes.IDENTIFIER,
                                         "result",
-                                        Position(6, 9),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
+                Position(0, 0),
             )
 
         val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
@@ -1280,35 +1443,39 @@ class InterpreterTest {
                 statements =
                     listOf(
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "message", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(1, 14)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "message", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.STRING_LITERAL,
                                         "Pi is approximately ",
-                                        Position(1, 23),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "pi", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 9)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "pi", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.NUMBER_LITERAL,
                                         "3.14159",
-                                        Position(2, 18),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(3, 13)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(0, 0)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1316,19 +1483,23 @@ class InterpreterTest {
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "message",
-                                                Position(3, 22),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(3, 30)),
+                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(0, 0)),
                                     right =
                                         IdentifierExpression(
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "pi",
-                                                Position(3, 32),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             expression =
@@ -1336,11 +1507,14 @@ class InterpreterTest {
                                     PrintScriptToken(
                                         CommonTypes.IDENTIFIER,
                                         "result",
-                                        Position(4, 9),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
+                Position(0, 0),
             )
 
         val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
@@ -1363,36 +1537,40 @@ class InterpreterTest {
                     listOf(
                         // Test zero operations
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "zero", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 11)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "zero", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.NUMBER_LITERAL,
                                         "0",
-                                        Position(1, 20),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "five", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 11)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "five", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.NUMBER_LITERAL,
                                         "5",
-                                        Position(2, 20),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         // Zero addition
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "zeroAdd", Position(3, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(3, 14)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "zeroAdd", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1400,25 +1578,29 @@ class InterpreterTest {
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "zero",
-                                                Position(3, 23),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(3, 28)),
+                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(0, 0)),
                                     right =
                                         IdentifierExpression(
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "five",
-                                                Position(3, 30),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         // Zero multiplication
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "zeroMult", Position(4, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(4, 15)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "zeroMult", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1426,38 +1608,44 @@ class InterpreterTest {
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "zero",
-                                                Position(4, 24),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "*", Position(4, 29)),
+                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "*", Position(0, 0)),
                                     right =
                                         IdentifierExpression(
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "five",
-                                                Position(4, 31),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         // Negative numbers
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "negative", Position(5, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(5, 15)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "negative", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.NUMBER_LITERAL,
                                         "-10",
-                                        Position(5, 24),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "negativeResult", Position(6, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(6, 21)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "negativeResult", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1465,38 +1653,44 @@ class InterpreterTest {
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "negative",
-                                                Position(6, 30),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(6, 39)),
+                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(0, 0)),
                                     right =
                                         IdentifierExpression(
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "five",
-                                                Position(6, 41),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         // Very small decimal
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "smallDecimal", Position(7, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(7, 19)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "smallDecimal", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
                                         CommonTypes.NUMBER_LITERAL,
                                         "0.001",
-                                        Position(7, 28),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "precision", Position(8, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(8, 16)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "precision", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1504,23 +1698,27 @@ class InterpreterTest {
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "smallDecimal",
-                                                Position(8, 25),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "*", Position(8, 38)),
+                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "*", Position(0, 0)),
                                     right =
                                         LiteralExpression(
                                             PrintScriptToken(
                                                 CommonTypes.NUMBER_LITERAL,
                                                 "1000",
-                                                Position(8, 40),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         // Multiple variable reassignments
                         AssignmentStatement(
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "five", Position(9, 1)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "five", Position(0, 0)),
                             value =
                                 BinaryExpression(
                                     left =
@@ -1528,25 +1726,29 @@ class InterpreterTest {
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "five",
-                                                Position(9, 8),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "*", Position(9, 13)),
+                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "*", Position(0, 0)),
                                     right =
                                         LiteralExpression(
                                             PrintScriptToken(
                                                 CommonTypes.NUMBER_LITERAL,
                                                 "2",
-                                                Position(9, 15),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         // Complex nested expression with mixed types
                         DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "complexResult", Position(10, 5)),
-                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(10, 20)),
+                            PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
+                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "complexResult", Position(0, 0)),
+                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(0, 0)),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -1558,49 +1760,57 @@ class InterpreterTest {
                                                             PrintScriptToken(
                                                                 CommonTypes.STRING_LITERAL,
                                                                 "Results: ",
-                                                                Position(10, 29),
+                                                                Position(0, 0),
                                                             ),
+                                                            Position(0, 0),
                                                         ),
                                                     operator =
                                                         PrintScriptToken(
                                                             CommonTypes.OPERATORS,
                                                             "+",
-                                                            Position(10, 40),
+                                                            Position(0, 0),
                                                         ),
                                                     right =
                                                         IdentifierExpression(
                                                             PrintScriptToken(
                                                                 CommonTypes.IDENTIFIER,
                                                                 "zeroAdd",
-                                                                Position(10, 42),
+                                                                Position(0, 0),
                                                             ),
+                                                            Position(0, 0),
                                                         ),
+                                                    Position(0, 0),
                                                 ),
                                             operator =
                                                 PrintScriptToken(
                                                     CommonTypes.OPERATORS,
                                                     "+",
-                                                    Position(10, 50),
+                                                    Position(0, 0),
                                                 ),
                                             right =
                                                 LiteralExpression(
                                                     PrintScriptToken(
                                                         CommonTypes.STRING_LITERAL,
                                                         ", ",
-                                                        Position(10, 52),
+                                                        Position(0, 0),
                                                     ),
+                                                    Position(0, 0),
                                                 ),
+                                            Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(10, 56)),
+                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(0, 0)),
                                     right =
                                         IdentifierExpression(
                                             PrintScriptToken(
                                                 CommonTypes.IDENTIFIER,
                                                 "precision",
-                                                Position(10, 58),
+                                                Position(0, 0),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             expression =
@@ -1608,11 +1818,14 @@ class InterpreterTest {
                                     PrintScriptToken(
                                         CommonTypes.IDENTIFIER,
                                         "complexResult",
-                                        Position(11, 9),
+                                        Position(0, 0),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
+                Position(0, 0),
             )
 
         val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
@@ -1644,7 +1857,9 @@ class InterpreterTest {
                                         "",
                                         Position(1, 21),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
@@ -1657,7 +1872,9 @@ class InterpreterTest {
                                         "123",
                                         Position(2, 22),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
@@ -1670,7 +1887,9 @@ class InterpreterTest {
                                         "Hello",
                                         Position(3, 20),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
@@ -1685,6 +1904,7 @@ class InterpreterTest {
                                                 "empty",
                                                 Position(4, 23),
                                             ),
+                                            Position(0, 0),
                                         ),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(4, 29)),
                                     right =
@@ -1694,8 +1914,11 @@ class InterpreterTest {
                                                 "number",
                                                 Position(4, 31),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
@@ -1710,6 +1933,7 @@ class InterpreterTest {
                                                 "text",
                                                 Position(5, 23),
                                             ),
+                                            Position(0, 0),
                                         ),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(5, 28)),
                                     right =
@@ -1719,8 +1943,11 @@ class InterpreterTest {
                                                 "empty",
                                                 Position(5, 30),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             expression =
@@ -1734,6 +1961,7 @@ class InterpreterTest {
                                                         "result1",
                                                         Position(6, 9),
                                                     ),
+                                                    Position(0, 0),
                                                 ),
                                             operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(6, 17)),
                                             right =
@@ -1743,7 +1971,9 @@ class InterpreterTest {
                                                         " ",
                                                         Position(6, 19),
                                                     ),
+                                                    Position(0, 0),
                                                 ),
+                                            Position(0, 0),
                                         ),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(6, 23)),
                                     right =
@@ -1753,8 +1983,11 @@ class InterpreterTest {
                                                 "result2",
                                                 Position(6, 25),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -1802,7 +2035,9 @@ class InterpreterTest {
                                         "10",
                                         Position(1, 17),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         AssignmentStatement(
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(2, 1)),
@@ -1815,6 +2050,7 @@ class InterpreterTest {
                                                 "x",
                                                 Position(2, 8),
                                             ),
+                                            Position(0, 0),
                                         ),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(2, 10)),
                                     right =
@@ -1824,8 +2060,11 @@ class InterpreterTest {
                                                 "5",
                                                 Position(2, 12),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             expression =
@@ -1835,7 +2074,9 @@ class InterpreterTest {
                                         "x",
                                         Position(3, 9),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -1873,7 +2114,9 @@ class InterpreterTest {
                                         "42",
                                         Position(1, 26),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         // "un string";
                         ExpressionStatement(
@@ -1884,7 +2127,9 @@ class InterpreterTest {
                                         "un string",
                                         Position(2, 1),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         // 123.45;
                         ExpressionStatement(
@@ -1895,7 +2140,9 @@ class InterpreterTest {
                                         "123.45",
                                         Position(3, 1),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         // 10 + 5;
                         ExpressionStatement(
@@ -1908,6 +2155,7 @@ class InterpreterTest {
                                                 "10",
                                                 Position(4, 1),
                                             ),
+                                            Position(0, 0),
                                         ),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(4, 4)),
                                     right =
@@ -1917,8 +2165,11 @@ class InterpreterTest {
                                                 "5",
                                                 Position(4, 6),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         // miVariable;
                         ExpressionStatement(
@@ -1929,7 +2180,9 @@ class InterpreterTest {
                                         "miVariable",
                                         Position(5, 1),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         // println(miVariable);
                         PrintStatement(
@@ -1940,7 +2193,9 @@ class InterpreterTest {
                                         "miVariable",
                                         Position(6, 9),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -1976,12 +2231,15 @@ class InterpreterTest {
                             identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "myVar", Position(1, 5)),
                             dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(1, 12)),
                             initialValue = null,
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             expression =
                                 IdentifierExpression(
                                     PrintScriptToken(CommonTypes.IDENTIFIER, "myVar", Position(2, 9)),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -2016,6 +2274,7 @@ class InterpreterTest {
                                                 "5",
                                                 Position(1, 9),
                                             ),
+                                            Position(0, 0),
                                         ),
                                     operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(1, 11)),
                                     right =
@@ -2025,8 +2284,11 @@ class InterpreterTest {
                                                 "10",
                                                 Position(1, 13),
                                             ),
+                                            Position(0, 0),
                                         ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
             )
@@ -2066,6 +2328,7 @@ class InterpreterTest {
                                 "true",
                                 Position(1, 1),
                             ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             LiteralExpression(
@@ -2074,7 +2337,9 @@ class InterpreterTest {
                                     "ENTRAAAAAAAAAAAAAAAA",
                                     Position(1, 1),
                                 ),
+                                Position(0, 0),
                             ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             LiteralExpression(
@@ -2083,8 +2348,11 @@ class InterpreterTest {
                                     "NO ENTRAAAAAAAAAAAAAAAA",
                                     Position(1, 1),
                                 ),
+                                Position(0, 0),
                             ),
+                            Position(0, 0),
                         ),
+                        Position(0, 0),
                     ),
                 ),
             )
@@ -2120,7 +2388,9 @@ class InterpreterTest {
                                         "42",
                                         Position(1, 17),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                         PrintStatement(
                             expression =
@@ -2130,7 +2400,9 @@ class InterpreterTest {
                                         "x",
                                         Position(2, 9),
                                     ),
+                                    Position(0, 0),
                                 ),
+                            Position(0, 0),
                         ),
                     ),
             )

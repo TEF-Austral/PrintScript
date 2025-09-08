@@ -27,7 +27,7 @@ class FormatterServiceTest {
         val assign =
             builder.buildAssignmentStatementNode(
                 identifier = tok(CommonTypes.IDENTIFIER, "a"),
-                value = LiteralExpression(tok(CommonTypes.NUMBER_LITERAL, "42")),
+                value = LiteralExpression(tok(CommonTypes.NUMBER_LITERAL, "42"), Position(0, 0)),
             )
         val program = builder.buildProgramNode(listOf(assign))
 
