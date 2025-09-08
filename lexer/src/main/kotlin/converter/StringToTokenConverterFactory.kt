@@ -13,6 +13,8 @@ import converter.specific.LoopToToken
 import converter.specific.NumberLiteralToToken
 import converter.specific.OperatorToToken
 import converter.specific.PrintToToken
+import converter.specific.ReadEnvToToken
+import converter.specific.ReadInputToToken
 import converter.specific.ReturnToToken
 import converter.specific.StringLiteralToToken
 import converter.specific.StringToTokenConverter
@@ -36,6 +38,8 @@ object StringToTokenConverterFactory {
                 LogicalOperatorToken,
                 DelimiterToToken,
                 ConstDeclarationToToken,
+                ReadInputToToken,
+                ReadEnvToToken
             ),
         )
 

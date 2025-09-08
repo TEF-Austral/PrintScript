@@ -29,6 +29,7 @@ enum class CommonTypes {
     },
     EMPTY,
     READ_INPUT,
+    READ_ENV
 }
 
 private fun String.toTitleCase(): String =

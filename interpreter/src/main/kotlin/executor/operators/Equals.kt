@@ -16,7 +16,6 @@ object Equals : Operator {
             return InterpreterResult(true, "Success Equals (Different Types)", resultVar)
         }
 
-        // 2. Si los tipos son iguales, procede a comparar los valores.
         val areEqual =
             when (left.getType()) {
                 CommonTypes.NUMBER_LITERAL -> compareAsDouble(left, right) ?: false

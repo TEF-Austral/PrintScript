@@ -11,6 +11,8 @@ import converter.specific.LoopToToken
 import converter.specific.NumberLiteralToToken
 import converter.specific.OperatorToToken
 import converter.specific.PrintToToken
+import converter.specific.ReadEnvToToken
+import converter.specific.ReadInputToToken
 import converter.specific.ReturnToToken
 import converter.specific.StringLiteralToToken
 import org.junit.jupiter.api.Assertions
@@ -110,6 +112,20 @@ class TokenConverterTest {
         Assertions.assertFalse(PrintToToken.canHandle("print"))
         val token = PrintToToken.convert("println", position)
         Assertions.assertEquals(CommonTypes.PRINT, token.getType())
+    }
+
+    @Test
+    fun `test readInputToToken`() {
+        Assertions.assertTrue(ReadInputToToken.canHandle("readInput"))
+        val token = ReadInputToToken.convert("readInput", position)
+        Assertions.assertEquals(CommonTypes.READ_INPUT, token.getType())
+    }
+
+    @Test
+    fun `test readEnvToToken`() {
+        Assertions.assertTrue(ReadEnvToToken.canHandle("readEnv"))
+        val token = ReadEnvToToken.convert("readEnv", position)
+        Assertions.assertEquals(CommonTypes.READ_ENV, token.getType())
     }
 
     @Test
