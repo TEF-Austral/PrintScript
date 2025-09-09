@@ -13,18 +13,20 @@ import rules.AnalyzerRuleRegistry
 object AnalyzerFactory {
     fun create(
         version: String,
-        configPath: String? = null
+        configPath: String? = null,
     ): Analyzer {
         val baseConfig = configPath?.let(AnalyzerConfigLoader::load) ?: AnalyzerConfig()
-        val styleChecker: NameChecker = when (baseConfig.identifierStyle) {
-            IdentifierStyle.CAMEL_CASE -> CamelCaseChecker()
-            IdentifierStyle.SNAKE_CASE -> SnakeCaseChecker()
-        }
-        val rules = if (version.startsWith("1.1")) {
-            AnalyzerRuleRegistry.rulesV11(styleChecker, baseConfig.restrictPrintlnArgs)
-        } else {
-            AnalyzerRuleRegistry.rulesV10(styleChecker, baseConfig.restrictPrintlnArgs)
-        }
+        val styleChecker: NameChecker =
+            when (baseConfig.identifierStyle) {
+                IdentifierStyle.CAMEL_CASE -> CamelCaseChecker()
+                IdentifierStyle.SNAKE_CASE -> SnakeCaseChecker()
+            }
+        val rules =
+            if (version.startsWith("1.1")) {
+                AnalyzerRuleRegistry.rulesV11(styleChecker, baseConfig.restrictPrintlnArgs)
+            } else {
+                AnalyzerRuleRegistry.rulesV10(styleChecker, baseConfig.restrictPrintlnArgs)
+            }
         return DefaultAnalyzer(rules)
     }
 }

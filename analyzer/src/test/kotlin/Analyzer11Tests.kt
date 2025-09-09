@@ -26,12 +26,12 @@ class Analyzer11Tests {
             File.createTempFile("analyzer", ".json").apply {
                 writeText(
                     """
-          {
-            "identifierStyle":"${config.identifierStyle}",
-            "restrictPrintlnArgs":${config.restrictPrintlnArgs},
-            "restrictReadInputArgs":${config.restrictReadInputArgs}
-          }
-          """.trimIndent(),
+                    {
+                      "identifierStyle":"${config.identifierStyle}",
+                      "restrictPrintlnArgs":${config.restrictPrintlnArgs},
+                      "restrictReadInputArgs":${config.restrictReadInputArgs}
+                    }
+                    """.trimIndent(),
                 )
                 deleteOnExit()
             }
