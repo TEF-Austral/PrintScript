@@ -1,6 +1,7 @@
 package config
 
 import rules.IdentifierStyle
+import kotlin.text.get
 
 class YamlAnalyzerConfigParser {
     fun parse(text: String): AnalyzerConfig {
@@ -14,13 +15,11 @@ class YamlAnalyzerConfigParser {
                     if (parts.size == 2) parts[0].trim() to parts[1].trim() else null
                 }.toMap()
 
+        val base = AnalyzerConfig()
         return AnalyzerConfig(
-            identifierStyle =
-                entries["identifierStyle"]?.let(IdentifierStyle::valueOf)
-                    ?: AnalyzerConfig().identifierStyle,
-            restrictPrintlnArgs =
-                entries["restrictPrintlnArgs"]?.toBoolean()
-                    ?: AnalyzerConfig().restrictPrintlnArgs,
+            identifierStyle = entries["identifierStyle"]?.let(IdentifierStyle::valueOf) ?: base.identifierStyle,
+            restrictPrintlnArgs = entries["restrictPrintlnArgs"]?.toBoolean() ?: base.restrictPrintlnArgs,
+            restrictReadInputArgs = entries["restrictReadInputArgs"]?.toBoolean() ?: base.restrictReadInputArgs,
         )
     }
 }

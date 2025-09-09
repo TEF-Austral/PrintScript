@@ -2,6 +2,7 @@ import config.AnalyzerConfig
 import node.Statement
 import coordinates.Position
 import diagnostic.Diagnostic
+import factory.AnalyzerFactory
 import node.AssignmentStatement
 import node.BinaryExpression
 import node.DeclarationStatement
@@ -16,11 +17,13 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import rules.IdentifierStyle
 import java.io.File
+import kotlin.collections.get
 
 class AnalyzerTest {
     private fun runAnalyzer(
         stmts: List<Statement>,
         config: AnalyzerConfig = AnalyzerConfig(),
+        version: String = "1.0.0",
     ): List<Diagnostic> {
         // write config to temp JSON file
         val tempConfigFile =
@@ -29,7 +32,8 @@ class AnalyzerTest {
                     """
                     {
                        "identifierStyle":"${config.identifierStyle}",
-                       "restrictPrintlnArgs":${config.restrictPrintlnArgs}
+                       "restrictPrintlnArgs":${config.restrictPrintlnArgs},
+                       "restrictReadInputArgs":${config.restrictReadInputArgs}
                     }
                     """.trimIndent(),
                 )
@@ -37,7 +41,7 @@ class AnalyzerTest {
             }
 
         val program = Program(stmts)
-        val analyzer = DefaultAnalyzer(tempConfigFile.absolutePath)
+        val analyzer = AnalyzerFactory.create(version, tempConfigFile.absolutePath)
         return analyzer.analyze(program)
     }
 
@@ -91,11 +95,20 @@ class AnalyzerTest {
     }
 
     @Test
-    fun `println with complex expression allowed when restriction off`() {
+    fun `version 1_0_x allows complex println when restriction off`() {
         val cfg = AnalyzerConfig(restrictPrintlnArgs = false)
-        val expr = BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2), Position(0, 0))
+        val expr =
+            BinaryExpression(
+                lit(1),
+                tok("+", CommonTypes.OPERATORS),
+                lit(2),
+                Position(0, 0),
+            )
         val stmts = listOf(PrintStatement(expr, Position(0, 0)))
-        assertTrue(runAnalyzer(stmts, cfg).isEmpty())
+
+        // version 1.0.2 should honor restrictPrintlnArgs=false
+        val diags = runAnalyzer(stmts, cfg, version = "1.0.2")
+        assertTrue(diags.isEmpty())
     }
 
     @Test
@@ -144,11 +157,19 @@ class AnalyzerTest {
     }
 
     @Test
-    fun `default analyzer constructor applies default settings`() {
-        // By default, restrictPrintlnArgs = true, so complex println should be flagged
-        val expr = BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2), Position(0, 0))
+    fun `default analyzer applies 1_0_0 settings via factory`() {
+        // By default, for version 1.0.x, restrictPrintlnArgs = true
+        val expr =
+            BinaryExpression(
+                lit(1),
+                tok("+", CommonTypes.OPERATORS),
+                lit(2),
+                Position(0, 0),
+            )
         val stmts = listOf(PrintStatement(expr, Position(0, 0)))
-        val diags = DefaultAnalyzer().analyze(Program(stmts)) // Use default constructor
+        val analyzer = AnalyzerFactory.create("1.0.0")
+        val diags = analyzer.analyze(Program(stmts))
+
         assertEquals(1, diags.size)
         assertEquals(
             "println must take only a literal or identifier",

@@ -16,6 +16,7 @@ class FormatterServiceTest {
 
     private val builder = DefaultNodeBuilder()
     private val service = FormatterService()
+    private val version = "1.0"
 
     private fun tok(
         type: CommonTypes,
@@ -40,7 +41,7 @@ class FormatterServiceTest {
             """.trimIndent()
         Files.writeString(configFile, json)
 
-        val result = service.formatToString(program, configFile.toString())
+        val result = service.formatToString(program, version, configFile.toString())
         assertEquals("a=42;\n", result)
     }
 
@@ -60,7 +61,7 @@ class FormatterServiceTest {
         Files.writeString(configFile, yaml)
 
         val writer = StringWriter()
-        service.formatToWriter(program, configFile.toString(), writer)
+        service.formatToWriter(program, version, configFile.toString(), writer)
         assertEquals("\nprintln(\"hi\");\n", writer.toString())
     }
 }

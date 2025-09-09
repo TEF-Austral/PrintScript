@@ -1,8 +1,8 @@
 package formatter.rules
 
 import formatter.config.FormatConfig
-import node.ExpressionStatement
 import node.ASTNode
+import node.ExpressionStatement
 
 class ExpressionStatementRule : FormatRule {
     override fun matches(node: ASTNode) = node is ExpressionStatement
@@ -15,7 +15,7 @@ class ExpressionStatementRule : FormatRule {
     ) {
         val stmt = node as ExpressionStatement
         sb.append(" ".repeat(indentLevel * config.indentSize))
-        RuleRegistry.rules
+        RuleRegistry.rulesV10
             .first { it.matches(stmt.getExpression()) }
             .apply(stmt.getExpression(), sb, config, indentLevel)
         sb.append(";").appendLine()
