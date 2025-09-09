@@ -1,4 +1,4 @@
-package splitter.extractor
+package string.splitter.extractor
 
 sealed class Extraction {
     object NoMatch : Extraction()

@@ -1,4 +1,4 @@
-package splitter.extractor
+package string.splitter.extractor
 
 class WordExtractor(
     private val specialChars: List<Char>,

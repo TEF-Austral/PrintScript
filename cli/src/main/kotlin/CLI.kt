@@ -5,7 +5,7 @@ import factory.DefaultInterpreterFactory
 import flags.CliFlags
 import formatter.FormatterService
 import parser.factory.VOnePointZeroParserFactory
-import splitter.SplitterFactory
+import string.splitter.SplitterFactory
 import node.Program
 
 class CLI {

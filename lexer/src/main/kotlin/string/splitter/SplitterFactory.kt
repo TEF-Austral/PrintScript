@@ -1,4 +1,4 @@
-package splitter
+package string.splitter
 
 object SplitterFactory {
     fun createSplitter(): Splitter {

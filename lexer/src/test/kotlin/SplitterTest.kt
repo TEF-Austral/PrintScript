@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import splitter.Splitter
+import string.splitter.Splitter
 
 class SplitterTest {
     @Test

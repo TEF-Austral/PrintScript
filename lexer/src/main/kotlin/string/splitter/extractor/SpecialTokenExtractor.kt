@@ -1,4 +1,4 @@
-package splitter.extractor
+package string.splitter.extractor
 
 class SpecialTokenExtractor(
     private val specialChars: List<Char>,
