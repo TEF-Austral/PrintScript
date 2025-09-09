@@ -21,7 +21,6 @@ object RuleRegistry {
 
     private val rulesV11Body =
         listOf(
-            BlockStatementRule(),
             IfStatementRule(),
             ReadInputExpressionRule(),
             ReadEnvExpressionRule(),
