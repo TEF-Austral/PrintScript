@@ -30,7 +30,7 @@ class Analyzer11Tests {
                       "restrictPrintlnArgs":${config.restrictPrintlnArgs},
                       "restrictReadInputArgs":${config.restrictReadInputArgs}
                     }
-                    """.trimIndent()
+                    """.trimIndent(),
                 )
                 deleteOnExit()
             }
@@ -52,16 +52,17 @@ class Analyzer11Tests {
 
     @Test
     fun `default 1_1_0 enforces println and readInput rules`() {
-        val stmts = listOf(
-            PrintStatement(
-                BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2), Position(0, 0)),
-                Position(0, 0),
-            ),
-            ExpressionStatement(
-                ReadInputExpression("1+2", Position(1, 0)),
-                Position(1, 0),
-            ),
-        )
+        val stmts =
+            listOf(
+                PrintStatement(
+                    BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2), Position(0, 0)),
+                    Position(0, 0),
+                ),
+                ExpressionStatement(
+                    ReadInputExpression("1+2", Position(1, 0)),
+                    Position(1, 0),
+                ),
+            )
         val diags = runAnalyzer(stmts)
         assertEquals(2, diags.size)
         assertEquals("println must take only a literal or identifier", diags[0].message)
@@ -71,16 +72,17 @@ class Analyzer11Tests {
     @Test
     fun `1_1_x respects println override but enforces readInput`() {
         val cfg = AnalyzerConfig(restrictPrintlnArgs = false, restrictReadInputArgs = false)
-        val stmts = listOf(
-            PrintStatement(
-                BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2), Position(0, 0)),
-                Position(0, 0),
-            ),
-            ExpressionStatement(
-                ReadInputExpression("1+2", Position(1, 0)),
-                Position(1, 0),
-            ),
-        )
+        val stmts =
+            listOf(
+                PrintStatement(
+                    BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2), Position(0, 0)),
+                    Position(0, 0),
+                ),
+                ExpressionStatement(
+                    ReadInputExpression("1+2", Position(1, 0)),
+                    Position(1, 0),
+                ),
+            )
         val diags = runAnalyzer(stmts, cfg)
         assertEquals(1, diags.size)
         assertEquals("readInput must take only a literal or identifier", diags[0].message)
@@ -88,28 +90,30 @@ class Analyzer11Tests {
 
     @Test
     fun `1_1_x allows valid println and readInput args`() {
-        val stmts = listOf(
-            PrintStatement(lit(42), Position(0, 0)),
-            ExpressionStatement(
-                ReadInputExpression("myVar", Position(1, 0)),
-                Position(1, 0),
-            ),
-        )
+        val stmts =
+            listOf(
+                PrintStatement(lit(42), Position(0, 0)),
+                ExpressionStatement(
+                    ReadInputExpression("myVar", Position(1, 0)),
+                    Position(1, 0),
+                ),
+            )
         assertTrue(runAnalyzer(stmts).isEmpty())
     }
 
     @Test
     fun `version 1_1_0 enforces same rules as 1_0_0`() {
-        val stmts = listOf(
-            PrintStatement(
-                BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2), Position(0, 0)),
-                Position(0, 0),
-            ),
-            ExpressionStatement(
-                ReadInputExpression("1+2", Position(1, 0)),
-                Position(1, 0),
-            ),
-        )
+        val stmts =
+            listOf(
+                PrintStatement(
+                    BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2), Position(0, 0)),
+                    Position(0, 0),
+                ),
+                ExpressionStatement(
+                    ReadInputExpression("1+2", Position(1, 0)),
+                    Position(1, 0),
+                ),
+            )
         val diags = runAnalyzer(stmts, version = "1.1.5")
         assertEquals(2, diags.size)
         assertEquals("println must take only a literal or identifier", diags[0].message)
