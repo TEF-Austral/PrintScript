@@ -9,9 +9,9 @@ import parser.utils.isOpeningParenthesis
 import type.CommonTypes
 
 class DelimitersBuilder : ExpressionBuilder {
-    override fun canHandle(token: CommonTypes): Boolean = token == CommonTypes.DELIMITERS
+    override fun canHandle(types: CommonTypes): Boolean = types == CommonTypes.DELIMITERS
 
-    override fun build(
+    override fun parse(
         parser: Parser,
         current: Token,
     ): ExpressionResult {

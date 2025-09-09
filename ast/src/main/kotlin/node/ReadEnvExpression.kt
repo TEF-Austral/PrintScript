@@ -2,10 +2,10 @@ package node
 
 import coordinates.Coordinates
 
-class ReadEnvStatement(
+class ReadEnvExpression(
     private val envName: String,
     private val coordinates: Coordinates,
-) : Statement {
+) : CoercibleExpression {
     override fun getCoordinates(): Coordinates = coordinates
 
     fun envName(): String = envName

@@ -1,11 +1,10 @@
 import builder.DefaultNodeBuilder
 import coordinates.Position
-import parser.factory.V1Point0ParserFactory
+import parser.factory.VOnePointOneParserFactory
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
-import parser.factory.V1Point1ParserFactory
 import type.CommonTypes
 
 class ParserErrorTest {
@@ -21,7 +20,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -41,7 +40,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -58,7 +57,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -77,7 +76,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -97,7 +96,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -116,7 +115,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -135,7 +134,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -152,7 +151,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -173,7 +172,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -195,7 +194,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -207,7 +206,7 @@ class ParserErrorTest {
         val tokens = emptyList<PrintScriptToken>()
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertTrue(result.isSuccess())
@@ -224,7 +223,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -242,7 +241,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -260,7 +259,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -278,7 +277,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -295,7 +294,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -312,7 +311,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -329,7 +328,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -350,7 +349,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -369,7 +368,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -387,7 +386,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -405,7 +404,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -423,7 +422,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -441,7 +440,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -461,7 +460,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
         assertFalse(result.isSuccess())
         assertEquals("Was expecting closing parenthesis", result.message())
@@ -477,7 +476,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -503,7 +502,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -529,7 +528,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -553,7 +552,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -573,7 +572,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -594,7 +593,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -613,7 +612,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -632,7 +631,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -652,7 +651,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertTrue(result.isSuccess())
@@ -672,7 +671,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertTrue(result.isSuccess())
@@ -690,7 +689,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -711,7 +710,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -730,7 +729,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -751,7 +750,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())

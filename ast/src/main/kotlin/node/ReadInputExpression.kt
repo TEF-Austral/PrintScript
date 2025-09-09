@@ -2,10 +2,10 @@ package node
 
 import coordinates.Coordinates
 
-class ReadInputStatement(
+class ReadInputExpression(
     private val printValue: String,
     private val coordinates: Coordinates,
-) : Statement {
+) : CoercibleExpression {
     override fun getCoordinates(): Coordinates = coordinates
 
     fun printValue(): String = printValue

@@ -5,8 +5,8 @@ import node.Expression
 import node.IfStatement
 import node.LiteralExpression
 import node.Program
-import node.ReadEnvStatement
-import node.ReadInputStatement
+import node.ReadEnvExpression
+import node.ReadInputExpression
 import node.Statement
 
 sealed interface NodeBuilder {
@@ -46,7 +46,7 @@ sealed interface NodeBuilder {
         alternative: Statement? = null,
     ): IfStatement
 
-    fun buildReadInputNode(printValue: LiteralExpression): ReadInputStatement
+    fun buildReadInputNode(printValue: LiteralExpression): ReadInputExpression
 
-    fun buildReadEnvNode(envName: LiteralExpression): ReadEnvStatement
+    fun buildReadEnvNode(envName: LiteralExpression): ReadEnvExpression
 }

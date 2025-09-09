@@ -3,7 +3,7 @@ import converter.StringToTokenConverterFactory
 import factory.DefaultInterpreterFactory
 import flags.CliFlags
 import formatter.FormatterService
-import parser.factory.V1Point0ParserFactory
+import parser.factory.VOnePointZeroParserFactory
 import splitter.SplitterFactory
 import node.Program
 
@@ -33,7 +33,7 @@ class CLI {
             DefaultLexer(SplitterFactory.createSplitter(), StringToTokenConverterFactory.createDefaultsTokenConverter())
         val tokenList = lexer.tokenize(getDefaultReader(srcCodePath))
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokenList, nodeBuilder)
+        val parser = VOnePointZeroParserFactory().createParser(tokenList, nodeBuilder)
         return parser.parse().getProgram()
     }
 

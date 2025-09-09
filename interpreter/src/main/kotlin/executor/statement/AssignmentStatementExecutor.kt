@@ -9,7 +9,7 @@ import utils.areTypesCompatible
 import variable.Variable
 
 class AssignmentStatementExecutor(
-    private val dataBase: DataBase, // Se inyecta la DataBase
+    private val dataBase: DataBase,
     private val defaultExpressionExecutor: DefaultExpressionExecutor,
 ) : SpecificStatementExecutor {
     override fun canHandle(statement: Statement): Boolean = statement is AssignmentStatement
@@ -53,12 +53,10 @@ class AssignmentStatementExecutor(
         oldVar: Variable,
         newVal: Variable,
     ): InterpreterResult {
-        // Comprueba la compatibilidad de tipos
         if (!areTypesCompatible(oldVar.getType(), newVal.getType())) {
             return createTypeMismatchError(id, oldVar.getType(), newVal.getType())
         }
 
-        // Cambia el valor de la variable en la base de datos
         dataBase.changeVariableValue(id, Variable(oldVar.getType(), newVal.getValue()))
         return createSuccessResult()
     }

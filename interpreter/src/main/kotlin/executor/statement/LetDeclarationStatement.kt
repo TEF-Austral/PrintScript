@@ -1,7 +1,9 @@
 package executor.statement
 
 import data.DataBase
+import executor.coercer.ITypeCoercer
 import executor.expression.DefaultExpressionExecutor
+import node.CoercibleExpression
 import node.DeclarationStatement
 import node.Statement
 import result.InterpreterResult
@@ -12,45 +14,42 @@ import variable.Variable
 class LetDeclarationStatement(
     private val dataBase: DataBase,
     private val defaultExpressionExecutor: DefaultExpressionExecutor,
+    private val typeCoercer: ITypeCoercer,
 ) : SpecificStatementExecutor {
     override fun canHandle(statement: Statement): Boolean = statement is DeclarationStatement && statement.getDeclarationType() == CommonTypes.LET
 
     override fun execute(statement: Statement): InterpreterResult {
-        return try {
-            val declarationStatement = statement as DeclarationStatement
-            val identifier = declarationStatement.getIdentifier()
-            val declaredType = declarationStatement.getDataType()
-            val initialValueExpression = declarationStatement.getInitialValue()
+        val declarationStatement = statement as DeclarationStatement
+        val identifier = declarationStatement.getIdentifier()
+        val declaredType = declarationStatement.getDataType()
+        val initialValueExpression = declarationStatement.getInitialValue()
 
-            val variable: Variable
-
+        val finalVariable: Variable =
             if (initialValueExpression != null) {
+                // 1. Ejecutar la expresión de la derecha
                 val expressionResult = defaultExpressionExecutor.execute(initialValueExpression)
-                if (!expressionResult.interpretedCorrectly) {
-                    return expressionResult
-                }
+                if (!expressionResult.interpretedCorrectly) return expressionResult
 
-                val initialValue =
-                    expressionResult.interpreter
-                        ?: return InterpreterResult(false, "Error: Expression did not yield a value", null)
+                val initialValue = expressionResult.interpreter ?: return InterpreterResult(false, "Expression yielded no value", null)
 
-                if (!areTypesCompatible(declaredType, initialValue.getType())) {
-                    return InterpreterResult(
-                        false,
-                        "Error: Type mismatch. Cannot assign value of type '${initialValue.getType()}' to variable '$identifier' declared as '$declaredType'",
-                        null,
-                    )
+                // 2. Determinar si se necesita coerción o compatibilidad de tipos
+                if (initialValueExpression is CoercibleExpression) {
+                    val rawValue = initialValue.getValue().toString()
+                    val coercionResult = typeCoercer.coerce(rawValue, declaredType)
+                    if (!coercionResult.interpretedCorrectly) return coercionResult
+                    coercionResult.interpreter!!
+                } else {
+                    // Lógica estándar para el resto de expresiones
+                    if (!areTypesCompatible(declaredType, initialValue.getType())) {
+                        return InterpreterResult(false, "Type mismatch: Expected '$declaredType', got '${initialValue.getType()}'", null)
+                    }
+                    Variable(declaredType, initialValue.getValue())
                 }
-                variable = Variable(declaredType, initialValue.getValue())
             } else {
-                variable = Variable(declaredType, null)
+                Variable(declaredType, null)
             }
 
-            dataBase.addVariable(identifier, variable)
-
-            InterpreterResult(true, "Declaration executed successfully", variable)
-        } catch (e: Exception) {
-            InterpreterResult(false, "Error executing declaration statement: ${e.message}", null)
-        }
+        dataBase.addVariable(identifier, finalVariable)
+        return InterpreterResult(true, "Declaration successful", finalVariable)
     }
 }

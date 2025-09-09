@@ -16,7 +16,7 @@ import parser.statement.expression.ExpressionRegistry
 import parser.statement.expression.IdentifierBuilder
 import parser.statement.expression.LiteralBuilder
 
-class V1Point0ParserFactory : ParserFactory {
+class VOnePointZeroParserFactory : ParserFactory {
     override fun createParser(
         tokens: List<Token>,
         nodeBuilder: NodeBuilder,

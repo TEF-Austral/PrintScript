@@ -655,7 +655,7 @@ class InterpreterFailureTest {
         val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case2)
         assertFalse(result.interpretedCorrectly)
-        assertEquals("Constant 'x' must be initialized with a value", result.message)
+        assertEquals("Error: Constant 'x' must be initialized with a value.", result.message)
     }
 
     @Test
