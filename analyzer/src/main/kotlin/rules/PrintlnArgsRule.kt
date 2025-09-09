@@ -1,6 +1,5 @@
 package rules
 
-import coordinates.Position
 import diagnostic.Diagnostic
 import node.IdentifierExpression
 import node.LiteralExpression
@@ -14,13 +13,10 @@ class PrintlnArgsRule : Rule {
             if (stmt is PrintStatement) {
                 val expr = stmt.getExpression()
                 if (expr !is IdentifierExpression && expr !is LiteralExpression) {
-                    val coordinates = stmt.getExpressionToken()?.getCoordinates() ?: Position(0, 0)
-                    // Default to (0, 0) if no token is available
-                    diags +=
-                        Diagnostic(
-                            "println must take only a literal or identifier",
-                            coordinates,
-                        )
+                    diags += Diagnostic(
+                        "println must take only a literal or identifier",
+                        expr.getCoordinates()
+                    )
                 }
             }
         }
