@@ -1,45 +1,36 @@
 import config.AnalyzerConfig
-import diagnostic.Diagnostic
-import rules.IdentifierStyleRule
-import rules.PrintlnArgsRule
-import rules.Rule
 import config.AnalyzerConfigLoader
+import diagnostic.Diagnostic
 import node.Program
 import rules.CamelCaseChecker
 import rules.IdentifierStyle
+import rules.IdentifierStyleRule
+import rules.PrintlnArgsRule
+import rules.ReadInputArgsRule
+import rules.Rule
 import rules.SnakeCaseChecker
 
 class DefaultAnalyzer(
-    configPath: String? = null,
+    private val config: AnalyzerConfig,
 ) : Analyzer {
-    private val config = configPath?.let(AnalyzerConfigLoader::load) ?: AnalyzerConfig()
+    constructor(configPath: String?) : this(
+        configPath?.let(AnalyzerConfigLoader::load) ?: AnalyzerConfig(),
+    )
 
     private val rules: List<Rule>
 
     init {
         val tempRules = mutableListOf<Rule>()
-
-        // 1. Choose the identifier checker based on config
         val styleChecker =
             when (config.identifierStyle) {
                 IdentifierStyle.CAMEL_CASE -> CamelCaseChecker()
                 IdentifierStyle.SNAKE_CASE -> SnakeCaseChecker()
             }
         tempRules.add(IdentifierStyleRule(styleChecker))
-
-        // 2. Optionally add the println-args rule
-        if (config.restrictPrintlnArgs) {
-            tempRules.add(PrintlnArgsRule())
-        }
-
+        if (config.restrictPrintlnArgs) tempRules.add(PrintlnArgsRule())
+        if (config.restrictReadInputArgs) tempRules.add(ReadInputArgsRule())
         rules = tempRules
     }
 
-    override fun analyze(program: Program): List<Diagnostic> {
-        val diagnostics = mutableListOf<Diagnostic>()
-        for (rule in rules) {
-            diagnostics += rule.apply(program)
-        }
-        return diagnostics
-    }
+    override fun analyze(program: Program): List<Diagnostic> = rules.flatMap { it.apply(program) }
 }

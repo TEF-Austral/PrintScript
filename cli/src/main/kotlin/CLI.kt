@@ -1,5 +1,6 @@
 import builder.DefaultNodeBuilder
 import converter.StringToTokenConverterFactory
+import factory.AnalyzerFactory
 import factory.DefaultInterpreterFactory
 import flags.CliFlags
 import formatter.FormatterService
@@ -13,16 +14,17 @@ class CLI {
         srcCodePath: String,
         analyzerConfigFilePath: String? = null,
         formatterConfigFilePath: String? = null,
+        version: String = "1.0",
     ): String =
         when (flag) {
             CliFlags.FORMATTING ->
-                handleFormatting(srcCodePath, formatterConfigFilePath)
+                handleFormatting(srcCodePath, formatterConfigFilePath, version)
 
             CliFlags.ANALYZING ->
-                handleAnalyzing(srcCodePath, analyzerConfigFilePath)
+                handleAnalyzing(srcCodePath, analyzerConfigFilePath, version)
 
             CliFlags.VALIDATION ->
-                handleValidation(srcCodePath, analyzerConfigFilePath, formatterConfigFilePath)
+                handleValidation(srcCodePath, analyzerConfigFilePath, formatterConfigFilePath, version)
 
             CliFlags.EXECUTION ->
                 handleExecution(srcCodePath)
@@ -30,7 +32,10 @@ class CLI {
 
     private fun parseSourceCode(srcCodePath: String): Program {
         val lexer =
-            DefaultLexer(SplitterFactory.createSplitter(), StringToTokenConverterFactory.createDefaultsTokenConverter())
+            DefaultLexer(
+                SplitterFactory.createSplitter(),
+                StringToTokenConverterFactory.createDefaultsTokenConverter(),
+            )
         val tokenList = lexer.tokenize(getDefaultReader(srcCodePath))
         val nodeBuilder = DefaultNodeBuilder()
         val parser = V1Point0ParserFactory().createParser(tokenList, nodeBuilder)
@@ -40,23 +45,29 @@ class CLI {
     private fun handleFormatting(
         srcCodePath: String,
         formatterConfigFilePath: String?,
+        version: String,
     ): String {
         val program = parseSourceCode(srcCodePath)
         val formatter = FormatterService()
-        return formatter.formatToString(program, "1.0", formatterConfigFilePath ?: "formatter_config.json")
+        return formatter.formatToString(
+            program,
+            version,
+            formatterConfigFilePath ?: "formatter_config.json",
+        )
     }
 
     private fun handleAnalyzing(
         srcCodePath: String,
         analyzerConfigFilePath: String?,
+        version: String,
     ): String {
         val program = parseSourceCode(srcCodePath)
-        val analyzer = DefaultAnalyzer(analyzerConfigFilePath)
+        val analyzer = AnalyzerFactory.create(version, analyzerConfigFilePath)
         val diagnostics = analyzer.analyze(program)
         return if (diagnostics.isEmpty()) {
             "No issues found"
         } else {
-            diagnostics.joinToString("\n") { it.message } // "${it.position.toString()} -
+            diagnostics.joinToString("\n") { it.message }
         }
     }
 
@@ -64,9 +75,10 @@ class CLI {
         srcCodePath: String,
         analyzerConfigFilePath: String?,
         formatterConfigFilePath: String?,
+        version: String,
     ): String {
-        val analysisResult = handleAnalyzing(srcCodePath, analyzerConfigFilePath)
-        val formattingResult = handleFormatting(srcCodePath, formatterConfigFilePath)
+        val analysisResult = handleAnalyzing(srcCodePath, analyzerConfigFilePath, version)
+        val formattingResult = handleFormatting(srcCodePath, formatterConfigFilePath, version)
 
         return """
             --- ANALYSIS REPORT---
