@@ -4,6 +4,11 @@ import Analyzer
 import DefaultAnalyzer
 import config.AnalyzerConfig
 import config.AnalyzerConfigLoader
+import rules.CamelCaseChecker
+import rules.IdentifierStyle
+import rules.NameChecker
+import rules.SnakeCaseChecker
+import rules.AnalyzerRuleRegistry
 
 object AnalyzerFactory {
     fun create(
@@ -11,19 +16,17 @@ object AnalyzerFactory {
         configPath: String? = null,
     ): Analyzer {
         val baseConfig = configPath?.let(AnalyzerConfigLoader::load) ?: AnalyzerConfig()
-        val parts = version.split('.').mapNotNull { it.toIntOrNull() }
-        val major = parts.getOrNull(0) ?: 0
-        val minor = parts.getOrNull(1) ?: 0
-
-        val finalConfig =
-            if (major > 1 || (major == 1 && minor >= 1)) {
-                // 1.1 and above: always enable readInput, retain println flag
-                baseConfig.copy(restrictReadInputArgs = true)
-            } else {
-                // 1.0.x: always disable readInput, respect println flag from config
-                baseConfig.copy(restrictReadInputArgs = false)
+        val styleChecker: NameChecker =
+            when (baseConfig.identifierStyle) {
+                IdentifierStyle.CAMEL_CASE -> CamelCaseChecker()
+                IdentifierStyle.SNAKE_CASE -> SnakeCaseChecker()
             }
-
-        return DefaultAnalyzer(finalConfig)
+        val rules =
+            if (version.startsWith("1.1")) {
+                AnalyzerRuleRegistry.rulesV11(styleChecker, baseConfig.restrictPrintlnArgs)
+            } else {
+                AnalyzerRuleRegistry.rulesV10(styleChecker, baseConfig.restrictPrintlnArgs)
+            }
+        return DefaultAnalyzer(rules)
     }
 }

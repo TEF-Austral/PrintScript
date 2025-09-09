@@ -198,7 +198,10 @@ class AnalyzerTest {
                 DeclarationStatement(tok("let", CommonTypes.LET), tok("my_var"), tok("Int"), lit(3), Position(0, 0)),
                 PrintStatement(expr, Position(0, 0)),
             )
-        val diags = DefaultAnalyzer(tempConfig.absolutePath).analyze(Program(stmts))
+
+        // use the factory to load the YAML config
+        val analyzer = AnalyzerFactory.create("1.0.0", tempConfig.absolutePath)
+        val diags = analyzer.analyze(Program(stmts))
         assertTrue(diags.isEmpty())
     }
 
