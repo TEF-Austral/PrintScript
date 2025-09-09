@@ -14,7 +14,7 @@ class CLI {
         srcCodePath: String,
         analyzerConfigFilePath: String? = null,
         formatterConfigFilePath: String? = null,
-        version: String = "1.0"
+        version: String = "1.0",
     ): String =
         when (flag) {
             CliFlags.FORMATTING ->
