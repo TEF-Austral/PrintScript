@@ -10,7 +10,8 @@ import coordinates.Position
 import diagnostic.Diagnostic
 import type.CommonTypes
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import java.io.File
 
 class Analyzer11Tests {
