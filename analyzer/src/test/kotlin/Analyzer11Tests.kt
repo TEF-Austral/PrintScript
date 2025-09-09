@@ -1,3 +1,4 @@
+// analyzer/src/test/kotlin/Analyzer11Tests.kt
 import config.AnalyzerConfig
 import coordinates.Position
 import diagnostic.Diagnostic
@@ -25,12 +26,12 @@ class Analyzer11Tests {
             File.createTempFile("analyzer", ".json").apply {
                 writeText(
                     """
-                    {
-                      "identifierStyle":"${config.identifierStyle}",
-                      "restrictPrintlnArgs":${config.restrictPrintlnArgs},
-                      "restrictReadInputArgs":${config.restrictReadInputArgs}
-                    }
-                    """.trimIndent(),
+          {
+            "identifierStyle":"${config.identifierStyle}",
+            "restrictPrintlnArgs":${config.restrictPrintlnArgs},
+            "restrictReadInputArgs":${config.restrictReadInputArgs}
+          }
+          """.trimIndent(),
                 )
                 deleteOnExit()
             }
@@ -63,7 +64,8 @@ class Analyzer11Tests {
                     Position(1, 0),
                 ),
             )
-        val diags = runAnalyzer(stmts)
+        val cfg = AnalyzerConfig(restrictPrintlnArgs = true, restrictReadInputArgs = true)
+        val diags = runAnalyzer(stmts, cfg)
         assertEquals(2, diags.size)
         assertEquals("println must take only a literal or identifier", diags[0].message)
         assertEquals("readInput must take only a literal or identifier", diags[1].message)
@@ -71,7 +73,7 @@ class Analyzer11Tests {
 
     @Test
     fun `1_1_x respects println override but enforces readInput`() {
-        val cfg = AnalyzerConfig(restrictPrintlnArgs = false, restrictReadInputArgs = false)
+        val cfg = AnalyzerConfig(restrictPrintlnArgs = false, restrictReadInputArgs = true)
         val stmts =
             listOf(
                 PrintStatement(
@@ -90,6 +92,7 @@ class Analyzer11Tests {
 
     @Test
     fun `1_1_x allows valid println and readInput args`() {
+        // default cfg has restrictPrintlnArgs=true but restrictReadInputArgs=false
         val stmts =
             listOf(
                 PrintStatement(lit(42), Position(0, 0)),
@@ -114,7 +117,8 @@ class Analyzer11Tests {
                     Position(1, 0),
                 ),
             )
-        val diags = runAnalyzer(stmts, version = "1.1.5")
+        val cfg = AnalyzerConfig(restrictPrintlnArgs = true, restrictReadInputArgs = true)
+        val diags = runAnalyzer(stmts, cfg, version = "1.1.5")
         assertEquals(2, diags.size)
         assertEquals("println must take only a literal or identifier", diags[0].message)
         assertEquals("readInput must take only a literal or identifier", diags[1].message)
