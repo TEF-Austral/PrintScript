@@ -1,11 +1,11 @@
 package formatter.rules
 
 import formatter.config.FormatConfig
-import node.ReadInputStatement
 import node.ASTNode
+import node.ReadInputExpression
 
 class ReadInputExpressionRule : FormatRule {
-    override fun matches(node: ASTNode) = node is ReadInputStatement
+    override fun matches(node: ASTNode) = node is ReadInputExpression
 
     override fun apply(
         node: ASTNode,
@@ -13,7 +13,7 @@ class ReadInputExpressionRule : FormatRule {
         config: FormatConfig,
         indentLevel: Int,
     ) {
-        val stmt = node as ReadInputStatement
+        val stmt = node as ReadInputExpression
         sb
             .append("readInput(")
             .append("\"${stmt.printValue()}\"")

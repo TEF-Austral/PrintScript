@@ -1,11 +1,11 @@
 package formatter.rules
 
 import formatter.config.FormatConfig
-import node.ReadEnvStatement
 import node.ASTNode
+import node.ReadEnvExpression
 
 class ReadEnvExpressionRule : FormatRule {
-    override fun matches(node: ASTNode) = node is ReadEnvStatement
+    override fun matches(node: ASTNode) = node is ReadEnvExpression
 
     override fun apply(
         node: ASTNode,
@@ -13,7 +13,7 @@ class ReadEnvExpressionRule : FormatRule {
         config: FormatConfig,
         indentLevel: Int,
     ) {
-        val stmt = node as ReadEnvStatement
+        val stmt = node as ReadEnvExpression
         sb
             .append("readEnv(")
             .append("\"${stmt.envName()}\"")
