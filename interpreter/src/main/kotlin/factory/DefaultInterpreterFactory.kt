@@ -2,10 +2,16 @@ package factory
 
 import DefaultInterpreter
 import data.DefaultDataBase
+import executor.coercer.StringToBooleanConverter
+import executor.coercer.StringToNumberConverter
+import executor.coercer.StringToStringConverter
+import executor.coercer.TypeCoercer
 import executor.expression.BinaryExpressionExecutor
 import executor.expression.DefaultExpressionExecutor
 import executor.expression.IdentifierExpressionExecutor
 import executor.expression.LiteralExpressionExecutor
+import executor.expression.ReadEnvExpressionExecutor
+import executor.expression.ReadInputExpressionExecutor
 import executor.expression.SpecificExpressionExecutor
 import executor.operators.LogicalAnd
 import executor.operators.LogicalOr
@@ -39,6 +45,17 @@ object DefaultInterpreterFactory {
             BinaryExpressionExecutor(expressions = identifierAndLiteralExecutors),
             IdentifierExpressionExecutor(dataBase),
             LiteralExpressionExecutor(),
+            ReadInputExpressionExecutor(),
+            ReadEnvExpressionExecutor(),
+        )
+
+    private val coercers: TypeCoercer =
+        TypeCoercer(
+            listOf(
+                StringToNumberConverter(),
+                StringToBooleanConverter(),
+                StringToStringConverter(),
+            ),
         )
 
     fun createDefaultInterpreter(): DefaultInterpreter {
@@ -50,8 +67,8 @@ object DefaultInterpreterFactory {
 
         val mainStatementExecutor = DefaultStatementExecutor(statementSpecialists)
 
-        val constDeclaration = ConstDeclarationStatementExecutor(dataBase, expressionExecutor)
-        val letDeclaration = LetDeclarationStatement(dataBase, expressionExecutor)
+        val constDeclaration = ConstDeclarationStatementExecutor(dataBase, expressionExecutor, coercers)
+        val letDeclaration = LetDeclarationStatement(dataBase, expressionExecutor, coercers)
 
         val declarationExecutor =
             DeclarationStatementExecutor(

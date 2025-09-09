@@ -1,17 +1,20 @@
-package parser.statement
+package parser.statement.expression
 
 import Token
 import node.LiteralExpression
 import parser.Parser
-import parser.result.StatementBuiltResult
-import parser.result.StatementResult
+import parser.result.ExpressionBuiltResult
+import parser.result.ExpressionResult
 import parser.utils.advancePastSemiColon
 import parser.utils.isSemiColon
 import parser.utils.isValidResultAndCurrentToken
 import type.CommonTypes
 
-class ReadInputParser : StatementBuilder {
-    override fun parse(parser: Parser): StatementResult {
+class ReadInputParser : ExpressionBuilder {
+    override fun parse(
+        parser: Parser,
+        current: Token,
+    ): ExpressionResult {
         if (isSemiColon(parser.advance().advance().peak())) throw Exception("Invalid structure")
         val readInput = parser.consume(CommonTypes.READ_INPUT)
         if (!isValidResultAndCurrentToken(readInput)) {
@@ -24,11 +27,8 @@ class ReadInputParser : StatementBuilder {
         val literalExpression = value.getExpression() as LiteralExpression
         val delimiterParser = advancePastSemiColon(value.getParser())
         val builtStatement = delimiterParser.getNodeBuilder().buildReadInputNode(literalExpression)
-        return StatementBuiltResult(delimiterParser, builtStatement)
+        return ExpressionBuiltResult(delimiterParser, builtStatement)
     }
 
-    override fun canHandle(
-        token: Token?,
-        parser: Parser,
-    ): Boolean = token?.getType() == CommonTypes.READ_INPUT
+    override fun canHandle(types: CommonTypes): Boolean = types == CommonTypes.READ_INPUT
 }

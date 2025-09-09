@@ -5,7 +5,7 @@ import parser.Parser
 import parser.result.ExpressionResult
 
 sealed interface TokenToExpression {
-    fun build(
+    fun parse(
         parser: Parser,
         current: Token,
     ): ExpressionResult

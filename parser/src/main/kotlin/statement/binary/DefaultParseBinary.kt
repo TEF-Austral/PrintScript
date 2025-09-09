@@ -73,7 +73,7 @@ class DefaultParseBinary(
         if (currentToken == null) {
             throw Exception("Exceeded parsing limits")
         }
-        return tokenToExpression.build(parser, currentToken)
+        return tokenToExpression.parse(parser, currentToken)
     }
 
     override fun processRightAssociativity(

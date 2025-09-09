@@ -1,17 +1,20 @@
-package parser.statement
+package parser.statement.expression
 
 import Token
 import node.LiteralExpression
 import parser.Parser
-import parser.result.StatementBuiltResult
-import parser.result.StatementResult
+import parser.result.ExpressionBuiltResult
+import parser.result.ExpressionResult
 import parser.utils.advancePastSemiColon
 import parser.utils.isSemiColon
 import parser.utils.isValidResultAndCurrentToken
 import type.CommonTypes
 
-class ReadEnvParser : StatementBuilder {
-    override fun parse(parser: Parser): StatementResult {
+class ReadEnvParser : ExpressionBuilder {
+    override fun parse(
+        parser: Parser,
+        current: Token,
+    ): ExpressionResult {
         if (isSemiColon(parser.advance().advance().peak())) throw Exception("Invalid structure")
         val readEnv = parser.consume(CommonTypes.READ_ENV)
         if (!isValidResultAndCurrentToken(readEnv)) {
@@ -24,11 +27,8 @@ class ReadEnvParser : StatementBuilder {
         val literalExpression = value.getExpression() as LiteralExpression
         val delimiterParser = advancePastSemiColon(value.getParser())
         val builtStatement = delimiterParser.getNodeBuilder().buildReadEnvNode(literalExpression)
-        return StatementBuiltResult(delimiterParser, builtStatement)
+        return ExpressionBuiltResult(delimiterParser, builtStatement)
     }
 
-    override fun canHandle(
-        token: Token?,
-        parser: Parser,
-    ): Boolean = token?.getType() == CommonTypes.READ_ENV
+    override fun canHandle(types: CommonTypes): Boolean = types == CommonTypes.READ_ENV
 }

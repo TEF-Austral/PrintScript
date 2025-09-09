@@ -2,11 +2,11 @@ package node
 
 import coordinates.Coordinates
 
-class BlockStatement(
-    private val statements: List<Statement>,
+class ReadInputExpression(
+    private val printValue: String,
     private val coordinates: Coordinates,
-) : Statement {
-    fun getStatements(): List<Statement> = statements
-
+) : CoercibleExpression {
     override fun getCoordinates(): Coordinates = coordinates
+
+    fun printValue(): String = printValue
 }

@@ -9,13 +9,12 @@ import node.IdentifierExpression
 import node.IfStatement
 import node.LiteralExpression
 import node.PrintStatement
-import node.ReadEnvStatement
-import node.ReadInputStatement
-import parser.factory.V1Point0ParserFactory
+import node.ReadEnvExpression
+import node.ReadInputExpression
+import parser.factory.VOnePointOneParserFactory
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import parser.factory.V1Point1ParserFactory
 import type.CommonTypes
 
 class ParserTest {
@@ -31,7 +30,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
 
         assertEquals(tokens, parser.getTokens())
         assertEquals(nodeBuilder, parser.getNodeBuilder())
@@ -48,7 +47,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val advancedParser = parser.advance()
 
         assertEquals(tokens, advancedParser.getTokens())
@@ -70,7 +69,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -111,7 +110,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(3, program.getStatements().size)
@@ -163,7 +162,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -221,7 +220,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -275,7 +274,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -321,7 +320,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -346,7 +345,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -371,7 +370,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -400,7 +399,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -424,7 +423,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -449,7 +448,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -478,7 +477,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -516,7 +515,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(3, program.getStatements().size)
@@ -547,7 +546,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
         assertTrue(!result.isSuccess() || result.message().contains("error"))
     }
@@ -566,7 +565,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -592,7 +591,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertTrue(result.isSuccess())
@@ -610,7 +609,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point0ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertTrue(result.isSuccess())
@@ -630,7 +629,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -659,7 +658,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -685,7 +684,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -719,7 +718,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -760,7 +759,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -807,7 +806,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -838,7 +837,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -863,7 +862,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -888,7 +887,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val result = parser.parse()
 
         assertTrue(result.isSuccess())
@@ -906,7 +905,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -932,7 +931,7 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
@@ -958,14 +957,14 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
-        val stmt = program.getStatements()[0]
+        val stmt = program.getStatements()[0] as ExpressionStatement
         assertEquals(1, stmt.getCoordinates().getRow())
         assertEquals(9, stmt.getCoordinates().getColumn())
-        val value = (stmt as ReadEnvStatement).envName()
+        val value = (stmt.getExpression() as ReadEnvExpression).envName()
         assertEquals("\"USER\"", value)
     }
 
@@ -981,14 +980,14 @@ class ParserTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = V1Point1ParserFactory().createParser(tokens, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
         val program = parser.parse().getProgram()
 
         assertEquals(1, program.getStatements().size)
-        val stmt = program.getStatements()[0]
+        val stmt = program.getStatements()[0] as ExpressionStatement
         assertEquals(1, stmt.getCoordinates().getRow())
         assertEquals(11, stmt.getCoordinates().getColumn())
-        val value = (stmt as ReadInputStatement).printValue()
+        val value = (stmt.getExpression() as ReadInputExpression).printValue()
         assertEquals("\"Enter your name\"", value)
     }
 }

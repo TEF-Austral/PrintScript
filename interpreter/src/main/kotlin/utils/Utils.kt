@@ -17,5 +17,9 @@ fun areTypesCompatible(
         return true
     }
 
+    if (declaredType == CommonTypes.EMPTY || valueType == CommonTypes.EMPTY) {
+        return true
+    }
+
     return declaredType == valueType
 }

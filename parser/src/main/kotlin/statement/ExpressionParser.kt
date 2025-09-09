@@ -10,7 +10,13 @@ import parser.utils.isSemiColon
 import type.CommonTypes
 
 class ExpressionParser(
-    private val acceptedTypes: Map<CommonTypes, Boolean> = mapOf(CommonTypes.NUMBER_LITERAL to true, CommonTypes.STRING_LITERAL to true, CommonTypes.IDENTIFIER to true, CommonTypes.OPERATORS to true),
+    private val acceptedTypes: Map<CommonTypes, Boolean> =
+        mapOf(
+            CommonTypes.NUMBER_LITERAL to true,
+            CommonTypes.STRING_LITERAL to true,
+            CommonTypes.IDENTIFIER to true,
+            CommonTypes.OPERATORS to true,
+        ),
 ) : StatementBuilder {
     override fun canHandle(
         token: Token?,

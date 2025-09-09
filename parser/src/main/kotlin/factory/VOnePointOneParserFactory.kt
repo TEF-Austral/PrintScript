@@ -8,8 +8,8 @@ import parser.statement.AssignmentParser
 import parser.statement.ExpressionParser
 import parser.statement.IfStatement
 import parser.statement.PrintParser
-import parser.statement.ReadEnvParser
-import parser.statement.ReadInputParser
+import parser.statement.expression.ReadEnvParser
+import parser.statement.expression.ReadInputParser
 import parser.statement.StatementParser
 import parser.statement.VariableDeclarationParser
 import parser.statement.binary.DefaultParseBinary
@@ -28,7 +28,7 @@ import statement.enforcers.LetEnforcer
 import statement.enforcers.SemiColonEnforcer
 import type.CommonTypes
 
-class V1Point1ParserFactory : ParserFactory {
+class VOnePointOneParserFactory : ParserFactory {
     override fun createParser(
         tokens: List<Token>,
         nodeBuilder: NodeBuilder,
@@ -39,6 +39,8 @@ class V1Point1ParserFactory : ParserFactory {
                     IdentifierBuilder(),
                     LiteralBuilder(listOf(CommonTypes.NUMBER_LITERAL, CommonTypes.STRING_LITERAL, CommonTypes.BOOLEAN_LITERAL)),
                     DelimitersBuilder(),
+                    ReadInputParser(),
+                    ReadEnvParser(),
                 ),
             )
         val parseBinary =
@@ -59,10 +61,8 @@ class V1Point1ParserFactory : ParserFactory {
                     VariableDeclarationParser(ConstEnforcer(IdentifierEnforcer(ConstAssignmentEnforcer(SemiColonEnforcer())))),
                     VariableDeclarationParser(ConstEnforcer(IdentifierEnforcer(ColonEnforcer(DataTypeEnforcer(ConstAssignmentEnforcer(SemiColonEnforcer()), listOf(CommonTypes.NUMBER, CommonTypes.STRING, CommonTypes.BOOLEAN)))))),
                     PrintParser(),
-                    ReadInputParser(),
-                    ReadEnvParser(),
                     AssignmentParser(),
-                    ExpressionParser(mapOf(CommonTypes.NUMBER_LITERAL to true, CommonTypes.STRING_LITERAL to true, CommonTypes.BOOLEAN_LITERAL to true, CommonTypes.IDENTIFIER to true, CommonTypes.OPERATORS to true)),
+                    ExpressionParser(mapOf(CommonTypes.NUMBER_LITERAL to true, CommonTypes.STRING_LITERAL to true, CommonTypes.BOOLEAN_LITERAL to true, CommonTypes.IDENTIFIER to true, CommonTypes.OPERATORS to true, CommonTypes.READ_ENV to true, CommonTypes.READ_INPUT to true)),
                     IfStatement(),
                 ),
             )

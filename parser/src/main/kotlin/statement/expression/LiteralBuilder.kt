@@ -9,14 +9,14 @@ class LiteralBuilder(
     private val handleableLiteralTypes: List<CommonTypes> =
         listOf(CommonTypes.NUMBER_LITERAL, CommonTypes.STRING_LITERAL),
 ) : ExpressionBuilder {
-    override fun canHandle(token: CommonTypes): Boolean {
+    override fun canHandle(types: CommonTypes): Boolean {
         for (type in handleableLiteralTypes) {
-            if (token == type) return true
+            if (types == type) return true
         }
         return false
     }
 
-    override fun build(
+    override fun parse(
         parser: Parser,
         current: Token,
     ): ExpressionBuiltResult {

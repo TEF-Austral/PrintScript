@@ -14,7 +14,7 @@ class ExpressionParsingBuilder(
 
     private fun parsePrimary(parser: Parser): ExpressionResult {
         val current = parser.peak() ?: return ExpressionBuiltResult(parser, EmptyExpression())
-        return expressionBuilder.build(parser, current)
+        return expressionBuilder.parse(parser, current)
     }
 
     private fun parseBinary(left: ExpressionResult): ExpressionResult = binaryBuilder.parseBinary(left, 0)

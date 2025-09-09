@@ -9,11 +9,7 @@ import result.InterpreterResult
 class DeclarationStatementExecutor(
     private val dataBase: DataBase,
     private val defaultExpressionExecutor: DefaultExpressionExecutor,
-    private val declarationStatementExecutor: List<SpecificStatementExecutor> =
-        listOf(
-            ConstDeclarationStatementExecutor(dataBase, defaultExpressionExecutor),
-            LetDeclarationStatement(dataBase, defaultExpressionExecutor),
-        ),
+    private val declarationStatementExecutor: List<SpecificStatementExecutor>,
 ) : SpecificStatementExecutor {
     override fun canHandle(statement: Statement): Boolean = statement is DeclarationStatement
 

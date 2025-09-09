@@ -1,18 +1,19 @@
 import config.AnalyzerConfig
-import factory.AnalyzerFactory
-import node.Statement
-import node.PrintStatement
-import node.ReadInputStatement
-import node.Program
-import node.BinaryExpression
-import node.LiteralExpression
 import coordinates.Position
 import diagnostic.Diagnostic
-import type.CommonTypes
-import org.junit.jupiter.api.Test
+import factory.AnalyzerFactory
+import node.BinaryExpression
+import node.LiteralExpression
+import node.PrintStatement
+import node.Program
+import node.ReadInputExpression
+import node.Statement
+import node.ExpressionStatement
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import type.CommonTypes
 import java.io.File
+import kotlin.test.Test
 
 class Analyzer11Tests {
     private fun runAnalyzer(
@@ -57,8 +58,10 @@ class Analyzer11Tests {
                     BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2), Position(0, 0)),
                     Position(0, 0),
                 ),
-                // invalid argument "1+2" → diagnostic
-                ReadInputStatement("1+2", Position(1, 0)),
+                ExpressionStatement(
+                    ReadInputExpression("1+2", Position(1, 0)),
+                    Position(1, 0),
+                ),
             )
         val diags = runAnalyzer(stmts)
         assertEquals(2, diags.size)
@@ -71,13 +74,14 @@ class Analyzer11Tests {
         val cfg = AnalyzerConfig(restrictPrintlnArgs = false, restrictReadInputArgs = false)
         val stmts =
             listOf(
-                // println rule disabled → no diag
                 PrintStatement(
                     BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2), Position(0, 0)),
                     Position(0, 0),
                 ),
-                // still invalid readInput arg → diagnostic
-                ReadInputStatement("1+2", Position(1, 0)),
+                ExpressionStatement(
+                    ReadInputExpression("1+2", Position(1, 0)),
+                    Position(1, 0),
+                ),
             )
         val diags = runAnalyzer(stmts, cfg)
         assertEquals(1, diags.size)
@@ -88,26 +92,27 @@ class Analyzer11Tests {
     fun `1_1_x allows valid println and readInput args`() {
         val stmts =
             listOf(
-                // literal is valid for println
                 PrintStatement(lit(42), Position(0, 0)),
-                // identifier is valid for readInput
-                ReadInputStatement("myVar", Position(1, 0)),
+                ExpressionStatement(
+                    ReadInputExpression("myVar", Position(1, 0)),
+                    Position(1, 0),
+                ),
             )
-        val diags = runAnalyzer(stmts)
-        assertTrue(diags.isEmpty())
+        assertTrue(runAnalyzer(stmts).isEmpty())
     }
 
     @Test
     fun `version 1_1_0 enforces same rules as 1_0_0`() {
         val stmts =
             listOf(
-                // invalid complex expr → println diagnostic
                 PrintStatement(
                     BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2), Position(0, 0)),
                     Position(0, 0),
                 ),
-                // invalid string → readInput diagnostic
-                ReadInputStatement("1+2", Position(1, 0)),
+                ExpressionStatement(
+                    ReadInputExpression("1+2", Position(1, 0)),
+                    Position(1, 0),
+                ),
             )
         val diags = runAnalyzer(stmts, version = "1.1.5")
         assertEquals(2, diags.size)
