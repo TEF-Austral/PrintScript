@@ -39,7 +39,7 @@ class ReadInputArgsRule : Rule {
                 traverseStatement(stmt.getConsequence(), diags)
                 stmt.getAlternative()?.let { traverseStatement(it, diags) }
             }
-            else -> {}
+            else -> error("Unhandled Expression type: ${stmt::class.simpleName} at ${stmt.getCoordinates()}")
         }
     }
 
@@ -68,7 +68,7 @@ class ReadInputArgsRule : Rule {
             is ReadEnvExpression,
             is EmptyExpression,
             -> {}
-            else -> {} // <-- added to make the when exhaustive
+            else -> error("Unhandled Expression type: ${expr::class.simpleName} at ${expr.getCoordinates()}")
         }
     }
 

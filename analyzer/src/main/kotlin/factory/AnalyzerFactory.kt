@@ -6,7 +6,6 @@ import config.AnalyzerConfig
 import config.AnalyzerConfigLoader
 import rules.CamelCaseChecker
 import rules.IdentifierStyle
-import rules.NameChecker
 import rules.SnakeCaseChecker
 import rules.AnalyzerRuleRegistry
 
@@ -16,17 +15,17 @@ object AnalyzerFactory {
         configPath: String? = null,
     ): Analyzer {
         val baseConfig = configPath?.let(AnalyzerConfigLoader::load) ?: AnalyzerConfig()
-        val styleChecker: NameChecker =
+        val styleChecker =
             when (baseConfig.identifierStyle) {
                 IdentifierStyle.CAMEL_CASE -> CamelCaseChecker()
                 IdentifierStyle.SNAKE_CASE -> SnakeCaseChecker()
             }
-        val rules =
-            if (version.startsWith("1.1")) {
-                AnalyzerRuleRegistry.rulesV11(styleChecker, baseConfig.restrictPrintlnArgs)
-            } else {
-                AnalyzerRuleRegistry.rulesV10(styleChecker, baseConfig.restrictPrintlnArgs)
-            }
-        return DefaultAnalyzer(rules)
+
+        return when {
+            version.startsWith("1.1") ->
+                DefaultAnalyzer(AnalyzerRuleRegistry.rulesV11(styleChecker, baseConfig.restrictPrintlnArgs))
+            else ->
+                DefaultAnalyzer(AnalyzerRuleRegistry.rulesV10(styleChecker, baseConfig.restrictPrintlnArgs))
+        }
     }
 }

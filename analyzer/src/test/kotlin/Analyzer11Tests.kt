@@ -1,4 +1,3 @@
-// analyzer/src/test/kotlin/Analyzer11Tests.kt
 import config.AnalyzerConfig
 import coordinates.Position
 import diagnostic.Diagnostic

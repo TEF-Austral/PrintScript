@@ -6,8 +6,8 @@ import formatter.rules.RuleRegistry
 
 object FormatterFactory {
     fun create(version: String): Formatter =
-        when (version) {
-            "1.1" -> DefaultFormatter(RuleRegistry.rulesV11)
+        when {
+            version.startsWith("1.1") -> DefaultFormatter(RuleRegistry.rulesV11)
             else -> DefaultFormatter(RuleRegistry.rulesV10)
         }
 }
