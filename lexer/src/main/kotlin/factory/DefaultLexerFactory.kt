@@ -3,6 +3,9 @@ package factory
 import DefaultLexer
 import Lexer
 import converter.specific.StringToTokenConverter
+import type.Version
+import type.Version.VERSION_1_0
+import type.Version.VERSION_1_1
 
 data class DefaultLexerFactory(
     val splitterFactory: StringSplitterFactory,
@@ -27,5 +30,12 @@ data class DefaultLexerFactory(
         val splitter = splitterFactory.createCustomSplitter(specialChars)
         val converters = converterFactory.createCustom(customConverters)
         return DefaultLexer(splitter, converters)
+    }
+
+    override fun createLexerWithVersion(version: Version): Lexer {
+        return when(version){
+            VERSION_1_0 -> createVersionOne()
+            VERSION_1_1 -> createVersionOnePointOne()
+        }
     }
 }
