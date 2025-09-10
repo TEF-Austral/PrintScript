@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import rules.IdentifierStyle
 import java.io.File
-import kotlin.collections.get
 
 class AnalyzerTest {
     private fun runAnalyzer(
