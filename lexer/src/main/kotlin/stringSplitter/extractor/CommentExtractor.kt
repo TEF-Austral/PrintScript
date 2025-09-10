@@ -1,4 +1,4 @@
-package string.splitter.extractor
+package stringSplitter.extractor
 
 object CommentExtractor : TokenExtractor {
     override fun extract(

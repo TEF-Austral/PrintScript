@@ -2,8 +2,8 @@ import converter.StringToTokenConverterFactory
 import converter.TokenConverter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import string.splitter.Splitter
-import string.splitter.SplitterFactory
+import stringSplitter.Splitter
+import stringSplitter.SplitterFactory
 import type.CommonTypes
 
 class LexerTest {

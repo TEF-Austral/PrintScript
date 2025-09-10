@@ -1,4 +1,4 @@
-package string.splitter.extractor
+package stringSplitter.extractor
 
 interface TokenExtractor {
     fun extract(

@@ -1,36 +1,31 @@
 import builder.DefaultNodeBuilder
+import com.github.ajalt.clikt.core.CliktCommand
 import converter.StringToTokenConverterFactory
-import factory.AnalyzerFactory
-import factory.DefaultInterpreterFactory
-import flags.CliFlags
-import formatter.FormatterService
 import parser.factory.VOnePointZeroParserFactory
-import string.splitter.SplitterFactory
+import stringSplitter.SplitterFactory
 import node.Program
+import com.github.ajalt.clikt.parameters.types.path
 
-class CLI {
-    fun execute(
-        flag: CliFlags,
-        srcCodePath: String,
-        analyzerConfigFilePath: String? = null,
-        formatterConfigFilePath: String? = null,
-        version: String = "1.0",
-    ): String =
-        when (flag) {
-            CliFlags.FORMATTING ->
-                handleFormatting(srcCodePath, formatterConfigFilePath, version)
-
-            CliFlags.ANALYZING ->
-                handleAnalyzing(srcCodePath, analyzerConfigFilePath, version)
-
-            CliFlags.VALIDATION ->
-                handleValidation(srcCodePath, analyzerConfigFilePath, formatterConfigFilePath, version)
-
-            CliFlags.EXECUTION ->
-                handleExecution(srcCodePath)
+class CLI :
+    CliktCommand(
+        help = "A command-line tool for analyzing, formatting, validating, and executing source code",
+        name = "mycli",
+    ) {
+    override fun run() {
+        if (currentContext.invokedSubcommand == null) {
+            echo("Welcome to the Source Code CLI Tool!")
+            echo("Available commands:")
+            echo("  format   - Format source code")
+            echo("  analyze  - Analyze source code for issues")
+            echo("  validate - Validate source code (analyze + format)")
+            echo("  execute  - Execute source code")
+            echo("")
+            echo("Usage: mycli <command> <source_file> [options]")
+            echo("For detailed help: mycli <command> --help")
         }
+    }
 
-    private fun parseSourceCode(srcCodePath: String): Program {
+    fun parseSourceCode(srcCodePath: String): Program {
         val lexer =
             DefaultLexer(
                 SplitterFactory.createSplitter(),
@@ -40,65 +35,6 @@ class CLI {
         val nodeBuilder = DefaultNodeBuilder()
         val parser = VOnePointZeroParserFactory().createParser(tokenList, nodeBuilder)
         return parser.parse().getProgram()
-    }
-
-    private fun handleFormatting(
-        srcCodePath: String,
-        formatterConfigFilePath: String?,
-        version: String,
-    ): String {
-        val program = parseSourceCode(srcCodePath)
-        val formatter = FormatterService()
-        return formatter.formatToString(
-            program,
-            version,
-            formatterConfigFilePath ?: "formatter_config.json",
-        )
-    }
-
-    private fun handleAnalyzing(
-        srcCodePath: String,
-        analyzerConfigFilePath: String?,
-        version: String,
-    ): String {
-        val program = parseSourceCode(srcCodePath)
-        val analyzer = AnalyzerFactory.create(version, analyzerConfigFilePath)
-        val diagnostics = analyzer.analyze(program)
-        return if (diagnostics.isEmpty()) {
-            "No issues found"
-        } else {
-            diagnostics.joinToString("\n") { it.message }
-        }
-    }
-
-    private fun handleValidation(
-        srcCodePath: String,
-        analyzerConfigFilePath: String?,
-        formatterConfigFilePath: String?,
-        version: String,
-    ): String {
-        val analysisResult = handleAnalyzing(srcCodePath, analyzerConfigFilePath, version)
-        val formattingResult = handleFormatting(srcCodePath, formatterConfigFilePath, version)
-
-        return """
-            --- ANALYSIS REPORT---
-            $analysisResult
-
-            ---FORMATTING PREVIEW---
-            $formattingResult
-            """.trimIndent()
-    }
-
-    private fun handleExecution(srcCodePath: String): String {
-        val program = parseSourceCode(srcCodePath)
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
-        val result = interpreter.interpret(program)
-
-        return if (result.interpretedCorrectly) {
-            "Program executed successfully"
-        } else {
-            "Program executed with errors: ${result.message}"
-        }
     }
 
     private fun getDefaultReader(path: String): Reader = FileReader(path)

@@ -2,7 +2,7 @@ import converter.StringToTokenConverterFactory
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import string.splitter.SplitterFactory
+import stringSplitter.SplitterFactory
 import type.CommonTypes
 
 class LexerIntegrationTest {

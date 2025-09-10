@@ -1,5 +1,5 @@
 import converter.TokenConverter
-import string.splitter.Splitter
+import stringSplitter.Splitter
 
 class DefaultLexer(
     private val splitter: Splitter,

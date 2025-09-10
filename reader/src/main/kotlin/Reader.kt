@@ -1,3 +1,3 @@
-sealed interface Reader {
+interface Reader {
     fun read(): String
 }

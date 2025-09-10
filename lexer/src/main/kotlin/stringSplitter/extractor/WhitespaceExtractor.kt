@@ -1,4 +1,4 @@
-package string.splitter.extractor
+package stringSplitter.extractor
 
 object WhitespaceExtractor : TokenExtractor {
     override fun extract(

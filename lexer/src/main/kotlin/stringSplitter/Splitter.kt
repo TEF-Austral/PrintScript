@@ -1,15 +1,15 @@
-package string.splitter
+package stringSplitter
 
 import coordinates.Coordinates
 import coordinates.Position
-import string.splitter.extractor.CommentExtractor
-import string.splitter.extractor.Extraction
-import string.splitter.extractor.NumberExtractor
-import string.splitter.extractor.SpecialTokenExtractor
-import string.splitter.extractor.StringLiteralExtractor
-import string.splitter.extractor.TokenExtractor
-import string.splitter.extractor.WhitespaceExtractor
-import string.splitter.extractor.WordExtractor
+import stringSplitter.extractor.CommentExtractor
+import stringSplitter.extractor.Extraction
+import stringSplitter.extractor.NumberExtractor
+import stringSplitter.extractor.SpecialTokenExtractor
+import stringSplitter.extractor.StringLiteralExtractor
+import stringSplitter.extractor.TokenExtractor
+import stringSplitter.extractor.WhitespaceExtractor
+import stringSplitter.extractor.WordExtractor
 
 class Splitter(
     specialChars: List<Char>,
