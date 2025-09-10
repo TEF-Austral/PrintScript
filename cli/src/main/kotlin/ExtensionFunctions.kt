@@ -9,14 +9,22 @@ fun CLI.handleFormatting(
 ): String {
     val program = parseSourceCode(srcCodePath)
     val formatter = FormatterService()
-    return formatter.formatToString(
-        program,
-        version,
-        formatterConfigFilePath
-            ?: (
-                "C:\\Users\\tomas\\Faculty\\Tercer Anio\\Segundo Cuatrimestre\\IngSis\\PrintScript\\cli\\src\\test\\resources\\FormattingConfiguration.json"
-            ),
-    )
+
+    val configPath = formatterConfigFilePath ?: run {
+        val defaultConfig = """{
+  "spaceBeforeColon": true,
+  "spaceAfterColon": true,
+  "spaceAroundAssignment": true,
+  "blankLinesBeforePrintln": 1
+}"""
+
+        val tempFile = kotlin.io.path.createTempFile("FormattingConfiguration", ".json")
+        tempFile.toFile().writeText(defaultConfig)
+
+        tempFile.toString()
+    }
+
+    return formatter.formatToString(program, version, configPath)
 }
 
 fun CLI.handleAnalyzing(
