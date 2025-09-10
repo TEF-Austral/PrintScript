@@ -1,58 +1,81 @@
 package parser
 
 import Token
-import TokenType
 import builder.NodeBuilder
-import node.Program
-import node.statement.Statement
-import parser.expression.ExpressionParser
+import node.EmptyStatement
+import node.Statement
+import parser.statement.expression.ExpressionParsingBuilder
+import parser.result.CompleteProgram
+import parser.result.FailedProgram
+import parser.result.FinalResult
+import parser.result.ParserError
+import parser.result.ParserResult
+import parser.result.ParserSuccess
 import parser.statement.StatementParser
+import parser.result.StatementBuiltResult
+import parser.result.StatementResult
+import parser.utils.checkType
+import type.CommonTypes
 
-class Parser(private val tokens: List<Token>, private val nodeBuilder: NodeBuilder,
-             private val expressionParser: ExpressionParser, private val statementParser: StatementParser) {
+class Parser(
+    private val tokens: List<Token>,
+    private val nodeBuilder: NodeBuilder,
+    private val expressionParser: ExpressionParsingBuilder,
+    private val statementParser: StatementParser,
+    private val current: Int = 0,
+) : ParserInterface {
+    fun isAtEnd(): Boolean = current >= tokens.size
 
-     var current = 0
-
-     fun parse(): Program {
-
-        val statements = mutableListOf<Statement>()
-
-        while (!isAtEnd()) {
-            val statement = statementParser.parseStatement(this)
-            statements.add(statement)
+    override fun parse(): FinalResult =
+        try {
+            val statements = parseStatementsRecursive(StatementBuiltResult(this, EmptyStatement()), emptyList())
+            CompleteProgram(this, nodeBuilder.buildProgramNode(statements))
+        } catch (e: Exception) {
+            FailedProgram(this, e.message.toString())
         }
 
-        return nodeBuilder.buildProgramNode(statements)
-    }
-
-     fun getCurrentToken(): Token? = if (isAtEnd()) null else tokens[current]
-
-     fun advance(): Token? {
-        if (!isAtEnd()) current++
-        return previous()
-    }
-
-     fun previous(): Token? = if (current == 0) null else tokens[current - 1]
-
-     fun isAtEnd(): Boolean = current >= tokens.size
-
-     fun check(type: TokenType): Boolean = if (isAtEnd()) false else getCurrentToken()?.getType() == type
-
-     fun match(vararg types: TokenType): Boolean {
-        for (type in types) {
-            if (check(type)) {
-                advance()
-                return true
-            }
+    private fun parseStatementsRecursive(
+        result: StatementResult,
+        accumulatedStatements: List<Statement>,
+    ): List<Statement> {
+        if (result.getParser().isAtEnd()) {
+            return accumulatedStatements
         }
-        return false
+        if (!result.isSuccess()){
+            throw Exception(result.message())
+        }
+        val statementResult = statementParser.parse(result.getParser())
+
+        return parseStatementsRecursive(statementResult, accumulatedStatements + statementResult.getStatement())
     }
 
-     fun consume(type: TokenType): Token {
-        if (check(type)) return advance()!!
-        throw IllegalArgumentException("Expected token type $type but found ${getCurrentToken()?.getType()}")
+    fun peak(): Token? = if (isAtEnd()) null else tokens[current]
+
+    fun advance(): Parser {
+        if (isAtEnd()) return this
+        return Parser(
+            tokens,
+            nodeBuilder,
+            expressionParser,
+            statementParser,
+            current + 1,
+        )
     }
 
-     fun getExpressionParser(): ExpressionParser = expressionParser
-     fun getNodeBuilder(): NodeBuilder = nodeBuilder
+    fun consume(type: CommonTypes): ParserResult =
+        if (checkType(type, peak())) {
+            ParserSuccess("Method consume called advance", advance())
+        } else {
+            ParserError("Can't advance when token is invalid or null", this)
+        }
+
+    override fun getExpressionParser(): ExpressionParsingBuilder = expressionParser
+
+    override fun getNodeBuilder(): NodeBuilder = nodeBuilder
+
+    override fun getStatementParser(): StatementParser = statementParser
+
+    override fun getCurrent(): Int = current
+
+    override fun getTokens(): List<Token> = tokens
 }

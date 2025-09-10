@@ -2,60 +2,60 @@ package builder
 
 import Token
 import node.Program
-import node.expression.BinaryExpression
-import node.expression.Expression
-import node.expression.IdentifierExpression
-import node.expression.LiteralExpression
-import node.statement.AssignmentStatement
-import node.statement.DeclarationStatement
-import node.statement.EmptyStatement
-import node.statement.ExpressionStatement
-import node.statement.PrintStatement
-import node.statement.Statement
+import node.BinaryExpression
+import node.IdentifierExpression
+import node.LiteralExpression
+import node.AssignmentStatement
+import node.DeclarationStatement
+import node.EmptyStatement
+import node.Expression
+import node.ExpressionStatement
+import node.IfStatement
+import node.PrintStatement
+import node.ReadEnvExpression
+import node.ReadInputExpression
+import node.Statement
 
 class DefaultNodeBuilder : NodeBuilder {
+    override fun buildLiteralExpressionNode(token: Token): LiteralExpression = LiteralExpression(token, token.getCoordinates())
 
-    override fun buildLiteralExpressionNode(token: Token): LiteralExpression {
-        return LiteralExpression(token)
-    }
-
-    override fun buildIdentifierNode(token: Token): IdentifierExpression {
-        return IdentifierExpression(token)
-    }
+    override fun buildIdentifierNode(token: Token): IdentifierExpression = IdentifierExpression(token, token.getCoordinates())
 
     override fun buildBinaryExpressionNode(
         left: Expression,
         operator: Token,
-        right: Expression
-    ): BinaryExpression {
-        return BinaryExpression(left, operator, right)
-    }
+        right: Expression,
+    ): BinaryExpression = BinaryExpression(left, operator, right, operator.getCoordinates())
 
     override fun buildVariableDeclarationStatementNode(
+        declarationType: Token,
         identifier: Token,
         dataType: Token,
-        initialValue: Expression?
-    ): DeclarationStatement {
-        return DeclarationStatement(identifier, dataType, initialValue)
-    }
+        initialValue: Expression?,
+    ): DeclarationStatement = DeclarationStatement(declarationType, identifier, dataType, initialValue, identifier.getCoordinates())
 
-    override fun buildAssignmentStatementNode(identifier: Token, value: Expression): AssignmentStatement {
-        return AssignmentStatement(identifier, value)
-    }
+    override fun buildAssignmentStatementNode(
+        identifier: Token,
+        value: Expression,
+    ): AssignmentStatement = AssignmentStatement(identifier, value, value.getCoordinates())
 
-    override fun buildPrintStatementNode(expression: Expression): PrintStatement {
-        return PrintStatement(expression)
-    }
+    override fun buildPrintStatementNode(expression: Expression): PrintStatement = PrintStatement(expression, expression.getCoordinates())
 
-    override fun buildExpressionStatementNode(expression: Expression): ExpressionStatement {
-        return ExpressionStatement(expression)
-    }
+    override fun buildExpressionStatementNode(
+        expression: Expression,
+    ): ExpressionStatement = ExpressionStatement(expression, expression.getCoordinates())
 
-    override fun buildEmptyStatementNode(): EmptyStatement {
-        return EmptyStatement()
-    }
+    override fun buildEmptyStatementNode(): EmptyStatement = EmptyStatement()
 
-    override fun buildProgramNode(statements: List<Statement>): Program {
-        return Program(statements)
-    }
+    override fun buildProgramNode(statements: List<Statement>): Program = Program(statements)
+
+    override fun buildIfStatementNode(
+        condition: Expression,
+        consequence: Statement,
+        alternative: Statement?,
+    ): IfStatement = IfStatement(condition, consequence, alternative, consequence.getCoordinates())
+
+    override fun buildReadInputNode(printValue: LiteralExpression): ReadInputExpression = ReadInputExpression(printValue.getValue(), printValue.getCoordinates())
+
+    override fun buildReadEnvNode(envName: LiteralExpression): ReadEnvExpression = ReadEnvExpression(envName.getValue(), envName.getCoordinates())
 }

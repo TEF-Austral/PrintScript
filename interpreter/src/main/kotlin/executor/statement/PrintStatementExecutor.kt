@@ -1,0 +1,34 @@
+package executor.statement
+
+import executor.expression.DefaultExpressionExecutor
+import result.InterpreterResult
+import node.PrintStatement
+import node.Statement
+
+class PrintStatementExecutor(
+    private val defaultExpressionExecutor: DefaultExpressionExecutor,
+) : SpecificStatementExecutor {
+    override fun canHandle(statement: Statement): Boolean = statement is PrintStatement
+
+    override fun execute(statement: Statement): InterpreterResult {
+        return try {
+            val printStatement = statement as PrintStatement
+            val expressionResult = defaultExpressionExecutor.execute(printStatement.getExpression())
+            if (!expressionResult.interpretedCorrectly) {
+                return expressionResult
+            }
+
+            val value =
+                expressionResult.interpreter ?: return InterpreterResult(
+                    false,
+                    "Error: No value to print",
+                    null,
+                )
+
+            println(value.getValue())
+            InterpreterResult(true, "Print executed successfully", value)
+        } catch (e: Exception) {
+            InterpreterResult(false, "Error executing print statement: ${e.message}", null)
+        }
+    }
+}

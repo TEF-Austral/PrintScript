@@ -1,0 +1,3 @@
+let myVariable:Number= 10;
+let another_variable:Number= 5 + 5;
+println(another_variable);

@@ -1,29 +1,22 @@
 package parser.statement
 
-import node.statement.Statement
 import parser.Parser
-import parser.command.DefaultStatementParserRegistry
-import parser.command.StatementParserCommand
+import parser.result.StatementErrorResult
+import parser.result.StatementResult
 
-class StatementParser {
-
-    private val registry: DefaultStatementParserRegistry
-
-    init {
-        val commands = createStatementCommands()
-        registry = DefaultStatementParserRegistry(commands)
-    }
-
-    fun parseStatement(parser: Parser): Statement {
-        return registry.parse(parser)
-    }
-
-    private fun createStatementCommands(): List<StatementParserCommand> {
-        return listOf(
-            parser.command.VariableDeclarationParser(),
-            parser.command.AssignmentParser(),
-            parser.command.PrintStatementParser(),
-            parser.command.ExpressionStatementParser()
-        )
+class StatementParser(
+    private val statementCommands: List<StatementBuilder>,
+) {
+    fun parse(parser: Parser): StatementResult {
+        for (command in statementCommands) {
+            if (command.canHandle(parser.peak(), parser)) {
+                val result = command.parse(parser)
+                if (!result.isSuccess()) {
+                    continue
+                }
+                return result
+            }
+        }
+        return StatementErrorResult(parser, "Can't be handled currently by the statement parser")
     }
 }

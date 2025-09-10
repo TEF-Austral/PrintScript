@@ -1,3 +1,7 @@
 package node
 
-interface ASTNode
+import coordinates.Coordinates
+
+sealed interface ASTNode {
+    fun getCoordinates(): Coordinates
+}

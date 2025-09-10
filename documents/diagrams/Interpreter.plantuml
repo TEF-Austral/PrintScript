@@ -1,0 +1,97 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class Divide {
+  + canHandle(String): Boolean
+  + operate(Object, Object): Object
+}
+class Equals {
+  + operate(Object, Object): Object
+  + canHandle(String): Boolean
+}
+interface Executor << interface >> {
+  + execute(ASTNode): Unit
+}
+class ExpressionExecutor {
+  + ExpressionExecutor(): 
+  + ExpressionExecutor(Map<String, Object>): 
+  + evaluate(Expression): Object
+  + execute(ASTNode): Unit
+  - evaluateBinaryOperation(Object, String, Object): Object
+   operators: List<Operator>
+}
+class GreaterThan {
+  + operate(Object, Object): Object
+  + canHandle(String): Boolean
+}
+class GreaterThanOrEqual {
+  + canHandle(String): Boolean
+  + operate(Object, Object): Object
+}
+class InOrderExecutor {
+  + InOrderExecutor(ExpressionExecutor, StatementExecutor): 
+  + execute(ASTNode): Unit
+}
+class Interpreter {
+  + Interpreter(Executor): 
+  + interpret(Program): Unit
+}
+class LessThan {
+  + canHandle(String): Boolean
+  + operate(Object, Object): Object
+}
+class LessThanOrEqual {
+  + canHandle(String): Boolean
+  + operate(Object, Object): Object
+}
+class Multiplication {
+  + canHandle(String): Boolean
+  + operate(Object, Object): Object
+}
+class NotEquals {
+  + operate(Object, Object): Object
+  + canHandle(String): Boolean
+}
+interface Operator << interface >> {
+  + operate(Object, Object): Object
+  + canHandle(String): Boolean
+}
+class StatementExecutor {
+  + StatementExecutor(): 
+  - getDefaultValue(String): Object
+  + execute(ASTNode): Unit
+}
+class Subtraction {
+  + canHandle(String): Boolean
+  + operate(Object, Object): Object
+}
+class Sum {
+  + canHandle(String): Boolean
+  - operateString(Object, Object): String
+  - sum(Object, Object): Object
+  + operate(Object, Object): Object
+}
+
+Divide              -[#008200,dashed]-^  Operator           
+Equals              -[#008200,dashed]-^  Operator           
+ExpressionExecutor  -[#008200,dashed]-^  Executor           
+ExpressionExecutor "1" *-[#595959,plain]-> "operators\n*" Operator           
+GreaterThan         -[#008200,dashed]-^  Operator           
+GreaterThanOrEqual  -[#008200,dashed]-^  Operator           
+InOrderExecutor     -[#008200,dashed]-^  Executor           
+InOrderExecutor    "1" *-[#595959,plain]-> "expression\n1" ExpressionExecutor 
+InOrderExecutor    "1" *-[#595959,plain]-> "statementExecutor\n1" StatementExecutor  
+Interpreter        "1" *-[#595959,plain]-> "executor\n1" Executor           
+LessThan            -[#008200,dashed]-^  Operator           
+LessThanOrEqual     -[#008200,dashed]-^  Operator           
+Multiplication      -[#008200,dashed]-^  Operator           
+NotEquals           -[#008200,dashed]-^  Operator           
+StatementExecutor   -[#008200,dashed]-^  Executor           
+StatementExecutor   -[#595959,dashed]->  ExpressionExecutor : "«create»"
+StatementExecutor  "1" *-[#595959,plain]-> "expressionExecutor\n1" ExpressionExecutor 
+Subtraction         -[#008200,dashed]-^  Operator           
+Sum                 -[#008200,dashed]-^  Operator           
+@enduml

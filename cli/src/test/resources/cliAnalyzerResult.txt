@@ -1,0 +1,1 @@
+Identifier 'myVariable' does not match SNAKE_CASE
