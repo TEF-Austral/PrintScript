@@ -15,9 +15,17 @@ object Subtraction : Operator {
         if (intResult != null) return InterpreterResult(true, "Success Substraction", intResult)
 
         val doubleResult = subtractAsDouble(left, right)
-        if (doubleResult != null) return InterpreterResult(true, "Success Substraction", doubleResult)
+        if (doubleResult !=
+            null
+        ) {
+            return InterpreterResult(true, "Success Substraction", doubleResult)
+        }
 
-        return InterpreterResult(false, "Type mismatch: Incompatible types for Substraction operation", Variable(CommonTypes.STRING_LITERAL, null))
+        return InterpreterResult(
+            false,
+            "Type mismatch: Incompatible types for Substraction operation",
+            Variable(CommonTypes.STRING_LITERAL, null),
+        )
     }
 
     private fun subtractAsInt(

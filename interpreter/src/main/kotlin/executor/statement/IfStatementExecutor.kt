@@ -28,7 +28,9 @@ class IfStatementExecutor(
                     ?: return createErrorResult("Condition evaluation returned null.")
 
             if (!isValidType(conditionValue.getType())) {
-                return createErrorResult("If condition must evaluate to a boolean value, but got: ${conditionValue.getType()}.")
+                return createErrorResult(
+                    "If condition must evaluate to a boolean value, but got: ${conditionValue.getType()}.",
+                )
             }
 
             val isTrue = conditionValue.getValue().toString().toBoolean()
@@ -49,7 +51,8 @@ class IfStatementExecutor(
         }
     }
 
-    private fun createErrorResult(message: String): InterpreterResult = InterpreterResult(false, message, null)
+    private fun createErrorResult(message: String): InterpreterResult =
+        InterpreterResult(false, message, null)
 
     private fun isValidType(type: CommonTypes): Boolean =
         when (type) {

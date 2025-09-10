@@ -2,7 +2,27 @@ package stringSplitter
 
 object SplitterFactory {
     fun createSplitter(): Splitter {
-        val specials = listOf('(', ')', '{', '}', '=', '<', '>', ';', ',', ':', '+', '-', '*', '/', '%', '&', '|', '!')
+        val specials =
+            listOf(
+                '(',
+                ')',
+                '{',
+                '}',
+                '=',
+                '<',
+                '>',
+                ';',
+                ',',
+                ':',
+                '+',
+                '-',
+                '*',
+                '/',
+                '%',
+                '&',
+                '|',
+                '!',
+            )
         return Splitter(specials)
     }
 }

@@ -11,5 +11,6 @@ object NumberLiteralToToken : StringToTokenConverter {
     override fun convert(
         input: String,
         position: Coordinates,
-    ): Token = PrintScriptToken(type = CommonTypes.NUMBER_LITERAL, value = input, coordinates = position)
+    ): Token =
+        PrintScriptToken(type = CommonTypes.NUMBER_LITERAL, value = input, coordinates = position)
 }

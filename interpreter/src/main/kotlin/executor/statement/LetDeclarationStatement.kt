@@ -16,7 +16,8 @@ class LetDeclarationStatement(
     private val defaultExpressionExecutor: DefaultExpressionExecutor,
     private val typeCoercer: ITypeCoercer,
 ) : SpecificStatementExecutor {
-    override fun canHandle(statement: Statement): Boolean = statement is DeclarationStatement && statement.getDeclarationType() == CommonTypes.LET
+    override fun canHandle(statement: Statement): Boolean =
+        statement is DeclarationStatement && statement.getDeclarationType() == CommonTypes.LET
 
     override fun execute(statement: Statement): InterpreterResult {
         val declarationStatement = statement as DeclarationStatement
@@ -30,7 +31,9 @@ class LetDeclarationStatement(
                 val expressionResult = defaultExpressionExecutor.execute(initialValueExpression)
                 if (!expressionResult.interpretedCorrectly) return expressionResult
 
-                val initialValue = expressionResult.interpreter ?: return InterpreterResult(false, "Expression yielded no value", null)
+                val initialValue =
+                    expressionResult.interpreter
+                        ?: return InterpreterResult(false, "Expression yielded no value", null)
 
                 // 2. Determinar si se necesita coerción o compatibilidad de tipos
                 if (initialValueExpression is CoercibleExpression) {
@@ -41,7 +44,11 @@ class LetDeclarationStatement(
                 } else {
                     // Lógica estándar para el resto de expresiones
                     if (!areTypesCompatible(declaredType, initialValue.getType())) {
-                        return InterpreterResult(false, "Type mismatch: Expected '$declaredType', got '${initialValue.getType()}'", null)
+                        return InterpreterResult(
+                            false,
+                            "Type mismatch: Expected '$declaredType', got '${initialValue.getType()}'",
+                            null,
+                        )
                     }
                     Variable(declaredType, initialValue.getValue())
                 }

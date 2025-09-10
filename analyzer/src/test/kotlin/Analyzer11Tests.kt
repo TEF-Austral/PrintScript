@@ -55,7 +55,12 @@ class Analyzer11Tests {
         val stmts =
             listOf(
                 PrintStatement(
-                    BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2), Position(0, 0)),
+                    BinaryExpression(
+                        lit(1),
+                        tok("+", CommonTypes.OPERATORS),
+                        lit(2),
+                        Position(0, 0),
+                    ),
                     Position(0, 0),
                 ),
                 ExpressionStatement(
@@ -76,7 +81,12 @@ class Analyzer11Tests {
         val stmts =
             listOf(
                 PrintStatement(
-                    BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2), Position(0, 0)),
+                    BinaryExpression(
+                        lit(1),
+                        tok("+", CommonTypes.OPERATORS),
+                        lit(2),
+                        Position(0, 0),
+                    ),
                     Position(0, 0),
                 ),
                 ExpressionStatement(
@@ -108,7 +118,12 @@ class Analyzer11Tests {
         val stmts =
             listOf(
                 PrintStatement(
-                    BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2), Position(0, 0)),
+                    BinaryExpression(
+                        lit(1),
+                        tok("+", CommonTypes.OPERATORS),
+                        lit(2),
+                        Position(0, 0),
+                    ),
                     Position(0, 0),
                 ),
                 ExpressionStatement(

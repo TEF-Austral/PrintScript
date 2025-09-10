@@ -47,7 +47,10 @@ class StringToTokenConverterFactoryTest {
                 OperatorToToken,
             )
 
-        val customTokenConverter = StringToTokenConverterFactory.createCustomTokenConverter(customConverters)
+        val customTokenConverter =
+            StringToTokenConverterFactory.createCustomTokenConverter(
+                customConverters,
+            )
 
         val numberToken = customTokenConverter.convert("123", position)
         assertEquals(CommonTypes.NUMBER_LITERAL, numberToken.getType())
@@ -73,7 +76,10 @@ class StringToTokenConverterFactoryTest {
 
     @Test
     fun `createCustomTokenConverter with empty list should only recognize identifiers`() {
-        val customTokenConverter = StringToTokenConverterFactory.createCustomTokenConverter(emptyList())
+        val customTokenConverter =
+            StringToTokenConverterFactory.createCustomTokenConverter(
+                emptyList(),
+            )
 
         val token1 = customTokenConverter.convert("let", position)
         assertEquals(CommonTypes.IDENTIFIER, token1.getType())
@@ -91,7 +97,10 @@ class StringToTokenConverterFactoryTest {
     @Test
     fun `createCustomTokenConverter with single converter should only recognize that type`() {
         val customConverters = listOf(NumberLiteralToToken)
-        val customTokenConverter = StringToTokenConverterFactory.createCustomTokenConverter(customConverters)
+        val customTokenConverter =
+            StringToTokenConverterFactory.createCustomTokenConverter(
+                customConverters,
+            )
 
         val numberToken = customTokenConverter.convert("456", position)
         assertEquals(CommonTypes.NUMBER_LITERAL, numberToken.getType())

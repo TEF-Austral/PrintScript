@@ -39,7 +39,10 @@ class ReadInputArgsRule : Rule {
                 traverseStatement(stmt.getConsequence(), diags)
                 stmt.getAlternative()?.let { traverseStatement(it, diags) }
             }
-            else -> error("Unhandled Expression type: ${stmt::class.simpleName} at ${stmt.getCoordinates()}")
+            else ->
+                error(
+                    "Unhandled Expression type: ${stmt::class.simpleName} at ${stmt.getCoordinates()}",
+                )
         }
     }
 
@@ -68,13 +71,17 @@ class ReadInputArgsRule : Rule {
             is ReadEnvExpression,
             is EmptyExpression,
             -> {}
-            else -> error("Unhandled Expression type: ${expr::class.simpleName} at ${expr.getCoordinates()}")
+            else ->
+                error(
+                    "Unhandled Expression type: ${expr::class.simpleName} at ${expr.getCoordinates()}",
+                )
         }
     }
 
     private fun isIdentifier(s: String): Boolean = Regex("^[a-zA-Z_][A-Za-z0-9_]*\$").matches(s)
 
-    private fun isLiteral(s: String): Boolean = isStringLiteral(s) || isBooleanLiteral(s) || isNumberLiteral(s)
+    private fun isLiteral(s: String): Boolean =
+        isStringLiteral(s) || isBooleanLiteral(s) || isNumberLiteral(s)
 
     private fun isStringLiteral(s: String): Boolean = s.startsWith("\"") && s.endsWith("\"")
 

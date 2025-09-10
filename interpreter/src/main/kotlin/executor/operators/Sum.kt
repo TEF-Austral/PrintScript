@@ -12,14 +12,29 @@ object Sum : Operator {
         right: Variable,
     ): InterpreterResult {
         val intResult = sumAsInt(left, right)
-        if (intResult != null) return InterpreterResult(true, "Program executed successfully", intResult)
+        if (intResult !=
+            null
+        ) {
+            return InterpreterResult(true, "Program executed successfully", intResult)
+        }
 
         val doubleResult = sumAsDouble(left, right)
-        if (doubleResult != null) return InterpreterResult(true, "Program executed successfully", doubleResult)
+        if (doubleResult !=
+            null
+        ) {
+            return InterpreterResult(true, "Program executed successfully", doubleResult)
+        }
 
         val leftStr = left.getValue()?.toString() ?: ""
         val rightStr = right.getValue()?.toString() ?: ""
-        return InterpreterResult(true, "Program executed successfully", Variable(CommonTypes.STRING_LITERAL, leftStr + rightStr))
+        return InterpreterResult(
+            true,
+            "Program executed successfully",
+            Variable(
+                CommonTypes.STRING_LITERAL,
+                leftStr + rightStr,
+            ),
+        )
     }
 
     private fun sumAsInt(

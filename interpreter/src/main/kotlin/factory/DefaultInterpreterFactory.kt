@@ -2,6 +2,7 @@ package factory
 
 import DefaultInterpreter
 import data.DefaultDataBase
+import emitter.PrintEmitter
 import executor.coercer.StringToBooleanConverter
 import executor.coercer.StringToNumberConverter
 import executor.coercer.StringToStringConverter
@@ -32,7 +33,8 @@ import executor.operators.Divide
 
 object DefaultInterpreterFactory {
     private val dataBase: DefaultDataBase = DefaultDataBase()
-    val operators: List<Operator> = listOf(Sum, Divide, Multiplication, Subtraction, LogicalOr, LogicalAnd)
+    val operators: List<Operator> =
+        listOf(Sum, Divide, Multiplication, Subtraction, LogicalOr, LogicalAnd)
 
     private val identifierAndLiteralExecutors: List<SpecificExpressionExecutor> =
         listOf(
@@ -45,7 +47,7 @@ object DefaultInterpreterFactory {
             BinaryExpressionExecutor(expressions = identifierAndLiteralExecutors),
             IdentifierExpressionExecutor(dataBase),
             LiteralExpressionExecutor(),
-            ReadInputExpressionExecutor(),
+            ReadInputExpressionExecutor(PrintEmitter()),
             ReadEnvExpressionExecutor(),
         )
 
@@ -67,7 +69,8 @@ object DefaultInterpreterFactory {
 
         val mainStatementExecutor = DefaultStatementExecutor(statementSpecialists)
 
-        val constDeclaration = ConstDeclarationStatementExecutor(dataBase, expressionExecutor, coercers)
+        val constDeclaration =
+            ConstDeclarationStatementExecutor(dataBase, expressionExecutor, coercers)
         val letDeclaration = LetDeclarationStatement(dataBase, expressionExecutor, coercers)
 
         val declarationExecutor =
@@ -78,7 +81,7 @@ object DefaultInterpreterFactory {
             )
 
         val assignmentExecutor = AssignmentStatementExecutor(dataBase, expressionExecutor)
-        val printExecutor = PrintStatementExecutor(expressionExecutor)
+        val printExecutor = PrintStatementExecutor(expressionExecutor, PrintEmitter())
         val expressionStatementExecutor = ExpressionStatementExecutor(expressionExecutor)
 
         val ifExecutor = IfStatementExecutor(expressionExecutor, mainStatementExecutor)

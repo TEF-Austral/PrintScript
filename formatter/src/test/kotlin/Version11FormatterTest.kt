@@ -41,7 +41,10 @@ class Version11FormatterTest {
     @Test
     fun `if statement with else version 11`() {
         // if(false) { println("yes"); } else { println("no"); }
-        val condition = builder.buildLiteralExpressionNode(tok(CommonTypes.BOOLEAN_LITERAL, "false"))
+        val condition =
+            builder.buildLiteralExpressionNode(
+                tok(CommonTypes.BOOLEAN_LITERAL, "false"),
+            )
         val yesStmt =
             builder.buildPrintStatementNode(
                 builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"yes\"")),
@@ -221,7 +224,10 @@ class Version11FormatterTest {
                 tok(CommonTypes.LET, "let"),
                 identifier = tok(CommonTypes.IDENTIFIER, "x"),
                 dataType = tok(CommonTypes.NUMBER, "Number"),
-                initialValue = builder.buildLiteralExpressionNode(tok(CommonTypes.NUMBER_LITERAL, "1")),
+                initialValue =
+                    builder.buildLiteralExpressionNode(
+                        tok(CommonTypes.NUMBER_LITERAL, "1"),
+                    ),
             )
         val ifStmt =
             builder.buildIfStatementNode(
@@ -255,7 +261,10 @@ class Version11FormatterTest {
 
     @Test
     fun `blank lines capped at max`() {
-        val literal = builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"test\""))
+        val literal =
+            builder.buildLiteralExpressionNode(
+                tok(CommonTypes.STRING_LITERAL, "\"test\""),
+            )
         val printStmt = builder.buildPrintStatementNode(literal)
         val program = builder.buildProgramNode(listOf(printStmt))
         val config = FormatConfig(blankLinesBeforePrintln = 5)
@@ -267,7 +276,10 @@ class Version11FormatterTest {
 
     @Test
     fun `negative blank lines treated as zero`() {
-        val literal = builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"test\""))
+        val literal =
+            builder.buildLiteralExpressionNode(
+                tok(CommonTypes.STRING_LITERAL, "\"test\""),
+            )
         val printStmt = builder.buildPrintStatementNode(literal)
         val program = builder.buildProgramNode(listOf(printStmt))
         val config = FormatConfig(blankLinesBeforePrintln = -2)

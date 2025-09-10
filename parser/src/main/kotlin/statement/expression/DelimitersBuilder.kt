@@ -17,7 +17,10 @@ class DelimitersBuilder : ExpressionBuilder {
     ): ExpressionResult {
         if (isOpeningParenthesis(parser)) {
             val afterOpenParen = parser.advance()
-            val innerExpression = afterOpenParen.getExpressionParser().parseExpression(afterOpenParen)
+            val innerExpression =
+                afterOpenParen.getExpressionParser().parseExpression(
+                    afterOpenParen,
+                )
             if (!innerExpression.isSuccess()) {
                 throw Exception(innerExpression.message())
             }

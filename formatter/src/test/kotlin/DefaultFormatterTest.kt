@@ -69,7 +69,11 @@ class DefaultFormatterTest {
                 tok(CommonTypes.LET, "let"),
                 identifier = tok(CommonTypes.IDENTIFIER, "msg"),
                 dataType = tok(CommonTypes.STRING, "string"),
-                initialValue = LiteralExpression(tok(CommonTypes.STRING_LITERAL, "\"ok\""), Position(0, 0)),
+                initialValue =
+                    LiteralExpression(
+                        tok(CommonTypes.STRING_LITERAL, "\"ok\""),
+                        Position(0, 0),
+                    ),
             )
 
         val config =

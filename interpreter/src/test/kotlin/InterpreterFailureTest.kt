@@ -65,7 +65,12 @@ class InterpreterFailureTest {
                 statements =
                     listOf(
                         AssignmentStatement(
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "undeclaredVar", Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "undeclaredVar",
+                                    Position(0, 0),
+                                ),
                             value =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -98,13 +103,28 @@ class InterpreterFailureTest {
                     listOf(
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "numberVar", Position(0, 0)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "numberVar",
+                                    Position(0, 0),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.NUMBER,
+                                    "number",
+                                    Position(0, 0),
+                                ),
                             initialValue = null,
                             Position(0, 0),
                         ),
                         AssignmentStatement(
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "numberVar", Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "numberVar",
+                                    Position(0, 0),
+                                ),
                             value =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -123,7 +143,11 @@ class InterpreterFailureTest {
         val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
-        assertTrue(result.message.contains("type") || result.message.contains("mismatch") || result.message.contains("incompatible"))
+        assertTrue(
+            result.message.contains("type") ||
+                result.message.contains("mismatch") ||
+                result.message.contains("incompatible"),
+        )
     }
 
     @Test
@@ -137,8 +161,18 @@ class InterpreterFailureTest {
                     listOf(
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "text1", Position(0, 0)),
-                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "text1",
+                                    Position(0, 0),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.STRING,
+                                    "string",
+                                    Position(0, 0),
+                                ),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -152,8 +186,18 @@ class InterpreterFailureTest {
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "text2", Position(0, 0)),
-                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "text2",
+                                    Position(0, 0),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.STRING,
+                                    "string",
+                                    Position(0, 0),
+                                ),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -167,8 +211,18 @@ class InterpreterFailureTest {
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(0, 0)),
-                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "result",
+                                    Position(0, 0),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.STRING,
+                                    "string",
+                                    Position(0, 0),
+                                ),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -180,7 +234,12 @@ class InterpreterFailureTest {
                                             ),
                                             Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "*", Position(0, 0)),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            "*",
+                                            Position(0, 0),
+                                        ),
                                     right =
                                         IdentifierExpression(
                                             PrintScriptToken(
@@ -201,7 +260,10 @@ class InterpreterFailureTest {
         val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
-        assertEquals("Type mismatch: Incompatible types for Multiplication operation", result.message)
+        assertEquals(
+            "Type mismatch: Incompatible types for Multiplication operation",
+            result.message,
+        )
     }
 
     @Test
@@ -215,8 +277,18 @@ class InterpreterFailureTest {
                     listOf(
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "str1", Position(0, 0)),
-                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "str1",
+                                    Position(0, 0),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.STRING,
+                                    "string",
+                                    Position(0, 0),
+                                ),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -230,8 +302,18 @@ class InterpreterFailureTest {
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "str2", Position(0, 0)),
-                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "str2",
+                                    Position(0, 0),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.STRING,
+                                    "string",
+                                    Position(0, 0),
+                                ),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -245,8 +327,18 @@ class InterpreterFailureTest {
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(0, 0)),
-                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "result",
+                                    Position(0, 0),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.STRING,
+                                    "string",
+                                    Position(0, 0),
+                                ),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -258,7 +350,12 @@ class InterpreterFailureTest {
                                             ),
                                             Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "-", Position(0, 0)),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            "-",
+                                            Position(0, 0),
+                                        ),
                                     right =
                                         IdentifierExpression(
                                             PrintScriptToken(
@@ -293,8 +390,18 @@ class InterpreterFailureTest {
                     listOf(
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "text", Position(0, 0)),
-                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "text",
+                                    Position(0, 0),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.STRING,
+                                    "string",
+                                    Position(0, 0),
+                                ),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -308,8 +415,18 @@ class InterpreterFailureTest {
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "number", Position(0, 0)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "number",
+                                    Position(0, 0),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.NUMBER,
+                                    "number",
+                                    Position(0, 0),
+                                ),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -323,8 +440,18 @@ class InterpreterFailureTest {
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(0, 0)),
-                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "result",
+                                    Position(0, 0),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.STRING,
+                                    "string",
+                                    Position(0, 0),
+                                ),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -336,7 +463,12 @@ class InterpreterFailureTest {
                                             ),
                                             Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "/", Position(0, 0)),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            "/",
+                                            Position(0, 0),
+                                        ),
                                     right =
                                         IdentifierExpression(
                                             PrintScriptToken(
@@ -371,8 +503,18 @@ class InterpreterFailureTest {
                     listOf(
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(0, 0)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "x",
+                                    Position(0, 0),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.NUMBER,
+                                    "number",
+                                    Position(0, 0),
+                                ),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -391,11 +533,16 @@ class InterpreterFailureTest {
 
         val result: InterpreterResult = interpreter.interpret(programWithInvalidDeclaration)
 
-        assertFalse(result.interpretedCorrectly, "La interpretaciÃ³n deberÃ­a fallar por un error de tipos.")
+        assertFalse(
+            result.interpretedCorrectly,
+            "La interpretaciÃ³n deberÃ­a fallar por un error de tipos.",
+        )
 
         val errorMessage = result.message.lowercase()
         assertTrue(
-            errorMessage.contains("type") || errorMessage.contains("mismatch") || errorMessage.contains("incompatible"),
+            errorMessage.contains("type") ||
+                errorMessage.contains("mismatch") ||
+                errorMessage.contains("incompatible"),
             "El mensaje de error deberÃ­a indicar un problema de tipos. Mensaje recibido: '${result.message}'",
         )
     }
@@ -412,7 +559,11 @@ class InterpreterFailureTest {
                         PrintStatement(
                             expression =
                                 IdentifierExpression(
-                                    PrintScriptToken(CommonTypes.IDENTIFIER, "undeclaredVar", Position(0, 0)),
+                                    PrintScriptToken(
+                                        CommonTypes.IDENTIFIER,
+                                        "undeclaredVar",
+                                        Position(0, 0),
+                                    ),
                                     Position(0, 0),
                                 ),
                             Position(0, 0),
@@ -424,11 +575,16 @@ class InterpreterFailureTest {
 
         val result: InterpreterResult = interpreter.interpret(programWithUndefinedVar)
 
-        assertFalse(result.interpretedCorrectly, "El programa deberÃ­a fallar al usar una variable no definida.")
+        assertFalse(
+            result.interpretedCorrectly,
+            "El programa deberÃ­a fallar al usar una variable no definida.",
+        )
 
         val errorMessage = result.message.lowercase()
         assertTrue(
-            errorMessage.contains("undefined") || errorMessage.contains("not found") || errorMessage.contains("not declared"),
+            errorMessage.contains("undefined") ||
+                errorMessage.contains("not found") ||
+                errorMessage.contains("not declared"),
             "El mensaje de error deberÃ­a indicar que la variable no fue encontrada. Mensaje: '${result.message}'",
         )
     }
@@ -447,13 +603,26 @@ class InterpreterFailureTest {
                                 BinaryExpression(
                                     left =
                                         LiteralExpression(
-                                            PrintScriptToken(CommonTypes.STRING_LITERAL, "hola", Position(0, 0)),
+                                            PrintScriptToken(
+                                                CommonTypes.STRING_LITERAL,
+                                                "hola",
+                                                Position(0, 0),
+                                            ),
                                             Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "*", Position(0, 0)),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            "*",
+                                            Position(0, 0),
+                                        ),
                                     right =
                                         LiteralExpression(
-                                            PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(0, 0)),
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "5",
+                                                Position(0, 0),
+                                            ),
                                             Position(0, 0),
                                         ),
                                     Position(0, 0),
@@ -467,9 +636,15 @@ class InterpreterFailureTest {
 
         val result: InterpreterResult = interpreter.interpret(programWithInvalidMultiplication)
 
-        assertFalse(result.interpretedCorrectly, "El programa deberÃ­a fallar al multiplicar un string y un nÃºmero.")
+        assertFalse(
+            result.interpretedCorrectly,
+            "El programa deberÃ­a fallar al multiplicar un string y un nÃºmero.",
+        )
 
-        assertEquals("Type mismatch: Incompatible types for Multiplication operation", result.message)
+        assertEquals(
+            "Type mismatch: Incompatible types for Multiplication operation",
+            result.message,
+        )
     }
 
     @Test
@@ -486,13 +661,27 @@ class InterpreterFailureTest {
                                 BinaryExpression(
                                     left =
                                         LiteralExpression(
-                                            PrintScriptToken(CommonTypes.STRING_LITERAL, "hola", Position(0, 0)),
+                                            PrintScriptToken(
+                                                CommonTypes.STRING_LITERAL,
+                                                "hola",
+                                                Position(0, 0),
+                                            ),
                                             Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "/", Position(0, 0)), // El operador ahora es '/'
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            "/",
+                                            Position(0, 0),
+                                        ),
+                                    // El operador ahora es '/'
                                     right =
                                         LiteralExpression(
-                                            PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(0, 0)),
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "5",
+                                                Position(0, 0),
+                                            ),
                                             Position(0, 0),
                                         ),
                                     Position(0, 0),
@@ -509,7 +698,10 @@ class InterpreterFailureTest {
 
         // --- 3. VerificaciÃ³n ---
         // La interpretaciÃ³n DEBE fallar.
-        assertFalse(result.interpretedCorrectly, "El programa deberÃ­a fallar al dividir un string por un nÃºmero.")
+        assertFalse(
+            result.interpretedCorrectly,
+            "El programa deberÃ­a fallar al dividir un string por un nÃºmero.",
+        )
 
         val errorMessage = result.message.lowercase()
         print(errorMessage)
@@ -528,8 +720,18 @@ class InterpreterFailureTest {
                     listOf(
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "numerator", Position(0, 0)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "numerator",
+                                    Position(0, 0),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.NUMBER,
+                                    "number",
+                                    Position(0, 0),
+                                ),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -543,8 +745,18 @@ class InterpreterFailureTest {
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "denominator", Position(0, 0)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "denominator",
+                                    Position(0, 0),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.NUMBER,
+                                    "number",
+                                    Position(0, 0),
+                                ),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -558,8 +770,18 @@ class InterpreterFailureTest {
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(0, 0)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(0, 0)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "result",
+                                    Position(0, 0),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.NUMBER,
+                                    "number",
+                                    Position(0, 0),
+                                ),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -571,7 +793,12 @@ class InterpreterFailureTest {
                                             ),
                                             Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "/", Position(0, 0)),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            "/",
+                                            Position(0, 0),
+                                        ),
                                     right =
                                         IdentifierExpression(
                                             PrintScriptToken(
@@ -619,13 +846,28 @@ class InterpreterFailureTest {
                     listOf(
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.CONST, "const", Position(0, 0)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(0, 0)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "x",
+                                    Position(0, 0),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.NUMBER,
+                                    "number",
+                                    Position(0, 0),
+                                ),
                             initialValue = null,
                             Position(0, 0),
                         ),
                         AssignmentStatement(
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "x",
+                                    Position(0, 0),
+                                ),
                             value =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -669,8 +911,18 @@ class InterpreterFailureTest {
                     listOf(
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.CONST, "const", Position(0, 0)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(0, 0)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "x",
+                                    Position(0, 0),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.NUMBER,
+                                    "number",
+                                    Position(0, 0),
+                                ),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -683,7 +935,12 @@ class InterpreterFailureTest {
                             Position(0, 0),
                         ),
                         AssignmentStatement(
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "x",
+                                    Position(0, 0),
+                                ),
                             value =
                                 LiteralExpression(
                                     PrintScriptToken(

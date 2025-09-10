@@ -42,7 +42,10 @@ class ExpressionParser(
         if (isSemiColon(parser.advance().advance().peak())) throw Exception("Invalid structure")
         val expression = parser.getExpressionParser().parseExpression(parser)
         val delimiterParser = advancePastSemiColon(expression.getParser())
-        val builtStatement = delimiterParser.getNodeBuilder().buildExpressionStatementNode(expression.getExpression())
+        val builtStatement =
+            delimiterParser.getNodeBuilder().buildExpressionStatementNode(
+                expression.getExpression(),
+            )
         return StatementBuiltResult(delimiterParser, builtStatement)
     }
 }

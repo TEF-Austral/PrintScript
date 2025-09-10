@@ -21,7 +21,9 @@ class CLITest {
             )
         val expectedContent = File(expectedPath).readText()
 
-        assertEquals(expectedContent, actualResult)
+        assertEquals(
+            expectedContent.replace("\r\n", "\n"),
+            actualResult.replace("\r\n", "\n"))
     }
 
     @Test
@@ -59,7 +61,10 @@ class CLITest {
             )
         val expectedContent = File(expectedPath).readText()
 
-        assertEquals(expectedContent.replace(" ", ""), actualResult.replace(" ", ""))
+        assertEquals(
+            expectedContent.replace(" ", "").replace("\r\n", "\n"),
+            actualResult.replace(" ", "").replace("\r\n", "\n"),
+        )
     }
 
     @Test
@@ -99,7 +104,9 @@ class CLITest {
 
             val actualOutput = outputStream.toString().trim()
             val expectedContent = File(expectedPath).readText().trim()
-            assertEquals(expectedContent, actualOutput)
+            assertEquals(
+                expectedContent.replace("\r\n", "\n"),
+                actualOutput.replace("\r\n", "\n"))
         } finally {
             System.setOut(originalOut)
         }
@@ -201,7 +208,12 @@ class CLITest {
 
             val actualOutput = outputStream.toString().trim()
             val expectedContent = File(expectedPath).readText().trim()
-            assertEquals(expectedContent.replace(" ", ""), actualOutput.replace(" ", ""))
+            assertEquals(
+                expectedContent
+                    .replace(" ", "")
+                    .replace("\r\n", "\n"),
+                actualOutput.replace(" ", "").replace("\r\n", "\n"),
+            )
         } finally {
             System.setOut(originalOut)
         }
@@ -220,7 +232,10 @@ class CLITest {
             executeCommand.main(arrayOf(srcPath))
 
             val actualOutput = outputStream.toString().trim()
-            assertEquals("42\nProgram executed successfully", actualOutput.trim().replace("\r\n", "\n"))
+            assertEquals(
+                "42\nProgram executed successfully",
+                actualOutput.trim().replace("\r\n", "\n"),
+            )
         } finally {
             System.setOut(originalOut)
         }
@@ -307,7 +322,10 @@ class CLITest {
         try {
             main(arrayOf("execute", srcPath))
             val actualOutput = outputStream.toString().trim()
-            assertEquals("42\nProgram executed successfully", actualOutput.trim().replace("\r\n", "\n"))
+            assertEquals(
+                "42\nProgram executed successfully",
+                actualOutput.trim().replace("\r\n", "\n"),
+            )
         } finally {
             System.setOut(originalOut)
         }

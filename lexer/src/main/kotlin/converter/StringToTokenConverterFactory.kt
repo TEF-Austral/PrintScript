@@ -43,5 +43,6 @@ object StringToTokenConverterFactory {
             ),
         )
 
-    fun createCustomTokenConverter(customConverters: List<StringToTokenConverter>): TokenConverter = TokenConverterRegistry(customConverters)
+    fun createCustomTokenConverter(customConverters: List<StringToTokenConverter>): TokenConverter =
+        TokenConverterRegistry(customConverters)
 }

@@ -56,7 +56,9 @@ class IfStatement : StatementBuilder {
                 ) {
                     val elseIfResult = parse(afterElse)
                     if (!elseIfResult.isSuccess()) {
-                        throw Exception("Error parsing else-if statement: ${elseIfResult.message()}")
+                        throw Exception(
+                            "Error parsing else-if statement: ${elseIfResult.message()}",
+                        )
                     }
                     Pair(elseIfResult.getParser(), elseIfResult.getStatement())
                 } else {

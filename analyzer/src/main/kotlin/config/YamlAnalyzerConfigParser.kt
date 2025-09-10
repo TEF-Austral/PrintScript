@@ -17,9 +17,12 @@ class YamlAnalyzerConfigParser {
 
         val base = AnalyzerConfig()
         return AnalyzerConfig(
-            identifierStyle = entries["identifierStyle"]?.let(IdentifierStyle::valueOf) ?: base.identifierStyle,
-            restrictPrintlnArgs = entries["restrictPrintlnArgs"]?.toBoolean() ?: base.restrictPrintlnArgs,
-            restrictReadInputArgs = entries["restrictReadInputArgs"]?.toBoolean() ?: base.restrictReadInputArgs,
+            identifierStyle =
+                entries["identifierStyle"]?.let(IdentifierStyle::valueOf) ?: base.identifierStyle,
+            restrictPrintlnArgs =
+                entries["restrictPrintlnArgs"]?.toBoolean() ?: base.restrictPrintlnArgs,
+            restrictReadInputArgs =
+                entries["restrictReadInputArgs"]?.toBoolean() ?: base.restrictReadInputArgs,
         )
     }
 }

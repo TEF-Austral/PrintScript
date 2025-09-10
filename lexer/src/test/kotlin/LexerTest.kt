@@ -8,9 +8,12 @@ import type.CommonTypes
 
 class LexerTest {
     private val splitter: Splitter = SplitterFactory.createSplitter()
-    private val tokenConverter: TokenConverter = StringToTokenConverterFactory.createDefaultsTokenConverter()
+    private val tokenConverter: TokenConverter =
+        StringToTokenConverterFactory
+            .createDefaultsTokenConverter()
 
-    private fun lex(input: String) = DefaultLexer(splitter, tokenConverter).tokenize(MockReader(input))
+    private fun lex(input: String) =
+        DefaultLexer(splitter, tokenConverter).tokenize(MockReader(input))
 
     @Test
     fun tokenizeDeclarationAssignmentWithNumberLiteral() {

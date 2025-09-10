@@ -53,13 +53,22 @@ class AnalyzerTest {
     private fun lit(
         value: Int,
         position: Position = Position(0, 0),
-    ) = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, value.toString(), position), Position(0, 0))
+    ) = LiteralExpression(
+        PrintScriptToken(CommonTypes.NUMBER_LITERAL, value.toString(), position),
+        Position(0, 0),
+    )
 
     @Test
     fun `valid camelCase identifiers produce no diagnostics`() {
         val stmts =
             listOf(
-                DeclarationStatement(tok("let", CommonTypes.LET), tok("myVar"), tok("Int"), lit(123), Position(0, 0)),
+                DeclarationStatement(
+                    tok("let", CommonTypes.LET),
+                    tok("myVar"),
+                    tok("Int"),
+                    lit(123),
+                    Position(0, 0),
+                ),
                 AssignmentStatement(tok("anotherVar"), lit(456), Position(0, 0)),
                 PrintStatement(IdentifierExpression(tok("myVar"), Position(0, 0)), Position(0, 0)),
             )
@@ -70,7 +79,13 @@ class AnalyzerTest {
     fun `invalid camelCase identifier is flagged`() {
         val stmts =
             listOf(
-                DeclarationStatement(tok("let", CommonTypes.LET), tok("My_var"), tok("Int"), lit(0), Position(0, 0)),
+                DeclarationStatement(
+                    tok("let", CommonTypes.LET),
+                    tok("My_var"),
+                    tok("Int"),
+                    lit(0),
+                    Position(0, 0),
+                ),
             )
         val diags = runAnalyzer(stmts)
         assertEquals(1, diags.size)
@@ -115,7 +130,13 @@ class AnalyzerTest {
         val cfg = AnalyzerConfig(identifierStyle = IdentifierStyle.SNAKE_CASE)
         val stmts =
             listOf(
-                DeclarationStatement(tok("let", CommonTypes.LET), tok("myVar"), tok("Int"), lit(3), Position(0, 0)),
+                DeclarationStatement(
+                    tok("let", CommonTypes.LET),
+                    tok("myVar"),
+                    tok("Int"),
+                    lit(3),
+                    Position(0, 0),
+                ),
             )
         val diags = runAnalyzer(stmts, cfg)
         assertEquals(1, diags.size)
@@ -133,7 +154,14 @@ class AnalyzerTest {
 
     @Test
     fun `multiple invalid identifiers produce multiple diagnostics`() {
-        val decl = DeclarationStatement(tok("let", CommonTypes.LET), tok("my_var"), tok("Int"), lit(1), Position(0, 0))
+        val decl =
+            DeclarationStatement(
+                tok("let", CommonTypes.LET),
+                tok("my_var"),
+                tok("Int"),
+                lit(1),
+                Position(0, 0),
+            )
         val assign = AssignmentStatement(tok("AnotherVar"), lit(2), Position(0, 0))
         val stmts = listOf(decl, assign)
         val diags = runAnalyzer(stmts)
@@ -151,7 +179,14 @@ class AnalyzerTest {
     @Test
     fun `snake_case style accepts snake case identifiers`() {
         val cfg = AnalyzerConfig(identifierStyle = IdentifierStyle.SNAKE_CASE)
-        val decl = DeclarationStatement(tok("let", CommonTypes.LET), tok("my_var"), tok("Int"), lit(3), Position(0, 0))
+        val decl =
+            DeclarationStatement(
+                tok("let", CommonTypes.LET),
+                tok("my_var"),
+                tok("Int"),
+                lit(3),
+                Position(0, 0),
+            )
         assertTrue(runAnalyzer(listOf(decl), cfg).isEmpty())
     }
 
@@ -194,7 +229,13 @@ class AnalyzerTest {
         val expr = BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2), Position(0, 0))
         val stmts =
             listOf(
-                DeclarationStatement(tok("let", CommonTypes.LET), tok("my_var"), tok("Int"), lit(3), Position(0, 0)),
+                DeclarationStatement(
+                    tok("let", CommonTypes.LET),
+                    tok("my_var"),
+                    tok("Int"),
+                    lit(3),
+                    Position(0, 0),
+                ),
                 PrintStatement(expr, Position(0, 0)),
             )
 

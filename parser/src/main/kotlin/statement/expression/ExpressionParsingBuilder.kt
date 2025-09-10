@@ -17,5 +17,6 @@ class ExpressionParsingBuilder(
         return expressionBuilder.parse(parser, current)
     }
 
-    private fun parseBinary(left: ExpressionResult): ExpressionResult = binaryBuilder.parseBinary(left, 0)
+    private fun parseBinary(left: ExpressionResult): ExpressionResult =
+        binaryBuilder.parseBinary(left, 0)
 }

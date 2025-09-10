@@ -11,5 +11,6 @@ object AssignmentToToken : StringToTokenConverter {
     override fun convert(
         input: String,
         position: Coordinates,
-    ): Token = PrintScriptToken(type = CommonTypes.ASSIGNMENT, value = input, coordinates = position)
+    ): Token =
+        PrintScriptToken(type = CommonTypes.ASSIGNMENT, value = input, coordinates = position)
 }

@@ -28,7 +28,8 @@ class Parser(
 
     override fun parse(): FinalResult =
         try {
-            val statements = parseStatementsRecursive(StatementBuiltResult(this, EmptyStatement()), emptyList())
+            val statements =
+                parseStatementsRecursive(StatementBuiltResult(this, EmptyStatement()), emptyList())
             CompleteProgram(this, nodeBuilder.buildProgramNode(statements))
         } catch (e: Exception) {
             FailedProgram(this, e.message.toString())
@@ -46,7 +47,10 @@ class Parser(
         }
         val statementResult = statementParser.parse(result.getParser())
 
-        return parseStatementsRecursive(statementResult, accumulatedStatements + statementResult.getStatement())
+        return parseStatementsRecursive(
+            statementResult,
+            accumulatedStatements + statementResult.getStatement(),
+        )
     }
 
     fun peak(): Token? = if (isAtEnd()) null else tokens[current]

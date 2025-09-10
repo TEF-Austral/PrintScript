@@ -18,7 +18,10 @@ class ConstAssignmentEnforcer(
                 currentParser,
             )
         }
-        val parserResult = currentParser.getExpressionParser().parseExpression(currentParser.advance())
+        val parserResult =
+            currentParser.getExpressionParser().parseExpression(
+                currentParser.advance(),
+            )
         return nextEnforcer.enforce(
             SemanticSuccess(
                 parserResult.message(),
