@@ -1,8 +1,8 @@
-import converter.StringToTokenConverterFactory
+import factory.StringToTokenConverterFactory
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import stringSplitter.SplitterFactory
+import factory.StringSplitterFactory
 import type.CommonTypes
 
 class LexerIntegrationTest {
@@ -19,7 +19,7 @@ class LexerIntegrationTest {
 
     @Test
     fun scriptTest() {
-        val splitter = SplitterFactory.createSplitter()
+        val splitter = StringSplitterFactory.createDefaultsSplitter()
         val tokenConverter = StringToTokenConverterFactory.createDefaultsTokenConverter()
         val lexer = DefaultLexer(splitter, tokenConverter)
         val tokens = lexer.tokenize(scriptReader)
@@ -63,7 +63,7 @@ class LexerIntegrationTest {
         println("Contenido leído: '$content'") // Debug: ver qué lee
         println("Longitud: ${content.length}")
 
-        val splitter = SplitterFactory.createSplitter()
+        val splitter = StringSplitterFactory.createDefaultsSplitter()
         val tokenConverter = StringToTokenConverterFactory.createDefaultsTokenConverter()
         val lexer = DefaultLexer(splitter, tokenConverter)
         val tokens = lexer.tokenize(largeScriptReader)
@@ -78,7 +78,7 @@ class LexerIntegrationTest {
 
     @Test
     fun simpleDeclarationTest() {
-        val splitter = SplitterFactory.createSplitter()
+        val splitter = StringSplitterFactory.createDefaultsSplitter()
         val tokenConverter = StringToTokenConverterFactory.createDefaultsTokenConverter()
         val lexer = DefaultLexer(splitter, tokenConverter)
         val filePathScriptV2 = "src/test/resources/scriptV2.txt"
