@@ -41,7 +41,7 @@ class AnalyzerTest {
             }
 
         val program = Program(stmts)
-        val analyzer = AnalyzerFactory.create(version, tempConfigFile.absolutePath)
+        val analyzer = AnalyzerFactory.createWithVersion(version, tempConfigFile.absolutePath)
         return analyzer.analyze(program)
     }
 
@@ -202,7 +202,7 @@ class AnalyzerTest {
                 Position(0, 0),
             )
         val stmts = listOf(PrintStatement(expr, Position(0, 0)))
-        val analyzer = AnalyzerFactory.create(Version.VERSION_1_0)
+        val analyzer = AnalyzerFactory.createWithVersion(Version.VERSION_1_0)
         val diags = analyzer.analyze(Program(stmts))
 
         assertEquals(1, diags.size)
@@ -241,7 +241,11 @@ class AnalyzerTest {
             )
 
         // use the factory to load the YAML config
-        val analyzer = AnalyzerFactory.create(Version.VERSION_1_0, tempConfig.absolutePath)
+        val analyzer =
+            AnalyzerFactory.createWithVersion(
+                Version.VERSION_1_0,
+                tempConfig.absolutePath,
+            )
         val diags = analyzer.analyze(Program(stmts))
         assertTrue(diags.isEmpty())
     }

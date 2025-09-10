@@ -42,7 +42,7 @@ class Analyzer11Tests {
                 deleteOnExit()
             }
         return AnalyzerFactory
-            .create(version, tempConfigFile.absolutePath)
+            .createWithVersion(version, tempConfigFile.absolutePath)
             .analyze(Program(stmts))
     }
 

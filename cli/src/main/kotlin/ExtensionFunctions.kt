@@ -1,5 +1,5 @@
 import factory.AnalyzerFactory
-import factory.DefaultInterpreterFactory
+import factory.InterpreterFactoryVersionOnePointOne
 import formatter.FormatterService
 import type.Version
 
@@ -35,7 +35,7 @@ fun CLI.handleAnalyzing(
     version: Version,
 ): String {
     val program = parseSourceCode(srcCodePath)
-    val analyzer = AnalyzerFactory.create(version, analyzerConfigFilePath)
+    val analyzer = AnalyzerFactory.createWithVersion(version, analyzerConfigFilePath)
     val diagnostics = analyzer.analyze(program)
     return if (diagnostics.isEmpty()) {
         "No issues found"
@@ -64,7 +64,7 @@ fun CLI.handleValidation(
 
 fun CLI.handleExecution(srcCodePath: String): String {
     val program = parseSourceCode(srcCodePath)
-    val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+    val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
     val result = interpreter.interpret(program)
 
     return if (result.interpretedCorrectly) {

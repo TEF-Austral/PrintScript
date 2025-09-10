@@ -1,5 +1,5 @@
 import coordinates.Position
-import factory.DefaultInterpreterFactory
+import factory.InterpreterFactoryVersionOnePointOne
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -85,7 +85,7 @@ class ReadInputTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
 
         assertTrue(result.interpretedCorrectly, "Interpreter should have run successfully.")
@@ -188,7 +188,7 @@ class ReadInputTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
 
         assertTrue(result.interpretedCorrectly)
