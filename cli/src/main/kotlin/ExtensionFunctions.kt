@@ -10,19 +10,20 @@ fun CLI.handleFormatting(
     val program = parseSourceCode(srcCodePath)
     val formatter = FormatterService()
 
-    val configPath = formatterConfigFilePath ?: run {
-        val defaultConfig = """{
+    val configPath =
+        formatterConfigFilePath ?: run {
+            val defaultConfig = """{
   "spaceBeforeColon": true,
   "spaceAfterColon": true,
   "spaceAroundAssignment": true,
   "blankLinesBeforePrintln": 1
 }"""
 
-        val tempFile = kotlin.io.path.createTempFile("FormattingConfiguration", ".json")
-        tempFile.toFile().writeText(defaultConfig)
+            val tempFile = kotlin.io.path.createTempFile("FormattingConfiguration", ".json")
+            tempFile.toFile().writeText(defaultConfig)
 
-        tempFile.toString()
-    }
+            tempFile.toString()
+        }
 
     return formatter.formatToString(program, version, configPath)
 }
