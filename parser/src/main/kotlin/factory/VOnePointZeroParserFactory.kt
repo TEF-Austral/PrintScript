@@ -55,5 +55,12 @@ class VOnePointZeroParserFactory : ParserFactory {
     override fun withNewTokens(
         tokens: List<Token>,
         parser: ParserInterface,
-    ): Parser = Parser(tokens, parser.getNodeBuilder(), parser.getExpressionParser(), parser.getStatementParser(), parser.getCurrent())
+    ): Parser =
+        Parser(
+            tokens,
+            parser.getNodeBuilder(),
+            parser.getExpressionParser(),
+            parser.getStatementParser(),
+            parser.getCurrent(),
+        )
 }

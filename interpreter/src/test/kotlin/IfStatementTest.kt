@@ -162,8 +162,18 @@ class IfStatementTest {
                     listOf(
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "condition", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.BOOLEAN, "boolean", Position(1, 16)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "condition",
+                                    Position(1, 5),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.BOOLEAN,
+                                    "boolean",
+                                    Position(1, 16),
+                                ),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -241,8 +251,18 @@ class IfStatementTest {
                     listOf(
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "condition", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.BOOLEAN, "boolean", Position(1, 16)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "condition",
+                                    Position(1, 5),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.BOOLEAN,
+                                    "boolean",
+                                    Position(1, 16),
+                                ),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -425,8 +445,18 @@ class IfStatementTest {
                     listOf(
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "outer", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.BOOLEAN, "boolean", Position(1, 12)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "outer",
+                                    Position(1, 5),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.BOOLEAN,
+                                    "boolean",
+                                    Position(1, 12),
+                                ),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -440,8 +470,18 @@ class IfStatementTest {
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "inner", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.BOOLEAN, "boolean", Position(2, 12)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "inner",
+                                    Position(2, 5),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.BOOLEAN,
+                                    "boolean",
+                                    Position(2, 12),
+                                ),
                             initialValue =
                                 LiteralExpression(
                                     PrintScriptToken(
@@ -537,13 +577,56 @@ class IfStatementTest {
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 4)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.LOGICAL_OPERATORS, "&&", Position(1, 9)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 12)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.BOOLEAN_LITERAL,
+                                                "true",
+                                                Position(1, 4),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.LOGICAL_OPERATORS,
+                                            "&&",
+                                            Position(1, 9),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.BOOLEAN_LITERAL,
+                                                "true",
+                                                Position(1, 12),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     Position(0, 0),
                                 ),
-                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "both true", Position(2, 13)), Position(0, 0)), Position(0, 0)),
-                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "something false", Position(4, 13)), Position(0, 0)), Position(0, 0)),
+                            consequence =
+                                PrintStatement(
+                                    LiteralExpression(
+                                        PrintScriptToken(
+                                            CommonTypes.STRING_LITERAL,
+                                            "both true",
+                                            Position(2, 13),
+                                        ),
+                                        Position(0, 0),
+                                    ),
+                                    Position(0, 0),
+                                ),
+                            alternative =
+                                PrintStatement(
+                                    LiteralExpression(
+                                        PrintScriptToken(
+                                            CommonTypes.STRING_LITERAL,
+                                            "something false",
+                                            Position(4, 13),
+                                        ),
+                                        Position(0, 0),
+                                    ),
+                                    Position(0, 0),
+                                ),
                             Position(0, 0),
                         ),
                     ),
@@ -566,13 +649,56 @@ class IfStatementTest {
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 4)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.LOGICAL_OPERATORS, "&&", Position(1, 9)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(1, 12)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.BOOLEAN_LITERAL,
+                                                "true",
+                                                Position(1, 4),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.LOGICAL_OPERATORS,
+                                            "&&",
+                                            Position(1, 9),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.BOOLEAN_LITERAL,
+                                                "false",
+                                                Position(1, 12),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     Position(0, 0),
                                 ),
-                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "both true", Position(2, 13)), Position(0, 0)), Position(0, 0)),
-                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "something false", Position(4, 13)), Position(0, 0)), Position(0, 0)),
+                            consequence =
+                                PrintStatement(
+                                    LiteralExpression(
+                                        PrintScriptToken(
+                                            CommonTypes.STRING_LITERAL,
+                                            "both true",
+                                            Position(2, 13),
+                                        ),
+                                        Position(0, 0),
+                                    ),
+                                    Position(0, 0),
+                                ),
+                            alternative =
+                                PrintStatement(
+                                    LiteralExpression(
+                                        PrintScriptToken(
+                                            CommonTypes.STRING_LITERAL,
+                                            "something false",
+                                            Position(4, 13),
+                                        ),
+                                        Position(0, 0),
+                                    ),
+                                    Position(0, 0),
+                                ),
                             Position(0, 0),
                         ),
                     ),
@@ -595,13 +721,56 @@ class IfStatementTest {
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(1, 4)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.LOGICAL_OPERATORS, "||", Position(1, 10)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 13)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.BOOLEAN_LITERAL,
+                                                "false",
+                                                Position(1, 4),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.LOGICAL_OPERATORS,
+                                            "||",
+                                            Position(1, 10),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.BOOLEAN_LITERAL,
+                                                "true",
+                                                Position(1, 13),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     Position(0, 0),
                                 ),
-                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "at least one is true", Position(2, 13)), Position(0, 0)), Position(0, 0)),
-                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "both false", Position(4, 13)), Position(0, 0)), Position(0, 0)),
+                            consequence =
+                                PrintStatement(
+                                    LiteralExpression(
+                                        PrintScriptToken(
+                                            CommonTypes.STRING_LITERAL,
+                                            "at least one is true",
+                                            Position(2, 13),
+                                        ),
+                                        Position(0, 0),
+                                    ),
+                                    Position(0, 0),
+                                ),
+                            alternative =
+                                PrintStatement(
+                                    LiteralExpression(
+                                        PrintScriptToken(
+                                            CommonTypes.STRING_LITERAL,
+                                            "both false",
+                                            Position(4, 13),
+                                        ),
+                                        Position(0, 0),
+                                    ),
+                                    Position(0, 0),
+                                ),
                             Position(0, 0),
                         ),
                     ),
@@ -624,13 +793,56 @@ class IfStatementTest {
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(1, 4)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.LOGICAL_OPERATORS, "||", Position(1, 10)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(1, 13)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.BOOLEAN_LITERAL,
+                                                "false",
+                                                Position(1, 4),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.LOGICAL_OPERATORS,
+                                            "||",
+                                            Position(1, 10),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.BOOLEAN_LITERAL,
+                                                "false",
+                                                Position(1, 13),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     Position(0, 0),
                                 ),
-                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "at least one is true", Position(2, 13)), Position(0, 0)), Position(0, 0)),
-                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "both false", Position(4, 13)), Position(0, 0)), Position(0, 0)),
+                            consequence =
+                                PrintStatement(
+                                    LiteralExpression(
+                                        PrintScriptToken(
+                                            CommonTypes.STRING_LITERAL,
+                                            "at least one is true",
+                                            Position(2, 13),
+                                        ),
+                                        Position(0, 0),
+                                    ),
+                                    Position(0, 0),
+                                ),
+                            alternative =
+                                PrintStatement(
+                                    LiteralExpression(
+                                        PrintScriptToken(
+                                            CommonTypes.STRING_LITERAL,
+                                            "both false",
+                                            Position(4, 13),
+                                        ),
+                                        Position(0, 0),
+                                    ),
+                                    Position(0, 0),
+                                ),
                             Position(0, 0),
                         ),
                     ),
@@ -652,16 +864,52 @@ class IfStatementTest {
                     listOf(
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "a", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.BOOLEAN, "boolean", Position(1, 8)),
-                            initialValue = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 18)), Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "a",
+                                    Position(1, 5),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.BOOLEAN,
+                                    "boolean",
+                                    Position(1, 8),
+                                ),
+                            initialValue =
+                                LiteralExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.BOOLEAN_LITERAL,
+                                        "true",
+                                        Position(1, 18),
+                                    ),
+                                    Position(0, 0),
+                                ),
                             Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "b", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.BOOLEAN, "boolean", Position(2, 8)),
-                            initialValue = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(2, 18)), Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "b",
+                                    Position(2, 5),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.BOOLEAN,
+                                    "boolean",
+                                    Position(2, 8),
+                                ),
+                            initialValue =
+                                LiteralExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.BOOLEAN_LITERAL,
+                                        "false",
+                                        Position(2, 18),
+                                    ),
+                                    Position(0, 0),
+                                ),
                             Position(0, 0),
                         ),
                         IfStatement(
@@ -669,17 +917,73 @@ class IfStatementTest {
                                 BinaryExpression(
                                     left =
                                         BinaryExpression(
-                                            left = IdentifierExpression(PrintScriptToken(CommonTypes.IDENTIFIER, "a", Position(3, 5)), Position(0, 0)),
-                                            operator = PrintScriptToken(CommonTypes.LOGICAL_OPERATORS, "&&", Position(3, 9)),
-                                            right = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(3, 12)), Position(0, 0)),
+                                            left =
+                                                IdentifierExpression(
+                                                    PrintScriptToken(
+                                                        CommonTypes.IDENTIFIER,
+                                                        "a",
+                                                        Position(3, 5),
+                                                    ),
+                                                    Position(0, 0),
+                                                ),
+                                            operator =
+                                                PrintScriptToken(
+                                                    CommonTypes.LOGICAL_OPERATORS,
+                                                    "&&",
+                                                    Position(3, 9),
+                                                ),
+                                            right =
+                                                LiteralExpression(
+                                                    PrintScriptToken(
+                                                        CommonTypes.BOOLEAN_LITERAL,
+                                                        "true",
+                                                        Position(3, 12),
+                                                    ),
+                                                    Position(0, 0),
+                                                ),
                                             Position(0, 0),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.LOGICAL_OPERATORS, "||", Position(3, 18)),
-                                    right = IdentifierExpression(PrintScriptToken(CommonTypes.IDENTIFIER, "b", Position(3, 21)), Position(0, 0)),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.LOGICAL_OPERATORS,
+                                            "||",
+                                            Position(3, 18),
+                                        ),
+                                    right =
+                                        IdentifierExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.IDENTIFIER,
+                                                "b",
+                                                Position(3, 21),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     Position(0, 0),
                                 ),
-                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "complex true", Position(4, 13)), Position(0, 0)), Position(0, 0)),
-                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "complex false", Position(6, 13)), Position(0, 0)), Position(0, 0)),
+                            consequence =
+                                PrintStatement(
+                                    LiteralExpression(
+                                        PrintScriptToken(
+                                            CommonTypes.STRING_LITERAL,
+                                            "complex true",
+                                            Position(4, 13),
+                                        ),
+                                        Position(0, 0),
+                                    ),
+                                    Position(0, 0),
+                                ),
+                            alternative =
+                                PrintStatement(
+                                    LiteralExpression(
+                                        PrintScriptToken(
+                                            CommonTypes.STRING_LITERAL,
+                                            "complex false",
+                                            Position(6, 13),
+                                        ),
+                                        Position(0, 0),
+                                    ),
+                                    Position(0, 0),
+                                ),
                             Position(0, 0),
                         ),
                     ),
@@ -702,13 +1006,56 @@ class IfStatementTest {
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 4)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, ">", Position(1, 7)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 9)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "10",
+                                                Position(1, 4),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            ">",
+                                            Position(1, 7),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "5",
+                                                Position(1, 9),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     Position(0, 0),
                                 ),
-                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "correct", Position(2, 13)), Position(0, 0)), Position(0, 0)),
-                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "incorrect", Position(4, 13)), Position(0, 0)), Position(0, 0)),
+                            consequence =
+                                PrintStatement(
+                                    LiteralExpression(
+                                        PrintScriptToken(
+                                            CommonTypes.STRING_LITERAL,
+                                            "correct",
+                                            Position(2, 13),
+                                        ),
+                                        Position(0, 0),
+                                    ),
+                                    Position(0, 0),
+                                ),
+                            alternative =
+                                PrintStatement(
+                                    LiteralExpression(
+                                        PrintScriptToken(
+                                            CommonTypes.STRING_LITERAL,
+                                            "incorrect",
+                                            Position(4, 13),
+                                        ),
+                                        Position(0, 0),
+                                    ),
+                                    Position(0, 0),
+                                ),
                             Position(0, 0),
                         ),
                     ),
@@ -731,13 +1078,56 @@ class IfStatementTest {
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 4)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "<", Position(1, 7)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 9)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "10",
+                                                Position(1, 4),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            "<",
+                                            Position(1, 7),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "5",
+                                                Position(1, 9),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     Position(0, 0),
                                 ),
-                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "incorrect", Position(2, 13)), Position(0, 0)), Position(0, 0)),
-                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "correct", Position(4, 13)), Position(0, 0)), Position(0, 0)),
+                            consequence =
+                                PrintStatement(
+                                    LiteralExpression(
+                                        PrintScriptToken(
+                                            CommonTypes.STRING_LITERAL,
+                                            "incorrect",
+                                            Position(2, 13),
+                                        ),
+                                        Position(0, 0),
+                                    ),
+                                    Position(0, 0),
+                                ),
+                            alternative =
+                                PrintStatement(
+                                    LiteralExpression(
+                                        PrintScriptToken(
+                                            CommonTypes.STRING_LITERAL,
+                                            "correct",
+                                            Position(4, 13),
+                                        ),
+                                        Position(0, 0),
+                                    ),
+                                    Position(0, 0),
+                                ),
                             Position(0, 0),
                         ),
                     ),
@@ -759,28 +1149,107 @@ class IfStatementTest {
                     listOf(
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "a", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
-                            initialValue = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 17)), Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "a",
+                                    Position(1, 5),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.NUMBER,
+                                    "number",
+                                    Position(1, 8),
+                                ),
+                            initialValue =
+                                LiteralExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.NUMBER_LITERAL,
+                                        "5",
+                                        Position(1, 17),
+                                    ),
+                                    Position(0, 0),
+                                ),
                             Position(0, 0),
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "b", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 8)),
-                            initialValue = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(2, 17)), Position(0, 0)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "b",
+                                    Position(2, 5),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.NUMBER,
+                                    "number",
+                                    Position(2, 8),
+                                ),
+                            initialValue =
+                                LiteralExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.NUMBER_LITERAL,
+                                        "5",
+                                        Position(2, 17),
+                                    ),
+                                    Position(0, 0),
+                                ),
                             Position(0, 0),
                         ),
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = IdentifierExpression(PrintScriptToken(CommonTypes.IDENTIFIER, "a", Position(3, 4)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "==", Position(3, 6)),
-                                    right = IdentifierExpression(PrintScriptToken(CommonTypes.IDENTIFIER, "b", Position(3, 9)), Position(0, 0)),
+                                    left =
+                                        IdentifierExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.IDENTIFIER,
+                                                "a",
+                                                Position(3, 4),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            "==",
+                                            Position(3, 6),
+                                        ),
+                                    right =
+                                        IdentifierExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.IDENTIFIER,
+                                                "b",
+                                                Position(3, 9),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     Position(0, 0),
                                 ),
-                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "equal", Position(4, 13)), Position(0, 0)), Position(0, 0)),
-                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "not equal", Position(6, 13)), Position(0, 0)), Position(0, 0)),
+                            consequence =
+                                PrintStatement(
+                                    LiteralExpression(
+                                        PrintScriptToken(
+                                            CommonTypes.STRING_LITERAL,
+                                            "equal",
+                                            Position(4, 13),
+                                        ),
+                                        Position(0, 0),
+                                    ),
+                                    Position(0, 0),
+                                ),
+                            alternative =
+                                PrintStatement(
+                                    LiteralExpression(
+                                        PrintScriptToken(
+                                            CommonTypes.STRING_LITERAL,
+                                            "not equal",
+                                            Position(6, 13),
+                                        ),
+                                        Position(0, 0),
+                                    ),
+                                    Position(0, 0),
+                                ),
                             Position(0, 0),
                         ),
                     ),
@@ -803,13 +1272,56 @@ class IfStatementTest {
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 4)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, ">=", Position(1, 7)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 10)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "10",
+                                                Position(1, 4),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            ">=",
+                                            Position(1, 7),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "10",
+                                                Position(1, 10),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     Position(0, 0),
                                 ),
-                            consequence = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "correct", Position(2, 13)), Position(0, 0)), Position(0, 0)),
-                            alternative = PrintStatement(LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "incorrect", Position(4, 13)), Position(0, 0)), Position(0, 0)),
+                            consequence =
+                                PrintStatement(
+                                    LiteralExpression(
+                                        PrintScriptToken(
+                                            CommonTypes.STRING_LITERAL,
+                                            "correct",
+                                            Position(2, 13),
+                                        ),
+                                        Position(0, 0),
+                                    ),
+                                    Position(0, 0),
+                                ),
+                            alternative =
+                                PrintStatement(
+                                    LiteralExpression(
+                                        PrintScriptToken(
+                                            CommonTypes.STRING_LITERAL,
+                                            "incorrect",
+                                            Position(4, 13),
+                                        ),
+                                        Position(0, 0),
+                                    ),
+                                    Position(0, 0),
+                                ),
                             Position(0, 0),
                         ),
                     ),

@@ -21,7 +21,10 @@ class LetAssignmentEnforcer(
         } else if (!currentParser.consume(CommonTypes.ASSIGNMENT).isSuccess()) {
             return SemiColonEnforcer().enforce(result)
         }
-        val parserResult = currentParser.getExpressionParser().parseExpression(currentParser.advance())
+        val parserResult =
+            currentParser.getExpressionParser().parseExpression(
+                currentParser.advance(),
+            )
         return nextEnforcer.enforce(
             SemanticSuccess(
                 parserResult.message(),

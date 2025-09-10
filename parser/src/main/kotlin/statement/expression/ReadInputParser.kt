@@ -20,7 +20,10 @@ class ReadInputParser : ExpressionBuilder {
         if (!isValidResultAndCurrentToken(readInput)) {
             throw Exception("Expected readEnv")
         }
-        val value = readInput.getParser().getExpressionParser().parseExpression(readInput.getParser())
+        val value =
+            readInput.getParser().getExpressionParser().parseExpression(
+                readInput.getParser(),
+            )
         if (value.getExpression() !is LiteralExpression) {
             throw Exception("Only a literal expression can be inside of readInput")
         }

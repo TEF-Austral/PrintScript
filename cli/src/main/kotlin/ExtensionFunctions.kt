@@ -12,7 +12,10 @@ fun CLI.handleFormatting(
     return formatter.formatToString(
         program,
         version,
-        formatterConfigFilePath ?: "C:\\faculty\\3ero\\Ingsis\\PrintScript\\cli\\src\\test\\resources\\FormattingConfiguration.json",
+        formatterConfigFilePath
+            ?: (
+                "C:\\Users\\tomas\\Faculty\\Tercer Anio\\Segundo Cuatrimestre\\IngSis\\PrintScript\\cli\\src\\test\\resources\\FormattingConfiguration.json"
+            ),
     )
 }
 

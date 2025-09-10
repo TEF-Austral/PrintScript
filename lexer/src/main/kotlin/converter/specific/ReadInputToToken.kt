@@ -11,5 +11,6 @@ object ReadInputToToken : StringToTokenConverter {
     override fun convert(
         input: String,
         position: Coordinates,
-    ): Token = PrintScriptToken(type = CommonTypes.READ_INPUT, value = input, coordinates = position)
+    ): Token =
+        PrintScriptToken(type = CommonTypes.READ_INPUT, value = input, coordinates = position)
 }

@@ -15,9 +15,17 @@ object Multiplication : Operator {
         if (intResult != null) return InterpreterResult(true, "Succes Multiplication", intResult)
 
         val doubleResult = multiplyAsDouble(left, right)
-        if (doubleResult != null) return InterpreterResult(true, "Succes Multiplication", doubleResult)
+        if (doubleResult !=
+            null
+        ) {
+            return InterpreterResult(true, "Succes Multiplication", doubleResult)
+        }
 
-        return InterpreterResult(false, "Type mismatch: Incompatible types for Multiplication operation", Variable(CommonTypes.NUMBER_LITERAL, null))
+        return InterpreterResult(
+            false,
+            "Type mismatch: Incompatible types for Multiplication operation",
+            Variable(CommonTypes.NUMBER_LITERAL, null),
+        )
     }
 
     private fun multiplyAsInt(

@@ -57,7 +57,8 @@ class BinaryExpressionExecutor(
 
     private fun executeSubExpression(expression: Expression): InterpreterResult {
         val executor = findExecutorFor(expression)
-        return executor?.execute(expression) ?: createErrorResult("No executor found for expression type")
+        return executor?.execute(expression)
+            ?: createErrorResult("No executor found for expression type")
     }
 
     private fun findExecutorFor(expression: Expression): SpecificExpressionExecutor? {
@@ -91,8 +92,13 @@ class BinaryExpressionExecutor(
     ): InterpreterResult {
         val operator = operators.find { it.canHandle(operatorValue) }
         return operator?.operate(left, right)
-            ?: InterpreterResult(false, "Can not Support That Operation", Variable(CommonTypes.STRING_LITERAL, null))
+            ?: InterpreterResult(
+                false,
+                "Can not Support That Operation",
+                Variable(CommonTypes.STRING_LITERAL, null),
+            )
     }
 
-    private fun createErrorResult(message: String): InterpreterResult = InterpreterResult(false, message, null)
+    private fun createErrorResult(message: String): InterpreterResult =
+        InterpreterResult(false, message, null)
 }

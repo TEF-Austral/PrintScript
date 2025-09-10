@@ -556,7 +556,9 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertTrue(result.message().contains("condition") || result.message().contains("expression"))
+        assertTrue(
+            result.message().contains("condition") || result.message().contains("expression"),
+        )
     }
 
     @Test

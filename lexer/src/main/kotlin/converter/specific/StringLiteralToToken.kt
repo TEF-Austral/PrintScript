@@ -15,5 +15,6 @@ object StringLiteralToToken : StringToTokenConverter {
     override fun convert(
         input: String,
         position: Coordinates,
-    ): Token = PrintScriptToken(type = CommonTypes.STRING_LITERAL, value = input, coordinates = position)
+    ): Token =
+        PrintScriptToken(type = CommonTypes.STRING_LITERAL, value = input, coordinates = position)
 }

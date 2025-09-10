@@ -1,5 +1,6 @@
 package executor.statement
 
+import emitter.Emitter
 import executor.expression.DefaultExpressionExecutor
 import result.InterpreterResult
 import node.PrintStatement
@@ -7,11 +8,12 @@ import node.Statement
 
 class PrintStatementExecutor(
     private val defaultExpressionExecutor: DefaultExpressionExecutor,
+    private val emitter: Emitter,
 ) : SpecificStatementExecutor {
     override fun canHandle(statement: Statement): Boolean = statement is PrintStatement
 
     override fun execute(statement: Statement): InterpreterResult {
-        return try {
+        try {
             val printStatement = statement as PrintStatement
             val expressionResult = defaultExpressionExecutor.execute(printStatement.getExpression())
             if (!expressionResult.interpretedCorrectly) {
@@ -25,10 +27,16 @@ class PrintStatementExecutor(
                     null,
                 )
 
-            println(value.getValue())
-            InterpreterResult(true, "Print executed successfully", value)
+            val result =
+                InterpreterResult(
+                    interpretedCorrectly = true,
+                    message = "Print executed successfully",
+                    interpreter = value,
+                )
+            emitter.emit(result)
+            return result
         } catch (e: Exception) {
-            InterpreterResult(false, "Error executing print statement: ${e.message}", null)
+            return InterpreterResult(false, "Error executing print statement: ${e.message}", null)
         }
     }
 }

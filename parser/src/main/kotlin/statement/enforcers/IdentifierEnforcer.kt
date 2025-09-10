@@ -32,5 +32,6 @@ class IdentifierEnforcer(
         )
     }
 
-    private fun isIdentifier(currentParser: Parser): Boolean = !currentParser.consume(CommonTypes.IDENTIFIER).isSuccess()
+    private fun isIdentifier(currentParser: Parser): Boolean =
+        !currentParser.consume(CommonTypes.IDENTIFIER).isSuccess()
 }

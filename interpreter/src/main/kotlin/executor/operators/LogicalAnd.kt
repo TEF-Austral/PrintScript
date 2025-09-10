@@ -18,7 +18,11 @@ object LogicalAnd : Operator {
             val result = Variable(CommonTypes.BOOLEAN_LITERAL, leftBool && rightBool)
             InterpreterResult(true, "Success LogicalOr", result)
         } else {
-            InterpreterResult(false, "Type mismatch: Incompatible types for LogicalAND operation", null)
+            InterpreterResult(
+                false,
+                "Type mismatch: Incompatible types for LogicalAND operation",
+                null,
+            )
         }
     }
 

@@ -11,7 +11,16 @@ object Divide : Operator {
         left: Variable,
         right: Variable,
     ): InterpreterResult {
-        if (isZeroDivisor(right)) return InterpreterResult(false, "Can't divide by zero", Variable(CommonTypes.NUMBER_LITERAL, null))
+        if (isZeroDivisor(
+                right,
+            )
+        ) {
+            return InterpreterResult(
+                false,
+                "Can't divide by zero",
+                Variable(CommonTypes.NUMBER_LITERAL, null),
+            )
+        }
 
         val intResult = divideAsInt(left, right)
         if (intResult != null) return InterpreterResult(true, "Success Division", intResult)

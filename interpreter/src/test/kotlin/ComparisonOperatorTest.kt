@@ -25,9 +25,30 @@ class ComparisonOperatorTest {
                         PrintStatement(
                             expression =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 9)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, ">", Position(1, 12)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 14)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "10",
+                                                Position(1, 9),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            ">",
+                                            Position(1, 12),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "5",
+                                                Position(1, 14),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     coordinates = Position(0, 0),
                                 ),
                             coordinates = Position(0, 0),
@@ -53,9 +74,30 @@ class ComparisonOperatorTest {
                         PrintStatement(
                             expression =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 9)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, ">", Position(1, 14)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(1, 16)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.BOOLEAN_LITERAL,
+                                                "true",
+                                                Position(1, 9),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            ">",
+                                            Position(1, 14),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.BOOLEAN_LITERAL,
+                                                "false",
+                                                Position(1, 16),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     coordinates = Position(0, 0),
                                 ),
                             coordinates = Position(0, 0),
@@ -81,9 +123,30 @@ class ComparisonOperatorTest {
                         PrintStatement(
                             expression =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "z", Position(1, 9)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, ">", Position(1, 13)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "a", Position(1, 15)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.STRING_LITERAL,
+                                                "z",
+                                                Position(1, 9),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            ">",
+                                            Position(1, 13),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.STRING_LITERAL,
+                                                "a",
+                                                Position(1, 15),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     coordinates = Position(0, 0),
                                 ),
                             coordinates = Position(0, 0),
@@ -107,9 +170,30 @@ class ComparisonOperatorTest {
                         PrintStatement(
                             expression =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "100", Position(1, 9)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, ">", Position(1, 13)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "hello", Position(1, 15)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "100",
+                                                Position(1, 9),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            ">",
+                                            Position(1, 13),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.STRING_LITERAL,
+                                                "hello",
+                                                Position(1, 15),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     coordinates = Position(0, 0),
                                 ),
                             coordinates = Position(0, 0),
@@ -120,7 +204,10 @@ class ComparisonOperatorTest {
         val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result = interpreter.interpret(program)
         assertFalse(result.interpretedCorrectly)
-        assertEquals("Type mismatch: Incompatible types for > operation between NUMBER_LITERAL and STRING_LITERAL.", result.message)
+        assertEquals(
+            "Type mismatch: Incompatible types for > operation between NUMBER_LITERAL and STRING_LITERAL.",
+            result.message,
+        )
     }
 
     @Test
@@ -135,9 +222,30 @@ class ComparisonOperatorTest {
                         PrintStatement(
                             expression =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "3", Position(1, 9)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "<", Position(1, 11)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "8", Position(1, 13)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "3",
+                                                Position(1, 9),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            "<",
+                                            Position(1, 11),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "8",
+                                                Position(1, 13),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     coordinates = Position(0, 0),
                                 ),
                             coordinates = Position(0, 0),
@@ -163,9 +271,30 @@ class ComparisonOperatorTest {
                         PrintStatement(
                             expression =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(1, 9)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "<", Position(1, 15)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 17)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.BOOLEAN_LITERAL,
+                                                "false",
+                                                Position(1, 9),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            "<",
+                                            Position(1, 15),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.BOOLEAN_LITERAL,
+                                                "true",
+                                                Position(1, 17),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     coordinates = Position(0, 0),
                                 ),
                             coordinates = Position(0, 0),
@@ -189,9 +318,30 @@ class ComparisonOperatorTest {
                         PrintStatement(
                             expression =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(1, 9)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "<", Position(1, 15)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "hello", Position(1, 17)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.BOOLEAN_LITERAL,
+                                                "false",
+                                                Position(1, 9),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            "<",
+                                            Position(1, 15),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.STRING_LITERAL,
+                                                "hello",
+                                                Position(1, 17),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     coordinates = Position(0, 0),
                                 ),
                             coordinates = Position(0, 0),
@@ -202,7 +352,10 @@ class ComparisonOperatorTest {
         val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result = interpreter.interpret(program)
         assertFalse(result.interpretedCorrectly)
-        assertEquals("Type mismatch: Incompatible types for < operation between BOOLEAN_LITERAL and STRING_LITERAL.", result.message)
+        assertEquals(
+            "Type mismatch: Incompatible types for < operation between BOOLEAN_LITERAL and STRING_LITERAL.",
+            result.message,
+        )
     }
 
     @Test
@@ -217,9 +370,30 @@ class ComparisonOperatorTest {
                         PrintStatement(
                             expression =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 9)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, ">=", Position(1, 12)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 15)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "10",
+                                                Position(1, 9),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            ">=",
+                                            Position(1, 12),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "10",
+                                                Position(1, 15),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     coordinates = Position(0, 0),
                                 ),
                             coordinates = Position(0, 0),
@@ -245,9 +419,30 @@ class ComparisonOperatorTest {
                         PrintStatement(
                             expression =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 9)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, ">=", Position(1, 14)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(1, 17)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.BOOLEAN_LITERAL,
+                                                "true",
+                                                Position(1, 9),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            ">=",
+                                            Position(1, 14),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.BOOLEAN_LITERAL,
+                                                "false",
+                                                Position(1, 17),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     coordinates = Position(0, 0),
                                 ),
                             coordinates = Position(0, 0),
@@ -273,9 +468,30 @@ class ComparisonOperatorTest {
                         PrintStatement(
                             expression =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 9)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "<=", Position(1, 11)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 14)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "5",
+                                                Position(1, 9),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            "<=",
+                                            Position(1, 11),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "5",
+                                                Position(1, 14),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     coordinates = Position(0, 0),
                                 ),
                             coordinates = Position(0, 0),
@@ -301,9 +517,30 @@ class ComparisonOperatorTest {
                         PrintStatement(
                             expression =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(1, 9)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "<=", Position(1, 15)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 18)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.BOOLEAN_LITERAL,
+                                                "false",
+                                                Position(1, 9),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            "<=",
+                                            Position(1, 15),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.BOOLEAN_LITERAL,
+                                                "true",
+                                                Position(1, 18),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     coordinates = Position(0, 0),
                                 ),
                             coordinates = Position(0, 0),
@@ -329,9 +566,30 @@ class ComparisonOperatorTest {
                         PrintStatement(
                             expression =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "7.0", Position(1, 9)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "==", Position(1, 13)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "7", Position(1, 16)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "7.0",
+                                                Position(1, 9),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            "==",
+                                            Position(1, 13),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "7",
+                                                Position(1, 16),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     coordinates = Position(0, 0),
                                 ),
                             coordinates = Position(0, 0),
@@ -357,9 +615,30 @@ class ComparisonOperatorTest {
                         PrintStatement(
                             expression =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 9)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "==", Position(1, 14)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "false", Position(1, 17)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.BOOLEAN_LITERAL,
+                                                "true",
+                                                Position(1, 9),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            "==",
+                                            Position(1, 14),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.BOOLEAN_LITERAL,
+                                                "false",
+                                                Position(1, 17),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     coordinates = Position(0, 0),
                                 ),
                             coordinates = Position(0, 0),
@@ -385,9 +664,30 @@ class ComparisonOperatorTest {
                         PrintStatement(
                             expression =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "test", Position(1, 9)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "==", Position(1, 15)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "test", Position(1, 18)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.STRING_LITERAL,
+                                                "test",
+                                                Position(1, 9),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            "==",
+                                            Position(1, 15),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.STRING_LITERAL,
+                                                "test",
+                                                Position(1, 18),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     coordinates = Position(0, 0),
                                 ),
                             coordinates = Position(0, 0),

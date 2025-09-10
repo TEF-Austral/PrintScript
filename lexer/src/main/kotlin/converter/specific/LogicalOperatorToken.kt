@@ -11,5 +11,10 @@ object LogicalOperatorToken : StringToTokenConverter {
     override fun convert(
         input: String,
         position: Coordinates,
-    ): Token = PrintScriptToken(type = CommonTypes.LOGICAL_OPERATORS, value = input, coordinates = position)
+    ): Token =
+        PrintScriptToken(
+            type = CommonTypes.LOGICAL_OPERATORS,
+            value = input,
+            coordinates = position,
+        )
 }

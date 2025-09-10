@@ -47,8 +47,18 @@ class ReadInputFailureTest {
                     listOf(
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "age", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 10)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "age",
+                                    Position(1, 5),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.NUMBER,
+                                    "number",
+                                    Position(1, 10),
+                                ),
                             initialValue =
                                 ReadInputExpression(
                                     printValue = "Enter age: ",
@@ -62,7 +72,10 @@ class ReadInputFailureTest {
         val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result = interpreter.interpret(program)
 
-        assertFalse(result.interpretedCorrectly, "Interpreter should have failed due to type mismatch.")
+        assertFalse(
+            result.interpretedCorrectly,
+            "Interpreter should have failed due to type mismatch.",
+        )
         assertEquals("Failed to convert value 'not a number' to type 'Number'", result.message)
     }
 
@@ -78,8 +91,18 @@ class ReadInputFailureTest {
                     listOf(
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "isMember", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.BOOLEAN, "boolean", Position(1, 15)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "isMember",
+                                    Position(1, 5),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.BOOLEAN,
+                                    "boolean",
+                                    Position(1, 15),
+                                ),
                             initialValue =
                                 ReadInputExpression(
                                     printValue = "Is member? ",

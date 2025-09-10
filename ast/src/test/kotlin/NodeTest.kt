@@ -168,7 +168,12 @@ class NodeTest {
             nodeBuilder.buildLiteralExpressionNode(
                 PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 19)),
             )
-        val binaryExpr = nodeBuilder.buildBinaryExpressionNode(leftOperand, operatorToken, rightOperand)
+        val binaryExpr =
+            nodeBuilder.buildBinaryExpressionNode(
+                leftOperand,
+                operatorToken,
+                rightOperand,
+            )
 
         val varDecl =
             nodeBuilder.buildVariableDeclarationStatementNode(
@@ -376,9 +381,22 @@ class NodeTest {
     @Test
     fun testProgramWithMultipleStatementTypes() {
         val emptyStmt = nodeBuilder.buildEmptyStatementNode()
-        val printStmt = nodeBuilder.buildPrintStatementNode(nodeBuilder.buildLiteralExpressionNode(mockToken))
-        val assignmentStmt = nodeBuilder.buildAssignmentStatementNode(identifierToken, nodeBuilder.buildLiteralExpressionNode(numberToken))
-        val declStmt = nodeBuilder.buildVariableDeclarationStatementNode(declarationTypeToken, identifierToken, dataTypeToken, nodeBuilder.buildLiteralExpressionNode(numberToken))
+        val printStmt =
+            nodeBuilder.buildPrintStatementNode(
+                nodeBuilder.buildLiteralExpressionNode(mockToken),
+            )
+        val assignmentStmt =
+            nodeBuilder.buildAssignmentStatementNode(
+                identifierToken,
+                nodeBuilder.buildLiteralExpressionNode(numberToken),
+            )
+        val declStmt =
+            nodeBuilder.buildVariableDeclarationStatementNode(
+                declarationTypeToken,
+                identifierToken,
+                dataTypeToken,
+                nodeBuilder.buildLiteralExpressionNode(numberToken),
+            )
 
         val statements = listOf(emptyStmt, printStmt, assignmentStmt, declStmt)
         val program = nodeBuilder.buildProgramNode(statements)
@@ -512,7 +530,10 @@ class NodeTest {
     @Test
     fun testIfStatementWithAlternative() {
         val condition = nodeBuilder.buildLiteralExpressionNode(booleanToken)
-        val consequence = nodeBuilder.buildPrintStatementNode(nodeBuilder.buildLiteralExpressionNode(mockToken))
+        val consequence =
+            nodeBuilder.buildPrintStatementNode(
+                nodeBuilder.buildLiteralExpressionNode(mockToken),
+            )
         val alternative = nodeBuilder.buildEmptyStatementNode()
 
         val ifStmt = nodeBuilder.buildIfStatementNode(condition, consequence, alternative)
@@ -527,7 +548,10 @@ class NodeTest {
     @Test
     fun testIfStatementWithoutAlternative() {
         val condition = nodeBuilder.buildLiteralExpressionNode(booleanToken)
-        val consequence = nodeBuilder.buildPrintStatementNode(nodeBuilder.buildLiteralExpressionNode(mockToken))
+        val consequence =
+            nodeBuilder.buildPrintStatementNode(
+                nodeBuilder.buildLiteralExpressionNode(mockToken),
+            )
 
         val ifStmt = nodeBuilder.buildIfStatementNode(condition, consequence, null)
 
@@ -570,9 +594,18 @@ class NodeTest {
 
     @Test
     fun testNestedBinaryExpressions() {
-        val num1 = nodeBuilder.buildLiteralExpressionNode(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "1", Position(1, 1)))
-        val num2 = nodeBuilder.buildLiteralExpressionNode(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "2", Position(1, 5)))
-        val num3 = nodeBuilder.buildLiteralExpressionNode(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "3", Position(1, 9)))
+        val num1 =
+            nodeBuilder.buildLiteralExpressionNode(
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "1", Position(1, 1)),
+            )
+        val num2 =
+            nodeBuilder.buildLiteralExpressionNode(
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "2", Position(1, 5)),
+            )
+        val num3 =
+            nodeBuilder.buildLiteralExpressionNode(
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "3", Position(1, 9)),
+            )
 
         val plusOp = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(1, 3))
         val multiplyOp = PrintScriptToken(CommonTypes.OPERATORS, "*", Position(1, 7))
@@ -598,22 +631,32 @@ class NodeTest {
                 PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(1, 5)),
                 dataTypeToken,
                 nodeBuilder.buildBinaryExpressionNode(
-                    nodeBuilder.buildLiteralExpressionNode(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 15))),
+                    nodeBuilder.buildLiteralExpressionNode(
+                        PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 15)),
+                    ),
                     PrintScriptToken(CommonTypes.OPERATORS, "*", Position(1, 18)),
-                    nodeBuilder.buildLiteralExpressionNode(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 20))),
+                    nodeBuilder.buildLiteralExpressionNode(
+                        PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 20)),
+                    ),
                 ),
             )
 
         val condition =
             nodeBuilder.buildBinaryExpressionNode(
-                nodeBuilder.buildIdentifierNode(PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(2, 5))),
+                nodeBuilder.buildIdentifierNode(
+                    PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(2, 5)),
+                ),
                 PrintScriptToken(CommonTypes.COMPARISON, ">", Position(2, 12)),
-                nodeBuilder.buildLiteralExpressionNode(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "0", Position(2, 14))),
+                nodeBuilder.buildLiteralExpressionNode(
+                    PrintScriptToken(CommonTypes.NUMBER_LITERAL, "0", Position(2, 14)),
+                ),
             )
 
         val printStmt =
             nodeBuilder.buildPrintStatementNode(
-                nodeBuilder.buildIdentifierNode(PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(3, 11))),
+                nodeBuilder.buildIdentifierNode(
+                    PrintScriptToken(CommonTypes.IDENTIFIER, "result", Position(3, 11)),
+                ),
             )
 
         val ifStmt = nodeBuilder.buildIfStatementNode(condition, printStmt, null)
@@ -821,7 +864,9 @@ class NodeTest {
         val statements =
             listOf(
                 nodeBuilder.buildEmptyStatementNode(),
-                nodeBuilder.buildPrintStatementNode(nodeBuilder.buildLiteralExpressionNode(mockToken)),
+                nodeBuilder.buildPrintStatementNode(
+                    nodeBuilder.buildLiteralExpressionNode(mockToken),
+                ),
             )
 
         val program = Program(statements, customCoords)
@@ -839,7 +884,10 @@ class NodeTest {
                 nodeBuilder.buildLiteralExpressionNode(numberToken),
             )
 
-        val consequence = nodeBuilder.buildPrintStatementNode(nodeBuilder.buildLiteralExpressionNode(mockToken))
+        val consequence =
+            nodeBuilder.buildPrintStatementNode(
+                nodeBuilder.buildLiteralExpressionNode(mockToken),
+            )
         val alternative =
             nodeBuilder.buildAssignmentStatementNode(
                 identifierToken,
@@ -879,10 +927,24 @@ class NodeTest {
                 nodeBuilder.buildLiteralExpressionNode(numberToken),
                 Position(1, 1),
             )
-        val assignment = AssignmentStatement(identifierToken, nodeBuilder.buildLiteralExpressionNode(numberToken), Position(1, 1))
-        val declaration = DeclarationStatement(declarationTypeToken, identifierToken, dataTypeToken, null, Position(1, 1))
-        val printStmt = PrintStatement(nodeBuilder.buildLiteralExpressionNode(mockToken), Position(1, 1))
-        val exprStmt = ExpressionStatement(nodeBuilder.buildLiteralExpressionNode(mockToken), Position(1, 1))
+        val assignment =
+            AssignmentStatement(
+                identifierToken,
+                nodeBuilder.buildLiteralExpressionNode(numberToken),
+                Position(1, 1),
+            )
+        val declaration =
+            DeclarationStatement(
+                declarationTypeToken,
+                identifierToken,
+                dataTypeToken,
+                null,
+                Position(1, 1),
+            )
+        val printStmt =
+            PrintStatement(nodeBuilder.buildLiteralExpressionNode(mockToken), Position(1, 1))
+        val exprStmt =
+            ExpressionStatement(nodeBuilder.buildLiteralExpressionNode(mockToken), Position(1, 1))
         val ifStmt =
             IfStatement(
                 nodeBuilder.buildLiteralExpressionNode(booleanToken),

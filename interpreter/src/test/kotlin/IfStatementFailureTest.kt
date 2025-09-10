@@ -62,7 +62,10 @@ class IfStatementFailureTest {
         val result: InterpreterResult = interpreter.interpret(program)
 
         assertFalse(result.interpretedCorrectly, "Interpretation should fail due to type mismatch.")
-        assertEquals("If condition must evaluate to a boolean value, but got: NUMBER_LITERAL.", result.message)
+        assertEquals(
+            "If condition must evaluate to a boolean value, but got: NUMBER_LITERAL.",
+            result.message,
+        )
     }
 
     @Test
@@ -113,7 +116,10 @@ class IfStatementFailureTest {
         val result: InterpreterResult = interpreter.interpret(program)
 
         assertFalse(result.interpretedCorrectly, "Interpretation should fail due to type mismatch.")
-        assertEquals("If condition must evaluate to a boolean value, but got: STRING_LITERAL.", result.message)
+        assertEquals(
+            "If condition must evaluate to a boolean value, but got: STRING_LITERAL.",
+            result.message,
+        )
     }
 
     // TESTS DE FALLA LÓGICOS
@@ -129,9 +135,30 @@ class IfStatementFailureTest {
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 4)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "&&", Position(1, 9)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "123", Position(1, 12)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.BOOLEAN_LITERAL,
+                                                "true",
+                                                Position(1, 4),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            "&&",
+                                            Position(1, 9),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "123",
+                                                Position(1, 12),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     coordinates = Position(0, 0),
                                 ),
                             consequence =
@@ -175,8 +202,21 @@ class IfStatementFailureTest {
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "hello", Position(1, 4)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "||", Position(1, 12)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.STRING_LITERAL,
+                                                "hello",
+                                                Position(1, 4),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            "||",
+                                            Position(1, 12),
+                                        ),
                                     right =
                                         LiteralExpression(
                                             PrintScriptToken(
@@ -230,9 +270,30 @@ class IfStatementFailureTest {
                         IfStatement(
                             condition =
                                 BinaryExpression(
-                                    left = LiteralExpression(PrintScriptToken(CommonTypes.NUMBER_LITERAL, "10", Position(1, 4)), Position(0, 0)),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, ">", Position(1, 7)),
-                                    right = LiteralExpression(PrintScriptToken(CommonTypes.STRING_LITERAL, "five", Position(1, 9)), Position(0, 0)),
+                                    left =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.NUMBER_LITERAL,
+                                                "10",
+                                                Position(1, 4),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            ">",
+                                            Position(1, 7),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.STRING_LITERAL,
+                                                "five",
+                                                Position(1, 9),
+                                            ),
+                                            Position(0, 0),
+                                        ),
                                     coordinates = Position(0, 0),
                                 ),
                             consequence =
@@ -257,7 +318,13 @@ class IfStatementFailureTest {
         val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(program)
 
-        assertFalse(result.interpretedCorrectly, "Interpretation should fail due to type mismatch in comparison.")
-        assertEquals("Type mismatch: Incompatible types for > operation between NUMBER_LITERAL and STRING_LITERAL.", result.message)
+        assertFalse(
+            result.interpretedCorrectly,
+            "Interpretation should fail due to type mismatch in comparison.",
+        )
+        assertEquals(
+            "Type mismatch: Incompatible types for > operation between NUMBER_LITERAL and STRING_LITERAL.",
+            result.message,
+        )
     }
 }

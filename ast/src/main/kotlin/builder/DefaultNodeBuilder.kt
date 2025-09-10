@@ -17,9 +17,11 @@ import node.ReadInputExpression
 import node.Statement
 
 class DefaultNodeBuilder : NodeBuilder {
-    override fun buildLiteralExpressionNode(token: Token): LiteralExpression = LiteralExpression(token, token.getCoordinates())
+    override fun buildLiteralExpressionNode(token: Token): LiteralExpression =
+        LiteralExpression(token, token.getCoordinates())
 
-    override fun buildIdentifierNode(token: Token): IdentifierExpression = IdentifierExpression(token, token.getCoordinates())
+    override fun buildIdentifierNode(token: Token): IdentifierExpression =
+        IdentifierExpression(token, token.getCoordinates())
 
     override fun buildBinaryExpressionNode(
         left: Expression,
@@ -32,18 +34,25 @@ class DefaultNodeBuilder : NodeBuilder {
         identifier: Token,
         dataType: Token,
         initialValue: Expression?,
-    ): DeclarationStatement = DeclarationStatement(declarationType, identifier, dataType, initialValue, identifier.getCoordinates())
+    ): DeclarationStatement =
+        DeclarationStatement(
+            declarationType,
+            identifier,
+            dataType,
+            initialValue,
+            identifier.getCoordinates(),
+        )
 
     override fun buildAssignmentStatementNode(
         identifier: Token,
         value: Expression,
     ): AssignmentStatement = AssignmentStatement(identifier, value, value.getCoordinates())
 
-    override fun buildPrintStatementNode(expression: Expression): PrintStatement = PrintStatement(expression, expression.getCoordinates())
+    override fun buildPrintStatementNode(expression: Expression): PrintStatement =
+        PrintStatement(expression, expression.getCoordinates())
 
-    override fun buildExpressionStatementNode(
-        expression: Expression,
-    ): ExpressionStatement = ExpressionStatement(expression, expression.getCoordinates())
+    override fun buildExpressionStatementNode(expression: Expression): ExpressionStatement =
+        ExpressionStatement(expression, expression.getCoordinates())
 
     override fun buildEmptyStatementNode(): EmptyStatement = EmptyStatement()
 
@@ -55,7 +64,9 @@ class DefaultNodeBuilder : NodeBuilder {
         alternative: Statement?,
     ): IfStatement = IfStatement(condition, consequence, alternative, consequence.getCoordinates())
 
-    override fun buildReadInputNode(printValue: LiteralExpression): ReadInputExpression = ReadInputExpression(printValue.getValue(), printValue.getCoordinates())
+    override fun buildReadInputNode(printValue: LiteralExpression): ReadInputExpression =
+        ReadInputExpression(printValue.getValue(), printValue.getCoordinates())
 
-    override fun buildReadEnvNode(envName: LiteralExpression): ReadEnvExpression = ReadEnvExpression(envName.getValue(), envName.getCoordinates())
+    override fun buildReadEnvNode(envName: LiteralExpression): ReadEnvExpression =
+        ReadEnvExpression(envName.getValue(), envName.getCoordinates())
 }

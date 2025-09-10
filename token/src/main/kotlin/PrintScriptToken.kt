@@ -12,5 +12,6 @@ class PrintScriptToken(
 
     override fun getCoordinates(): Coordinates = coordinates
 
-    override fun toString(): String = "Token(type=$type, value='$value', coordinates=${coordinates.getRow()}:${coordinates.getColumn()})"
+    override fun toString(): String =
+        "Token(type=$type, value='$value', coordinates=${coordinates.getRow()}:${coordinates.getColumn()})"
 }

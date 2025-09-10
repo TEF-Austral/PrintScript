@@ -40,11 +40,14 @@ class AssignmentStatementExecutor(
         }
     }
 
-    private fun isConstant(identifier: String): Boolean = dataBase.getConstantValue(identifier) != null
+    private fun isConstant(identifier: String): Boolean =
+        dataBase.getConstantValue(identifier) != null
 
-    private fun getVariable(identifier: String): Variable? = dataBase.getVariableValue(identifier) as? Variable //
+    private fun getVariable(identifier: String): Variable? =
+        dataBase.getVariableValue(identifier) as? Variable //
 
-    private fun evaluateExpression(statement: AssignmentStatement): InterpreterResult = defaultExpressionExecutor.execute(statement.getValue())
+    private fun evaluateExpression(statement: AssignmentStatement): InterpreterResult =
+        defaultExpressionExecutor.execute(statement.getValue())
 
     private fun getNewValueFromResult(result: InterpreterResult): Variable? = result.interpreter
 
@@ -61,9 +64,11 @@ class AssignmentStatementExecutor(
         return createSuccessResult()
     }
 
-    private fun createConstantReassignmentError(id: String) = InterpreterResult(false, "Error: Cannot reassign a value to a constant '$id'", null)
+    private fun createConstantReassignmentError(id: String) =
+        InterpreterResult(false, "Error: Cannot reassign a value to a constant '$id'", null)
 
-    private fun createVariableNotFoundError(id: String) = InterpreterResult(false, "Error: Variable '$id' not declared", null)
+    private fun createVariableNotFoundError(id: String) =
+        InterpreterResult(false, "Error: Variable '$id' not declared", null)
 
     private fun createNoValueError() = InterpreterResult(false, "Error: No value to assign", null)
 
@@ -77,7 +82,9 @@ class AssignmentStatementExecutor(
         null,
     )
 
-    private fun createSuccessResult() = InterpreterResult(true, "Assignment executed successfully", null)
+    private fun createSuccessResult() =
+        InterpreterResult(true, "Assignment executed successfully", null)
 
-    private fun createGenericError(e: Exception) = InterpreterResult(false, "Error executing assignment statement: ${e.message}", null)
+    private fun createGenericError(e: Exception) =
+        InterpreterResult(false, "Error executing assignment statement: ${e.message}", null)
 }

@@ -24,7 +24,9 @@ class LexerIntegrationTest {
         val lexer = DefaultLexer(splitter, tokenConverter)
         val tokens = lexer.tokenize(scriptReader)
         for (token in tokens) {
-            println("Token: ${token.getValue()} Type: ${token.getType()} Coordinates: ${token.getCoordinates()}")
+            println(
+                "Token: ${token.getValue()} Type: ${token.getType()} Coordinates: ${token.getCoordinates()}",
+            )
         }
 
         Assertions.assertEquals(5, tokens.size)
@@ -68,7 +70,9 @@ class LexerIntegrationTest {
 
         println("Total tokens: ${tokens.size}") // Debug: cuántos tokens
         for (token in tokens) {
-            println("Token: ${token.getValue()} Type: ${token.getType()} Coordinates: ${token.getCoordinates()}")
+            println(
+                "Token: ${token.getValue()} Type: ${token.getType()} Coordinates: ${token.getCoordinates()}",
+            )
         }
     }
 
@@ -82,7 +86,9 @@ class LexerIntegrationTest {
         val tokens = lexer.tokenize(scriptReader)
 
         for (token in tokens) {
-            println("Token: ${token.getValue()} Type: ${token.getType()} Coordinates: ${token.getCoordinates()}")
+            println(
+                "Token: ${token.getValue()} Type: ${token.getType()} Coordinates: ${token.getCoordinates()}",
+            )
         }
 
         // let x:String = "123";

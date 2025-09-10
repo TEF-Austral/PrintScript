@@ -18,6 +18,10 @@ data class TokenConverterRegistry(
                 return converter.convert(input, position)
             }
         }
-        return PrintScriptToken(type = CommonTypes.IDENTIFIER, value = input, coordinates = position)
+        return PrintScriptToken(
+            type = CommonTypes.IDENTIFIER,
+            value = input,
+            coordinates = position,
+        )
     }
 }

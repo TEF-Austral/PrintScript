@@ -51,8 +51,18 @@ class ReadInputTest {
                     listOf(
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "name", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.STRING, "string", Position(1, 11)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "name",
+                                    Position(1, 5),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.STRING,
+                                    "string",
+                                    Position(1, 11),
+                                ),
                             initialValue =
                                 ReadInputExpression(
                                     printValue = "Enter name: ",
@@ -63,7 +73,11 @@ class ReadInputTest {
                         PrintStatement(
                             expression =
                                 IdentifierExpression(
-                                    PrintScriptToken(CommonTypes.IDENTIFIER, "name", Position(2, 9)),
+                                    PrintScriptToken(
+                                        CommonTypes.IDENTIFIER,
+                                        "name",
+                                        Position(2, 9),
+                                    ),
                                     Position(2, 9),
                                 ),
                             Position(2, 1),
@@ -76,7 +90,9 @@ class ReadInputTest {
 
         assertTrue(result.interpretedCorrectly, "Interpreter should have run successfully.")
 
-        val expectedOutput = "Enter name: John Doe"
+        val expectedOutput =
+            "Enter name: \n" +
+                "John Doe"
         assertEquals(expectedOutput, outContent.toString().trim().replace("\r\n", "\n"))
     }
 
@@ -94,8 +110,18 @@ class ReadInputTest {
                     listOf(
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "age", Position(1, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 10)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "age",
+                                    Position(1, 5),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.NUMBER,
+                                    "number",
+                                    Position(1, 10),
+                                ),
                             initialValue =
                                 ReadInputExpression(
                                     printValue = "Enter age: ",
@@ -105,8 +131,18 @@ class ReadInputTest {
                         ),
                         DeclarationStatement(
                             PrintScriptToken(CommonTypes.LET, "let", Position(2, 1)),
-                            identifier = PrintScriptToken(CommonTypes.IDENTIFIER, "newAge", Position(2, 5)),
-                            dataType = PrintScriptToken(CommonTypes.NUMBER, "number", Position(2, 13)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "newAge",
+                                    Position(2, 5),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.NUMBER,
+                                    "number",
+                                    Position(2, 13),
+                                ),
                             initialValue =
                                 BinaryExpression(
                                     left =
@@ -118,7 +154,12 @@ class ReadInputTest {
                                             ),
                                             Position(2, 22),
                                         ),
-                                    operator = PrintScriptToken(CommonTypes.OPERATORS, "+", Position(2, 26)),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            "+",
+                                            Position(2, 26),
+                                        ),
                                     right =
                                         LiteralExpression(
                                             PrintScriptToken(
@@ -135,7 +176,11 @@ class ReadInputTest {
                         PrintStatement(
                             expression =
                                 IdentifierExpression(
-                                    PrintScriptToken(CommonTypes.IDENTIFIER, "newAge", Position(3, 9)),
+                                    PrintScriptToken(
+                                        CommonTypes.IDENTIFIER,
+                                        "newAge",
+                                        Position(3, 9),
+                                    ),
                                     Position(3, 9),
                                 ),
                             Position(3, 1),
@@ -148,7 +193,9 @@ class ReadInputTest {
 
         assertTrue(result.interpretedCorrectly)
 
-        val expectedOutput = "Enter age: 26"
-        assertEquals(expectedOutput, outContent.toString().trim())
+        val expectedOutput =
+            "Enter age: \n" +
+                "26"
+        assertEquals(expectedOutput, outContent.toString().trim().replace("\r\n", "\n"))
     }
 }

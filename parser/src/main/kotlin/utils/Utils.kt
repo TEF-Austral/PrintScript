@@ -13,7 +13,8 @@ fun checkType(
     return current.getType() == type
 }
 
-fun isValidResultAndCurrentToken(result: ParserResult): Boolean = (result.isSuccess()) && result.getParser().peak() != null
+fun isValidResultAndCurrentToken(result: ParserResult): Boolean =
+    (result.isSuccess()) && result.getParser().peak() != null
 
 fun verifyCurrentToken(
     types: List<CommonTypes>,

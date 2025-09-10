@@ -48,9 +48,7 @@ class IdentifierStyleRule(
         }
     }
 
-    private fun Expression.visit(
-        diags: MutableList<Diagnostic>,
-    ) {
+    private fun Expression.visit(diags: MutableList<Diagnostic>) {
         when (this) {
             is IdentifierExpression -> check(getValue(), getToken().getCoordinates(), diags)
             is BinaryExpression -> {

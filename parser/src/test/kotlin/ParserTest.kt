@@ -541,7 +541,11 @@ class ParserTest {
                 PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
                 PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 6)),
-                PrintScriptToken(CommonTypes.IDENTIFIER, "INVALID_TYPE", Position(1, 8)), // Invalid type
+                PrintScriptToken(
+                    CommonTypes.IDENTIFIER,
+                    "INVALID_TYPE",
+                    Position(1, 8),
+                ),
                 PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 20)),
             )
 
@@ -974,7 +978,11 @@ class ParserTest {
             listOf(
                 PrintScriptToken(CommonTypes.READ_INPUT, "readInput", Position(1, 1)),
                 PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 10)),
-                PrintScriptToken(CommonTypes.STRING_LITERAL, "\"Enter your name\"", Position(1, 11)),
+                PrintScriptToken(
+                    CommonTypes.STRING_LITERAL,
+                    "\"Enter your name\"",
+                    Position(1, 11),
+                ),
                 PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 31)),
                 PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 32)),
             )

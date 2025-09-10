@@ -13,7 +13,10 @@ class ExpressionStatementExecutor(
     override fun execute(statement: Statement): InterpreterResult {
         return try {
             val expressionStatement = statement as ExpressionStatement
-            val expressionResult = defaultExpressionExecutor.execute(expressionStatement.getExpression())
+            val expressionResult =
+                defaultExpressionExecutor.execute(
+                    expressionStatement.getExpression(),
+                )
             if (!expressionResult.interpretedCorrectly) {
                 return expressionResult
             }

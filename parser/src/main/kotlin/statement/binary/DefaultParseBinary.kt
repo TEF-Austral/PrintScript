@@ -22,7 +22,9 @@ class DefaultParseBinary(
     ): ExpressionResult {
         val parserAtOperator = currentLeft.getParser()
 
-        if (!hasValidOperatorToken(parserAtOperator) || !meetsMinimumPrecedence(parserAtOperator, minPrecedence)) {
+        if (!hasValidOperatorToken(parserAtOperator) ||
+            !meetsMinimumPrecedence(parserAtOperator, minPrecedence)
+        ) {
             return currentLeft
         }
 
@@ -98,7 +100,14 @@ class DefaultParseBinary(
                 (nextPrecedence == currentPrecedence && isRightAssociative)
 
         return if (shouldParseRecursively) {
-            val nextMinPrecedence = if (nextPrecedence > currentPrecedence) currentPrecedence + 1 else currentPrecedence
+            val nextMinPrecedence =
+                if (nextPrecedence >
+                    currentPrecedence
+                ) {
+                    currentPrecedence + 1
+                } else {
+                    currentPrecedence
+                }
             parseBinary(right, nextMinPrecedence)
         } else {
             right

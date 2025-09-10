@@ -16,7 +16,7 @@ class ReadEnvExpressionExecutor : SpecificExpressionExecutor {
         val envValue = System.getenv(envName)
 
         if (envValue != null) {
-            val resultVariable = Variable(CommonTypes.STRING, envValue) // TODO, CAMBIAR TEMPORAL PERO NO SE ME OCURRE NADA
+            val resultVariable = Variable(CommonTypes.STRING, envValue)
             return InterpreterResult(
                 true,
                 "Successfully read environment variable '$envName'.",

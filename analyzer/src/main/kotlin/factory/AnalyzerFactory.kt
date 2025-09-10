@@ -23,9 +23,13 @@ object AnalyzerFactory {
 
         return when {
             version.startsWith("1.1") ->
-                DefaultAnalyzer(AnalyzerRuleRegistry.rulesV11(styleChecker, baseConfig.restrictPrintlnArgs))
+                DefaultAnalyzer(
+                    AnalyzerRuleRegistry.rulesV11(styleChecker, baseConfig.restrictPrintlnArgs),
+                )
             else ->
-                DefaultAnalyzer(AnalyzerRuleRegistry.rulesV10(styleChecker, baseConfig.restrictPrintlnArgs))
+                DefaultAnalyzer(
+                    AnalyzerRuleRegistry.rulesV10(styleChecker, baseConfig.restrictPrintlnArgs),
+                )
         }
     }
 }

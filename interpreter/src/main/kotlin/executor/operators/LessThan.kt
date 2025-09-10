@@ -66,7 +66,9 @@ object LessThan : Operator {
         left: Variable,
         right: Variable,
     ): Boolean? {
-        if (left.getType() == CommonTypes.STRING_LITERAL && right.getType() == CommonTypes.STRING_LITERAL) {
+        if (left.getType() == CommonTypes.STRING_LITERAL &&
+            right.getType() == CommonTypes.STRING_LITERAL
+        ) {
             val leftStr = left.getValue()?.toString() ?: ""
             val rightStr = right.getValue()?.toString() ?: ""
             return leftStr < rightStr

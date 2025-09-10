@@ -25,10 +25,19 @@ class AssignmentParser : StatementBuilder {
         if (!isValidResultAndCurrentToken(identifier)) {
             throw Exception("Expected identifier")
         }
-        val assigmentParser = identifier.getParser().consume(CommonTypes.ASSIGNMENT).getParser() // =
+        val assigmentParser =
+            identifier
+                .getParser()
+                .consume(
+                    CommonTypes.ASSIGNMENT,
+                ).getParser()
         val value = assigmentParser.getExpressionParser().parseExpression(assigmentParser)
         val delimiterParser = advancePastSemiColon(value.getParser())
-        val builtStatement = delimiterParser.getNodeBuilder().buildAssignmentStatementNode(parser.peak()!!, value.getExpression())
+        val builtStatement =
+            delimiterParser.getNodeBuilder().buildAssignmentStatementNode(
+                parser.peak()!!,
+                value.getExpression(),
+            )
         return StatementBuiltResult(delimiterParser, builtStatement)
     }
 }

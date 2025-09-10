@@ -26,7 +26,11 @@ class TypeCoercer(
         return if (convertedVariable != null) {
             InterpreterResult(true, "Coercion successful", convertedVariable)
         } else {
-            InterpreterResult(false, "Failed to convert value '$rawValue' to type '$targetType'", null)
+            InterpreterResult(
+                false,
+                "Failed to convert value '$rawValue' to type '$targetType'",
+                null,
+            )
         }
     }
 }

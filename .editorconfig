@@ -1,10 +1,11 @@
 [*.kt]
 
-# Formatter
-# requiere espacios dentro de las llaves. como esta desactivado, no se requieren espacios.
-ktlint_standard_curly-spacing = disabled
-ktlint_standard_max-line-length = 100
 
+max_line_length = 100
+# Formatter
+# requiere espacios dentro de las llaves. como esta desactivado, no se requieren espacios. {} -> { }
+ktlint_standard_curly-spacing = disabled
+ktlint_standard_max-line-length = enabled
 
 # Linter
 # requiere que el nombre del archivo .kt sea el mismo que la clase pública que contiene.

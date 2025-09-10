@@ -37,7 +37,13 @@ class VOnePointOneParserFactory : ParserFactory {
             ExpressionRegistry(
                 listOf(
                     IdentifierBuilder(),
-                    LiteralBuilder(listOf(CommonTypes.NUMBER_LITERAL, CommonTypes.STRING_LITERAL, CommonTypes.BOOLEAN_LITERAL)),
+                    LiteralBuilder(
+                        listOf(
+                            CommonTypes.NUMBER_LITERAL,
+                            CommonTypes.STRING_LITERAL,
+                            CommonTypes.BOOLEAN_LITERAL,
+                        ),
+                    ),
                     DelimitersBuilder(),
                     ReadInputParser(),
                     ReadEnvParser(),
@@ -48,7 +54,13 @@ class VOnePointOneParserFactory : ParserFactory {
                 ExpressionRegistry(
                     listOf(
                         IdentifierBuilder(),
-                        LiteralBuilder(listOf(CommonTypes.NUMBER_LITERAL, CommonTypes.STRING_LITERAL, CommonTypes.BOOLEAN_LITERAL)),
+                        LiteralBuilder(
+                            listOf(
+                                CommonTypes.NUMBER_LITERAL,
+                                CommonTypes.STRING_LITERAL,
+                                CommonTypes.BOOLEAN_LITERAL,
+                            ),
+                        ),
                         DelimitersBuilder(),
                     ),
                 ),
@@ -57,12 +69,56 @@ class VOnePointOneParserFactory : ParserFactory {
         val statementParser =
             StatementParser(
                 listOf(
-                    VariableDeclarationParser(LetEnforcer(IdentifierEnforcer(ColonEnforcer(DataTypeEnforcer(LetAssignmentEnforcer(SemiColonEnforcer()), listOf(CommonTypes.NUMBER, CommonTypes.STRING, CommonTypes.BOOLEAN)))))),
-                    VariableDeclarationParser(ConstEnforcer(IdentifierEnforcer(ConstAssignmentEnforcer(SemiColonEnforcer())))),
-                    VariableDeclarationParser(ConstEnforcer(IdentifierEnforcer(ColonEnforcer(DataTypeEnforcer(ConstAssignmentEnforcer(SemiColonEnforcer()), listOf(CommonTypes.NUMBER, CommonTypes.STRING, CommonTypes.BOOLEAN)))))),
+                    VariableDeclarationParser(
+                        LetEnforcer(
+                            IdentifierEnforcer(
+                                ColonEnforcer(
+                                    DataTypeEnforcer(
+                                        LetAssignmentEnforcer(SemiColonEnforcer()),
+                                        listOf(
+                                            CommonTypes.NUMBER,
+                                            CommonTypes.STRING,
+                                            CommonTypes.BOOLEAN,
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                    VariableDeclarationParser(
+                        ConstEnforcer(
+                            IdentifierEnforcer(ConstAssignmentEnforcer(SemiColonEnforcer())),
+                        ),
+                    ),
+                    VariableDeclarationParser(
+                        ConstEnforcer(
+                            IdentifierEnforcer(
+                                ColonEnforcer(
+                                    DataTypeEnforcer(
+                                        ConstAssignmentEnforcer(SemiColonEnforcer()),
+                                        listOf(
+                                            CommonTypes.NUMBER,
+                                            CommonTypes.STRING,
+                                            CommonTypes.BOOLEAN,
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
                     PrintParser(),
                     AssignmentParser(),
-                    ExpressionParser(mapOf(CommonTypes.NUMBER_LITERAL to true, CommonTypes.STRING_LITERAL to true, CommonTypes.BOOLEAN_LITERAL to true, CommonTypes.IDENTIFIER to true, CommonTypes.OPERATORS to true, CommonTypes.READ_ENV to true, CommonTypes.READ_INPUT to true)),
+                    ExpressionParser(
+                        mapOf(
+                            CommonTypes.NUMBER_LITERAL to true,
+                            CommonTypes.STRING_LITERAL to true,
+                            CommonTypes.BOOLEAN_LITERAL to true,
+                            CommonTypes.IDENTIFIER to true,
+                            CommonTypes.OPERATORS to true,
+                            CommonTypes.READ_ENV to true,
+                            CommonTypes.READ_INPUT to true,
+                        ),
+                    ),
                     IfStatement(),
                 ),
             )
@@ -72,5 +128,12 @@ class VOnePointOneParserFactory : ParserFactory {
     override fun withNewTokens(
         tokens: List<Token>,
         parser: ParserInterface,
-    ): Parser = Parser(tokens, parser.getNodeBuilder(), parser.getExpressionParser(), parser.getStatementParser(), parser.getCurrent())
+    ): Parser =
+        Parser(
+            tokens,
+            parser.getNodeBuilder(),
+            parser.getExpressionParser(),
+            parser.getStatementParser(),
+            parser.getCurrent(),
+        )
 }

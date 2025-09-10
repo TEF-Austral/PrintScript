@@ -8,7 +8,9 @@ import com.github.ajalt.clikt.parameters.types.path
 
 class CLI :
     CliktCommand(
-        help = "A command-line tool for analyzing, formatting, validating, and executing source code",
+        help =
+            "A command-line tool for analyzing, " +
+                "formatting, validating, and executing source code",
         name = "mycli",
     ) {
     override fun run() {

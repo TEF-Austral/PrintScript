@@ -16,7 +16,8 @@ class ConstDeclarationStatementExecutor(
     private val defaultExpressionExecutor: DefaultExpressionExecutor,
     private val typeCoercer: ITypeCoercer, // <-- Inyección de Dependencias
 ) : SpecificStatementExecutor {
-    override fun canHandle(statement: Statement): Boolean = statement is DeclarationStatement && statement.getDeclarationType() == CommonTypes.CONST
+    override fun canHandle(statement: Statement): Boolean =
+        statement is DeclarationStatement && statement.getDeclarationType() == CommonTypes.CONST
 
     override fun execute(statement: Statement): InterpreterResult {
         val declarationStatement = statement as DeclarationStatement
@@ -29,7 +30,11 @@ class ConstDeclarationStatementExecutor(
 
         val initialValueExpression =
             declarationStatement.getInitialValue()
-                ?: return InterpreterResult(false, "Error: Constant '$identifier' must be initialized with a value.", null)
+                ?: return InterpreterResult(
+                    false,
+                    "Error: Constant '$identifier' must be initialized with a value.",
+                    null,
+                )
 
         // 2. Ejecutar la expresión para obtener el valor
         val expressionResult = defaultExpressionExecutor.execute(initialValueExpression)
@@ -39,10 +44,18 @@ class ConstDeclarationStatementExecutor(
 
         val valueFromExpr =
             expressionResult.interpreter
-                ?: return InterpreterResult(false, "Error: Expression for constant '$identifier' did not yield a value.", null)
+                ?: return InterpreterResult(
+                    false,
+                    "Error: Expression for constant '$identifier' did not yield a value.",
+                    null,
+                )
 
         if (valueFromExpr.getValue() == null) {
-            return InterpreterResult(false, "Error: Constant '$identifier' cannot be initialized to null.", null)
+            return InterpreterResult(
+                false,
+                "Error: Constant '$identifier' cannot be initialized to null.",
+                null,
+            )
         }
 
         val declaredType = declarationStatement.getDataType()
@@ -69,6 +82,10 @@ class ConstDeclarationStatementExecutor(
 
         // 4. Añadir la constante a la base de datos
         dataBase.addConstant(identifier, finalConstant)
-        return InterpreterResult(true, "Constant '$identifier' was successfully declared.", finalConstant)
+        return InterpreterResult(
+            true,
+            "Constant '$identifier' was successfully declared.",
+            finalConstant,
+        )
     }
 }
