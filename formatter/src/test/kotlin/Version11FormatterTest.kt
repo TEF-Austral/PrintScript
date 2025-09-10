@@ -4,10 +4,16 @@ import formatter.factory.FormatterFactory
 import formatter.config.FormatConfig
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import transformer.StringToPrintScriptVersion
 import type.CommonTypes
+import type.Version
 
 class Version11FormatterTest {
     private val builder = DefaultNodeBuilder()
+
+    private val transformer = StringToPrintScriptVersion()
+
+    private fun transform(version: String): Version = transformer.transform(version)
 
     private fun tok(
         type: CommonTypes,
@@ -25,7 +31,7 @@ class Version11FormatterTest {
         val ifStmt = builder.buildIfStatementNode(condition, printStmt, null)
         val program = builder.buildProgramNode(listOf(ifStmt))
 
-        val formatter = FormatterFactory.create("1.1")
+        val formatter = FormatterFactory.createWithVersion(transform("1.1"))
         val result = formatter.formatToString(program, FormatConfig())
 
         val expected =
@@ -56,7 +62,7 @@ class Version11FormatterTest {
         val ifStmt = builder.buildIfStatementNode(condition, yesStmt, noStmt)
         val program = builder.buildProgramNode(listOf(ifStmt))
 
-        val formatter = FormatterFactory.create("1.1")
+        val formatter = FormatterFactory.createWithVersion(transform("1.1"))
         val result = formatter.formatToString(program, FormatConfig())
 
         val expected =
@@ -83,7 +89,7 @@ class Version11FormatterTest {
         val program = builder.buildProgramNode(listOf(ifStmt))
 
         val config = FormatConfig(indentSize = 2)
-        val formatter = FormatterFactory.create("1.1")
+        val formatter = FormatterFactory.createWithVersion(transform("1.1"))
         val result = formatter.formatToString(program, config)
 
         val expected =
@@ -111,7 +117,7 @@ class Version11FormatterTest {
             )
         val program = builder.buildProgramNode(listOf(decl))
 
-        val formatter = FormatterFactory.create("1.1")
+        val formatter = FormatterFactory.createWithVersion(transform("1.1"))
         val result = formatter.formatToString(program, FormatConfig())
 
         assertEquals("const pi: Number = 3.14;\n", result)
@@ -136,7 +142,7 @@ class Version11FormatterTest {
         val ifStmt = builder.buildIfStatementNode(condition, constDecl, null)
         val program = builder.buildProgramNode(listOf(ifStmt))
 
-        val formatter = FormatterFactory.create("1.1")
+        val formatter = FormatterFactory.createWithVersion(transform("1.1"))
         val result = formatter.formatToString(program, FormatConfig())
 
         val expected =
@@ -169,7 +175,7 @@ class Version11FormatterTest {
             )
         val program = builder.buildProgramNode(listOf(outerIf))
 
-        val formatter = FormatterFactory.create("1.1")
+        val formatter = FormatterFactory.createWithVersion(transform("1.1"))
         val result = formatter.formatToString(program, FormatConfig())
 
         val expected =
@@ -199,7 +205,7 @@ class Version11FormatterTest {
         val program = builder.buildProgramNode(listOf(ifStmt))
 
         val config = FormatConfig(blankLinesBeforePrintln = 1)
-        val formatter = FormatterFactory.create("1.1")
+        val formatter = FormatterFactory.createWithVersion(transform("1.1"))
         val result = formatter.formatToString(program, config)
 
         val expected =
@@ -244,7 +250,7 @@ class Version11FormatterTest {
                 spaceAroundAssignment = false,
                 indentSize = 2,
             )
-        val formatter = FormatterFactory.create("1.1")
+        val formatter = FormatterFactory.createWithVersion(transform("1.1"))
         val result = formatter.formatToString(program, config)
 
         val expected =
@@ -268,7 +274,7 @@ class Version11FormatterTest {
         val printStmt = builder.buildPrintStatementNode(literal)
         val program = builder.buildProgramNode(listOf(printStmt))
         val config = FormatConfig(blankLinesBeforePrintln = 5)
-        val formatter = FormatterFactory.create("1.1")
+        val formatter = FormatterFactory.createWithVersion(transform("1.1"))
 
         val result = formatter.formatToString(program, config)
         assertEquals("\n\nprintln(\"test\");\n", result)
@@ -283,7 +289,7 @@ class Version11FormatterTest {
         val printStmt = builder.buildPrintStatementNode(literal)
         val program = builder.buildProgramNode(listOf(printStmt))
         val config = FormatConfig(blankLinesBeforePrintln = -2)
-        val formatter = FormatterFactory.create("1.1")
+        val formatter = FormatterFactory.createWithVersion(transform("1.1"))
 
         val result = formatter.formatToString(program, config)
         assertEquals("println(\"test\");\n", result)
@@ -299,7 +305,7 @@ class Version11FormatterTest {
                 initialValue = null,
             )
         val program = builder.buildProgramNode(listOf(decl))
-        val formatter = FormatterFactory.create("1.1")
+        val formatter = FormatterFactory.createWithVersion(transform("1.1"))
 
         val result = formatter.formatToString(program, FormatConfig())
         assertEquals("const pi: Number;\n", result)

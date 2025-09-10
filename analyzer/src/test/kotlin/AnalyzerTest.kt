@@ -17,12 +17,13 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import rules.IdentifierStyle
 import java.io.File
+import type.Version
 
 class AnalyzerTest {
     private fun runAnalyzer(
         stmts: List<Statement>,
         config: AnalyzerConfig = AnalyzerConfig(),
-        version: String = "1.0.0",
+        version: Version = Version.VERSION_1_0,
     ): List<Diagnostic> {
         // write config to temp JSON file
         val tempConfigFile =
@@ -121,7 +122,7 @@ class AnalyzerTest {
         val stmts = listOf(PrintStatement(expr, Position(0, 0)))
 
         // version 1.0.2 should honor restrictPrintlnArgs=false
-        val diags = runAnalyzer(stmts, cfg, version = "1.0.2")
+        val diags = runAnalyzer(stmts, cfg)
         assertTrue(diags.isEmpty())
     }
 
@@ -201,7 +202,7 @@ class AnalyzerTest {
                 Position(0, 0),
             )
         val stmts = listOf(PrintStatement(expr, Position(0, 0)))
-        val analyzer = AnalyzerFactory.create("1.0.0")
+        val analyzer = AnalyzerFactory.create(Version.VERSION_1_0)
         val diags = analyzer.analyze(Program(stmts))
 
         assertEquals(1, diags.size)
@@ -240,7 +241,7 @@ class AnalyzerTest {
             )
 
         // use the factory to load the YAML config
-        val analyzer = AnalyzerFactory.create("1.0.0", tempConfig.absolutePath)
+        val analyzer = AnalyzerFactory.create(Version.VERSION_1_0, tempConfig.absolutePath)
         val diags = analyzer.analyze(Program(stmts))
         assertTrue(diags.isEmpty())
     }

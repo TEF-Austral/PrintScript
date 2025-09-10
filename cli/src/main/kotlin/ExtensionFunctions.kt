@@ -1,11 +1,12 @@
 import factory.AnalyzerFactory
 import factory.DefaultInterpreterFactory
 import formatter.FormatterService
+import type.Version
 
 fun CLI.handleFormatting(
     srcCodePath: String,
     formatterConfigFilePath: String?,
-    version: String,
+    version: Version,
 ): String {
     val program = parseSourceCode(srcCodePath)
     val formatter = FormatterService()
@@ -31,7 +32,7 @@ fun CLI.handleFormatting(
 fun CLI.handleAnalyzing(
     srcCodePath: String,
     analyzerConfigFilePath: String?,
-    version: String,
+    version: Version,
 ): String {
     val program = parseSourceCode(srcCodePath)
     val analyzer = AnalyzerFactory.create(version, analyzerConfigFilePath)
@@ -47,7 +48,7 @@ fun CLI.handleValidation(
     srcCodePath: String,
     analyzerConfigFilePath: String?,
     formatterConfigFilePath: String?,
-    version: String,
+    version: Version,
 ): String {
     val analysisResult = handleAnalyzing(srcCodePath, analyzerConfigFilePath, version)
     val formattingResult = handleFormatting(srcCodePath, formatterConfigFilePath, version)

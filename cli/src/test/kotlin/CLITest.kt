@@ -4,8 +4,14 @@ import kotlin.test.assertTrue
 import org.junit.jupiter.api.Test
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
+import type.Version
+import transformer.StringToPrintScriptVersion
 
 class CLITest {
+    private val transformer = StringToPrintScriptVersion()
+
+    private fun transform(version: String): Version = transformer.transform(version)
+
     @Test
     fun `CLI FORMATTING Test`() {
         val srcPath = "src/test/resources/cliFormattingTest.txt"
@@ -17,7 +23,7 @@ class CLITest {
             cmdCli.handleFormatting(
                 srcPath,
                 formatterConfigPath,
-                "1.0",
+                transform("1.0"),
             )
         val expectedContent = File(expectedPath).readText()
 
@@ -38,7 +44,7 @@ class CLITest {
             cmdCli.handleAnalyzing(
                 srcPath,
                 analyzerConfigPath,
-                "1.0",
+                transform("1.0"),
             )
         val expectedContent = File(expectedPath).readText()
 
@@ -58,7 +64,7 @@ class CLITest {
                 srcPath,
                 analyzerConfigPath,
                 formatterConfigPath,
-                "1.0",
+                transform("1.0"),
             )
         val expectedContent = File(expectedPath).readText()
 

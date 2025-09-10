@@ -9,6 +9,7 @@ import type.CommonTypes
 import java.io.StringWriter
 import java.nio.file.Files
 import java.nio.file.Path
+import type.Version
 
 class FormatterServiceTest {
     @TempDir
@@ -16,7 +17,7 @@ class FormatterServiceTest {
 
     private val builder = DefaultNodeBuilder()
     private val service = FormatterService()
-    private val version = "1.0"
+    private val version = Version.VERSION_1_0
 
     private fun tok(
         type: CommonTypes,

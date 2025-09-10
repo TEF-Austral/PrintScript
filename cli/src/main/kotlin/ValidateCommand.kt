@@ -4,12 +4,19 @@ import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.path
 import kotlin.system.exitProcess
+import type.Version
+import transformer.StringToPrintScriptVersion
 
 class ValidateCommand :
     CliktCommand(
         help = "Validate the source code file (analyze + format preview)",
         name = "validate",
     ) {
+    private val transformer = StringToPrintScriptVersion()
+
+    private fun transform(version: String): Version =
+        transformer.transform(version) // TODO SE PUEDE CMABIAR MAS TARDE
+
     private val srcCodePath by argument(
         name = "SOURCE_FILE",
         help = "Path to the source code file",
@@ -41,7 +48,7 @@ class ValidateCommand :
                     srcCodePath.toString(),
                     analyzerConfigFilePath?.toString(),
                     formatterConfigFilePath?.toString(),
-                    version,
+                    transform(version),
                 )
             echo(result)
         } catch (e: Exception) {

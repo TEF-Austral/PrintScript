@@ -8,10 +8,13 @@ import rules.CamelCaseChecker
 import rules.IdentifierStyle
 import rules.SnakeCaseChecker
 import rules.AnalyzerRuleRegistry
+import type.Version
+import type.Version.VERSION_1_1
+import type.Version.VERSION_1_0
 
 object AnalyzerFactory {
     fun create(
-        version: String,
+        version: Version,
         configPath: String? = null,
     ): Analyzer {
         val baseConfig = configPath?.let(AnalyzerConfigLoader::load) ?: AnalyzerConfig()
@@ -21,12 +24,12 @@ object AnalyzerFactory {
                 IdentifierStyle.SNAKE_CASE -> SnakeCaseChecker()
             }
 
-        return when {
-            version.startsWith("1.1") ->
+        return when (version) {
+            VERSION_1_1 ->
                 DefaultAnalyzer(
                     AnalyzerRuleRegistry.rulesV11(styleChecker, baseConfig.restrictPrintlnArgs),
                 )
-            else ->
+            VERSION_1_0 ->
                 DefaultAnalyzer(
                     AnalyzerRuleRegistry.rulesV10(styleChecker, baseConfig.restrictPrintlnArgs),
                 )
