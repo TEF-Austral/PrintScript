@@ -9,11 +9,22 @@ import parser.statement.expression.ExpressionParsingBuilder
 import type.Version
 
 sealed interface ParserFactory {
+    fun createWithVersion(
+        version: Version,
+        nodeBuilder: NodeBuilder = DefaultNodeBuilder(),
+        tokenList: List<Token> = emptyList(),
+    ): ParserInterface
 
-    fun createWithVersion(version: Version, nodeBuilder: NodeBuilder = DefaultNodeBuilder(),tokenList: List<Token> = emptyList()): ParserInterface
+    fun createDefault(
+        nodeBuilder: NodeBuilder = DefaultNodeBuilder(),
+        tokenList: List<Token> = emptyList(),
+    ): ParserInterface
 
-    fun createDefault(nodeBuilder: NodeBuilder = DefaultNodeBuilder(),tokenList: List<Token> = emptyList()): ParserInterface
-
-    fun createCustomParser(nodeBuilder: NodeBuilder, tokenList: List<Token>,expressionParser: ExpressionParsingBuilder,statementParser: StatementParser,current: Int): ParserInterface
-
+    fun createCustomParser(
+        nodeBuilder: NodeBuilder,
+        tokenList: List<Token>,
+        expressionParser: ExpressionParsingBuilder,
+        statementParser: StatementParser,
+        current: Int,
+    ): ParserInterface
 }
