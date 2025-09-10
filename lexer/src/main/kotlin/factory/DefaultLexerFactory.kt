@@ -32,10 +32,9 @@ data class DefaultLexerFactory(
         return DefaultLexer(splitter, converters)
     }
 
-    override fun createLexerWithVersion(version: Version): Lexer {
-        return when(version){
+    override fun createLexerWithVersion(version: Version): Lexer =
+        when (version){
             VERSION_1_0 -> createVersionOne()
             VERSION_1_1 -> createVersionOnePointOne()
         }
-    }
 }
