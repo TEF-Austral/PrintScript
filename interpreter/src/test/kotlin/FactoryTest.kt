@@ -46,7 +46,7 @@ class FactoryTest {
         }
     }
 
-    private class dummyDataBase : DataBase {
+    private class DummyDataBase : DataBase {
         private val variables = mutableMapOf<String, Variable>()
         private val constants = mutableMapOf<String, Variable>()
 
@@ -169,7 +169,7 @@ class FactoryTest {
                 listOf(mockExpressionExecutor),
                 listOf(mockStatementExecutor),
                 TestEmitter(),
-                database = dummyDataBase(),
+                database = DummyDataBase(),
             )
 
         interpreter.interpret(dummyStatement)

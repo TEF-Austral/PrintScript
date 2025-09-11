@@ -13,7 +13,7 @@ import variable.Variable
 
 class ReadEnvTest {
 
-    class dummyDataBase : DataBase {
+    class DummyDataBase : DataBase {
         private val variables = mutableMapOf<String, Variable>()
         private val constants = mutableMapOf<String, Variable>()
 
@@ -63,7 +63,7 @@ class ReadEnvTest {
         val expression = ReadEnvExpression(envVarName, Position(0, 0))
         val executor = ReadEnvExpressionExecutor()
 
-        val result = executor.execute(expression, database = dummyDataBase())
+        val result = executor.execute(expression, database = DummyDataBase())
 
         assertTrue(result.interpretedCorrectly)
         assertNotNull(result.interpreter)
@@ -78,7 +78,7 @@ class ReadEnvTest {
         val expression = ReadEnvExpression(envVarName, Position(0, 0))
         val executor = ReadEnvExpressionExecutor()
 
-        val result = executor.execute(expression, dummyDataBase())
+        val result = executor.execute(expression, DummyDataBase())
 
         assertFalse(result.interpretedCorrectly)
         assertNull(result.interpreter)
