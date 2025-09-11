@@ -2,9 +2,9 @@ package factory
 
 import DefaultInterpreter
 import Interpreter
-import data.DefaultDataBase
+import data.DataBase
+import emitter.Emitter
 import type.Version
-
 
 class DefaultInterpreterFactory : InterpreterFactory {
 
@@ -14,13 +14,26 @@ class DefaultInterpreterFactory : InterpreterFactory {
             Version.VERSION_1_1 -> InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         }
 
+    fun createWithVersionAndEmitter(
+        version: Version,
+        emitter: Emitter,
+    ): Interpreter =
+        when (version) {
+            Version.VERSION_1_0 -> InterpreterFactoryVersionOne.createDefaultInterpreter(emitter)
+            Version.VERSION_1_1 ->
+                InterpreterFactoryVersionOnePointOne.createDefaultInterpreter(
+                    emitter,
+                )
+        }
+
     override fun createCustomInterpreter(
         specificExpressionExecutors: List<executor.expression.SpecificExpressionExecutor>,
         specificStatementExecutor: List<executor.statement.SpecificStatementExecutor>,
-        emitter: emitter.Emitter,
+        emitter: Emitter,
+        database: DataBase,
     ): DefaultInterpreter =
         DefaultInterpreter(
-            DefaultDataBase(),
+            database = database,
             executor.expression.DefaultExpressionExecutor(specificExpressionExecutors),
             executor.statement.DefaultStatementExecutor(specificStatementExecutor),
         )
