@@ -2,6 +2,8 @@ package factory
 
 import DefaultInterpreter
 import Interpreter
+import data.DataBase
+import data.DefaultDataBase
 import emitter.Emitter
 import executor.expression.SpecificExpressionExecutor
 import executor.statement.SpecificStatementExecutor
@@ -15,5 +17,6 @@ interface InterpreterFactory {
         specificExpressionExecutors: List<SpecificExpressionExecutor>,
         specificStatementExecutor: List<SpecificStatementExecutor>,
         emitter: Emitter,
+        database: DataBase
     ): DefaultInterpreter
 }
