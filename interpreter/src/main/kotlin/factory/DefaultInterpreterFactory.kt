@@ -1,110 +1,26 @@
 package factory
 
 import DefaultInterpreter
+import Interpreter
 import data.DefaultDataBase
-import emitter.PrintEmitter
-import executor.coercer.StringToBooleanConverter
-import executor.coercer.StringToNumberConverter
-import executor.coercer.StringToStringConverter
-import executor.coercer.TypeCoercer
-import executor.expression.BinaryExpressionExecutor
-import executor.expression.DefaultExpressionExecutor
-import executor.expression.IdentifierExpressionExecutor
-import executor.expression.LiteralExpressionExecutor
-import executor.expression.ReadEnvExpressionExecutor
-import executor.expression.ReadInputExpressionExecutor
-import executor.expression.SpecificExpressionExecutor
-import executor.operators.LogicalAnd
-import executor.operators.LogicalOr
-import executor.operators.Multiplication
-import executor.operators.Subtraction
-import executor.statement.AssignmentStatementExecutor
-import executor.statement.ConstDeclarationStatementExecutor
-import executor.statement.DeclarationStatementExecutor
-import executor.statement.DefaultStatementExecutor
-import executor.statement.ExpressionStatementExecutor
-import executor.statement.IfStatementExecutor
-import executor.statement.LetDeclarationStatement
-import executor.statement.PrintStatementExecutor
-import executor.statement.SpecificStatementExecutor
-import executor.operators.Operator
-import executor.operators.Sum
-import executor.operators.Divide
+import type.Version
 
-object DefaultInterpreterFactory {
-    val operators: List<Operator> =
-        listOf(Sum, Divide, Multiplication, Subtraction, LogicalOr, LogicalAnd)
+class DefaultInterpreterFactory : InterpreterFactory {
 
-    private val coercers: TypeCoercer =
-        TypeCoercer(
-            listOf(
-                StringToNumberConverter(),
-                StringToBooleanConverter(),
-                StringToStringConverter(),
-            ),
+    override fun createWithVersion(version: Version): Interpreter =
+        when (version) {
+            Version.VERSION_1_0 -> InterpreterFactoryVersionOne.createDefaultInterpreter()
+            Version.VERSION_1_1 -> InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
+        }
+
+    override fun createCustomInterpreter(
+        specificExpressionExecutors: List<executor.expression.SpecificExpressionExecutor>,
+        specificStatementExecutor: List<executor.statement.SpecificStatementExecutor>,
+        emitter: emitter.Emitter,
+    ): DefaultInterpreter =
+        DefaultInterpreter(
+            DefaultDataBase(),
+            executor.expression.DefaultExpressionExecutor(specificExpressionExecutors),
+            executor.statement.DefaultStatementExecutor(specificStatementExecutor),
         )
-
-    fun createDefaultInterpreter(): DefaultInterpreter {
-        // Create a fresh database instance for each interpreter
-        val dataBase = DefaultDataBase()
-
-        val identifierAndLiteralExecutors: List<SpecificExpressionExecutor> =
-            listOf(
-                IdentifierExpressionExecutor(),
-                LiteralExpressionExecutor(),
-            )
-
-        val allSpecificExpressionExecutors: List<SpecificExpressionExecutor> =
-            listOf(
-                BinaryExpressionExecutor(expressions = identifierAndLiteralExecutors),
-                IdentifierExpressionExecutor(),
-                LiteralExpressionExecutor(),
-                ReadInputExpressionExecutor(PrintEmitter()),
-                ReadEnvExpressionExecutor(),
-            )
-
-        val expressionExecutor = DefaultExpressionExecutor(allSpecificExpressionExecutors)
-
-        val statementSpecialists = mutableListOf<SpecificStatementExecutor>()
-
-        val mainStatementExecutor = DefaultStatementExecutor(statementSpecialists)
-
-        val constDeclaration =
-            ConstDeclarationStatementExecutor(dataBase, expressionExecutor, coercers)
-        val letDeclaration = LetDeclarationStatement(expressionExecutor, coercers)
-
-        val declarationExecutor =
-            DeclarationStatementExecutor(
-                expressionExecutor,
-                listOf(constDeclaration, letDeclaration),
-            )
-
-        val assignmentExecutor = AssignmentStatementExecutor(expressionExecutor)
-        val printExecutor = PrintStatementExecutor(expressionExecutor, PrintEmitter())
-        val expressionStatementExecutor = ExpressionStatementExecutor(expressionExecutor)
-
-        val ifExecutor = IfStatementExecutor(expressionExecutor, mainStatementExecutor)
-
-        statementSpecialists.add(declarationExecutor)
-        statementSpecialists.add(assignmentExecutor)
-        statementSpecialists.add(printExecutor)
-        statementSpecialists.add(ifExecutor)
-        statementSpecialists.add(expressionStatementExecutor)
-
-        return DefaultInterpreter(dataBase, expressionExecutor, mainStatementExecutor)
-    }
-
-    fun createCustomInterpreter(
-        specificExpressionExecutors: List<SpecificExpressionExecutor>,
-        specificStatementExecutor: List<SpecificStatementExecutor>,
-    ): DefaultInterpreter {
-        // Create a fresh database for custom interpreter as well
-        val dataBase = DefaultDataBase()
-
-        return DefaultInterpreter(
-            dataBase,
-            DefaultExpressionExecutor(specificExpressionExecutors),
-            DefaultStatementExecutor(specificStatementExecutor),
-        )
-    }
 }

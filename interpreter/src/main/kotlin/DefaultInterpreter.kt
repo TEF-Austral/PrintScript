@@ -29,9 +29,12 @@ class DefaultInterpreter(
         return executeStatements(statements, 0)
     }
 
-    private fun executeStatements(statements: List<Statement>, currentIndex: Int): InterpreterResult {
+    private fun executeStatements(
+        statements: List<Statement>,
+        currentIndex: Int,
+    ): InterpreterResult {
         if (currentIndex >= statements.size) {
-            return InterpreterResult(true, "Program executed successfully",null, database)
+            return InterpreterResult(true, "Program executed successfully", null, database)
         }
 
         val currentStatement = statements[currentIndex]
@@ -45,7 +48,8 @@ class DefaultInterpreter(
             if (currentIndex + 1 < statements.size) {
                 val remainingStatements = statements.subList(currentIndex + 1, statements.size)
                 val newProgram = Program(remainingStatements)
-                val newInterpreter = DefaultInterpreter(newDatabase, expression, defaultStatementExecutor)
+                val newInterpreter =
+                    DefaultInterpreter(newDatabase, expression, defaultStatementExecutor)
                 return newInterpreter.interpret(newProgram)
             } else {
                 return InterpreterResult(true, "Program executed successfully", null, newDatabase)

@@ -1,5 +1,5 @@
 import coordinates.Position
-import factory.DefaultInterpreterFactory
+import factory.InterpreterFactoryVersionOnePointOne
 import node.BinaryExpression
 import node.LiteralExpression
 import node.PrintStatement
@@ -56,7 +56,7 @@ class ComparisonOperatorTest {
                     ),
                 coordinates = Position(0, 0),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
@@ -105,7 +105,7 @@ class ComparisonOperatorTest {
                     ),
                 coordinates = Position(0, 0),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
@@ -154,7 +154,7 @@ class ComparisonOperatorTest {
                     ),
                 coordinates = Position(0, 0),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
@@ -201,7 +201,7 @@ class ComparisonOperatorTest {
                     ),
                 coordinates = Position(0, 0),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
         assertFalse(result.interpretedCorrectly)
         assertEquals(
@@ -253,7 +253,7 @@ class ComparisonOperatorTest {
                     ),
                 coordinates = Position(0, 0),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
@@ -302,7 +302,7 @@ class ComparisonOperatorTest {
                     ),
                 coordinates = Position(0, 0),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
@@ -349,7 +349,7 @@ class ComparisonOperatorTest {
                     ),
                 coordinates = Position(0, 0),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
         assertFalse(result.interpretedCorrectly)
         assertEquals(
@@ -401,7 +401,7 @@ class ComparisonOperatorTest {
                     ),
                 coordinates = Position(0, 0),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
@@ -450,7 +450,7 @@ class ComparisonOperatorTest {
                     ),
                 coordinates = Position(0, 0),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
@@ -499,7 +499,7 @@ class ComparisonOperatorTest {
                     ),
                 coordinates = Position(0, 0),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
@@ -548,7 +548,7 @@ class ComparisonOperatorTest {
                     ),
                 coordinates = Position(0, 0),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
@@ -597,7 +597,7 @@ class ComparisonOperatorTest {
                     ),
                 coordinates = Position(0, 0),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
@@ -646,7 +646,7 @@ class ComparisonOperatorTest {
                     ),
                 coordinates = Position(0, 0),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("false", outputStream.toString().trim())
@@ -695,7 +695,7 @@ class ComparisonOperatorTest {
                     ),
                 coordinates = Position(0, 0),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())

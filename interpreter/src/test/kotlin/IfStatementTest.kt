@@ -1,5 +1,5 @@
 import coordinates.Position
-import factory.DefaultInterpreterFactory
+import factory.InterpreterFactoryVersionOnePointOne
 import node.BinaryExpression
 import node.DeclarationStatement
 import node.IdentifierExpression
@@ -72,7 +72,7 @@ class IfStatementTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(program)
 
         assertTrue(result.interpretedCorrectly, "Program should execute successfully.")
@@ -135,7 +135,7 @@ class IfStatementTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(program)
 
         assertTrue(result.interpretedCorrectly, "Program should execute successfully.")
@@ -224,7 +224,7 @@ class IfStatementTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(program)
 
         assertTrue(result.interpretedCorrectly, "Program should execute successfully.")
@@ -313,7 +313,7 @@ class IfStatementTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(program)
 
         assertTrue(result.interpretedCorrectly, "Program should execute successfully.")
@@ -363,7 +363,7 @@ class IfStatementTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(program)
 
         assertTrue(result.interpretedCorrectly, "Program should execute successfully.")
@@ -413,7 +413,7 @@ class IfStatementTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(program)
 
         assertTrue(result.interpretedCorrectly, "Program should execute successfully.")
@@ -557,7 +557,7 @@ class IfStatementTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(program)
 
         assertTrue(result.interpretedCorrectly, "Program should execute successfully.")
@@ -631,7 +631,7 @@ class IfStatementTest {
                         ),
                     ),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("both true", outputStream.toString().trim())
@@ -703,7 +703,7 @@ class IfStatementTest {
                         ),
                     ),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("something false", outputStream.toString().trim())
@@ -775,7 +775,7 @@ class IfStatementTest {
                         ),
                     ),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("at least one is true", outputStream.toString().trim())
@@ -847,7 +847,7 @@ class IfStatementTest {
                         ),
                     ),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("both false", outputStream.toString().trim())
@@ -988,7 +988,7 @@ class IfStatementTest {
                         ),
                     ),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("complex true", outputStream.toString().trim())
@@ -1060,7 +1060,7 @@ class IfStatementTest {
                         ),
                     ),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("correct", outputStream.toString().trim())
@@ -1132,7 +1132,7 @@ class IfStatementTest {
                         ),
                     ),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("correct", outputStream.toString().trim())
@@ -1254,7 +1254,7 @@ class IfStatementTest {
                         ),
                     ),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("equal", outputStream.toString().trim())
@@ -1326,7 +1326,7 @@ class IfStatementTest {
                         ),
                     ),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("correct", outputStream.toString().trim())

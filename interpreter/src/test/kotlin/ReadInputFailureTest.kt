@@ -1,5 +1,5 @@
 import coordinates.Position
-import factory.DefaultInterpreterFactory
+import factory.InterpreterFactoryVersionOnePointOne
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
@@ -69,7 +69,7 @@ class ReadInputFailureTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
 
         assertFalse(
@@ -113,7 +113,7 @@ class ReadInputFailureTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result = interpreter.interpret(program)
 
         assertFalse(result.interpretedCorrectly)

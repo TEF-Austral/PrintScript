@@ -1,4 +1,4 @@
-import converter.StringToTokenConverterFactory
+import factory.StringToTokenConverterFactory
 import converter.specific.DelimiterToToken
 import converter.specific.NumberLiteralToToken
 import converter.specific.OperatorToToken

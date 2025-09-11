@@ -4,6 +4,8 @@ import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.path
 import kotlin.system.exitProcess
+import type.Version
+import transformer.StringToPrintScriptVersion
 
 class FormatCommand :
     CliktCommand(
@@ -14,6 +16,11 @@ class FormatCommand :
         name = "SOURCE_FILE",
         help = "Path to the source code file",
     ).path(mustExist = true, canBeDir = false, mustBeReadable = true)
+
+    private val transformer = StringToPrintScriptVersion()
+
+    private fun transform(version: String): Version =
+        transformer.transform(version) // TODO SE PUEDE CMABIAR MAS TARDE
 
     private val formatterConfigFilePath by option(
         "-c",
@@ -34,7 +41,7 @@ class FormatCommand :
                 cli.handleFormatting(
                     srcCodePath.toString(),
                     formatterConfigFilePath?.toString(),
-                    version,
+                    transform(version),
                 )
             echo(result)
         } catch (e: Exception) {
