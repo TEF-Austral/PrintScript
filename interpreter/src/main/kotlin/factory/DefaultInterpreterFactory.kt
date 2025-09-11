@@ -32,24 +32,8 @@ import executor.operators.Sum
 import executor.operators.Divide
 
 object DefaultInterpreterFactory {
-    private val dataBase: DefaultDataBase = DefaultDataBase()
     val operators: List<Operator> =
         listOf(Sum, Divide, Multiplication, Subtraction, LogicalOr, LogicalAnd)
-
-    private val identifierAndLiteralExecutors: List<SpecificExpressionExecutor> =
-        listOf(
-            IdentifierExpressionExecutor(dataBase),
-            LiteralExpressionExecutor(),
-        )
-
-    private val allSpecificExpressionExecutors: List<SpecificExpressionExecutor> =
-        listOf(
-            BinaryExpressionExecutor(expressions = identifierAndLiteralExecutors),
-            IdentifierExpressionExecutor(dataBase),
-            LiteralExpressionExecutor(),
-            ReadInputExpressionExecutor(PrintEmitter()),
-            ReadEnvExpressionExecutor(),
-        )
 
     private val coercers: TypeCoercer =
         TypeCoercer(
@@ -61,7 +45,23 @@ object DefaultInterpreterFactory {
         )
 
     fun createDefaultInterpreter(): DefaultInterpreter {
-        dataBase.clear()
+        // Create a fresh database instance for each interpreter
+        val dataBase = DefaultDataBase()
+
+        val identifierAndLiteralExecutors: List<SpecificExpressionExecutor> =
+            listOf(
+                IdentifierExpressionExecutor(),
+                LiteralExpressionExecutor(),
+            )
+
+        val allSpecificExpressionExecutors: List<SpecificExpressionExecutor> =
+            listOf(
+                BinaryExpressionExecutor(expressions = identifierAndLiteralExecutors),
+                IdentifierExpressionExecutor(),
+                LiteralExpressionExecutor(),
+                ReadInputExpressionExecutor(PrintEmitter()),
+                ReadEnvExpressionExecutor(),
+            )
 
         val expressionExecutor = DefaultExpressionExecutor(allSpecificExpressionExecutors)
 
@@ -71,16 +71,15 @@ object DefaultInterpreterFactory {
 
         val constDeclaration =
             ConstDeclarationStatementExecutor(dataBase, expressionExecutor, coercers)
-        val letDeclaration = LetDeclarationStatement(dataBase, expressionExecutor, coercers)
+        val letDeclaration = LetDeclarationStatement(expressionExecutor, coercers)
 
         val declarationExecutor =
             DeclarationStatementExecutor(
-                dataBase,
                 expressionExecutor,
                 listOf(constDeclaration, letDeclaration),
             )
 
-        val assignmentExecutor = AssignmentStatementExecutor(dataBase, expressionExecutor)
+        val assignmentExecutor = AssignmentStatementExecutor(expressionExecutor)
         val printExecutor = PrintStatementExecutor(expressionExecutor, PrintEmitter())
         val expressionStatementExecutor = ExpressionStatementExecutor(expressionExecutor)
 
@@ -92,15 +91,20 @@ object DefaultInterpreterFactory {
         statementSpecialists.add(ifExecutor)
         statementSpecialists.add(expressionStatementExecutor)
 
-        return DefaultInterpreter(expressionExecutor, mainStatementExecutor)
+        return DefaultInterpreter(dataBase, expressionExecutor, mainStatementExecutor)
     }
 
     fun createCustomInterpreter(
         specificExpressionExecutors: List<SpecificExpressionExecutor>,
         specificStatementExecutor: List<SpecificStatementExecutor>,
-    ): DefaultInterpreter =
-        DefaultInterpreter(
+    ): DefaultInterpreter {
+        // Create a fresh database for custom interpreter as well
+        val dataBase = DefaultDataBase()
+
+        return DefaultInterpreter(
+            dataBase,
             DefaultExpressionExecutor(specificExpressionExecutors),
             DefaultStatementExecutor(specificStatementExecutor),
         )
+    }
 }

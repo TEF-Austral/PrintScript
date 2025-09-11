@@ -1,5 +1,6 @@
 package executor.expression
 
+import data.DataBase
 import executor.operators.Divide
 import executor.operators.Equals
 import executor.operators.GraterThan
@@ -37,27 +38,36 @@ class BinaryExpressionExecutor(
 ) : SpecificExpressionExecutor {
     override fun canHandle(expression: Expression): Boolean = expression is BinaryExpression
 
-    override fun execute(expression: Expression): InterpreterResult =
+    override fun execute(
+        expression: Expression,
+        database: DataBase,
+    ): InterpreterResult =
         try {
             val binaryExpr = expression as BinaryExpression
-            executeBinaryExpression(binaryExpr)
+            executeBinaryExpression(binaryExpr, database)
         } catch (e: Exception) {
             createErrorResult("Error executing binary expression: ${e.message}")
         }
 
-    private fun executeBinaryExpression(expression: BinaryExpression): InterpreterResult {
-        val leftResult = executeSubExpression(expression.getLeft())
+    private fun executeBinaryExpression(
+        expression: BinaryExpression,
+        database: DataBase,
+    ): InterpreterResult {
+        val leftResult = executeSubExpression(expression.getLeft(), database)
         if (!leftResult.interpretedCorrectly) return leftResult
 
-        val rightResult = executeSubExpression(expression.getRight())
+        val rightResult = executeSubExpression(expression.getRight(), database)
         if (!rightResult.interpretedCorrectly) return rightResult
 
         return evaluateOperation(leftResult, rightResult, expression.getOperator())
     }
 
-    private fun executeSubExpression(expression: Expression): InterpreterResult {
+    private fun executeSubExpression(
+        expression: Expression,
+        database: DataBase,
+    ): InterpreterResult {
         val executor = findExecutorFor(expression)
-        return executor?.execute(expression)
+        return executor?.execute(expression, database)
             ?: createErrorResult("No executor found for expression type")
     }
 

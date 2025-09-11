@@ -1,5 +1,6 @@
 package executor.expression
 
+import data.DataBase
 import emitter.Emitter
 import node.Expression
 import node.ReadInputExpression
@@ -12,7 +13,10 @@ class ReadInputExpressionExecutor(
 ) : SpecificExpressionExecutor {
     override fun canHandle(expression: Expression): Boolean = expression is ReadInputExpression
 
-    override fun execute(expression: Expression): InterpreterResult {
+    override fun execute(
+        expression: Expression,
+        database: DataBase,
+    ): InterpreterResult {
         val readInputExpression = expression as ReadInputExpression
 
         emitter.stringEmit(readInputExpression.printValue())
