@@ -30,14 +30,14 @@ object InterpreterFactoryVersionOnePointOne {
 
     private val identifierAndLiteralExecutors: List<SpecificExpressionExecutor> =
         listOf(
-            IdentifierExpressionExecutor(dataBase),
+            IdentifierExpressionExecutor(),
             LiteralExpressionExecutor(),
         )
 
     private val allSpecificExpressionExecutors: List<SpecificExpressionExecutor> =
         listOf(
             BinaryExpressionExecutor(expressions = identifierAndLiteralExecutors),
-            IdentifierExpressionExecutor(dataBase),
+            IdentifierExpressionExecutor(),
             LiteralExpressionExecutor(),
             ReadInputExpressionExecutor(PrintEmitter()),
             ReadEnvExpressionExecutor(),

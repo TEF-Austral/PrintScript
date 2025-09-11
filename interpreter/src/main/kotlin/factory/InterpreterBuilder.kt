@@ -31,16 +31,15 @@ internal object InterpreterBuilder {
 
         val constDeclaration =
             ConstDeclarationStatementExecutor(dataBase, expressionExecutor, coercers)
-        val letDeclaration = LetDeclarationStatement(dataBase, expressionExecutor, coercers)
+        val letDeclaration = LetDeclarationStatement(expressionExecutor, coercers)
 
         val declarationExecutor =
             DeclarationStatementExecutor(
-                dataBase,
                 expressionExecutor,
                 listOf(constDeclaration, letDeclaration),
             )
 
-        val assignmentExecutor = AssignmentStatementExecutor(dataBase, expressionExecutor)
+        val assignmentExecutor = AssignmentStatementExecutor(expressionExecutor)
         val printExecutor = PrintStatementExecutor(expressionExecutor, PrintEmitter())
         val expressionStatementExecutor = ExpressionStatementExecutor(expressionExecutor)
         val ifExecutor = IfStatementExecutor(expressionExecutor, mainStatementExecutor)
@@ -51,6 +50,6 @@ internal object InterpreterBuilder {
         statementSpecialists.add(ifExecutor)
         statementSpecialists.add(expressionStatementExecutor)
 
-        return DefaultInterpreter(expressionExecutor, mainStatementExecutor)
+        return DefaultInterpreter(dataBase, expressionExecutor, mainStatementExecutor)
     }
 }

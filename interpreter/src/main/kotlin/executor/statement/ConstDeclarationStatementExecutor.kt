@@ -19,7 +19,10 @@ class ConstDeclarationStatementExecutor(
     override fun canHandle(statement: Statement): Boolean =
         statement is DeclarationStatement && statement.getDeclarationType() == CommonTypes.CONST
 
-    override fun execute(statement: Statement): InterpreterResult {
+    override fun execute(
+        statement: Statement,
+        database: DataBase,
+    ): InterpreterResult {
         val declarationStatement = statement as DeclarationStatement
         val identifier = declarationStatement.getIdentifier()
 
@@ -37,7 +40,7 @@ class ConstDeclarationStatementExecutor(
                 )
 
         // 2. Ejecutar la expresión para obtener el valor
-        val expressionResult = defaultExpressionExecutor.execute(initialValueExpression)
+        val expressionResult = defaultExpressionExecutor.execute(initialValueExpression, database)
         if (!expressionResult.interpretedCorrectly) {
             return expressionResult
         }
@@ -80,12 +83,13 @@ class ConstDeclarationStatementExecutor(
             finalConstant = Variable(declaredType, valueFromExpr.getValue())
         }
 
-        // 4. Añadir la constante a la base de datos
-        dataBase.addConstant(identifier, finalConstant)
+        // 4. Añadir la constante a la base de datos (crear nueva instancia inmutable)
+        val newDatabase = dataBase.addConstant(identifier, finalConstant)
         return InterpreterResult(
             true,
             "Constant '$identifier' was successfully declared.",
             finalConstant,
+            newDatabase,
         )
     }
 }

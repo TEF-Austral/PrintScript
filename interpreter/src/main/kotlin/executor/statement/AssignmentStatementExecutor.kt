@@ -9,45 +9,53 @@ import utils.areTypesCompatible
 import variable.Variable
 
 class AssignmentStatementExecutor(
-    private val dataBase: DataBase,
     private val defaultExpressionExecutor: DefaultExpressionExecutor,
 ) : SpecificStatementExecutor {
     override fun canHandle(statement: Statement): Boolean = statement is AssignmentStatement
 
-    override fun execute(statement: Statement): InterpreterResult {
+    override fun execute(
+        statement: Statement,
+        database: DataBase,
+    ): InterpreterResult {
         return try {
             val assignStmt = statement as AssignmentStatement
             val identifier = assignStmt.getIdentifier()
 
-            if (isConstant(identifier)) {
+            if (isConstant(identifier, database)) {
                 return createConstantReassignmentError(identifier)
             }
 
             val existingVariable =
-                getVariable(identifier)
+                getVariable(identifier, database)
                     ?: return createVariableNotFoundError(identifier)
 
-            val expressionResult = evaluateExpression(assignStmt)
+            val expressionResult = evaluateExpression(assignStmt, database)
             if (!expressionResult.interpretedCorrectly) return expressionResult
 
             val newValue =
                 getNewValueFromResult(expressionResult)
                     ?: return createNoValueError()
 
-            assignValueIfCompatible(identifier, existingVariable, newValue)
+            assignValueIfCompatible(identifier, existingVariable, newValue, database)
         } catch (e: Exception) {
             createGenericError(e)
         }
     }
 
-    private fun isConstant(identifier: String): Boolean =
-        dataBase.getConstantValue(identifier) != null
+    private fun isConstant(
+        identifier: String,
+        database: DataBase,
+    ): Boolean = database.getConstantValue(identifier) != null
 
-    private fun getVariable(identifier: String): Variable? =
-        dataBase.getVariableValue(identifier) as? Variable //
+    private fun getVariable(
+        identifier: String,
+        database: DataBase,
+    ): Variable? = database.getVariableValue(identifier) as? Variable //
 
-    private fun evaluateExpression(statement: AssignmentStatement): InterpreterResult =
-        defaultExpressionExecutor.execute(statement.getValue())
+    private fun evaluateExpression(
+        statement: AssignmentStatement,
+        database: DataBase,
+    ): InterpreterResult = defaultExpressionExecutor.execute(statement.getValue(), database)
 
     private fun getNewValueFromResult(result: InterpreterResult): Variable? = result.interpreter
 
@@ -55,13 +63,24 @@ class AssignmentStatementExecutor(
         id: String,
         oldVar: Variable,
         newVal: Variable,
+        database: DataBase,
     ): InterpreterResult {
         if (!areTypesCompatible(oldVar.getType(), newVal.getType())) {
             return createTypeMismatchError(id, oldVar.getType(), newVal.getType())
         }
 
-        dataBase.changeVariableValue(id, Variable(oldVar.getType(), newVal.getValue()))
-        return createSuccessResult()
+        // Create new database instance with updated variable value
+        val newDatabase =
+            database.changeVariableValue(
+                id,
+                Variable(oldVar.getType(), newVal.getValue()),
+            )
+        return InterpreterResult(
+            true,
+            "Assignment executed successfully",
+            null,
+            newDatabase,
+        )
     }
 
     private fun createConstantReassignmentError(id: String) =
@@ -81,9 +100,6 @@ class AssignmentStatementExecutor(
         "Error: Type mismatch. Cannot assign type '$newType' to variable '$id' of type '$oldType'",
         null,
     )
-
-    private fun createSuccessResult() =
-        InterpreterResult(true, "Assignment executed successfully", null)
 
     private fun createGenericError(e: Exception) =
         InterpreterResult(false, "Error executing assignment statement: ${e.message}", null)

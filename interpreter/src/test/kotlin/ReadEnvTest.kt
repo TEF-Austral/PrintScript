@@ -1,4 +1,5 @@
 import coordinates.Position
+import data.DefaultDataBase
 import executor.expression.ReadEnvExpressionExecutor
 import node.ReadEnvExpression
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -16,7 +17,7 @@ class ReadEnvTest {
         val expression = ReadEnvExpression(envVarName, Position(0, 0))
         val executor = ReadEnvExpressionExecutor()
 
-        val result = executor.execute(expression)
+        val result = executor.execute(expression, DefaultDataBase())
 
         assertTrue(result.interpretedCorrectly)
         assertNotNull(result.interpreter)
@@ -31,7 +32,7 @@ class ReadEnvTest {
         val expression = ReadEnvExpression(envVarName, Position(0, 0))
         val executor = ReadEnvExpressionExecutor()
 
-        val result = executor.execute(expression)
+        val result = executor.execute(expression, DefaultDataBase())
 
         assertFalse(result.interpretedCorrectly)
         assertNull(result.interpreter)

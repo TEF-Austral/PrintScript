@@ -3,24 +3,24 @@ package data
 import variable.Variable
 
 interface DataBase {
-    fun getVariables(): MutableMap<String, Variable>
+    fun getVariables(): Map<String, Variable>
 
-    fun getConstants(): MutableMap<String, Variable>
+    fun getConstants(): Map<String, Variable>
 
     fun addVariable(
         key: String,
         value: Variable,
-    )
+    ): DataBase
 
     fun addConstant(
         key: String,
         value: Variable,
-    )
+    ): DataBase
 
     fun changeVariableValue(
         key: String,
         value: Variable,
-    )
+    ): DataBase
 
     fun getVariableValue(key: String): Any?
 

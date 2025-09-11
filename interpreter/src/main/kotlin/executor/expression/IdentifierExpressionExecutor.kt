@@ -6,17 +6,18 @@ import node.IdentifierExpression
 import result.InterpreterResult
 import variable.Variable
 
-class IdentifierExpressionExecutor(
-    private val dataBase: DataBase,
-) : SpecificExpressionExecutor {
+class IdentifierExpressionExecutor : SpecificExpressionExecutor {
     override fun canHandle(expression: Expression): Boolean = expression is IdentifierExpression
 
-    override fun execute(expression: Expression): InterpreterResult =
+    override fun execute(
+        expression: Expression,
+        database: DataBase,
+    ): InterpreterResult =
         try {
             val identifierExpression = expression as IdentifierExpression
             val identifier = identifierExpression.getValue()
 
-            val variable = dataBase.getValue(identifier)
+            val variable = database.getValue(identifier)
 
             if (variable == null) {
                 InterpreterResult(false, "Identifier '$identifier' not found", null)

@@ -12,14 +12,16 @@ import utils.areTypesCompatible
 import variable.Variable
 
 class LetDeclarationStatement(
-    private val dataBase: DataBase,
     private val defaultExpressionExecutor: DefaultExpressionExecutor,
     private val typeCoercer: ITypeCoercer,
 ) : SpecificStatementExecutor {
     override fun canHandle(statement: Statement): Boolean =
         statement is DeclarationStatement && statement.getDeclarationType() == CommonTypes.LET
 
-    override fun execute(statement: Statement): InterpreterResult {
+    override fun execute(
+        statement: Statement,
+        database: DataBase,
+    ): InterpreterResult {
         val declarationStatement = statement as DeclarationStatement
         val identifier = declarationStatement.getIdentifier()
         val declaredType = declarationStatement.getDataType()
@@ -28,7 +30,11 @@ class LetDeclarationStatement(
         val finalVariable: Variable =
             if (initialValueExpression != null) {
                 // 1. Ejecutar la expresión de la derecha
-                val expressionResult = defaultExpressionExecutor.execute(initialValueExpression)
+                val expressionResult =
+                    defaultExpressionExecutor.execute(
+                        initialValueExpression,
+                        database,
+                    )
                 if (!expressionResult.interpretedCorrectly) return expressionResult
 
                 val initialValue =
@@ -56,7 +62,13 @@ class LetDeclarationStatement(
                 Variable(declaredType, null)
             }
 
-        dataBase.addVariable(identifier, finalVariable)
-        return InterpreterResult(true, "Declaration successful", finalVariable)
+        // Create new database instance with added variable
+        val newDatabase = database.addVariable(identifier, finalVariable)
+        return InterpreterResult(
+            true,
+            "Declaration successful",
+            finalVariable,
+            newDatabase,
+        )
     }
 }

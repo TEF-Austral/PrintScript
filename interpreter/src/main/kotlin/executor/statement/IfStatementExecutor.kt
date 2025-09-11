@@ -1,5 +1,6 @@
 package executor.statement
 
+import data.DataBase
 import executor.expression.DefaultExpressionExecutor
 import node.IfStatement
 import node.Statement
@@ -12,12 +13,15 @@ class IfStatementExecutor(
 ) : SpecificStatementExecutor {
     override fun canHandle(statement: Statement): Boolean = statement is IfStatement
 
-    override fun execute(statement: Statement): InterpreterResult {
+    override fun execute(
+        statement: Statement,
+        database: DataBase,
+    ): InterpreterResult {
         return try {
             val ifStmt = statement as IfStatement
 
             // 1. Evaluar la expresión de la condición
-            val conditionResult = expressionExecutor.execute(ifStmt.getCondition())
+            val conditionResult = expressionExecutor.execute(ifStmt.getCondition(), database)
             if (!conditionResult.interpretedCorrectly) {
                 return conditionResult
             }
@@ -38,9 +42,9 @@ class IfStatementExecutor(
             // 3. Ejecutar el bloque de código correspondiente
             if (isTrue) {
                 // Si la condición es verdadera, ejecutar el bloque 'consequence'
-                statementExecutor.execute(ifStmt.getConsequence())
+                statementExecutor.execute(ifStmt.getConsequence(), database)
             } else if (ifStmt.hasAlternative()) {
-                statementExecutor.execute(ifStmt.getAlternative()!!)
+                statementExecutor.execute(ifStmt.getAlternative()!!, database)
             } else {
                 // Si es falsa y no hay 'else', la ejecución es exitosa y no se hace nada
                 InterpreterResult(true, "Condición falsa sin bloque 'else'.", null)

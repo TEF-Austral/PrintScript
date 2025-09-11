@@ -1,5 +1,6 @@
 package executor.statement
 
+import data.DataBase
 import emitter.Emitter
 import executor.expression.DefaultExpressionExecutor
 import result.InterpreterResult
@@ -12,10 +13,17 @@ class PrintStatementExecutor(
 ) : SpecificStatementExecutor {
     override fun canHandle(statement: Statement): Boolean = statement is PrintStatement
 
-    override fun execute(statement: Statement): InterpreterResult {
+    override fun execute(
+        statement: Statement,
+        database: DataBase,
+    ): InterpreterResult {
         try {
             val printStatement = statement as PrintStatement
-            val expressionResult = defaultExpressionExecutor.execute(printStatement.getExpression())
+            val expressionResult =
+                defaultExpressionExecutor.execute(
+                    printStatement.getExpression(),
+                    database,
+                )
             if (!expressionResult.interpretedCorrectly) {
                 return expressionResult
             }
