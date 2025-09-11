@@ -3,36 +3,32 @@ package data
 import variable.Variable
 
 class DefaultDataBase(
-    private val variables: MutableMap<String, Variable> = mutableMapOf(),
-    private val constants: MutableMap<String, Variable> = mutableMapOf(),
+    private val variables: Map<String, Variable> = emptyMap(),
+    private val constants: Map<String, Variable> = emptyMap(),
 ) : DataBase {
-    override fun getVariables(): MutableMap<String, Variable> = variables
+    override fun getVariables(): Map<String, Variable> = variables
 
-    override fun getConstants(): MutableMap<String, Variable> = constants
+    override fun getConstants(): Map<String, Variable> = constants
 
     override fun addVariable(
         key: String,
         value: Variable,
-    ) {
-        variables[key] = value
-    }
+    ): DataBase = DefaultDataBase(variables + (key to value), constants)
 
     override fun addConstant(
         key: String,
         value: Variable,
-    ) {
+    ): DataBase {
         if (value.getValue() == null) {
-            return
+            return this
         }
-        constants[key] = value
+        return DefaultDataBase(variables, constants + (key to value))
     }
 
     override fun changeVariableValue(
         key: String,
         value: Variable,
-    ) {
-        variables[key] = value
-    }
+    ): DataBase = DefaultDataBase(variables + (key to value), constants)
 
     override fun getVariableValue(key: String): Any? = variables[key]
 
@@ -42,8 +38,5 @@ class DefaultDataBase(
 
     override fun getValue(key: String): Any? = getVariableValue(key) ?: getConstantValue(key)
 
-    fun clear() {
-        variables.clear()
-        constants.clear()
-    }
+    fun clear(): DefaultDataBase = DefaultDataBase()
 }

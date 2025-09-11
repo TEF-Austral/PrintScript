@@ -1,5 +1,6 @@
 package executor.expression
 
+import data.DataBase
 import node.Expression
 import node.ReadEnvExpression
 import result.InterpreterResult
@@ -9,7 +10,10 @@ import variable.Variable
 class ReadEnvExpressionExecutor : SpecificExpressionExecutor {
     override fun canHandle(expression: Expression): Boolean = expression is ReadEnvExpression
 
-    override fun execute(expression: Expression): InterpreterResult {
+    override fun execute(
+        expression: Expression,
+        database: DataBase,
+    ): InterpreterResult {
         val readEnvExpression = expression as ReadEnvExpression
         val envName = readEnvExpression.envName()
 

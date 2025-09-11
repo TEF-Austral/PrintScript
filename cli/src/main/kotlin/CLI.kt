@@ -1,10 +1,9 @@
 import builder.DefaultNodeBuilder
 import com.github.ajalt.clikt.core.CliktCommand
-import converter.StringToTokenConverterFactory
+import factory.StringToTokenConverterFactory
 import parser.factory.VOnePointZeroParserFactory
-import stringSplitter.SplitterFactory
+import factory.StringSplitterFactory
 import node.Program
-import com.github.ajalt.clikt.parameters.types.path
 
 class CLI :
     CliktCommand(
@@ -30,7 +29,7 @@ class CLI :
     fun parseSourceCode(srcCodePath: String): Program {
         val lexer =
             DefaultLexer(
-                SplitterFactory.createSplitter(),
+                StringSplitterFactory.createDefaultsSplitter(),
                 StringToTokenConverterFactory.createDefaultsTokenConverter(),
             )
         val tokenList = lexer.tokenize(getDefaultReader(srcCodePath))

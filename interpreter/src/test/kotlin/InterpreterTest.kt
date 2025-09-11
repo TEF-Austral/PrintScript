@@ -13,7 +13,7 @@ import java.io.PrintStream
 import kotlin.test.assertEquals
 import type.CommonTypes
 import coordinates.Position
-import factory.DefaultInterpreterFactory
+import factory.InterpreterFactoryVersionOnePointOne
 import node.ExpressionStatement
 import node.IfStatement
 import org.junit.jupiter.api.BeforeEach
@@ -83,7 +83,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case2)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -140,7 +140,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case1)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -267,7 +267,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case3)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -394,7 +394,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case4)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -564,7 +564,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case5)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -709,7 +709,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case6)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -992,7 +992,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case7)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -1118,7 +1118,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case8)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -1246,7 +1246,7 @@ class InterpreterTest {
                 Position(0, 0),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case9)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -1374,7 +1374,7 @@ class InterpreterTest {
                 Position(0, 0),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case10)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -1502,7 +1502,7 @@ class InterpreterTest {
                 Position(0, 0),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case11)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -1630,7 +1630,7 @@ class InterpreterTest {
                 Position(0, 0),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case12)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -1758,7 +1758,7 @@ class InterpreterTest {
                 Position(0, 0),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case13)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -1974,7 +1974,7 @@ class InterpreterTest {
                 Position(0, 0),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case14)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -2102,7 +2102,7 @@ class InterpreterTest {
                 Position(0, 0),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case15)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -2538,7 +2538,7 @@ class InterpreterTest {
                 Position(0, 0),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case16)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -2772,7 +2772,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case18)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
@@ -2787,7 +2787,7 @@ class InterpreterTest {
 
         val case = Program(statements = emptyList())
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case)
 
         assertTrue(result.interpretedCorrectly)
@@ -2881,7 +2881,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case19)
         assertTrue(result.interpretedCorrectly)
         assertEquals("Program executed successfully", result.message)
@@ -3016,7 +3016,7 @@ class InterpreterTest {
             )
 
         // Asumimos que tienes una instancia del intérprete lista para usar
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
 
         // Le pasamos el AST completo al intérprete
         val result: InterpreterResult = interpreter.interpret(uselessExpressionsProgram)
@@ -3076,7 +3076,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
 
         val result: InterpreterResult = interpreter.interpret(programWithNullVar)
 
@@ -3130,7 +3130,7 @@ class InterpreterTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(simpleSumProgram)
 
         // Assert that the program executed without errors
@@ -3194,7 +3194,7 @@ class InterpreterTest {
                 ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
 
         val result: InterpreterResult = interpreter.interpret(programWithStatement)
 
@@ -3257,7 +3257,7 @@ class InterpreterTest {
                         ),
                     ),
             )
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case1)
         assertEquals("Program executed successfully", result.message)
         assertTrue(result.interpretedCorrectly)

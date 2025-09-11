@@ -3,7 +3,6 @@ package parser.factory
 import Token
 import builder.NodeBuilder
 import parser.Parser
-import parser.ParserInterface
 import parser.statement.AssignmentParser
 import parser.statement.ExpressionParser
 import parser.statement.IfStatement
@@ -28,8 +27,8 @@ import statement.enforcers.LetEnforcer
 import statement.enforcers.SemiColonEnforcer
 import type.CommonTypes
 
-class VOnePointOneParserFactory : ParserFactory {
-    override fun createParser(
+class VOnePointOneParserFactory {
+    fun createParser(
         tokens: List<Token>,
         nodeBuilder: NodeBuilder,
     ): Parser {
@@ -124,16 +123,4 @@ class VOnePointOneParserFactory : ParserFactory {
             )
         return Parser(tokens, nodeBuilder, expressionParser, statementParser)
     }
-
-    override fun withNewTokens(
-        tokens: List<Token>,
-        parser: ParserInterface,
-    ): Parser =
-        Parser(
-            tokens,
-            parser.getNodeBuilder(),
-            parser.getExpressionParser(),
-            parser.getStatementParser(),
-            parser.getCurrent(),
-        )
 }

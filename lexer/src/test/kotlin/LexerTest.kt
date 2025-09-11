@@ -1,13 +1,13 @@
-import converter.StringToTokenConverterFactory
+import factory.StringToTokenConverterFactory
 import converter.TokenConverter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import stringSplitter.Splitter
-import stringSplitter.SplitterFactory
+import factory.StringSplitterFactory
 import type.CommonTypes
 
 class LexerTest {
-    private val splitter: Splitter = SplitterFactory.createSplitter()
+    private val splitter: Splitter = StringSplitterFactory.createDefaultsSplitter()
     private val tokenConverter: TokenConverter =
         StringToTokenConverterFactory
             .createDefaultsTokenConverter()

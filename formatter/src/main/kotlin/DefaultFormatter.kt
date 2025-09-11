@@ -9,7 +9,6 @@ import java.io.Writer
 class DefaultFormatter(
     private val rules: List<FormatRule>,
 ) : Formatter {
-    // legacy constructor now defaults to v1.0 rule set
     constructor() : this(RuleRegistry.rulesV10)
 
     override fun formatToString(

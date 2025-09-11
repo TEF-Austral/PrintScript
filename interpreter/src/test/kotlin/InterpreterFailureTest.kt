@@ -1,6 +1,6 @@
 import coordinates.Position
 import result.InterpreterResult
-import factory.DefaultInterpreterFactory
+import factory.InterpreterFactoryVersionOnePointOne
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 import kotlin.test.assertEquals
@@ -41,7 +41,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
 
         val result: InterpreterResult = interpreter.interpret(case)
 
@@ -85,7 +85,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
@@ -139,7 +139,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
@@ -256,7 +256,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
@@ -372,7 +372,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
@@ -485,7 +485,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
@@ -529,7 +529,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
 
         val result: InterpreterResult = interpreter.interpret(programWithInvalidDeclaration)
 
@@ -571,7 +571,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
 
         val result: InterpreterResult = interpreter.interpret(programWithUndefinedVar)
 
@@ -632,7 +632,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
 
         val result: InterpreterResult = interpreter.interpret(programWithInvalidMultiplication)
 
@@ -691,7 +691,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
 
         // --- 2. EjecuciÃ³n ---
         val result: InterpreterResult = interpreter.interpret(programWithInvalidDivision)
@@ -827,7 +827,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case17)
         assertFalse(result.interpretedCorrectly)
         assertEquals("Can't divide by zero", result.message)
@@ -894,7 +894,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case2)
         assertFalse(result.interpretedCorrectly)
         assertEquals("Error: Constant 'x' must be initialized with a value.", result.message)
@@ -967,7 +967,7 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(case2)
         assertFalse(result.interpretedCorrectly)
         assertEquals("Error: Cannot reassign a value to a constant 'x'", result.message)

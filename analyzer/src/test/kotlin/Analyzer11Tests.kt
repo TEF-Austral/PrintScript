@@ -14,12 +14,19 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import type.CommonTypes
 import java.io.File
 import kotlin.test.Test
+import transformer.StringToPrintScriptVersion
+import type.Version
 
 class Analyzer11Tests {
+
+    private val transformer = StringToPrintScriptVersion()
+
+    private fun transform(version: String): Version = transformer.transform(version)
+
     private fun runAnalyzer(
         stmts: List<Statement>,
         config: AnalyzerConfig = AnalyzerConfig(),
-        version: String = "1.1.0",
+        version: Version = transform("1.1"),
     ): List<Diagnostic> {
         val tempConfigFile =
             File.createTempFile("analyzer", ".json").apply {
@@ -35,7 +42,7 @@ class Analyzer11Tests {
                 deleteOnExit()
             }
         return AnalyzerFactory
-            .create(version, tempConfigFile.absolutePath)
+            .createWithVersion(version, tempConfigFile.absolutePath)
             .analyze(Program(stmts))
     }
 
@@ -132,7 +139,7 @@ class Analyzer11Tests {
                 ),
             )
         val cfg = AnalyzerConfig(restrictPrintlnArgs = true, restrictReadInputArgs = true)
-        val diags = runAnalyzer(stmts, cfg, version = "1.1.5")
+        val diags = runAnalyzer(stmts, cfg, version = transform("1.1"))
         assertEquals(2, diags.size)
         assertEquals("println must take only a literal or identifier", diags[0].message)
         assertEquals("readInput must take only a literal or identifier", diags[1].message)

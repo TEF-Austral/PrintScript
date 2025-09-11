@@ -1,3 +1,3 @@
 package node
 
-sealed interface Expression : ASTNode
+interface Expression : ASTNode
