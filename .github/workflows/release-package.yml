@@ -26,7 +26,7 @@ jobs:
             echo "GITHUB_TOKEN is missing"
             exit 1
           else
-            echo "GITHUB_TOKEN is set"
+            echo "GITHUB_TOKEN is set" # Do not print the token itself for security reasons
           fi
         env:
           GITHUB_ACTOR: ${{ github.actor }}
