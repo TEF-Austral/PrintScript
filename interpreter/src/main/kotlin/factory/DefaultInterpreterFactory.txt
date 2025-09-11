@@ -5,6 +5,7 @@ import Interpreter
 import data.DefaultDataBase
 import type.Version
 
+
 class DefaultInterpreterFactory : InterpreterFactory {
 
     override fun createWithVersion(version: Version): Interpreter =
