@@ -4,6 +4,7 @@ plugins {
 }
 
 group = 'com.github.tef-austral'
+version = '1.1.4'
 
 
 repositories {
@@ -24,12 +25,11 @@ dependencies {
     implementation project(":reader")
 }
 
-// Configure the main class for the application
 application {
-    mainClass = 'CMDCLIKt' // Since your main function is in CMDCLI.kt
+    mainClass = 'CMDCLIKt'
 }
 
-// Configure the run task to handle arguments properly
+
 run {
     standardInput = System.in
     if (project.hasProperty('args')) {
