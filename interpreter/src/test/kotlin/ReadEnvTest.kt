@@ -17,46 +17,44 @@ class ReadEnvTest {
         private val variables = mutableMapOf<String, Variable>()
         private val constants = mutableMapOf<String, Variable>()
 
-        override fun getVariables(): Map<String, Variable> {
-            return variables
-        }
+        override fun getVariables(): Map<String, Variable> = variables
 
-        override fun getConstants(): Map<String, Variable> {
-            return constants
-        }
+        override fun getConstants(): Map<String, Variable> = constants
 
-        override fun addVariable(key: String, value: Variable): DataBase {
+        override fun addVariable(
+            key: String,
+            value: Variable,
+        ): DataBase {
             variables[key] = value
             return this
         }
 
-        override fun addConstant(key: String, value: Variable): DataBase {
+        override fun addConstant(
+            key: String,
+            value: Variable,
+        ): DataBase {
             constants[key] = value
             return this
         }
 
-        override fun changeVariableValue(key: String, value: Variable): DataBase {
+        override fun changeVariableValue(
+            key: String,
+            value: Variable,
+        ): DataBase {
             if (variables.containsKey(key)) {
                 variables[key] = value
             }
             return this
         }
 
-        override fun getVariableValue(key: String): Any? {
-            return variables[key]?.getValue()
-        }
+        override fun getVariableValue(key: String): Any? = variables[key]?.getValue()
 
-        override fun getConstantValue(key: String): Any? {
-            return constants[key]?.getValue()
-        }
+        override fun getConstantValue(key: String): Any? = constants[key]?.getValue()
 
-        override fun isConstant(key: String): Boolean {
-            return constants.containsKey(key)
-        }
+        override fun isConstant(key: String): Boolean = constants.containsKey(key)
 
-        override fun getValue(key: String): Any? {
-            return variables[key]?.getValue() ?: constants[key]?.getValue()
-        }
+        override fun getValue(key: String): Any? =
+            variables[key]?.getValue() ?: constants[key]?.getValue()
     }
 
     @Test
@@ -65,7 +63,7 @@ class ReadEnvTest {
         val expression = ReadEnvExpression(envVarName, Position(0, 0))
         val executor = ReadEnvExpressionExecutor()
 
-        val result = executor.execute(expression, database = dummyDataBase() )
+        val result = executor.execute(expression, database = dummyDataBase())
 
         assertTrue(result.interpretedCorrectly)
         assertNotNull(result.interpreter)

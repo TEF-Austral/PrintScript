@@ -32,7 +32,8 @@ class DefaultInterpreterFactory : InterpreterFactory {
         emitter: Emitter,
         database: DataBase,
     ): DefaultInterpreter =
-        DefaultInterpreter(database = database,
+        DefaultInterpreter(
+            database = database,
             executor.expression.DefaultExpressionExecutor(specificExpressionExecutors),
             executor.statement.DefaultStatementExecutor(specificStatementExecutor),
         )

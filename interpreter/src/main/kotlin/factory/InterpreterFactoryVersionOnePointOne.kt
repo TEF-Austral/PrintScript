@@ -76,7 +76,7 @@ object InterpreterFactoryVersionOnePointOne {
         val mainStatementExecutor = DefaultStatementExecutor(statementSpecialists)
 
         val constDeclaration =
-            ConstDeclarationStatementExecutor(dataBase,expressionExecutor, coercers)
+            ConstDeclarationStatementExecutor(dataBase, expressionExecutor, coercers)
         val letDeclaration = LetDeclarationStatement(expressionExecutor, coercers)
 
         val declarationExecutor =
@@ -101,7 +101,8 @@ object InterpreterFactoryVersionOnePointOne {
 
     fun createDefaultInterpreter(emitter: Emitter = PrintEmitter()): DefaultInterpreter {
         val expressionExecutors = getExpressionExecutors(emitter)
-        return DefaultInterpreter(dataBase,
+        return DefaultInterpreter(
+            dataBase,
             DefaultExpressionExecutor(expressionExecutors),
             getStatements(coercers, expressionExecutors, emitter),
         )

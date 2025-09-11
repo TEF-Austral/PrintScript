@@ -46,50 +46,48 @@ class FactoryTest {
         }
     }
 
-     private class dummyDataBase : DataBase {
+    private class dummyDataBase : DataBase {
         private val variables = mutableMapOf<String, Variable>()
         private val constants = mutableMapOf<String, Variable>()
 
-        override fun getVariables(): Map<String, Variable> {
-            return variables
-        }
+        override fun getVariables(): Map<String, Variable> = variables
 
-        override fun getConstants(): Map<String, Variable> {
-            return constants
-        }
+        override fun getConstants(): Map<String, Variable> = constants
 
-        override fun addVariable(key: String, value: Variable): DataBase {
+        override fun addVariable(
+            key: String,
+            value: Variable,
+        ): DataBase {
             variables[key] = value
             return this
         }
 
-        override fun addConstant(key: String, value: Variable): DataBase {
+        override fun addConstant(
+            key: String,
+            value: Variable,
+        ): DataBase {
             constants[key] = value
             return this
         }
 
-        override fun changeVariableValue(key: String, value: Variable): DataBase {
+        override fun changeVariableValue(
+            key: String,
+            value: Variable,
+        ): DataBase {
             if (variables.containsKey(key)) {
                 variables[key] = value
             }
             return this
         }
 
-        override fun getVariableValue(key: String): Any? {
-            return variables[key]?.getValue()
-        }
+        override fun getVariableValue(key: String): Any? = variables[key]?.getValue()
 
-        override fun getConstantValue(key: String): Any? {
-            return constants[key]?.getValue()
-        }
+        override fun getConstantValue(key: String): Any? = constants[key]?.getValue()
 
-        override fun isConstant(key: String): Boolean {
-            return constants.containsKey(key)
-        }
+        override fun isConstant(key: String): Boolean = constants.containsKey(key)
 
-        override fun getValue(key: String): Any? {
-            return variables[key]?.getValue() ?: constants[key]?.getValue()
-        }
+        override fun getValue(key: String): Any? =
+            variables[key]?.getValue() ?: constants[key]?.getValue()
     }
 
     private class MockStatementExecutor : SpecificStatementExecutor {
@@ -97,7 +95,10 @@ class FactoryTest {
 
         override fun canHandle(statement: Statement): Boolean = true
 
-        override fun execute(statement: Statement, database: DataBase): InterpreterResult {
+        override fun execute(
+            statement: Statement,
+            database: DataBase,
+        ): InterpreterResult {
             executed = true
             return InterpreterResult(true, "Mock statement executed successfully", null)
         }
@@ -108,7 +109,10 @@ class FactoryTest {
 
         override fun canHandle(expression: Expression): Boolean = true
 
-        override fun execute(expression: Expression, database: DataBase): InterpreterResult {
+        override fun execute(
+            expression: Expression,
+            database: DataBase,
+        ): InterpreterResult {
             executed = true
             return InterpreterResult(true, "Mock expression executed successfully", null)
         }
