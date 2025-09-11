@@ -15,7 +15,7 @@ jobs:
         with:
           java-version: 22
       - name: Build with Gradle
-        run: ./gradlew build
+        run: chmod +x ./gradlew
       - name: Publish package
         run: gradle publish
         env:
