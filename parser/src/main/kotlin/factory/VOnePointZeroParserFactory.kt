@@ -4,7 +4,6 @@ import Token
 import builder.NodeBuilder
 import parser.statement.StatementParser
 import parser.Parser
-import parser.ParserInterface
 import parser.statement.AssignmentParser
 import parser.statement.ExpressionParser
 import parser.statement.PrintParser
@@ -16,8 +15,8 @@ import parser.statement.expression.ExpressionRegistry
 import parser.statement.expression.IdentifierBuilder
 import parser.statement.expression.LiteralBuilder
 
-class VOnePointZeroParserFactory : ParserFactory {
-    override fun createParser(
+class VOnePointZeroParserFactory {
+    fun createParser(
         tokens: List<Token>,
         nodeBuilder: NodeBuilder,
     ): Parser {
@@ -51,16 +50,4 @@ class VOnePointZeroParserFactory : ParserFactory {
             )
         return Parser(tokens, nodeBuilder, expressionParser, statementParser)
     }
-
-    override fun withNewTokens(
-        tokens: List<Token>,
-        parser: ParserInterface,
-    ): Parser =
-        Parser(
-            tokens,
-            parser.getNodeBuilder(),
-            parser.getExpressionParser(),
-            parser.getStatementParser(),
-            parser.getCurrent(),
-        )
 }

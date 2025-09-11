@@ -1,7 +1,9 @@
-package stringSplitter
+package factory
 
-object SplitterFactory {
-    fun createSplitter(): Splitter {
+import stringSplitter.Splitter
+
+object StringSplitterFactory : SplitterFactory {
+    override fun createDefaultsSplitter(): Splitter {
         val specials =
             listOf(
                 '(',
@@ -25,4 +27,6 @@ object SplitterFactory {
             )
         return Splitter(specials)
     }
+
+    override fun createCustomSplitter(specialChars: List<Char>): Splitter = Splitter(specialChars)
 }

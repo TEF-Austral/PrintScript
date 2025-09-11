@@ -82,7 +82,7 @@ class Splitter {
   + split(String): List<Pair<String, Coordinates>>
 }
 class SplitterFactory {
-  + createSplitter(): Splitter
+  + createDefaultsSplitter(): Splitter
 }
 class StringLiteralExtractor {
   + extract(String, Int): Extraction

@@ -1,5 +1,5 @@
 import coordinates.Position
-import factory.DefaultInterpreterFactory
+import factory.InterpreterFactoryVersionOnePointOne
 import node.BinaryExpression
 import node.IfStatement
 import node.LiteralExpression
@@ -58,7 +58,7 @@ class IfStatementFailureTest {
                 coordinates = Position(0, 0),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(program)
 
         assertFalse(result.interpretedCorrectly, "Interpretation should fail due to type mismatch.")
@@ -112,7 +112,7 @@ class IfStatementFailureTest {
                 coordinates = Position(0, 0),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(program)
 
         assertFalse(result.interpretedCorrectly, "Interpretation should fail due to type mismatch.")
@@ -180,7 +180,7 @@ class IfStatementFailureTest {
                 coordinates = Position(0, 0),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(program)
 
         assertFalse(
@@ -247,7 +247,7 @@ class IfStatementFailureTest {
                 coordinates = Position(0, 0),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(program)
 
         assertFalse(
@@ -315,7 +315,7 @@ class IfStatementFailureTest {
                 coordinates = Position(0, 0),
             )
 
-        val interpreter = DefaultInterpreterFactory.createDefaultInterpreter()
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         val result: InterpreterResult = interpreter.interpret(program)
 
         assertFalse(
