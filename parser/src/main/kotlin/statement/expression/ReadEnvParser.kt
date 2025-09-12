@@ -25,9 +25,8 @@ class ReadEnvParser : ExpressionBuilder {
             throw Exception("Only a literal expression can be inside of readEnv")
         }
         val literalExpression = value.getExpression() as LiteralExpression
-        val delimiterParser = advancePastSemiColon(value.getParser())
-        val builtStatement = delimiterParser.getNodeBuilder().buildReadEnvNode(literalExpression)
-        return ExpressionBuiltResult(delimiterParser, builtStatement)
+        val builtStatement = value.getParser().getNodeBuilder().buildReadEnvNode(literalExpression)
+        return ExpressionBuiltResult(value.getParser(), builtStatement)
     }
 
     override fun canHandle(types: CommonTypes): Boolean = types == CommonTypes.READ_ENV

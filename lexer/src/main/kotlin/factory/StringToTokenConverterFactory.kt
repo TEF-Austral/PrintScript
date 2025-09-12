@@ -3,16 +3,18 @@ package factory
 import converter.TokenConverter
 import converter.TokenConverterRegistry
 import converter.specific.AssignmentToToken
+import converter.specific.BooleanLiteralToToken
+import converter.specific.BooleanTypeToToken
 import converter.specific.ComparisonToToken
 import converter.specific.ConditionalToToken
 import converter.specific.ConstDeclarationToToken
-import converter.specific.DataTypeToToken
 import converter.specific.DelimiterToToken
 import converter.specific.FunctionToToken
 import converter.specific.LetDeclarationToToken
 import converter.specific.LogicalOperatorToken
 import converter.specific.LoopToToken
 import converter.specific.NumberLiteralToToken
+import converter.specific.NumberTypeToToken
 import converter.specific.OperatorToToken
 import converter.specific.PrintToToken
 import converter.specific.ReadEnvToToken
@@ -20,16 +22,19 @@ import converter.specific.ReadInputToToken
 import converter.specific.ReturnToToken
 import converter.specific.StringLiteralToToken
 import converter.specific.StringToTokenConverter
-import type.CommonTypes
+import converter.specific.StringTypeToToken
 
 object StringToTokenConverterFactory : ConverterFactory{
     fun createDefaultsTokenConverter(): TokenConverter =
         TokenConverterRegistry(
             listOf(
                 FunctionToToken,
-                DataTypeToToken(),
+                StringTypeToToken,
+                NumberTypeToToken,
+                BooleanTypeToToken,
                 NumberLiteralToToken,
                 StringLiteralToToken,
+                BooleanLiteralToToken,
                 ReturnToToken,
                 ConditionalToToken,
                 LoopToToken,
@@ -52,7 +57,8 @@ object StringToTokenConverterFactory : ConverterFactory{
     override fun createVersionOne(): TokenConverter =
         TokenConverterRegistry(
             listOf(
-                DataTypeToToken(),
+                StringTypeToToken,
+                NumberTypeToToken,
                 NumberLiteralToToken,
                 StringLiteralToToken,
                 LetDeclarationToToken,
@@ -66,18 +72,12 @@ object StringToTokenConverterFactory : ConverterFactory{
     override fun createVersionOnePointOne(): TokenConverter =
         TokenConverterRegistry(
             listOf(
-                DataTypeToToken(
-                    mapOf(
-                        "Number" to CommonTypes.NUMBER,
-                        "number" to CommonTypes.NUMBER,
-                        "String" to CommonTypes.STRING,
-                        "string" to CommonTypes.STRING,
-                        "Boolean" to CommonTypes.BOOLEAN,
-                        "boolean" to CommonTypes.BOOLEAN,
-                    ),
-                ),
+                StringTypeToToken,
+                NumberTypeToToken,
+                BooleanTypeToToken,
                 NumberLiteralToToken,
                 StringLiteralToToken,
+                BooleanLiteralToToken,
                 ReturnToToken,
                 ConditionalToToken,
                 LetDeclarationToToken,
