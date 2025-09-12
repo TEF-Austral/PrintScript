@@ -28,9 +28,8 @@ class ReadInputParser : ExpressionBuilder {
             throw Exception("Only a literal expression can be inside of readInput")
         }
         val literalExpression = value.getExpression() as LiteralExpression
-        val delimiterParser = advancePastSemiColon(value.getParser())
-        val builtStatement = delimiterParser.getNodeBuilder().buildReadInputNode(literalExpression)
-        return ExpressionBuiltResult(delimiterParser, builtStatement)
+        val builtStatement = value.getParser().getNodeBuilder().buildReadInputNode(literalExpression)
+        return ExpressionBuiltResult(value.getParser(), builtStatement)
     }
 
     override fun canHandle(types: CommonTypes): Boolean = types == CommonTypes.READ_INPUT
