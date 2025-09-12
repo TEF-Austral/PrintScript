@@ -17,7 +17,6 @@ class DefaultLexer(
         }
     }
 
-
     override fun peek(): Token? {
         val splitterResult = splitter.next()
         return if (splitterResult != null) {
