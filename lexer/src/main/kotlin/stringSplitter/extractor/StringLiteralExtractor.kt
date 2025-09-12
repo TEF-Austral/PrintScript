@@ -18,9 +18,3 @@ object StringLiteralExtractor : TokenExtractor {
         return Extraction.Token(sb.toString())
     }
 }
-
-/*
-let someNumber: number = 1;
-let someString: string = "hello world ";
-println(someString + someNumber);
- */
