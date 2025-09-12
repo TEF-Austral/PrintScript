@@ -69,7 +69,7 @@ class LexerTest {
         assertEquals("(", tokens[1].getValue())
 
         assertEquals(CommonTypes.STRING_LITERAL, tokens[2].getType())
-        assertEquals("\"hi\"", tokens[2].getValue())
+        assertEquals("hi", tokens[2].getValue())
 
         assertEquals(CommonTypes.DELIMITERS, tokens[3].getType())
         assertEquals(")", tokens[3].getValue())

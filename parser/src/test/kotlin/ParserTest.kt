@@ -3,7 +3,6 @@ import coordinates.Position
 import node.AssignmentStatement
 import node.BinaryExpression
 import node.DeclarationStatement
-import node.EmptyExpression
 import node.ExpressionStatement
 import node.IdentifierExpression
 import node.IfStatement
@@ -15,6 +14,7 @@ import parser.factory.VOnePointOneParserFactory
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertNull
 import type.CommonTypes
 
 class ParserTest {
@@ -330,7 +330,7 @@ class ParserTest {
         val varDecl = statement as DeclarationStatement
         assertEquals("x", varDecl.getIdentifier())
         assertEquals(CommonTypes.NUMBER, varDecl.getDataType())
-        assertTrue(varDecl.getInitialValue() is EmptyExpression)
+        assertNull(varDecl.getInitialValue())
     }
 
     @Test

@@ -2,19 +2,20 @@ import converter.TokenConverterRegistry
 import converter.specific.AssignmentToToken
 import converter.specific.ComparisonToToken
 import converter.specific.ConditionalToToken
-import converter.specific.DataTypeToToken
 import converter.specific.LetDeclarationToToken
 import converter.specific.DelimiterToToken
 import converter.specific.FunctionToToken
 import converter.specific.LogicalOperatorToken
 import converter.specific.LoopToToken
 import converter.specific.NumberLiteralToToken
+import converter.specific.NumberTypeToToken
 import converter.specific.OperatorToToken
 import converter.specific.PrintToToken
 import converter.specific.ReadEnvToToken
 import converter.specific.ReadInputToToken
 import converter.specific.ReturnToToken
 import converter.specific.StringLiteralToToken
+import converter.specific.StringTypeToToken
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import type.CommonTypes
@@ -145,17 +146,17 @@ class TokenConverterTest {
 
     @Test
     fun `test NumberToToken`() {
-        Assertions.assertTrue(DataTypeToToken().canHandle("Number"))
-        Assertions.assertTrue(DataTypeToToken().canHandle("String"))
-        val token = DataTypeToToken().convert("Number", position)
+        Assertions.assertTrue(NumberTypeToToken.canHandle("Number"))
+        Assertions.assertTrue(StringTypeToToken.canHandle("String"))
+        val token = NumberTypeToToken.convert("Number", position)
         Assertions.assertEquals(CommonTypes.NUMBER, token.getType())
     }
 
     @Test
     fun `test StringToToken`() {
-        Assertions.assertTrue(DataTypeToToken().canHandle("String"))
-        Assertions.assertTrue(DataTypeToToken().canHandle("Number"))
-        val token = DataTypeToToken().convert("string", position)
+        Assertions.assertTrue(StringTypeToToken.canHandle("String"))
+        Assertions.assertTrue(NumberTypeToToken.canHandle("Number"))
+        val token = StringTypeToToken.convert("string", position)
         Assertions.assertEquals(CommonTypes.STRING, token.getType())
     }
 
