@@ -156,7 +156,7 @@ class TokenConverterTest {
         Assertions.assertTrue(DataTypeToToken().canHandle("String"))
         Assertions.assertTrue(DataTypeToToken().canHandle("Number"))
         val token = DataTypeToToken().convert("string", position)
-        Assertions.assertEquals(CommonTypes.DATA_TYPES, token.getType())
+        Assertions.assertEquals(CommonTypes.STRING, token.getType())
     }
 
     @Test
