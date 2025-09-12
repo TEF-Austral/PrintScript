@@ -3,7 +3,6 @@ import coordinates.Position
 import node.AssignmentStatement
 import node.BinaryExpression
 import node.DeclarationStatement
-import node.EmptyExpression
 import node.ExpressionStatement
 import node.IdentifierExpression
 import node.IfStatement

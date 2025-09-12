@@ -10,7 +10,6 @@ import statement.enforcers.IdentifierEnforcer
 import statement.enforcers.SemanticEnforcers
 import statement.enforcers.SemiColonEnforcer
 import coordinates.Position
-import node.EmptyExpression
 import parser.Parser
 import parser.result.SemanticSuccess
 import parser.result.StatementBuiltResult
