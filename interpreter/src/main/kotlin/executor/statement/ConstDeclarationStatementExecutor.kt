@@ -65,8 +65,8 @@ class ConstDeclarationStatementExecutor(
         val finalConstant: Variable
 
         if (initialValueExpression is CoercibleExpression) {
-            val rawValue = valueFromExpr.getValue().toString()
-            val coercionResult = typeCoercer.coerce(rawValue, declaredType)
+            val interpreter = InterpreterResult(true, "Expression evaluated", valueFromExpr)
+            val coercionResult = typeCoercer.coerce(interpreter, declaredType)
             if (!coercionResult.interpretedCorrectly) {
                 return coercionResult
             }

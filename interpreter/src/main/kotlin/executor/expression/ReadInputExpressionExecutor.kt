@@ -21,12 +21,6 @@ class ReadInputExpressionExecutor(
 
         val userInput = inputProvider.input(readInputExpression.printValue())
 
-        val resultVariable = Variable(CommonTypes.STRING, userInput)
-
-        return InterpreterResult(
-            interpretedCorrectly = true,
-            message = "Succes",
-            interpreter = resultVariable,
-        )
+        return userInput
     }
 }

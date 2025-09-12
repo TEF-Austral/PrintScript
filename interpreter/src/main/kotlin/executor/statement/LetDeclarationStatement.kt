@@ -43,8 +43,7 @@ class LetDeclarationStatement(
 
                 // 2. Determinar si se necesita coerción o compatibilidad de tipos
                 if (initialValueExpression is CoercibleExpression) {
-                    val rawValue = initialValue.getValue().toString()
-                    val coercionResult = typeCoercer.coerce(rawValue, declaredType)
+                    val coercionResult = typeCoercer.coerce(expressionResult, declaredType)
                     if (!coercionResult.interpretedCorrectly) return coercionResult
                     coercionResult.interpreter!!
                 } else {

@@ -7,7 +7,7 @@ import variable.Variable
 class TerminalInputProvider : InputProvider {
 
     override fun input(name: String): InterpreterResult {
-        print("$name: ")
+        print("$name")
         val value = readln()
         return InterpreterResult(true, "Succesful", Variable(CommonTypes.STRING_LITERAL, value))
     }

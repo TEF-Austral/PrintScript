@@ -91,8 +91,7 @@ class ReadInputTest {
         assertTrue(result.interpretedCorrectly, "Interpreter should have run successfully.")
 
         val expectedOutput =
-            "Enter name: \n" +
-                "John Doe"
+            "Enter name: John Doe"
         assertEquals(expectedOutput, outContent.toString().trim().replace("\r\n", "\n"))
     }
 
@@ -194,8 +193,7 @@ class ReadInputTest {
         assertTrue(result.interpretedCorrectly)
 
         val expectedOutput =
-            "Enter age: \n" +
-                "26"
+            "Enter age: 26"
         assertEquals(expectedOutput, outContent.toString().trim().replace("\r\n", "\n"))
     }
 }
