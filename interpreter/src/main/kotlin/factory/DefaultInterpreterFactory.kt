@@ -4,6 +4,9 @@ import DefaultInterpreter
 import Interpreter
 import data.DataBase
 import emitter.Emitter
+import executor.expression.SpecificExpressionExecutor
+import executor.statement.SpecificStatementExecutor
+import input.InputProvider
 import type.Version
 
 class DefaultInterpreterFactory : InterpreterFactory {
@@ -14,22 +17,11 @@ class DefaultInterpreterFactory : InterpreterFactory {
             Version.VERSION_1_1 -> InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
         }
 
-    fun createWithVersionAndEmitter(
-        version: Version,
-        emitter: Emitter,
-    ): Interpreter =
-        when (version) {
-            Version.VERSION_1_0 -> InterpreterFactoryVersionOne.createDefaultInterpreter(emitter)
-            Version.VERSION_1_1 ->
-                InterpreterFactoryVersionOnePointOne.createDefaultInterpreter(
-                    emitter,
-                )
-        }
-
     override fun createCustomInterpreter(
-        specificExpressionExecutors: List<executor.expression.SpecificExpressionExecutor>,
-        specificStatementExecutor: List<executor.statement.SpecificStatementExecutor>,
+        specificExpressionExecutors: List<SpecificExpressionExecutor>,
+        specificStatementExecutor: List<SpecificStatementExecutor>,
         emitter: Emitter,
+        inputProvider: InputProvider,
         database: DataBase,
     ): DefaultInterpreter =
         DefaultInterpreter(
@@ -37,4 +29,18 @@ class DefaultInterpreterFactory : InterpreterFactory {
             executor.expression.DefaultExpressionExecutor(specificExpressionExecutors),
             executor.statement.DefaultStatementExecutor(specificStatementExecutor),
         )
+
+    fun createWithVersionAndEmitterAndInputProvider(
+        version: Version,
+        emitter: Emitter,
+        inputProvider: InputProvider,
+    ): Interpreter =
+        when (version) {
+            Version.VERSION_1_0 -> InterpreterFactoryVersionOne.createDefaultInterpreter(emitter)
+            Version.VERSION_1_1 ->
+                InterpreterFactoryVersionOnePointOne.createDefaultInterpreter(
+                    emitter,
+                    inputProvider,
+                )
+        }
 }

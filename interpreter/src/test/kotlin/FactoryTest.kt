@@ -5,6 +5,7 @@ import emitter.Emitter
 import executor.expression.SpecificExpressionExecutor
 import executor.statement.SpecificStatementExecutor
 import factory.DefaultInterpreterFactory
+import input.TerminalInputProvider
 import node.Expression
 import node.IdentifierExpression
 import node.LiteralExpression
@@ -130,7 +131,13 @@ class FactoryTest {
     fun `createWithVersionAndEmitter for version 1_0 should create a working interpreter`() {
         val factory = DefaultInterpreterFactory()
         val emitter = TestEmitter()
-        val interpreter = factory.createWithVersionAndEmitter(Version.VERSION_1_0, emitter)
+        val inputProvider = TerminalInputProvider()
+        val interpreter =
+            factory.createWithVersionAndEmitterAndInputProvider(
+                Version.VERSION_1_0,
+                emitter,
+                TerminalInputProvider(),
+            )
         val printStatement = PrintStatement(literalStringExpression, Position(1, 1))
         val program = Program(listOf(printStatement))
 
@@ -145,7 +152,12 @@ class FactoryTest {
     fun `createWithVersionAndEmitter for version 1_1 should create a working interpreter`() {
         val factory = DefaultInterpreterFactory()
         val emitter = TestEmitter()
-        val interpreter = factory.createWithVersionAndEmitter(Version.VERSION_1_1, emitter)
+        val interpreter =
+            factory.createWithVersionAndEmitterAndInputProvider(
+                Version.VERSION_1_1,
+                emitter,
+                TerminalInputProvider(),
+            )
         val printStatement = PrintStatement(literalStringExpression, Position(1, 1))
         val program = Program(listOf(printStatement))
 
@@ -170,6 +182,7 @@ class FactoryTest {
                 listOf(mockStatementExecutor),
                 TestEmitter(),
                 database = DummyDataBase(),
+                inputProvider = TerminalInputProvider(),
             )
 
         interpreter.interpret(dummyStatement)

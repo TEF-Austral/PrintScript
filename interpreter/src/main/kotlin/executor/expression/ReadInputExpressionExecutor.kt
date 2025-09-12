@@ -1,7 +1,7 @@
 package executor.expression
 
 import data.DataBase
-import emitter.Emitter
+import input.InputProvider
 import node.Expression
 import node.ReadInputExpression
 import result.InterpreterResult
@@ -9,7 +9,7 @@ import type.CommonTypes
 import variable.Variable
 
 class ReadInputExpressionExecutor(
-    private val emitter: Emitter,
+    private val inputProvider: InputProvider,
 ) : SpecificExpressionExecutor {
     override fun canHandle(expression: Expression): Boolean = expression is ReadInputExpression
 
@@ -19,9 +19,7 @@ class ReadInputExpressionExecutor(
     ): InterpreterResult {
         val readInputExpression = expression as ReadInputExpression
 
-        emitter.stringEmit(readInputExpression.printValue())
-
-        val userInput = readln()
+        val userInput = inputProvider.input(readInputExpression.printValue())
 
         val resultVariable = Variable(CommonTypes.STRING, userInput)
 

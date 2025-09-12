@@ -1,6 +1,7 @@
 import coordinates.Position
 import data.DataBase
 import executor.expression.ReadEnvExpressionExecutor
+import input.EnvInputProvider
 import node.ReadEnvExpression
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -61,13 +62,13 @@ class ReadEnvTest {
     fun `test read existing environment variable`() {
         val envVarName = "PATH"
         val expression = ReadEnvExpression(envVarName, Position(0, 0))
-        val executor = ReadEnvExpressionExecutor()
+        val executor = ReadEnvExpressionExecutor(EnvInputProvider())
 
         val result = executor.execute(expression, database = DummyDataBase())
 
         assertTrue(result.interpretedCorrectly)
         assertNotNull(result.interpreter)
-        assertEquals(CommonTypes.STRING, result.interpreter?.getType())
+        assertEquals(CommonTypes.STRING_LITERAL, result.interpreter?.getType())
         assertEquals(System.getenv(envVarName), result.interpreter?.getValue())
         assertEquals("Successfully read environment variable '$envVarName'.", result.message)
     }
@@ -76,7 +77,7 @@ class ReadEnvTest {
     fun `test read non-existing environment variable`() {
         val envVarName = "NON_EXISTENT_VARIABLE_FOR_TESTING_12345"
         val expression = ReadEnvExpression(envVarName, Position(0, 0))
-        val executor = ReadEnvExpressionExecutor()
+        val executor = ReadEnvExpressionExecutor(EnvInputProvider())
 
         val result = executor.execute(expression, DummyDataBase())
 
