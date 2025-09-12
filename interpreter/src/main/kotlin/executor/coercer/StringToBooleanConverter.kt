@@ -14,6 +14,5 @@ class StringToBooleanConverter : ValueConverter {
             "false" -> Variable(CommonTypes.BOOLEAN_LITERAL, false)
             else -> null
         }
-
     }
 }

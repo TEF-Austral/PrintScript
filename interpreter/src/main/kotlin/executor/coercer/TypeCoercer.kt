@@ -6,7 +6,10 @@ class TypeCoercer(
     private val converters: List<ValueConverter>,
 ) : ITypeCoercer {
 
-    override fun coerce(rawValue: InterpreterResult, targetType: Any): InterpreterResult {
+    override fun coerce(
+        rawValue: InterpreterResult,
+        targetType: Any,
+    ): InterpreterResult {
         for (converter in converters) {
             if (converter.canHandle(targetType)) {
                 return handleConversion(converter, rawValue, targetType)

@@ -5,8 +5,6 @@ import input.InputProvider
 import node.Expression
 import node.ReadInputExpression
 import result.InterpreterResult
-import type.CommonTypes
-import variable.Variable
 
 class ReadInputExpressionExecutor(
     private val inputProvider: InputProvider,
