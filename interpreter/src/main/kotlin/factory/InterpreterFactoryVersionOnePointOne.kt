@@ -31,6 +31,7 @@ import executor.statement.IfStatementExecutor
 import executor.statement.LetDeclarationStatement
 import executor.statement.PrintStatementExecutor
 import executor.statement.SpecificStatementExecutor
+import input.EnvInputProvider
 import input.InputProvider
 import input.TerminalInputProvider
 
@@ -55,7 +56,7 @@ object InterpreterFactoryVersionOnePointOne {
             IdentifierExpressionExecutor(),
             LiteralExpressionExecutor(),
             ReadInputExpressionExecutor(inputProvider),
-            ReadEnvExpressionExecutor(inputProvider),
+            ReadEnvExpressionExecutor(EnvInputProvider()),
         )
 
     private val coercers: TypeCoercer =
