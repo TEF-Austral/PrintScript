@@ -133,7 +133,6 @@ class CLITest {
             formatCommand.main(arrayOf(srcPath, "-v", "1.0"))
 
             val actualOutput = outputStream.toString().trim()
-            // Should use default formatter config
             assertTrue(actualOutput.isNotEmpty())
         } finally {
             System.setOut(originalOut)

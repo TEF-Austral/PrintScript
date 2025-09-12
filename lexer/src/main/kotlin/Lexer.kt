@@ -1,3 +1,8 @@
+import result.LexerResult
+
 interface Lexer {
-    fun tokenize(reader: Reader): List<Token>
+
+    fun next(): LexerResult?
+
+    fun peek(): Token?
 }

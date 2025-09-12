@@ -3,6 +3,7 @@ package factory
 import DefaultLexer
 import Lexer
 import converter.specific.StringToTokenConverter
+import java.io.Reader
 import type.Version
 import type.Version.VERSION_1_0
 import type.Version.VERSION_1_1
@@ -11,30 +12,34 @@ data class DefaultLexerFactory(
     val splitterFactory: StringSplitterFactory,
     val converterFactory: ConverterFactory,
 ) : LexerFactory {
-    override fun createVersionOne(): Lexer {
+    override fun createVersionOne(reader: Reader): Lexer {
         val converterList = converterFactory.createVersionOne()
-        val splitter = splitterFactory.createDefaultsSplitter()
-        return DefaultLexer(splitter, converterList)
+        val splitter = StringSplitterFactory.createStreamingSplitter(reader)
+        return DefaultLexer(converterList, splitter)
     }
 
-    override fun createVersionOnePointOne(): Lexer {
-        val splitter = splitterFactory.createDefaultsSplitter()
+    override fun createVersionOnePointOne(reader: Reader): Lexer {
         val converterList = converterFactory.createVersionOnePointOne()
-        return DefaultLexer(splitter, converterList)
+        val splitter = StringSplitterFactory.createStreamingSplitter(reader)
+        return DefaultLexer(converterList, splitter)
     }
 
     override fun createCustom(
         specialChars: List<Char>,
         customConverters: List<StringToTokenConverter>,
+        reader: Reader,
     ): Lexer {
-        val splitter = splitterFactory.createCustomSplitter(specialChars)
+        val splitter = StringSplitterFactory.createStreamingSplitter(reader)
         val converters = converterFactory.createCustom(customConverters)
-        return DefaultLexer(splitter, converters)
+        return DefaultLexer(converters, splitter)
     }
 
-    override fun createLexerWithVersion(version: Version): Lexer =
+    override fun createLexerWithVersion(
+        version: Version,
+        reader: Reader,
+    ): Lexer =
         when (version){
-            VERSION_1_0 -> createVersionOne()
-            VERSION_1_1 -> createVersionOnePointOne()
+            VERSION_1_0 -> createVersionOne(reader)
+            VERSION_1_1 -> createVersionOnePointOne(reader)
         }
 }
