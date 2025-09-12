@@ -20,13 +20,14 @@ import converter.specific.ReadInputToToken
 import converter.specific.ReturnToToken
 import converter.specific.StringLiteralToToken
 import converter.specific.StringToTokenConverter
+import type.CommonTypes
 
 object StringToTokenConverterFactory : ConverterFactory{
     fun createDefaultsTokenConverter(): TokenConverter =
         TokenConverterRegistry(
             listOf(
                 FunctionToToken,
-                DataTypeToToken,
+                DataTypeToToken(),
                 NumberLiteralToToken,
                 StringLiteralToToken,
                 ReturnToToken,
@@ -51,7 +52,7 @@ object StringToTokenConverterFactory : ConverterFactory{
     override fun createVersionOne(): TokenConverter =
         TokenConverterRegistry(
             listOf(
-                DataTypeToToken,
+                DataTypeToToken(),
                 NumberLiteralToToken,
                 StringLiteralToToken,
                 LetDeclarationToToken,
@@ -65,7 +66,16 @@ object StringToTokenConverterFactory : ConverterFactory{
     override fun createVersionOnePointOne(): TokenConverter =
         TokenConverterRegistry(
             listOf(
-                DataTypeToToken,
+                DataTypeToToken(
+                    mapOf(
+                        "Number" to CommonTypes.NUMBER,
+                        "number" to CommonTypes.NUMBER,
+                        "String" to CommonTypes.STRING,
+                        "string" to CommonTypes.STRING,
+                        "Boolean" to CommonTypes.BOOLEAN,
+                        "boolean" to CommonTypes.BOOLEAN,
+                    ),
+                ),
                 NumberLiteralToToken,
                 StringLiteralToToken,
                 ReturnToToken,

@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'com.github.tef-austral'
-version = '1.1.2'
+version = '1.1.5'
 
 repositories {
     mavenCentral()
@@ -13,6 +13,25 @@ repositories {
 dependencies {
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
+
+
+ext {
+    versionCode = '1.1.5'
+}
+allprojects {
+    version = rootProject.ext.versionCode
+}
+
+subprojects { subproj ->
+    afterEvaluate {
+        if (plugins.hasPlugin('maven-publish')) {
+            tasks.matching { it.name == 'publish' }.all {
+            }
+
+        }
+    }
+}
+
 
 
 

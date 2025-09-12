@@ -5,8 +5,17 @@ import PrintScriptToken
 import Token
 import type.CommonTypes
 
-object DataTypeToToken : StringToTokenConverter {
-    override fun canHandle(input: String): Boolean = input in listOf("Number", "String")
+class DataTypeToToken(
+    private val acceptedDataTypes: Map<String, CommonTypes> =
+        mapOf(
+            "Number" to CommonTypes.NUMBER,
+            "number" to CommonTypes.NUMBER,
+            "String" to CommonTypes.STRING,
+            "string" to CommonTypes.STRING,
+        ),
+) : StringToTokenConverter {
+
+    override fun canHandle(input: String): Boolean = input in acceptedDataTypes
 
     override fun convert(
         input: String,
@@ -16,10 +25,5 @@ object DataTypeToToken : StringToTokenConverter {
         return PrintScriptToken(dataType, value = input, coordinates = position)
     }
 
-    private fun getDataType(input: String): CommonTypes =
-        when (input){
-            "String" -> CommonTypes.STRING
-            "Number" -> CommonTypes.NUMBER
-            else -> CommonTypes.DATA_TYPES
-        }
+    private fun getDataType(input: String): CommonTypes = acceptedDataTypes.getValue(input)
 }
