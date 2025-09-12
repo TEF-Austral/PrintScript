@@ -5,8 +5,9 @@ import result.InterpreterResult
 class TypeCoercer(
     private val converters: List<ValueConverter>,
 ) : ITypeCoercer {
+
     override fun coerce(
-        rawValue: String,
+        rawValue: InterpreterResult,
         targetType: Any,
     ): InterpreterResult {
         for (converter in converters) {
@@ -19,7 +20,7 @@ class TypeCoercer(
 
     private fun handleConversion(
         converter: ValueConverter,
-        rawValue: String,
+        rawValue: InterpreterResult,
         targetType: Any,
     ): InterpreterResult {
         val convertedVariable = converter.convert(rawValue)
@@ -28,7 +29,7 @@ class TypeCoercer(
         } else {
             InterpreterResult(
                 false,
-                "Failed to convert value '$rawValue' to type '$targetType'",
+                "Failed to convert value '${rawValue.interpreter?.getValue()}' to type '$targetType'",
                 null,
             )
         }

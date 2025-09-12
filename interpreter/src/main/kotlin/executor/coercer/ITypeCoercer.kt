@@ -4,7 +4,7 @@ import result.InterpreterResult
 
 interface ITypeCoercer {
     fun coerce(
-        rawValue: String,
+        rawValue: InterpreterResult,
         targetType: Any,
     ): InterpreterResult
 }

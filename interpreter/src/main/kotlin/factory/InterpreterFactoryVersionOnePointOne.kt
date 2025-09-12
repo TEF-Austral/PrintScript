@@ -31,6 +31,9 @@ import executor.statement.IfStatementExecutor
 import executor.statement.LetDeclarationStatement
 import executor.statement.PrintStatementExecutor
 import executor.statement.SpecificStatementExecutor
+import input.EnvInputProvider
+import input.InputProvider
+import input.TerminalInputProvider
 
 object InterpreterFactoryVersionOnePointOne {
 
@@ -45,13 +48,15 @@ object InterpreterFactoryVersionOnePointOne {
             LiteralExpressionExecutor(),
         )
 
-    private fun getExpressionExecutors(emitter: Emitter): List<SpecificExpressionExecutor> =
+    private fun getExpressionExecutors(
+        inputProvider: InputProvider,
+    ): List<SpecificExpressionExecutor> =
         listOf(
             BinaryExpressionExecutor(expressions = identifierAndLiteralExecutors),
             IdentifierExpressionExecutor(),
             LiteralExpressionExecutor(),
-            ReadInputExpressionExecutor(emitter),
-            ReadEnvExpressionExecutor(),
+            ReadInputExpressionExecutor(inputProvider),
+            ReadEnvExpressionExecutor(EnvInputProvider()),
         )
 
     private val coercers: TypeCoercer =
@@ -99,8 +104,11 @@ object InterpreterFactoryVersionOnePointOne {
         return mainStatementExecutor
     }
 
-    fun createDefaultInterpreter(emitter: Emitter = PrintEmitter()): DefaultInterpreter {
-        val expressionExecutors = getExpressionExecutors(emitter)
+    fun createDefaultInterpreter(
+        emitter: Emitter = PrintEmitter(),
+        inputProvider: InputProvider = TerminalInputProvider(),
+    ): DefaultInterpreter {
+        val expressionExecutors = getExpressionExecutors(inputProvider)
         return DefaultInterpreter(
             dataBase,
             DefaultExpressionExecutor(expressionExecutors),

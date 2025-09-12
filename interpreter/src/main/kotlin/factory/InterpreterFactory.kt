@@ -6,6 +6,7 @@ import data.DataBase
 import emitter.Emitter
 import executor.expression.SpecificExpressionExecutor
 import executor.statement.SpecificStatementExecutor
+import input.InputProvider
 import type.Version
 
 interface InterpreterFactory {
@@ -16,6 +17,7 @@ interface InterpreterFactory {
         specificExpressionExecutors: List<SpecificExpressionExecutor>,
         specificStatementExecutor: List<SpecificStatementExecutor>,
         emitter: Emitter,
+        inputProvider: InputProvider,
         database: DataBase,
     ): DefaultInterpreter
 }

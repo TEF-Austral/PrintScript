@@ -1,13 +1,15 @@
 package executor.expression
 
 import data.DataBase
+import input.EnvInputProvider
+import input.InputProvider
 import node.Expression
 import node.ReadEnvExpression
 import result.InterpreterResult
-import type.CommonTypes
-import variable.Variable
 
-class ReadEnvExpressionExecutor : SpecificExpressionExecutor {
+class ReadEnvExpressionExecutor(
+    private val inputProvider: InputProvider = EnvInputProvider(),
+) : SpecificExpressionExecutor {
     override fun canHandle(expression: Expression): Boolean = expression is ReadEnvExpression
 
     override fun execute(
@@ -17,17 +19,12 @@ class ReadEnvExpressionExecutor : SpecificExpressionExecutor {
         val readEnvExpression = expression as ReadEnvExpression
         val envName = readEnvExpression.envName()
 
-        val envValue = System.getenv(envName)
+        val envResult = inputProvider.input(envName)
 
-        if (envValue != null) {
-            val resultVariable = Variable(CommonTypes.STRING, envValue)
-            return InterpreterResult(
-                true,
-                "Successfully read environment variable '$envName'.",
-                resultVariable,
-            )
+        return if (envResult.interpretedCorrectly) {
+            envResult
         } else {
-            return InterpreterResult(
+            InterpreterResult(
                 false,
                 "Error: Environment variable '$envName' not found.",
                 null,
