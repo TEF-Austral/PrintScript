@@ -2,6 +2,7 @@ package parser
 
 import Token
 import builder.NodeBuilder
+import node.ASTNode
 import parser.result.FinalResult
 import parser.statement.StatementParser
 import parser.statement.expression.ExpressionParsingBuilder
@@ -15,7 +16,9 @@ interface ParserInterface {
 
     fun getStatementParser(): StatementParser
 
-    fun getCurrent(): Int
+    fun hasNext(): Boolean
 
-    fun getTokens(): List<Token>
+    fun next(): ASTNode
+
+    fun peak(): Token?
 }
