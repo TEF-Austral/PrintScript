@@ -26,7 +26,7 @@ class Version11FormatterTest {
         val condition = builder.buildLiteralExpressionNode(tok(CommonTypes.BOOLEAN_LITERAL, "true"))
         val printStmt =
             builder.buildPrintStatementNode(
-                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"inside\"")),
+                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "inside")),
             )
         val ifStmt = builder.buildIfStatementNode(condition, printStmt, null)
         val program = builder.buildProgramNode(listOf(ifStmt))
@@ -53,11 +53,11 @@ class Version11FormatterTest {
             )
         val yesStmt =
             builder.buildPrintStatementNode(
-                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"yes\"")),
+                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "yes")),
             )
         val noStmt =
             builder.buildPrintStatementNode(
-                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"no\"")),
+                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "no")),
             )
         val ifStmt = builder.buildIfStatementNode(condition, yesStmt, noStmt)
         val program = builder.buildProgramNode(listOf(ifStmt))
@@ -83,7 +83,7 @@ class Version11FormatterTest {
         val condition = builder.buildLiteralExpressionNode(tok(CommonTypes.BOOLEAN_LITERAL, "true"))
         val printStmt =
             builder.buildPrintStatementNode(
-                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"X\"")),
+                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "X")),
             )
         val ifStmt = builder.buildIfStatementNode(condition, printStmt, null)
         val program = builder.buildProgramNode(listOf(ifStmt))
@@ -159,7 +159,7 @@ class Version11FormatterTest {
     fun `nested if statements version 11 indent levels`() {
         val innerPrint =
             builder.buildPrintStatementNode(
-                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"inner\"")),
+                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "inner")),
             )
         val innerIf =
             builder.buildIfStatementNode(
@@ -194,7 +194,7 @@ class Version11FormatterTest {
     fun `blank line before println in if block when configured`() {
         val printStmt =
             builder.buildPrintStatementNode(
-                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"inside\"")),
+                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "inside")),
             )
         val ifStmt =
             builder.buildIfStatementNode(
@@ -223,7 +223,7 @@ class Version11FormatterTest {
     fun `let declaration inside else with custom spacing and indent`() {
         val printOk =
             builder.buildPrintStatementNode(
-                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"ok\"")),
+                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "ok")),
             )
         val declX =
             builder.buildVariableDeclarationStatementNode(
@@ -269,7 +269,7 @@ class Version11FormatterTest {
     fun `blank lines capped at max`() {
         val literal =
             builder.buildLiteralExpressionNode(
-                tok(CommonTypes.STRING_LITERAL, "\"test\""),
+                tok(CommonTypes.STRING_LITERAL, "test"),
             )
         val printStmt = builder.buildPrintStatementNode(literal)
         val program = builder.buildProgramNode(listOf(printStmt))
@@ -284,7 +284,7 @@ class Version11FormatterTest {
     fun `negative blank lines treated as zero`() {
         val literal =
             builder.buildLiteralExpressionNode(
-                tok(CommonTypes.STRING_LITERAL, "\"test\""),
+                tok(CommonTypes.STRING_LITERAL, "test"),
             )
         val printStmt = builder.buildPrintStatementNode(literal)
         val program = builder.buildProgramNode(listOf(printStmt))

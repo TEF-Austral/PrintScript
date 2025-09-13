@@ -52,7 +52,7 @@ class DefaultFormatterTest {
     fun `println with blank line before`() {
         val printStmt =
             builder.buildPrintStatementNode(
-                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"hi\"")),
+                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "hi")),
             )
 
         val config = FormatConfig(blankLinesBeforePrintln = 1)
@@ -71,7 +71,7 @@ class DefaultFormatterTest {
                 dataType = tok(CommonTypes.STRING, "string"),
                 initialValue =
                     LiteralExpression(
-                        tok(CommonTypes.STRING_LITERAL, "\"ok\""),
+                        tok(CommonTypes.STRING_LITERAL, "ok"),
                         Position(0, 0),
                     ),
             )
