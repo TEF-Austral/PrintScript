@@ -1,7 +1,5 @@
-name: Java CI
-
 on:
-  push:
+  pull_request:
     branches:
       - main
   workflow_dispatch:
@@ -24,8 +22,3 @@ jobs:
         run: chmod +x ./gradlew
       - name: Build with Gradle
         run: ./gradlew build --no-daemon
-      - name: Publish package
-        run: ./gradlew publish --no-daemon
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
