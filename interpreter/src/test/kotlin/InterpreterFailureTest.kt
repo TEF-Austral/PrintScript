@@ -590,7 +590,7 @@ class InterpreterFailureTest {
     }
 
     @Test
-    fun `Multiplying String By Number Should Fail`() {
+    fun `Multiplying String By number Should Fail`() {
         val outputStream = ByteArrayOutputStream()
         System.setOut(PrintStream(outputStream))
 
@@ -648,7 +648,7 @@ class InterpreterFailureTest {
     }
 
     @Test
-    fun `Dividing String By Number Should Fail`() {
+    fun `Dividing String By number Should Fail`() {
         val outputStream = ByteArrayOutputStream()
         System.setOut(PrintStream(outputStream))
 

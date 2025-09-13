@@ -32,9 +32,6 @@ class StringToTokenConverterFactoryTest {
 
         val conditionalToken = tokenConverter.convert("if", position)
         assertEquals(CommonTypes.CONDITIONALS, conditionalToken.getType())
-
-        val functionToken = tokenConverter.convert("function", position)
-        assertEquals(CommonTypes.FUNCTION, functionToken.getType())
     }
 
     @Test

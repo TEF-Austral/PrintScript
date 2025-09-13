@@ -1,2 +1,2 @@
-let x:Number = "123";
+let x:number = "123";
 let y:String = 123;

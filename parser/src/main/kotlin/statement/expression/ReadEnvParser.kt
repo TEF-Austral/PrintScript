@@ -5,7 +5,6 @@ import node.LiteralExpression
 import parser.Parser
 import parser.result.ExpressionBuiltResult
 import parser.result.ExpressionResult
-import parser.utils.advancePastSemiColon
 import parser.utils.isSemiColon
 import parser.utils.isValidResultAndCurrentToken
 import type.CommonTypes

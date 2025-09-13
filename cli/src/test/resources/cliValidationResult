@@ -2,7 +2,7 @@
             Identifier 'myVariable' does not match SNAKE_CASE
 
             ---FORMATTING PREVIEW---
-            let myVariable : Number = 10;
-let another_variable : Number = 5 + 5;
+            let myVariable : number = 10;
+let another_variable : number = 5 + 5;
 
 println(another_variable);
