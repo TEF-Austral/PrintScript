@@ -112,7 +112,7 @@ class Version11FormatterTest {
             builder.buildVariableDeclarationStatementNode(
                 tok(CommonTypes.CONST, "const"),
                 identifier = tok(CommonTypes.IDENTIFIER, "pi"),
-                dataType = tok(CommonTypes.NUMBER, "Number"),
+                dataType = tok(CommonTypes.NUMBER, "number"),
                 initialValue = valueExpr,
             )
         val program = builder.buildProgramNode(listOf(decl))
@@ -120,7 +120,7 @@ class Version11FormatterTest {
         val formatter = FormatterFactory.createWithVersion(transform("1.1"))
         val result = formatter.formatToString(program, FormatConfig())
 
-        assertEquals("const pi: Number = 3.14;\n", result)
+        assertEquals("const pi: number = 3.14;\n", result)
     }
 
     @Test
@@ -133,7 +133,7 @@ class Version11FormatterTest {
             builder.buildVariableDeclarationStatementNode(
                 tok(CommonTypes.CONST, "const"),
                 identifier = tok(CommonTypes.IDENTIFIER, "a"),
-                dataType = tok(CommonTypes.NUMBER, "Number"),
+                dataType = tok(CommonTypes.NUMBER, "number"),
                 initialValue =
                     builder.buildLiteralExpressionNode(
                         tok(CommonTypes.NUMBER_LITERAL, "1"),
@@ -148,7 +148,7 @@ class Version11FormatterTest {
         val expected =
             """
             if(true) {
-                const a: Number = 1;
+                const a: number = 1;
             }
 
             """.trimIndent().replace("\n", "\n")
@@ -229,7 +229,7 @@ class Version11FormatterTest {
             builder.buildVariableDeclarationStatementNode(
                 tok(CommonTypes.LET, "let"),
                 identifier = tok(CommonTypes.IDENTIFIER, "x"),
-                dataType = tok(CommonTypes.NUMBER, "Number"),
+                dataType = tok(CommonTypes.NUMBER, "number"),
                 initialValue =
                     builder.buildLiteralExpressionNode(
                         tok(CommonTypes.NUMBER_LITERAL, "1"),
@@ -258,7 +258,7 @@ class Version11FormatterTest {
             if(true) {
               println("ok");
             } else {
-              let x :Number=1;
+              let x :number=1;
             }
             
             """.trimIndent()
@@ -301,13 +301,13 @@ class Version11FormatterTest {
             builder.buildVariableDeclarationStatementNode(
                 tok(CommonTypes.CONST, "const"),
                 identifier = tok(CommonTypes.IDENTIFIER, "pi"),
-                dataType = tok(CommonTypes.NUMBER, "Number"),
+                dataType = tok(CommonTypes.NUMBER, "number"),
                 initialValue = null,
             )
         val program = builder.buildProgramNode(listOf(decl))
         val formatter = FormatterFactory.createWithVersion(transform("1.1"))
 
         val result = formatter.formatToString(program, FormatConfig())
-        assertEquals("const pi: Number;\n", result)
+        assertEquals("const pi: number;\n", result)
     }
 }

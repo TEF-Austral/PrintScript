@@ -6,9 +6,8 @@ import Token
 import type.CommonTypes
 
 object BooleanTypeToToken : StringToTokenConverter {
-    private val acceptedBooleanTypes = setOf("Boolean", "boolean")
 
-    override fun canHandle(input: String): Boolean = input in acceptedBooleanTypes
+    override fun canHandle(input: String): Boolean = input == "boolean"
 
     override fun convert(
         input: String,

@@ -20,7 +20,7 @@ object LessThanOrEqual : Operator {
         val booleanResult = compareAsBoolean(left, right)
         if (booleanResult != null) {
             val resultVar = Variable(CommonTypes.BOOLEAN_LITERAL, booleanResult)
-            return InterpreterResult(true, "Success LessThanOrEqual (Boolean)", resultVar)
+            return InterpreterResult(true, "Success LessThanOrEqual (boolean)", resultVar)
         }
 
         val stringResult = compareIfBothAreStrings(left, right)

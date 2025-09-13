@@ -146,7 +146,7 @@ class IfStatementTest {
     fun `If statement with true variable condition should execute then branch`() {
         /*
         Represents the code:
-        let condition: boolean = true;
+        let condition: Boolean = true;
         if (condition) {
             println("Condition is true");
         } else {
@@ -235,7 +235,7 @@ class IfStatementTest {
     fun `If statement with false variable condition should execute else branch`() {
         /*
         Represents the code:
-        let condition: boolean = false;
+        let condition: Boolean = false;
         if (condition) {
             println("Condition is true");
         } else {
@@ -424,8 +424,8 @@ class IfStatementTest {
     fun `Nested if statements should execute correctly`() {
         /*
         Represents the code:
-        let outer: boolean = true;
-        let inner: boolean = false;
+        let outer: Boolean = true;
+        let inner: Boolean = false;
         if (outer) {
             if (inner) {
                 println("Inner then");

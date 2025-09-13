@@ -6,9 +6,8 @@ import Token
 import type.CommonTypes
 
 object StringTypeToToken : StringToTokenConverter {
-    private val acceptedStringTypes = setOf("String", "string")
 
-    override fun canHandle(input: String): Boolean = input in acceptedStringTypes
+    override fun canHandle(input: String): Boolean = input == "string"
 
     override fun convert(
         input: String,

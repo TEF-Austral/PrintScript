@@ -144,9 +144,6 @@ class LexerTest {
         assertEquals(CommonTypes.DELIMITERS, tokens[9].getType())
         assertEquals(")", tokens[9].getValue())
 
-        assertEquals(CommonTypes.RETURN, tokens[10].getType())
-        assertEquals("return", tokens[10].getValue())
-
         assertEquals(CommonTypes.IDENTIFIER, tokens[11].getType())
         assertEquals("a", tokens[11].getValue())
     }

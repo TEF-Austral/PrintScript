@@ -1767,7 +1767,7 @@ class InterpreterTest {
     }
 
     @Test
-    fun `Number Addition with String Concatenation`() {
+    fun `number Addition with String Concatenation`() {
         val outputStream = ByteArrayOutputStream()
         System.setOut(PrintStream(outputStream))
 

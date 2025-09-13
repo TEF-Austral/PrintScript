@@ -92,7 +92,7 @@ class LexerIntegrationTest {
         }
 
         // let x:String = "123";
-        // let y:Number = 123;
+        // let y:number = 123;
 
         Assertions.assertEquals(14, tokens.size)
         Assertions.assertEquals(CommonTypes.LET, tokens[0].getType())

@@ -19,20 +19,15 @@ enum class CommonTypes {
     CONST,
     PRINT, // print
     NUMBER {
-        override fun toString(): String = super.toString().lowercase().toTitleCase()
+        override fun toString(): String = super.toString().lowercase()
     },
     STRING {
-        override fun toString(): String = super.toString().lowercase().toTitleCase()
+        override fun toString(): String = super.toString().lowercase()
     },
     BOOLEAN {
-        override fun toString(): String = super.toString().lowercase().toTitleCase()
+        override fun toString(): String = super.toString().lowercase()
     },
     EMPTY,
     READ_INPUT,
     READ_ENV,
 }
-
-private fun String.toTitleCase(): String =
-    this.split(' ').joinToString(" ") { word ->
-        word.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
-    }

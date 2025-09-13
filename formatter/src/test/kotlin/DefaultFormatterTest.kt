@@ -23,14 +23,14 @@ class DefaultFormatterTest {
             builder.buildVariableDeclarationStatementNode(
                 tok(CommonTypes.LET, "let"),
                 identifier = tok(CommonTypes.IDENTIFIER, "x"),
-                dataType = tok(CommonTypes.NUMBER, "Number"),
+                dataType = tok(CommonTypes.NUMBER, "number"),
                 initialValue = null,
             )
 
         val program = builder.buildProgramNode(listOf(decl))
         val result = fmt.formatToString(program, FormatConfig())
 
-        assertEquals("let x: Number;\n", result)
+        assertEquals("let x: number;\n", result)
     }
 
     @Test
@@ -85,7 +85,7 @@ class DefaultFormatterTest {
         val program = builder.buildProgramNode(listOf(decl))
         val result = fmt.formatToString(program, config)
 
-        assertEquals("let msg :String = \"ok\";\n", result)
+        assertEquals("let msg :string = \"ok\";\n", result)
     }
 
     @Test
@@ -94,7 +94,7 @@ class DefaultFormatterTest {
             builder.buildVariableDeclarationStatementNode(
                 tok(CommonTypes.LET, "let"),
                 identifier = tok(CommonTypes.IDENTIFIER, "x"),
-                dataType = tok(CommonTypes.NUMBER, "Number"),
+                dataType = tok(CommonTypes.NUMBER, "number"),
                 initialValue = null,
             )
         val program = builder.buildProgramNode(listOf(decl))
@@ -102,7 +102,7 @@ class DefaultFormatterTest {
 
         fmt.formatToWriter(program, FormatConfig(), writer)
 
-        assertEquals("let x: Number;\n", writer.toString())
+        assertEquals("let x: number;\n", writer.toString())
     }
 
     @Test
