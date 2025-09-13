@@ -20,7 +20,7 @@ jobs:
       - name: Build with Gradle
         run: chmod +x ./gradlew
       - name: Publish package
-        run: gradle publish
+        run: ./gradlew publish
         env:
-          GITHUB_ACTOR: ${{ env.GITHUB_ACTOR }}
+          GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
