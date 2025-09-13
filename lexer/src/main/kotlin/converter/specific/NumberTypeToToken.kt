@@ -6,9 +6,8 @@ import Token
 import type.CommonTypes
 
 object NumberTypeToToken : StringToTokenConverter {
-    private val acceptedNumberTypes = setOf("Number", "number")
 
-    override fun canHandle(input: String): Boolean = input in acceptedNumberTypes
+    override fun canHandle(input: String): Boolean = input == "number"
 
     override fun convert(
         input: String,

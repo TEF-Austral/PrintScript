@@ -20,7 +20,7 @@ object GraterThan : Operator {
         val booleanResult = compareAsBoolean(left, right)
         if (booleanResult != null) {
             val resultVar = Variable(CommonTypes.BOOLEAN_LITERAL, booleanResult)
-            return InterpreterResult(true, "Success GreaterThan (Boolean)", resultVar)
+            return InterpreterResult(true, "Success GreaterThan (boolean)", resultVar)
         }
 
         val stringResult = compareIfBothAreStrings(left, right)

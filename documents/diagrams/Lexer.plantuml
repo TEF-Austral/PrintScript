@@ -54,7 +54,7 @@ class LoopToToken {
 }
 class NoMatch
 class NumberExtractor {
-  + NumberExtractor(): 
+  + NumberExtractor():
   + extract(String, Int): Extraction
 }
 class NumberLiteralToToken {
@@ -141,9 +141,9 @@ LoopToToken                    -[#008200,dashed]-^  StringToTokenConverter
 NoMatch                        +-[#820000,plain]-  Extraction                    
 NoMatch                        -[#000082,plain]-^  Extraction                    
 NoMatch                        -[#595959,dashed]->  Extraction                    : "«create»"
-NumberExtractor                -[#008200,dashed]-^  TokenExtractor                
+NumberExtractor                -[#008200,dashed]-^  TokenExtractor
 NumberExtractor                -[#595959,dashed]->  data  Token                   : "«create»"
-NumberLiteralToToken           -[#008200,dashed]-^  StringToTokenConverter        
+NumberLiteralToToken           -[#008200,dashed]-^  StringToTokenConverter
 OperatorToToken                -[#008200,dashed]-^  StringToTokenConverter        
 PrintToToken                   -[#008200,dashed]-^  StringToTokenConverter        
 ReturnToToken                  -[#008200,dashed]-^  StringToTokenConverter        

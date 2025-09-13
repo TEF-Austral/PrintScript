@@ -9,17 +9,14 @@ import converter.specific.ComparisonToToken
 import converter.specific.ConditionalToToken
 import converter.specific.ConstDeclarationToToken
 import converter.specific.DelimiterToToken
-import converter.specific.FunctionToToken
 import converter.specific.LetDeclarationToToken
 import converter.specific.LogicalOperatorToken
-import converter.specific.LoopToToken
 import converter.specific.NumberLiteralToToken
 import converter.specific.NumberTypeToToken
 import converter.specific.OperatorToToken
 import converter.specific.PrintToToken
 import converter.specific.ReadEnvToToken
 import converter.specific.ReadInputToToken
-import converter.specific.ReturnToToken
 import converter.specific.StringLiteralToToken
 import converter.specific.StringToTokenConverter
 import converter.specific.StringTypeToToken
@@ -28,16 +25,13 @@ object StringToTokenConverterFactory : ConverterFactory{
     fun createDefaultsTokenConverter(): TokenConverter =
         TokenConverterRegistry(
             listOf(
-                FunctionToToken,
                 StringTypeToToken,
                 NumberTypeToToken,
                 BooleanTypeToToken,
                 NumberLiteralToToken,
                 StringLiteralToToken,
                 BooleanLiteralToToken,
-                ReturnToToken,
                 ConditionalToToken,
-                LoopToToken,
                 LetDeclarationToToken,
                 PrintToToken,
                 OperatorToToken,
@@ -78,7 +72,6 @@ object StringToTokenConverterFactory : ConverterFactory{
                 NumberLiteralToToken,
                 StringLiteralToToken,
                 BooleanLiteralToToken,
-                ReturnToToken,
                 ConditionalToToken,
                 LetDeclarationToToken,
                 PrintToToken,

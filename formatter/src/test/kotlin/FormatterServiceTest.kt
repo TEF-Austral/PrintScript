@@ -50,7 +50,7 @@ class FormatterServiceTest {
     fun `formatToWriter loads yaml config and writes println with blank line`() {
         val printStmt =
             builder.buildPrintStatementNode(
-                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"hi\"")),
+                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "hi")),
             )
         val program = builder.buildProgramNode(listOf(printStmt))
 

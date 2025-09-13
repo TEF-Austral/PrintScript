@@ -76,7 +76,7 @@ class ReadInputFailureTest {
             result.interpretedCorrectly,
             "Interpreter should have failed due to type mismatch.",
         )
-        assertEquals("Failed to convert value 'not a number' to type 'Number'", result.message)
+        assertEquals("Failed to convert value 'not a number' to type 'number'", result.message)
     }
 
     @Test
@@ -84,7 +84,7 @@ class ReadInputFailureTest {
         val userInput = "yes\n"
         setInput(userInput)
 
-        // Program: let isMember: boolean = readInput("Is member? ");
+        // Program: let isMember: Boolean = readInput("Is member? ");
         val program =
             Program(
                 statements =
@@ -117,6 +117,6 @@ class ReadInputFailureTest {
         val result = interpreter.interpret(program)
 
         assertFalse(result.interpretedCorrectly)
-        assertEquals("Failed to convert value 'yes' to type 'Boolean'", result.message)
+        assertEquals("Failed to convert value 'yes' to type 'boolean'", result.message)
     }
 }
