@@ -17,7 +17,7 @@ class ReadInputParser : ExpressionBuilder {
         if (isSemiColon(parser.advance().advance().peak())) throw Exception("Invalid structure")
         val readInput = parser.consume(CommonTypes.READ_INPUT)
         if (!isValidResultAndCurrentToken(readInput)) {
-            throw Exception("Expected readEnv")
+            throw Exception("Expected readInput")
         }
         val value =
             readInput.getParser().getExpressionParser().parseExpression(
@@ -27,6 +27,9 @@ class ReadInputParser : ExpressionBuilder {
             throw Exception("Only a literal expression can be inside of readInput")
         }
         val literalExpression = value.getExpression() as LiteralExpression
+        if (literalExpression.getType() != CommonTypes.STRING_LITERAL) {
+            throw Exception("Expected string literal")
+        }
         val builtStatement =
             value.getParser().getNodeBuilder().buildReadInputNode(
                 literalExpression,

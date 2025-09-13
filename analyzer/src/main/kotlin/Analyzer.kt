@@ -1,6 +1,6 @@
 import diagnostic.Diagnostic
-import node.Program
+import parser.result.FinalResult
 
 interface Analyzer {
-    fun analyze(program: Program): List<Diagnostic>
+    fun analyze(result: FinalResult): List<Diagnostic>
 }
