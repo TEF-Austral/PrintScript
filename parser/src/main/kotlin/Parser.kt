@@ -24,7 +24,7 @@ data class Parser(
     private val statementParser: StatementParser,
 ) : ParserInterface {
 
-    fun isAtEnd(): Boolean = stream.isAtEnd()
+    override fun isAtEnd(): Boolean = stream.isAtEnd()
 
     override fun parse(): FinalResult =
         try {

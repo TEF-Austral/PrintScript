@@ -140,8 +140,9 @@ class FactoryTest {
             )
         val printStatement = PrintStatement(literalStringExpression, Position(1, 1))
         val program = Program(listOf(printStatement))
+        val mockAstStream = MockAstStream(program)
 
-        val result = interpreter.interpret(program)
+        val result = interpreter.interpret(mockAstStream)
 
         assertTrue(result.interpretedCorrectly)
         assertEquals(1, emitter.messages.size)
@@ -161,34 +162,12 @@ class FactoryTest {
         val printStatement = PrintStatement(literalStringExpression, Position(1, 1))
         val program = Program(listOf(printStatement))
 
-        val result = interpreter.interpret(program)
+        val mockAstStream = MockAstStream(program)
+
+        val result = interpreter.interpret(mockAstStream)
 
         assertTrue(result.interpretedCorrectly)
         assertEquals(1, emitter.messages.size)
         assertEquals("Print executed successfully", emitter.messages[0])
-    }
-
-    @Test
-    fun `createCustomInterpreter should use provided executors`() {
-        val factory = DefaultInterpreterFactory()
-        val mockStatementExecutor = MockStatementExecutor()
-        val mockExpressionExecutor = MockExpressionExecutor()
-        val dummyStatement = DummyStatement()
-        val dummyExpression = DummyExpression()
-
-        val interpreter =
-            factory.createCustomInterpreter(
-                listOf(mockExpressionExecutor),
-                listOf(mockStatementExecutor),
-                TestEmitter(),
-                database = DummyDataBase(),
-                inputProvider = TerminalInputProvider(),
-            )
-
-        interpreter.interpret(dummyStatement)
-        interpreter.interpret(dummyExpression)
-
-        assertTrue(mockStatementExecutor.executed)
-        assertTrue(mockExpressionExecutor.executed)
     }
 }

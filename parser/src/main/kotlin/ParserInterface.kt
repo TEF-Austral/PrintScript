@@ -21,4 +21,6 @@ interface ParserInterface {
     fun next(): NextResult
 
     fun peak(): Token?
+
+    fun isAtEnd(): Boolean
 }

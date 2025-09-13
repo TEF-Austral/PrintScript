@@ -84,7 +84,6 @@ class CLITest {
         assertEquals("Program executed successfully", actualResult)
     }
 
-
     @Test
     fun `Format Command Test`() {
         val srcPath = "src/test/resources/cliFormattingTest.txt"

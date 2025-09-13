@@ -96,7 +96,8 @@ class ArithmeticTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(case)
+        val mockAstStream = MockAstStream(case)
+        val result: InterpreterResult = interpreter.interpret(mockAstStream)
         assertTrue(result.interpretedCorrectly)
         assertEquals("Program executed successfully", result.message)
         val printed = outputStream.toString().trim()

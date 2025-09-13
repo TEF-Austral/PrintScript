@@ -25,7 +25,7 @@ class DefaultInterpreterFactory : InterpreterFactory {
         database: DataBase,
     ): DefaultInterpreter =
         DefaultInterpreter(
-            database = database,
+            initialDatabase = database,
             executor.expression.DefaultExpressionExecutor(specificExpressionExecutors),
             executor.statement.DefaultStatementExecutor(specificStatementExecutor),
         )

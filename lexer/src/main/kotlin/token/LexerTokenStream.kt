@@ -1,22 +1,16 @@
-package streaming
-
-import Lexer // Importa tu interfaz Lexer
+package token
+import Lexer
 import Token
 import TokenStream
 import result.StreamResult
 
-/**
- * Implementación inmutable de TokenStream que envuelve un Lexer.
- */
 class LexerTokenStream(
     private val lexer: Lexer,
 ) : TokenStream {
 
-    private val currentToken: Token? by lazy { lexer.peek() }
+    override fun isAtEnd(): Boolean = lexer.peek() == null
 
-    override fun isAtEnd(): Boolean = currentToken == null
-
-    override fun peak(): Token? = currentToken
+    override fun peak(): Token? = lexer.peek()
 
     override fun next(): StreamResult? {
         val lexerResult = lexer.next() ?: return null

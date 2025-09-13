@@ -86,7 +86,8 @@ class ReadInputTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result = interpreter.interpret(program)
+        val mockAstStream = MockAstStream(program)
+        val result = interpreter.interpret(mockAstStream)
 
         assertTrue(result.interpretedCorrectly, "Interpreter should have run successfully.")
 
@@ -188,7 +189,8 @@ class ReadInputTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result = interpreter.interpret(program)
+        val mockAstStream = MockAstStream(program)
+        val result = interpreter.interpret(mockAstStream)
 
         assertTrue(result.interpretedCorrectly)
 
