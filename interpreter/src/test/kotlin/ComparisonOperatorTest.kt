@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test
 import type.CommonTypes
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
+import stream.MockAstStream
 
 class ComparisonOperatorTest {
     @Test

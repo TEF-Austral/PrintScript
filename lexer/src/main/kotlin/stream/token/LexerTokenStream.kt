@@ -1,4 +1,4 @@
-package token
+package stream.token
 import Lexer
 import Token
 import TokenStream

@@ -14,6 +14,7 @@ import result.InterpreterResult
 import type.CommonTypes
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
+import stream.MockAstStream
 
 class IfStatementTest {
     @Test

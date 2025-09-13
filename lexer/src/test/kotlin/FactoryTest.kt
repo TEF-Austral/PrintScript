@@ -11,7 +11,7 @@ class FactoryTest {
 
         val position = Position(1, 1)
 
-        val dataTypeToken = tokenConverter.convert("Number", position)
+        val dataTypeToken = tokenConverter.convert("number", position)
         assertEquals(CommonTypes.NUMBER, dataTypeToken.getType())
 
         val numberLiteralToken = tokenConverter.convert("123", position)

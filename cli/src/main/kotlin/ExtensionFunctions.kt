@@ -1,6 +1,7 @@
 import factory.AnalyzerFactory
 import factory.InterpreterFactoryVersionOnePointOne
 import formatter.FormatterService
+import stream.MockAstStream
 import type.Version
 
 fun CLI.handleFormatting(
@@ -65,7 +66,8 @@ fun CLI.handleValidation(
 fun CLI.handleExecution(srcCodePath: String): String {
     val program = parseSourceCode(srcCodePath)
     val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-    val result = interpreter.interpret(program)
+    val mockAstStream = MockAstStream(program)
+    val result = interpreter.interpret(mockAstStream)
 
     return if (result.interpretedCorrectly) {
         "Program executed successfully"

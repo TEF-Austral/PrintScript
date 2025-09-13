@@ -79,7 +79,7 @@ class LexerTest {
 
         assertEquals(CommonTypes.PRINT, tokens[0].getType())
         assertEquals("(", tokens[1].getValue())
-        assertEquals("\"hi\"", tokens[2].getValue())
+        assertEquals("hi", tokens[2].getValue())
         assertEquals(")", tokens[3].getValue())
     }
 

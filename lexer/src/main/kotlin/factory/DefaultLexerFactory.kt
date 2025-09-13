@@ -12,6 +12,7 @@ data class DefaultLexerFactory(
     val splitterFactory: StringSplitterFactory,
     val converterFactory: ConverterFactory,
 ) : LexerFactory {
+
     override fun createVersionOne(reader: Reader): Lexer {
         val converterList = converterFactory.createVersionOne()
         val splitter = StringSplitterFactory.createStreamingSplitter(reader)

@@ -17,6 +17,7 @@ import node.LiteralExpression
 import node.PrintStatement
 import node.Program
 import node.ReadInputExpression
+import stream.MockAstStream
 
 class ReadInputTest {
     private val originalIn: InputStream = System.`in`

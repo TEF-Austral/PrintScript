@@ -26,19 +26,36 @@ data class Parser(
 
     override fun isAtEnd(): Boolean = stream.isAtEnd()
 
-    override fun parse(): FinalResult =
-        try {
+    override fun parse(): FinalResult {
+        // DEBUG: Indica el inicio del proceso de parseo
+        println("[DEBUG] ==> Starting main parse...")
+        return try {
             val statements = parseStatements(this, emptyList())
+            // DEBUG: Muestra el resultado final del parseo
+            println("[DEBUG] ==> Finished parsing. Total statements parsed: ${statements.size}")
             CompleteProgram(this, nodeBuilder.buildProgramNode(statements))
         } catch (e: Exception) {
+            // DEBUG: Captura cualquier excepción que detenga el parseo
+            println("[DEBUG] ==> Main parse failed with exception: ${e.message}")
             FailedProgram(this, e.message ?: "An unknown error occurred.")
         }
+    }
 
     private fun parseStatements(
         currentParser: Parser,
         accumulatedStatements: List<Statement>,
     ): List<Statement> {
-        if (!currentParser.hasNext()) {
+        val statementNum = accumulatedStatements.size + 1
+        println(
+            "[DEBUG] parseStatements: Statement #$statementNum, Token -> ${currentParser.peak()}",
+        )
+
+        // Cambia la condición para procesar el último token
+        if (currentParser.peak() == null) {
+            println(
+                "[DEBUG] parseStatements: Reached end of stream. Finalizing. All statements parsed successfully.",
+            )
+            println("[DEBUG] Last token before end: ${currentParser.peak()}")
             return accumulatedStatements
         }
 
@@ -47,23 +64,42 @@ data class Parser(
             result.isSuccess() -> {
                 val nextParser = result.getParser()
                 val newStatement = result.getStatement()
+                println(
+                    "[DEBUG] parseStatements: Successfully parsed statement #$statementNum -> $newStatement",
+                )
                 parseStatements(nextParser, accumulatedStatements + newStatement)
             }
 
             else -> {
-                throw Exception(result.message())
+                println(
+                    "[DEBUG] parseStatements: FAILED at statement #$statementNum. Error: ${result.message()}",
+                )
+                throw Exception("Failed at statement #$statementNum: ${result.message()}")
             }
         }
     }
 
     fun advance(): Parser {
-        if (isAtEnd()) return this
-        val streamResult = stream.next() ?: return this
+        if (isAtEnd()) {
+            println("[DEBUG] advance(): Stream is at end, cannot advance further.")
+            return this
+        }
+        val streamResult = stream.next()
+        if (streamResult == null) {
+            println("[DEBUG] advance(): stream.next() returned null, no more tokens.")
+            return this
+        }
+        // DEBUG: Anuncia que el stream avanza al siguiente token
+        println("[DEBUG] Advancing stream. Next token will be: ${streamResult.nextStream.peak()}")
         return this.copy(stream = streamResult.nextStream)
     }
 
     fun consume(type: CommonTypes): ParserResult {
         val currentToken = peak()
+        // DEBUG: Muestra el intento de consumir un token específico
+        println(
+            "[DEBUG] Attempting to consume token of type '$type'. Current token is: $currentToken",
+        )
         return if (currentToken != null && checkType(type, currentToken)) {
             ParserSuccess("Token consumed: $type", advance())
         } else {

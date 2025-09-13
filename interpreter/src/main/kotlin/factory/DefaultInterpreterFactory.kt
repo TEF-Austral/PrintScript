@@ -30,6 +30,9 @@ class DefaultInterpreterFactory : InterpreterFactory {
             executor.statement.DefaultStatementExecutor(specificStatementExecutor),
         )
 
+    override fun createDefaultInterpreter(): Interpreter =
+        InterpreterFactoryVersionOne.createDefaultInterpreter()
+
     fun createWithVersionAndEmitterAndInputProvider(
         version: Version,
         emitter: Emitter,

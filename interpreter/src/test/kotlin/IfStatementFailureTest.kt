@@ -12,6 +12,7 @@ import type.CommonTypes
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 import node.ExpressionStatement
+import stream.MockAstStream
 
 class IfStatementFailureTest {
     @Test

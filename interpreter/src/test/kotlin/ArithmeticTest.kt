@@ -13,6 +13,7 @@ import node.Program
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import result.InterpreterResult
+import stream.MockAstStream
 import type.CommonTypes
 
 class ArithmeticTest {

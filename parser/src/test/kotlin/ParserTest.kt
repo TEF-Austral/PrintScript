@@ -1,5 +1,6 @@
 import builder.DefaultNodeBuilder
 import coordinates.Position
+import kotlin.collections.get
 import node.AssignmentStatement
 import node.BinaryExpression
 import node.DeclarationStatement
@@ -962,5 +963,67 @@ class ParserTest {
         assertEquals(11, stmt.getCoordinates().getColumn())
         val value = (stmt.getExpression() as ReadInputExpression).printValue()
         assertEquals("\"Enter your name\"", value)
+    }
+
+    @Test
+    fun `test declaration assignment and print sequence`() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 6)),
+                PrintScriptToken(CommonTypes.NUMBER, "number", Position(1, 8)),
+                PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 15)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "42", Position(1, 17)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 19)),
+                // x = x + 1;
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(2, 1)),
+                PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(2, 3)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(2, 5)),
+                PrintScriptToken(CommonTypes.OPERATORS, "+", Position(2, 7)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "1", Position(2, 9)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(2, 10)),
+                // print(x);
+                PrintScriptToken(CommonTypes.PRINT, "print", Position(3, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(3, 6)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(3, 7)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(3, 8)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(3, 9)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
+        val program = parser.parse().getProgram()
+
+        assertEquals(3, program.getStatements().size)
+
+        // Check DeclarationStatement
+        val declarationStatement = program.getStatements()[0]
+        assertTrue(declarationStatement is DeclarationStatement)
+        val declaration = declarationStatement as DeclarationStatement
+        assertEquals("x", declaration.getIdentifier())
+        assertEquals(CommonTypes.NUMBER, declaration.getDataType())
+        val declValue = declaration.getInitialValue() as LiteralExpression
+        assertEquals("42", declValue.getValue())
+
+        // Check AssignmentStatement
+        val assignmentStatement = program.getStatements()[1]
+        assertTrue(assignmentStatement is AssignmentStatement)
+        val assignment = assignmentStatement as AssignmentStatement
+        assertEquals("x", assignment.getIdentifier())
+        assertTrue(assignment.getValue() is BinaryExpression)
+        val binaryExpr = assignment.getValue() as BinaryExpression
+        assertEquals("+", binaryExpr.getOperator())
+        val left = binaryExpr.getLeft() as IdentifierExpression
+        assertEquals("x", left.getValue())
+        val right = binaryExpr.getRight() as LiteralExpression
+        assertEquals("1", right.getValue())
+
+        // Check PrintStatement
+        val printStatement = program.getStatements()[2]
+        assertTrue(printStatement is PrintStatement)
+        val print = printStatement as PrintStatement
+        val printExpr = print.getExpression() as IdentifierExpression
+        assertEquals("x", printExpr.getValue())
     }
 }

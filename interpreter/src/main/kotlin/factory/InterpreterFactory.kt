@@ -20,4 +20,6 @@ interface InterpreterFactory {
         inputProvider: InputProvider,
         database: DataBase,
     ): DefaultInterpreter
+
+    fun createDefaultInterpreter(): Interpreter
 }

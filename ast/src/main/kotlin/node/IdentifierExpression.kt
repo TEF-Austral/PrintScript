@@ -9,7 +9,9 @@ class IdentifierExpression(
 ) : Expression {
     fun getValue(): String = token.getValue()
 
-    fun getToken(): Token = token // Public getter for the token
+    fun getToken(): Token = token
 
     override fun getCoordinates(): Coordinates = coordinates
+
+    override fun toString(): String = getValue()
 }

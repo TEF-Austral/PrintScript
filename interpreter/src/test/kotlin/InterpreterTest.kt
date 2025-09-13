@@ -17,6 +17,7 @@ import factory.InterpreterFactoryVersionOnePointOne
 import node.ExpressionStatement
 import node.IfStatement
 import org.junit.jupiter.api.BeforeEach
+import stream.MockAstStream
 
 class InterpreterTest {
     @BeforeEach
@@ -3287,5 +3288,95 @@ class InterpreterTest {
         assertTrue(result.interpretedCorrectly)
         val printed = outputStream.toString().trim()
         assertEquals("Program 2\n Output: 42", printed)
+    }
+
+    @Test
+    fun `Simple Const Declaration and Sum Should Pass`() {
+        val outputStream = ByteArrayOutputStream()
+        System.setOut(PrintStream(outputStream))
+
+        print("Program 2\n Output: ")
+        val case1 =
+            Program(
+                statements =
+                    listOf(
+                        DeclarationStatement(
+                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
+                            identifier =
+                                PrintScriptToken(
+                                    CommonTypes.IDENTIFIER,
+                                    "x",
+                                    Position(1, 5),
+                                ),
+                            dataType =
+                                PrintScriptToken(
+                                    CommonTypes.NUMBER,
+                                    "number",
+                                    Position(1, 8),
+                                ),
+                            initialValue =
+                                LiteralExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.NUMBER_LITERAL,
+                                        "42",
+                                        Position(1, 17),
+                                    ),
+                                    Position(0, 0),
+                                ),
+                            Position(0, 0),
+                        ),
+                        AssignmentStatement(
+                            PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(2, 1)),
+                            value =
+                                BinaryExpression(
+                                    left =
+                                        IdentifierExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.IDENTIFIER,
+                                                "x",
+                                                Position(2, 8),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    operator =
+                                        PrintScriptToken(
+                                            CommonTypes.OPERATORS,
+                                            "+",
+                                            Position(2, 10),
+                                        ),
+                                    right =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.IDENTIFIER,
+                                                "1",
+                                                Position(2, 12),
+                                            ),
+                                            Position(0, 0),
+                                        ),
+                                    Position(2, 16),
+                                ),
+                            Position(0, 0),
+                        ),
+                        PrintStatement(
+                            expression =
+                                IdentifierExpression(
+                                    PrintScriptToken(
+                                        CommonTypes.IDENTIFIER,
+                                        "x",
+                                        Position(2, 9),
+                                    ),
+                                    Position(0, 0),
+                                ),
+                            Position(0, 0),
+                        ),
+                    ),
+            )
+        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
+        val mockAstStream = MockAstStream(case1)
+        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        assertEquals("Program executed successfully", result.message)
+        assertTrue(result.interpretedCorrectly)
+        val printed = outputStream.toString().trim()
+        assertEquals("Program 2\n Output: 43", printed)
     }
 }
