@@ -998,4 +998,35 @@ class ParserTest {
         val value = (stmt.getExpression() as ReadInputExpression).printValue()
         assertEquals("\"Enter your name\"", value)
     }
+
+    @Test
+    fun `readInput with string concatenation works`() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "input", Position(1, 5)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 10)),
+                PrintScriptToken(CommonTypes.STRING, "string", Position(1, 12)),
+                PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 19)),
+                PrintScriptToken(CommonTypes.READ_INPUT, "readInput", Position(1, 21)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 30)),
+                PrintScriptToken(
+                    CommonTypes.STRING_LITERAL,
+                    "\"Enter\"",
+                    Position(1, 31),
+                ),
+                PrintScriptToken(CommonTypes.OPERATORS, "+", Position(1, 38)),
+                PrintScriptToken(
+                    CommonTypes.STRING_LITERAL,
+                    "\"something\"",
+                    Position(1, 40),
+                ),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 51)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 52)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = VOnePointOneParserFactory().createParser(tokens, nodeBuilder)
+        val result = parser.parse()
+    }
 }

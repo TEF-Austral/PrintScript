@@ -3,7 +3,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 import factory.StringToTokenConverterFactory
 import parser.factory.VOnePointZeroParserFactory
 import factory.StringSplitterFactory
-import node.Program
+import parser.result.FinalResult
 
 class CLI :
     CliktCommand(
@@ -26,7 +26,7 @@ class CLI :
         }
     }
 
-    fun parseSourceCode(srcCodePath: String): Program {
+    fun parseSourceCode(srcCodePath: String): FinalResult {
         val lexer =
             DefaultLexer(
                 StringSplitterFactory.createDefaultsSplitter(),
@@ -35,7 +35,7 @@ class CLI :
         val tokenList = lexer.tokenize(getDefaultReader(srcCodePath))
         val nodeBuilder = DefaultNodeBuilder()
         val parser = VOnePointZeroParserFactory().createParser(tokenList, nodeBuilder)
-        return parser.parse().getProgram()
+        return parser.parse()
     }
 
     private fun getDefaultReader(path: String): Reader = FileReader(path)

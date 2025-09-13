@@ -5,7 +5,7 @@ import node.ASTNode
 import node.LiteralExpression
 import type.CommonTypes
 
-class StringLiteralExpressionRule: FormatRule {
+class StringLiteralExpressionRule : FormatRule {
 
     override fun matches(node: ASTNode) = node is LiteralExpression
 
@@ -16,11 +16,12 @@ class StringLiteralExpressionRule: FormatRule {
         indentLevel: Int,
     ) {
         val literal = node as LiteralExpression
-        val value = if (literal.getType() == CommonTypes.STRING_LITERAL) {
-            "\"${literal.getValue()}\""
-        } else {
-            literal.getValue()
-        }
+        val value =
+            if (literal.getType() == CommonTypes.STRING_LITERAL) {
+                "\"${literal.getValue()}\""
+            } else {
+                literal.getValue()
+            }
         sb.append(value)
     }
 }

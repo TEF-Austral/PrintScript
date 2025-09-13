@@ -26,7 +26,7 @@ fun CLI.handleFormatting(
             tempFile.toString()
         }
 
-    return formatter.formatToString(program, version, configPath)
+    return formatter.formatToString(program.getProgram(), version, configPath)
 }
 
 fun CLI.handleAnalyzing(
@@ -65,7 +65,7 @@ fun CLI.handleValidation(
 fun CLI.handleExecution(srcCodePath: String): String {
     val program = parseSourceCode(srcCodePath)
     val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-    val result = interpreter.interpret(program)
+    val result = interpreter.interpret(program.getProgram())
 
     return if (result.interpretedCorrectly) {
         "Program executed successfully"

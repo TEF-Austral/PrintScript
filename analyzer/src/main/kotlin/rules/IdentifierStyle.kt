@@ -1,3 +1,3 @@
 package rules
 
-enum class IdentifierStyle { CAMEL_CASE, SNAKE_CASE }
+enum class IdentifierStyle { CAMEL_CASE, SNAKE_CASE, NO_STYLE }
