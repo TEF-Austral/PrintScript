@@ -1,8 +1,10 @@
 import builder.DefaultNodeBuilder
 import com.github.ajalt.clikt.core.CliktCommand
+import converter.TokenConverter
 import factory.StringToTokenConverterFactory
 import parser.factory.VOnePointZeroParserFactory
 import factory.StringSplitterFactory
+import java.io.StringReader
 import node.Program
 
 class CLI :
@@ -27,16 +29,33 @@ class CLI :
     }
 
     fun parseSourceCode(srcCodePath: String): Program {
-        val lexer =
-            DefaultLexer(
-                StringSplitterFactory.createDefaultsSplitter(),
-                StringToTokenConverterFactory.createDefaultsTokenConverter(),
-            )
-        val tokenList = lexer.tokenize(getDefaultReader(srcCodePath))
+        val tokenList = lex(getDefaultReader(srcCodePath).read())
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = VOnePointZeroParserFactory().createParser(tokenList, nodeBuilder)
+        val mockTokenStream = MockTokenStream(tokenList)
+        val parser = VOnePointZeroParserFactory().createParser(mockTokenStream, nodeBuilder)
         return parser.parse().getProgram()
     }
 
     private fun getDefaultReader(path: String): Reader = FileReader(path)
+
+    private val tokenConverter: TokenConverter =
+        StringToTokenConverterFactory
+            .createDefaultsTokenConverter()
+
+    private fun lex(input: String): List<Token> {
+        val splitter = StringSplitterFactory.createStreamingSplitter(StringReader(input))
+        var lexer: Lexer? = DefaultLexer(tokenConverter, splitter)
+
+        val tokens = mutableListOf<Token>()
+        while (lexer != null) {
+            val result = lexer.next()
+            if (result != null) {
+                tokens.add(result.token)
+                lexer = result.lexer
+            } else {
+                lexer = null
+            }
+        }
+        return tokens
+    }
 }

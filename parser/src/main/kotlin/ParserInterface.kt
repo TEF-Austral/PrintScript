@@ -2,8 +2,8 @@ package parser
 
 import Token
 import builder.NodeBuilder
-import node.ASTNode
 import parser.result.FinalResult
+import parser.result.NextResult
 import parser.statement.StatementParser
 import parser.statement.expression.ExpressionParsingBuilder
 
@@ -18,7 +18,7 @@ interface ParserInterface {
 
     fun hasNext(): Boolean
 
-    fun next(): ASTNode
+    fun next(): NextResult
 
     fun peak(): Token?
 }

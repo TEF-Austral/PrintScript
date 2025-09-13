@@ -15,28 +15,9 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNull
-import result.StreamResult
 import type.CommonTypes
 
 class ParserTest {
-
-    private class MockTokenStream(
-        private val tokens: List<Token>,
-        private val current: Int = 0,
-    ) : TokenStream {
-
-        override fun peak(): Token {
-            if (current >= tokens.size) throw NoSuchElementException("No more tokens")
-            return tokens[current]
-        }
-
-        override fun next(): StreamResult {
-            if (current >= tokens.size) throw NoSuchElementException("No more tokens")
-            return StreamResult(tokens[current], MockTokenStream(tokens, current + 1))
-        }
-
-        override fun isAtEnd(): Boolean = current >= tokens.size
-    }
 
     @Test
     fun testSingleVariableDeclaration() {

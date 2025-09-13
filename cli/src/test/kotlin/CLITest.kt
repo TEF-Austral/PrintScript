@@ -84,7 +84,6 @@ class CLITest {
         assertEquals("Program executed successfully", actualResult)
     }
 
-    // NEW COMMAND LINE INTERFACE TESTS
 
     @Test
     fun `Format Command Test`() {

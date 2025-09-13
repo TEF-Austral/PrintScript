@@ -3,11 +3,12 @@ package parser
 import Token
 import TokenStream
 import builder.NodeBuilder
-import node.ASTNode
+import node.EmptyExpression
 import node.Statement
 import parser.result.CompleteProgram
 import parser.result.FailedProgram
 import parser.result.FinalResult
+import parser.result.NextResult
 import parser.result.ParserError
 import parser.result.ParserResult
 import parser.result.ParserSuccess
@@ -72,16 +73,32 @@ data class Parser(
 
     override fun hasNext(): Boolean = !isAtEnd()
 
-    override fun next(): ASTNode {
-        if (!hasNext()) {
-            throw NoSuchElementException("No more elements to parse.")
-        }
-        val result = statementParser.parse(this)
+    override fun next(): NextResult {
+        try {
+            if (!hasNext()) {
+                return NextResult(EmptyExpression(), false, "No more tokens available", this)
+            }
 
-        if (result.isSuccess()) {
-            return result.getStatement()
-        } else {
-            throw IllegalStateException("Failed to parse the next node: ${result.message()}")
+            val result = statementParser.parse(this)
+
+            return if (result.isSuccess()) {
+                val nextParser = result.getParser()
+                NextResult(result.getStatement(), true, "Parsed next node successfully", nextParser)
+            } else {
+                NextResult(
+                    EmptyExpression(),
+                    false,
+                    "\"Failed to parse the next node: ${result.message()}\"",
+                    this,
+                )
+            }
+        } catch (e: Exception) {
+            return NextResult(
+                EmptyExpression(),
+                false,
+                "\"Failed to parse the next node: ${e.message}\"",
+                this,
+            )
         }
     }
 
