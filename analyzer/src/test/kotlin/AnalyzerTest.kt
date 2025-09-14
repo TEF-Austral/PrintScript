@@ -24,10 +24,13 @@ import type.Version
 
 class AnalyzerTest {
 
-    private fun tokenListToStream(list: List<Token>): TokenStream =
-        MockTokenStream(list)
+    private fun tokenListToStream(list: List<Token>): TokenStream = MockTokenStream(list)
 
-    private val parser = VOnePointOneParserFactory().createParser(tokenListToStream(emptyList()), DefaultNodeBuilder())
+    private val parser =
+        VOnePointOneParserFactory().createParser(
+            tokenListToStream(emptyList()),
+            DefaultNodeBuilder(),
+        )
 
     private fun runAnalyzer(
         stmts: List<Statement>,

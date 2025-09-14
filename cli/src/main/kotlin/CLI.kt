@@ -5,7 +5,6 @@ import factory.StringToTokenConverterFactory
 import parser.factory.VOnePointZeroParserFactory
 import factory.StringSplitterFactory
 import java.io.StringReader
-import node.Program
 import parser.result.CompleteProgram
 import parser.result.FinalResult
 
@@ -29,15 +28,14 @@ class CLI :
             echo("For detailed help: mycli <command> --help")
         }
     }
-    
+
     fun parseSourceCode(srcCodePath: String): FinalResult {
         val tokenList = lex(getDefaultReader(srcCodePath).read())
         val nodeBuilder = DefaultNodeBuilder()
         val mockTokenStream = MockTokenStream(tokenList)
         val parser = VOnePointZeroParserFactory().createParser(mockTokenStream, nodeBuilder)
-        val result = CompleteProgram(parser,parser.parse().getProgram())
+        val result = CompleteProgram(parser, parser.parse().getProgram())
         return result
-
     }
 
     private fun getDefaultReader(path: String): Reader = FileReader(path)
