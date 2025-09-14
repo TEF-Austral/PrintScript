@@ -8,6 +8,7 @@ import rules.CamelCaseChecker
 import rules.IdentifierStyle
 import rules.SnakeCaseChecker
 import rules.AnalyzerRuleRegistry
+import rules.NoStyleChecker
 import rules.Rule
 import type.Version
 import type.Version.VERSION_1_1
@@ -24,6 +25,7 @@ object AnalyzerFactory : AnalyzerFactoryInterface {
             when (baseConfig.identifierStyle) {
                 IdentifierStyle.CAMEL_CASE -> CamelCaseChecker()
                 IdentifierStyle.SNAKE_CASE -> SnakeCaseChecker()
+                IdentifierStyle.NO_STYLE -> NoStyleChecker()
             }
 
         return when (version) {

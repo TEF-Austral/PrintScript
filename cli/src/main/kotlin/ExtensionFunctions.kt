@@ -27,7 +27,7 @@ fun CLI.handleFormatting(
             tempFile.toString()
         }
 
-    return formatter.formatToString(program, version, configPath)
+    return formatter.formatToString(program.getProgram(), version, configPath)
 }
 
 fun CLI.handleAnalyzing(

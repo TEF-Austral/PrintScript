@@ -27,13 +27,14 @@ class CLI :
             echo("For detailed help: mycli <command> --help")
         }
     }
-
+    
     fun parseSourceCode(srcCodePath: String): Program {
         val tokenList = lex(getDefaultReader(srcCodePath).read())
         val nodeBuilder = DefaultNodeBuilder()
         val mockTokenStream = MockTokenStream(tokenList)
         val parser = VOnePointZeroParserFactory().createParser(mockTokenStream, nodeBuilder)
         return parser.parse().getProgram()
+
     }
 
     private fun getDefaultReader(path: String): Reader = FileReader(path)

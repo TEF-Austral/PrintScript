@@ -1,3 +1,4 @@
+import builder.DefaultNodeBuilder
 import config.AnalyzerConfig
 import coordinates.Position
 import diagnostic.Diagnostic
@@ -11,6 +12,8 @@ import node.Statement
 import node.ExpressionStatement
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import parser.factory.VOnePointOneParserFactory
+import parser.result.CompleteProgram
 import type.CommonTypes
 import java.io.File
 import kotlin.test.Test
@@ -18,6 +21,7 @@ import transformer.StringToPrintScriptVersion
 import type.Version
 
 class Analyzer11Tests {
+    private val parser = VOnePointOneParserFactory().createParser(listOf(), DefaultNodeBuilder())
 
     private val transformer = StringToPrintScriptVersion()
 
@@ -43,7 +47,7 @@ class Analyzer11Tests {
             }
         return AnalyzerFactory
             .createWithVersion(version, tempConfigFile.absolutePath)
-            .analyze(Program(stmts))
+            .analyze(CompleteProgram(parser, Program(stmts)))
     }
 
     private fun tok(
