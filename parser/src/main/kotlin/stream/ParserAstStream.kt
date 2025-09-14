@@ -4,6 +4,7 @@ import node.ASTNode
 import stream.AstStream
 import stream.AstStreamResult
 import java.util.NoSuchElementException
+import node.EmptyExpression
 import parser.ParserInterface
 
 class ParserAstStream(
@@ -38,9 +39,9 @@ class ParserAstStream(
         return if (result.isSuccess) {
             val nextNode = result.node
             val nextParser = result.parser
-            AstStreamResult(nextNode, ParserAstStream(nextParser))
+            AstStreamResult(nextNode, ParserAstStream(nextParser), true)
         } else {
-            throw Exception("Error de parseo: ${result.message}")
+            return AstStreamResult(EmptyExpression(), ParserAstStream(parser), false)
         }
     }
 

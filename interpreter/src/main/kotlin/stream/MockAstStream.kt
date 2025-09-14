@@ -15,7 +15,7 @@ class MockAstStream(
     override fun next(): AstStreamResult {
         val node = statements[index]
         val newStream = MockAstStream(statements, index + 1)
-        return AstStreamResult(node, newStream)
+        return AstStreamResult(node, newStream, true)
     }
 
     override fun isAtEnd(): Boolean = index >= statements.size

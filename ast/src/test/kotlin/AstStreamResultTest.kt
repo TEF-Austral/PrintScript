@@ -49,7 +49,7 @@ class AstStreamResultTest {
         val node = nodeBuilder.buildLiteralExpressionNode(mockToken)
         val nextStream = MockAstStream(listOf())
 
-        val result = AstStreamResult(node, nextStream)
+        val result = AstStreamResult(node, nextStream, true)
 
         assertNotNull(result)
         assertEquals(node, result.node)
@@ -62,7 +62,7 @@ class AstStreamResultTest {
         val literalExpr = nodeBuilder.buildLiteralExpressionNode(mockToken)
         val nextStream = MockAstStream(listOf())
 
-        val result = AstStreamResult(literalExpr, nextStream)
+        val result = AstStreamResult(literalExpr, nextStream, true)
 
         assertEquals(literalExpr, result.node)
         assertEquals("test", (result.node as LiteralExpression).getValue())
@@ -76,7 +76,7 @@ class AstStreamResultTest {
         val identifierExpr = nodeBuilder.buildIdentifierNode(identifierToken)
         val nextStream = MockAstStream(listOf())
 
-        val result = AstStreamResult(identifierExpr, nextStream)
+        val result = AstStreamResult(identifierExpr, nextStream, true)
 
         assertEquals(identifierExpr, result.node)
         assertEquals("myVar", (result.node as IdentifierExpression).getValue())
@@ -92,7 +92,7 @@ class AstStreamResultTest {
         val binaryExpr = nodeBuilder.buildBinaryExpressionNode(leftExpr, operatorToken, rightExpr)
         val nextStream = MockAstStream(listOf())
 
-        val result = AstStreamResult(binaryExpr, nextStream)
+        val result = AstStreamResult(binaryExpr, nextStream, true)
 
         assertEquals(binaryExpr, result.node)
         val binary = result.node as BinaryExpression
@@ -108,7 +108,7 @@ class AstStreamResultTest {
         val emptyExpr = EmptyExpression()
         val nextStream = MockAstStream(listOf())
 
-        val result = AstStreamResult(emptyExpr, nextStream)
+        val result = AstStreamResult(emptyExpr, nextStream, true)
 
         assertEquals(emptyExpr, result.node)
         assertEquals("EmptyExpression", result.node.toString())
@@ -121,7 +121,7 @@ class AstStreamResultTest {
         val emptyStmt = nodeBuilder.buildEmptyStatementNode()
         val nextStream = MockAstStream(listOf())
 
-        val result = AstStreamResult(emptyStmt, nextStream)
+        val result = AstStreamResult(emptyStmt, nextStream, true)
 
         assertEquals(emptyStmt, result.node)
         assertEquals("EmptyStatement", result.node.toString())
@@ -135,7 +135,7 @@ class AstStreamResultTest {
         val printStmt = nodeBuilder.buildPrintStatementNode(expression)
         val nextStream = MockAstStream(listOf())
 
-        val result = AstStreamResult(printStmt, nextStream)
+        val result = AstStreamResult(printStmt, nextStream, true)
 
         assertEquals(printStmt, result.node)
         val print = result.node as PrintStatement
@@ -150,7 +150,7 @@ class AstStreamResultTest {
         val assignment = nodeBuilder.buildAssignmentStatementNode(identifierToken, value)
         val nextStream = MockAstStream(listOf())
 
-        val result = AstStreamResult(assignment, nextStream)
+        val result = AstStreamResult(assignment, nextStream, true)
 
         assertEquals(assignment, result.node)
         val assign = result.node as AssignmentStatement
@@ -172,7 +172,7 @@ class AstStreamResultTest {
             )
         val nextStream = MockAstStream(listOf())
 
-        val result = AstStreamResult(varDecl, nextStream)
+        val result = AstStreamResult(varDecl, nextStream, true)
 
         assertEquals(varDecl, result.node)
         val decl = result.node as DeclarationStatement
@@ -194,7 +194,7 @@ class AstStreamResultTest {
         val program = nodeBuilder.buildProgramNode(statements)
         val nextStream = MockAstStream(listOf())
 
-        val result = AstStreamResult(program, nextStream)
+        val result = AstStreamResult(program, nextStream, true)
 
         assertEquals(program, result.node)
         val prog = result.node as Program
@@ -209,8 +209,8 @@ class AstStreamResultTest {
         val node = nodeBuilder.buildLiteralExpressionNode(mockToken)
         val nextStream = MockAstStream(listOf())
 
-        val result1 = AstStreamResult(node, nextStream)
-        val result2 = AstStreamResult(node, nextStream)
+        val result1 = AstStreamResult(node, nextStream, true)
+        val result2 = AstStreamResult(node, nextStream, true)
 
         // Test equality (data class should provide equals)
         assertEquals(result1, result2)
@@ -227,8 +227,8 @@ class AstStreamResultTest {
         val node2 = nodeBuilder.buildIdentifierNode(identifierToken)
         val nextStream = MockAstStream(listOf())
 
-        val result1 = AstStreamResult(node1, nextStream)
-        val result2 = AstStreamResult(node2, nextStream)
+        val result1 = AstStreamResult(node1, nextStream, true)
+        val result2 = AstStreamResult(node2, nextStream, true)
 
         assertEquals(node1, result1.node)
         assertEquals(node2, result2.node)
@@ -242,8 +242,8 @@ class AstStreamResultTest {
         val stream1 = MockAstStream(listOf())
         val stream2 = MockAstStream(listOf(nodeBuilder.buildEmptyStatementNode()))
 
-        val result1 = AstStreamResult(node, stream1)
-        val result2 = AstStreamResult(node, stream2)
+        val result1 = AstStreamResult(node, stream1, true)
+        val result2 = AstStreamResult(node, stream2, true)
 
         assertEquals(node, result1.node)
         assertEquals(node, result2.node)
@@ -258,7 +258,7 @@ class AstStreamResultTest {
         val node = nodeBuilder.buildLiteralExpressionNode(tokenWithCoords)
         val nextStream = MockAstStream(listOf())
 
-        val result = AstStreamResult(node, nextStream)
+        val result = AstStreamResult(node, nextStream, true)
 
         assertEquals(customCoords, result.node.getCoordinates())
         assertEquals(5, result.node.getCoordinates().getRow())
@@ -291,7 +291,7 @@ class AstStreamResultTest {
             )
 
         val nextStream = MockAstStream(listOf())
-        val result = AstStreamResult(varDecl, nextStream)
+        val result = AstStreamResult(varDecl, nextStream, true)
 
         val statement = result.node as DeclarationStatement
         assertEquals("x", statement.getIdentifier())
@@ -311,7 +311,7 @@ class AstStreamResultTest {
         val nextNode = nodeBuilder.buildIdentifierNode(identifierToken)
         val streamWithNodes = MockAstStream(listOf(nextNode))
 
-        val result = AstStreamResult(node, streamWithNodes)
+        val result = AstStreamResult(node, streamWithNodes, true)
 
         assertEquals(node, result.node)
         assertEquals(streamWithNodes, result.nextStream)
@@ -324,7 +324,7 @@ class AstStreamResultTest {
         val node = nodeBuilder.buildLiteralExpressionNode(mockToken)
         val emptyStream = MockAstStream(listOf())
 
-        val result = AstStreamResult(node, emptyStream)
+        val result = AstStreamResult(node, emptyStream, false)
 
         assertEquals(node, result.node)
         assertEquals(emptyStream, result.nextStream)
@@ -354,7 +354,7 @@ class AstStreamResultTest {
             val remainingNodes = nodes.drop(index)
             val nextStream = MockAstStream(remainingNodes)
 
-            return AstStreamResult(currentNode, nextStream)
+            return AstStreamResult(currentNode, nextStream, true)
         }
 
         override fun isAtEnd(): Boolean = index >= nodes.size

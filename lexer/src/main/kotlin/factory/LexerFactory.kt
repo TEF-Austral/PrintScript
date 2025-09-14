@@ -20,4 +20,9 @@ interface LexerFactory {
         version: Version,
         reader: Reader,
     ): Lexer
+
+    fun createLexerWithVersionAndBufferSize(
+        reader: Reader,
+        size: Int,
+    ): Lexer
 }
