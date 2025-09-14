@@ -71,10 +71,7 @@ class DefaultParseBinary(
     override fun consumeOperator(parser: Parser): Parser = parser.advance()
 
     override fun parseRightOperand(parser: Parser): ExpressionResult {
-        val currentToken = parser.peak()
-        if (currentToken == null) {
-            throw Exception("Exceeded parsing limits")
-        }
+        val currentToken = parser.peak() ?: throw Exception("Exceeded parsing limits")
         return tokenToExpression.parse(parser, currentToken)
     }
 

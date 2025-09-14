@@ -84,8 +84,6 @@ class CLITest {
         assertEquals("Program executed successfully", actualResult)
     }
 
-    // NEW COMMAND LINE INTERFACE TESTS
-
     @Test
     fun `Format Command Test`() {
         val srcPath = "src/test/resources/cliFormattingTest.txt"
@@ -133,7 +131,6 @@ class CLITest {
             formatCommand.main(arrayOf(srcPath, "-v", "1.0"))
 
             val actualOutput = outputStream.toString().trim()
-            // Should use default formatter config
             assertTrue(actualOutput.isNotEmpty())
         } finally {
             System.setOut(originalOut)

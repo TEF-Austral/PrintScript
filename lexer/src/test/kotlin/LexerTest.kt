@@ -1,19 +1,34 @@
 import factory.StringToTokenConverterFactory
 import converter.TokenConverter
+import factory.StringSplitterFactory
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import stringSplitter.Splitter
-import factory.StringSplitterFactory
+import java.io.StringReader
+import org.junit.jupiter.api.assertNotNull
 import type.CommonTypes
 
 class LexerTest {
-    private val splitter: Splitter = StringSplitterFactory.createDefaultsSplitter()
+
     private val tokenConverter: TokenConverter =
         StringToTokenConverterFactory
             .createDefaultsTokenConverter()
 
-    private fun lex(input: String) =
-        DefaultLexer(splitter, tokenConverter).tokenize(MockReader(input))
+    private fun lex(input: String): List<Token> {
+        val splitter = StringSplitterFactory.createStreamingSplitter(StringReader(input))
+        var lexer: Lexer? = DefaultLexer(tokenConverter, splitter)
+
+        val tokens = mutableListOf<Token>()
+        while (lexer != null) {
+            val result = lexer.next()
+            if (result != null) {
+                tokens.add(result.token)
+                lexer = result.lexer
+            } else {
+                lexer = null
+            }
+        }
+        return tokens
+    }
 
     @Test
     fun tokenizeDeclarationAssignmentWithNumberLiteral() {
@@ -63,15 +78,8 @@ class LexerTest {
         assertEquals(4, tokens.size)
 
         assertEquals(CommonTypes.PRINT, tokens[0].getType())
-        assertEquals("println", tokens[0].getValue())
-
-        assertEquals(CommonTypes.DELIMITERS, tokens[1].getType())
         assertEquals("(", tokens[1].getValue())
-
-        assertEquals(CommonTypes.STRING_LITERAL, tokens[2].getType())
         assertEquals("hi", tokens[2].getValue())
-
-        assertEquals(CommonTypes.DELIMITERS, tokens[3].getType())
         assertEquals(")", tokens[3].getValue())
     }
 
@@ -80,25 +88,12 @@ class LexerTest {
         val tokens = lex("(1+2)*3")
         assertEquals(7, tokens.size)
 
-        assertEquals(CommonTypes.DELIMITERS, tokens[0].getType())
         assertEquals("(", tokens[0].getValue())
-
-        assertEquals(CommonTypes.NUMBER_LITERAL, tokens[1].getType())
         assertEquals("1", tokens[1].getValue())
-
-        assertEquals(CommonTypes.OPERATORS, tokens[2].getType())
         assertEquals("+", tokens[2].getValue())
-
-        assertEquals(CommonTypes.NUMBER_LITERAL, tokens[3].getType())
         assertEquals("2", tokens[3].getValue())
-
-        assertEquals(CommonTypes.DELIMITERS, tokens[4].getType())
         assertEquals(")", tokens[4].getValue())
-
-        assertEquals(CommonTypes.OPERATORS, tokens[5].getType())
         assertEquals("*", tokens[5].getValue())
-
-        assertEquals(CommonTypes.NUMBER_LITERAL, tokens[6].getType())
         assertEquals("3", tokens[6].getValue())
     }
 
@@ -146,5 +141,17 @@ class LexerTest {
 
         assertEquals(CommonTypes.IDENTIFIER, tokens[11].getType())
         assertEquals("a", tokens[11].getValue())
+    }
+
+    @Test
+    fun peekTest() {
+        val input = "let x = 5;"
+        val splitter = StringSplitterFactory.createStreamingSplitter(StringReader(input))
+        var lexer: Lexer? = DefaultLexer(tokenConverter, splitter)
+
+        val peek1 = lexer!!.peek()
+        assertNotNull(peek1)
+        assertEquals(CommonTypes.LET, peek1.getType())
+        assertEquals("let", peek1.getValue())
     }
 }

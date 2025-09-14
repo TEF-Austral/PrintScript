@@ -17,6 +17,7 @@ import node.LiteralExpression
 import node.PrintStatement
 import node.Program
 import node.ReadInputExpression
+import stream.MockAstStream
 
 class ReadInputTest {
     private val originalIn: InputStream = System.`in`
@@ -86,7 +87,8 @@ class ReadInputTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result = interpreter.interpret(program)
+        val mockAstStream = MockAstStream(program)
+        val result = interpreter.interpret(mockAstStream)
 
         assertTrue(result.interpretedCorrectly, "Interpreter should have run successfully.")
 
@@ -188,7 +190,8 @@ class ReadInputTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result = interpreter.interpret(program)
+        val mockAstStream = MockAstStream(program)
+        val result = interpreter.interpret(mockAstStream)
 
         assertTrue(result.interpretedCorrectly)
 

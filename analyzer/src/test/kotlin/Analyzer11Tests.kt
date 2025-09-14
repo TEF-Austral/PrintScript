@@ -21,7 +21,14 @@ import transformer.StringToPrintScriptVersion
 import type.Version
 
 class Analyzer11Tests {
-    private val parser = VOnePointOneParserFactory().createParser(listOf(), DefaultNodeBuilder())
+
+    private fun tokenListToStream(list: List<Token>): TokenStream = MockTokenStream(list)
+
+    private val parser =
+        VOnePointOneParserFactory().createParser(
+            tokenListToStream(emptyList()),
+            DefaultNodeBuilder(),
+        )
 
     private val transformer = StringToPrintScriptVersion()
 
