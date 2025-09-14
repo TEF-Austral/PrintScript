@@ -55,7 +55,7 @@ data class Parser(
             }
 
             else -> {
-                throw Exception("Failed at statement #$statementNum: ${result.message()}")
+                throw Exception(result.message())
             }
         }
     }
