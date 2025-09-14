@@ -46,4 +46,16 @@ class DefaultInterpreterFactory : InterpreterFactory {
                     inputProvider,
                 )
         }
+
+    fun createWithVersionAndEmitter(
+        version: Version,
+        emitter: Emitter,
+    ): Interpreter =
+        when (version) {
+            Version.VERSION_1_0 -> InterpreterFactoryVersionOne.createDefaultInterpreter(emitter)
+            Version.VERSION_1_1 ->
+                InterpreterFactoryVersionOnePointOne.createDefaultInterpreter(
+                    emitter
+                )
+        }
 }
