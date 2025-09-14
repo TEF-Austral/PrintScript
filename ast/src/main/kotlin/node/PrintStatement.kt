@@ -17,4 +17,6 @@ class PrintStatement(
         }
 
     override fun getCoordinates(): Coordinates = coordinates
+
+    override fun toString(): String = "PrintStatement($expression)"
 }

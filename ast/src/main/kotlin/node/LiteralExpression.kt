@@ -13,4 +13,6 @@ class LiteralExpression(
     fun getType(): CommonTypes = token.getType()
 
     override fun getCoordinates(): Coordinates = coordinates
+
+    override fun toString(): String = getValue()
 }
