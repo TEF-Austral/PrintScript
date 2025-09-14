@@ -14,6 +14,7 @@ import result.InterpreterResult
 import type.CommonTypes
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
+import stream.MockAstStream
 
 class IfStatementTest {
     @Test
@@ -71,9 +72,10 @@ class IfStatementTest {
                         ),
                     ),
             )
+        val mockAstStream = MockAstStream(program)
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(program)
+        val result: InterpreterResult = interpreter.interpret(mockAstStream)
 
         assertTrue(result.interpretedCorrectly, "Program should execute successfully.")
         assertEquals("Then branch executed", outputStream.toString().trim())
@@ -134,9 +136,9 @@ class IfStatementTest {
                         ),
                     ),
             )
-
+        val mockAstStream = MockAstStream(program)
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(program)
+        val result: InterpreterResult = interpreter.interpret(mockAstStream)
 
         assertTrue(result.interpretedCorrectly, "Program should execute successfully.")
         assertEquals("Else branch executed", outputStream.toString().trim())
@@ -146,7 +148,7 @@ class IfStatementTest {
     fun `If statement with true variable condition should execute then branch`() {
         /*
         Represents the code:
-        let condition: boolean = true;
+        let condition: Boolean = true;
         if (condition) {
             println("Condition is true");
         } else {
@@ -223,9 +225,9 @@ class IfStatementTest {
                         ),
                     ),
             )
-
+        val mockAstStream = MockAstStream(program)
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(program)
+        val result: InterpreterResult = interpreter.interpret(mockAstStream)
 
         assertTrue(result.interpretedCorrectly, "Program should execute successfully.")
         assertEquals("Condition is true", outputStream.toString().trim())
@@ -235,7 +237,7 @@ class IfStatementTest {
     fun `If statement with false variable condition should execute else branch`() {
         /*
         Represents the code:
-        let condition: boolean = false;
+        let condition: Boolean = false;
         if (condition) {
             println("Condition is true");
         } else {
@@ -312,9 +314,9 @@ class IfStatementTest {
                         ),
                     ),
             )
-
+        val mockAstStream = MockAstStream(program)
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(program)
+        val result: InterpreterResult = interpreter.interpret(mockAstStream)
 
         assertTrue(result.interpretedCorrectly, "Program should execute successfully.")
         assertEquals("Condition is false", outputStream.toString().trim())
@@ -362,9 +364,9 @@ class IfStatementTest {
                         ),
                     ),
             )
-
+        val mockAstStream = MockAstStream(program)
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(program)
+        val result: InterpreterResult = interpreter.interpret(mockAstStream)
 
         assertTrue(result.interpretedCorrectly, "Program should execute successfully.")
         assertEquals("Only then", outputStream.toString().trim())
@@ -412,9 +414,9 @@ class IfStatementTest {
                         ),
                     ),
             )
-
+        val mockAstStream = MockAstStream(program)
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(program)
+        val result: InterpreterResult = interpreter.interpret(mockAstStream)
 
         assertTrue(result.interpretedCorrectly, "Program should execute successfully.")
         assertEquals("", outputStream.toString().trim(), "Output should be empty.")
@@ -424,8 +426,8 @@ class IfStatementTest {
     fun `Nested if statements should execute correctly`() {
         /*
         Represents the code:
-        let outer: boolean = true;
-        let inner: boolean = false;
+        let outer: Boolean = true;
+        let inner: Boolean = false;
         if (outer) {
             if (inner) {
                 println("Inner then");
@@ -556,9 +558,9 @@ class IfStatementTest {
                         ),
                     ),
             )
-
+        val mockAstStream = MockAstStream(program)
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(program)
+        val result: InterpreterResult = interpreter.interpret(mockAstStream)
 
         assertTrue(result.interpretedCorrectly, "Program should execute successfully.")
         assertEquals("Inner else", outputStream.toString().trim())
@@ -631,8 +633,9 @@ class IfStatementTest {
                         ),
                     ),
             )
+        val mockAstStream = MockAstStream(program)
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(program)
+        val result: InterpreterResult = interpreter.interpret(mockAstStream)
         assertTrue(result.interpretedCorrectly)
         assertEquals("both true", outputStream.toString().trim())
     }
@@ -703,8 +706,9 @@ class IfStatementTest {
                         ),
                     ),
             )
+        val mockAstStream = MockAstStream(program)
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(program)
+        val result: InterpreterResult = interpreter.interpret(mockAstStream)
         assertTrue(result.interpretedCorrectly)
         assertEquals("something false", outputStream.toString().trim())
     }
@@ -775,8 +779,9 @@ class IfStatementTest {
                         ),
                     ),
             )
+        val mockAstStream = MockAstStream(program)
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(program)
+        val result: InterpreterResult = interpreter.interpret(mockAstStream)
         assertTrue(result.interpretedCorrectly)
         assertEquals("at least one is true", outputStream.toString().trim())
     }
@@ -847,8 +852,9 @@ class IfStatementTest {
                         ),
                     ),
             )
+        val mockAstStream = MockAstStream(program)
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(program)
+        val result: InterpreterResult = interpreter.interpret(mockAstStream)
         assertTrue(result.interpretedCorrectly)
         assertEquals("both false", outputStream.toString().trim())
     }
@@ -988,8 +994,9 @@ class IfStatementTest {
                         ),
                     ),
             )
+        val mockAstStream = MockAstStream(program)
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(program)
+        val result: InterpreterResult = interpreter.interpret(mockAstStream)
         assertTrue(result.interpretedCorrectly)
         assertEquals("complex true", outputStream.toString().trim())
     }
@@ -1060,8 +1067,9 @@ class IfStatementTest {
                         ),
                     ),
             )
+        val mockAstStream = MockAstStream(program)
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result = interpreter.interpret(program)
+        val result = interpreter.interpret(mockAstStream)
         assertTrue(result.interpretedCorrectly)
         assertEquals("correct", outputStream.toString().trim())
     }
@@ -1132,8 +1140,9 @@ class IfStatementTest {
                         ),
                     ),
             )
+        val mockAstStream = MockAstStream(program)
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result = interpreter.interpret(program)
+        val result = interpreter.interpret(mockAstStream)
         assertTrue(result.interpretedCorrectly)
         assertEquals("correct", outputStream.toString().trim())
     }
@@ -1254,8 +1263,9 @@ class IfStatementTest {
                         ),
                     ),
             )
+        val mockAstStream = MockAstStream(program)
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result = interpreter.interpret(program)
+        val result = interpreter.interpret(mockAstStream)
         assertTrue(result.interpretedCorrectly)
         assertEquals("equal", outputStream.toString().trim())
     }
@@ -1326,8 +1336,9 @@ class IfStatementTest {
                         ),
                     ),
             )
+        val mockAstStream = MockAstStream(program)
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result = interpreter.interpret(program)
+        val result = interpreter.interpret(mockAstStream)
         assertTrue(result.interpretedCorrectly)
         assertEquals("correct", outputStream.toString().trim())
     }

@@ -10,7 +10,6 @@ import statement.enforcers.IdentifierEnforcer
 import statement.enforcers.SemanticEnforcers
 import statement.enforcers.SemiColonEnforcer
 import coordinates.Position
-import node.EmptyExpression
 import parser.Parser
 import parser.result.SemanticSuccess
 import parser.result.StatementBuiltResult
@@ -40,7 +39,7 @@ class VariableDeclarationParser(
     override fun parse(parser: Parser): StatementResult {
         val emptyToken = PrintScriptToken(CommonTypes.EMPTY, "", Position(0, 0))
         val emptySemanticResult =
-            SemanticSuccess("", emptyToken, emptyToken, EmptyExpression(), parser)
+            SemanticSuccess("", emptyToken, emptyToken, null, parser)
         val result = semanticOrder.enforce(emptySemanticResult)
         if (!result.isSuccess()) {
             return StatementErrorResult(result.getParser(), result.message())

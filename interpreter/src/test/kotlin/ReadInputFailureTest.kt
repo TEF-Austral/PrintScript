@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import stream.MockAstStream
 import type.CommonTypes
 
 class ReadInputFailureTest {
@@ -70,13 +71,15 @@ class ReadInputFailureTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result = interpreter.interpret(program)
+        val mockAstStream = MockAstStream(program)
+
+        val result = interpreter.interpret(mockAstStream)
 
         assertFalse(
             result.interpretedCorrectly,
             "Interpreter should have failed due to type mismatch.",
         )
-        assertEquals("Failed to convert value 'not a number' to type 'Number'", result.message)
+        assertEquals("Failed to convert value 'not a number' to type 'number'", result.message)
     }
 
     @Test
@@ -84,7 +87,7 @@ class ReadInputFailureTest {
         val userInput = "yes\n"
         setInput(userInput)
 
-        // Program: let isMember: boolean = readInput("Is member? ");
+        // Program: let isMember: Boolean = readInput("Is member? ");
         val program =
             Program(
                 statements =
@@ -114,9 +117,10 @@ class ReadInputFailureTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result = interpreter.interpret(program)
+        val mockAstStream = MockAstStream(program)
+        val result = interpreter.interpret(mockAstStream)
 
         assertFalse(result.interpretedCorrectly)
-        assertEquals("Failed to convert value 'yes' to type 'Boolean'", result.message)
+        assertEquals("Failed to convert value 'yes' to type 'boolean'", result.message)
     }
 }

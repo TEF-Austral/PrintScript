@@ -16,4 +16,6 @@ class BinaryExpression(
     fun getRight(): Expression = right
 
     override fun getCoordinates(): Coordinates = coordinates
+
+    override fun toString(): String = "BinaryExpression($left, ${operator.getValue()}, $right)"
 }

@@ -16,5 +16,12 @@ object StringLiteralToToken : StringToTokenConverter {
         input: String,
         position: Coordinates,
     ): Token =
-        PrintScriptToken(type = CommonTypes.STRING_LITERAL, value = input, coordinates = position)
+        PrintScriptToken(
+            type = CommonTypes.STRING_LITERAL,
+            value = removeStringIndicators(input),
+            coordinates = position,
+        )
+
+    private fun removeStringIndicators(input: String): String =
+        input.replace("\"", "").replace("\'", "")
 }

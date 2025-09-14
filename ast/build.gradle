@@ -7,9 +7,6 @@ repositories {
     mavenCentral()
 }
 
-group = 'com.github.tef-austral'
-version = '1.1.5'
-
 dependencies {
     implementation project(':token')
     testImplementation 'org.jetbrains.kotlin:kotlin-test'

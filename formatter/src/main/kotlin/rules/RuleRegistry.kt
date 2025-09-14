@@ -8,6 +8,7 @@ object RuleRegistry {
             PrintStatementRule(),
             EmptyStatementRule(),
             BinaryExpressionRule(),
+            StringLiteralExpressionRule(),
             LiteralExpressionRule(),
             IdentifierExpressionRule(),
         )

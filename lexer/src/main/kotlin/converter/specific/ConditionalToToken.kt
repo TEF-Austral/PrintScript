@@ -6,7 +6,7 @@ import Token
 import type.CommonTypes
 
 object ConditionalToToken : StringToTokenConverter {
-    override fun canHandle(input: String): Boolean = input in listOf("if", "else", "switch", "case")
+    override fun canHandle(input: String): Boolean = input in listOf("if", "else")
 
     override fun convert(
         input: String,

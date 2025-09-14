@@ -5,7 +5,6 @@ import node.LiteralExpression
 import parser.Parser
 import parser.result.ExpressionBuiltResult
 import parser.result.ExpressionResult
-import parser.utils.advancePastSemiColon
 import parser.utils.isSemiColon
 import parser.utils.isValidResultAndCurrentToken
 import type.CommonTypes
@@ -18,7 +17,7 @@ class ReadInputParser : ExpressionBuilder {
         if (isSemiColon(parser.advance().advance().peak())) throw Exception("Invalid structure")
         val readInput = parser.consume(CommonTypes.READ_INPUT)
         if (!isValidResultAndCurrentToken(readInput)) {
-            throw Exception("Expected readEnv")
+            throw Exception("Expected readInput")
         }
         val value =
             readInput.getParser().getExpressionParser().parseExpression(
@@ -28,9 +27,14 @@ class ReadInputParser : ExpressionBuilder {
             throw Exception("Only a literal expression can be inside of readInput")
         }
         val literalExpression = value.getExpression() as LiteralExpression
-        val delimiterParser = advancePastSemiColon(value.getParser())
-        val builtStatement = delimiterParser.getNodeBuilder().buildReadInputNode(literalExpression)
-        return ExpressionBuiltResult(delimiterParser, builtStatement)
+        if (literalExpression.getType() != CommonTypes.STRING_LITERAL) {
+            throw Exception("Expected string literal")
+        }
+        val builtStatement =
+            value.getParser().getNodeBuilder().buildReadInputNode(
+                literalExpression,
+            )
+        return ExpressionBuiltResult(value.getParser(), builtStatement)
     }
 
     override fun canHandle(types: CommonTypes): Boolean = types == CommonTypes.READ_INPUT

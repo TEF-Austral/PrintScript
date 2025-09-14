@@ -2,6 +2,6 @@ package node
 
 import coordinates.Coordinates
 
-sealed interface ASTNode {
+interface ASTNode {
     fun getCoordinates(): Coordinates
 }

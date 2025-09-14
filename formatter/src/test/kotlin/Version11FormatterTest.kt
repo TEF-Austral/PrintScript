@@ -26,7 +26,7 @@ class Version11FormatterTest {
         val condition = builder.buildLiteralExpressionNode(tok(CommonTypes.BOOLEAN_LITERAL, "true"))
         val printStmt =
             builder.buildPrintStatementNode(
-                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"inside\"")),
+                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "inside")),
             )
         val ifStmt = builder.buildIfStatementNode(condition, printStmt, null)
         val program = builder.buildProgramNode(listOf(ifStmt))
@@ -53,11 +53,11 @@ class Version11FormatterTest {
             )
         val yesStmt =
             builder.buildPrintStatementNode(
-                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"yes\"")),
+                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "yes")),
             )
         val noStmt =
             builder.buildPrintStatementNode(
-                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"no\"")),
+                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "no")),
             )
         val ifStmt = builder.buildIfStatementNode(condition, yesStmt, noStmt)
         val program = builder.buildProgramNode(listOf(ifStmt))
@@ -83,7 +83,7 @@ class Version11FormatterTest {
         val condition = builder.buildLiteralExpressionNode(tok(CommonTypes.BOOLEAN_LITERAL, "true"))
         val printStmt =
             builder.buildPrintStatementNode(
-                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"X\"")),
+                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "X")),
             )
         val ifStmt = builder.buildIfStatementNode(condition, printStmt, null)
         val program = builder.buildProgramNode(listOf(ifStmt))
@@ -112,7 +112,7 @@ class Version11FormatterTest {
             builder.buildVariableDeclarationStatementNode(
                 tok(CommonTypes.CONST, "const"),
                 identifier = tok(CommonTypes.IDENTIFIER, "pi"),
-                dataType = tok(CommonTypes.NUMBER, "Number"),
+                dataType = tok(CommonTypes.NUMBER, "number"),
                 initialValue = valueExpr,
             )
         val program = builder.buildProgramNode(listOf(decl))
@@ -120,7 +120,7 @@ class Version11FormatterTest {
         val formatter = FormatterFactory.createWithVersion(transform("1.1"))
         val result = formatter.formatToString(program, FormatConfig())
 
-        assertEquals("const pi: Number = 3.14;\n", result)
+        assertEquals("const pi: number = 3.14;\n", result)
     }
 
     @Test
@@ -133,7 +133,7 @@ class Version11FormatterTest {
             builder.buildVariableDeclarationStatementNode(
                 tok(CommonTypes.CONST, "const"),
                 identifier = tok(CommonTypes.IDENTIFIER, "a"),
-                dataType = tok(CommonTypes.NUMBER, "Number"),
+                dataType = tok(CommonTypes.NUMBER, "number"),
                 initialValue =
                     builder.buildLiteralExpressionNode(
                         tok(CommonTypes.NUMBER_LITERAL, "1"),
@@ -148,7 +148,7 @@ class Version11FormatterTest {
         val expected =
             """
             if(true) {
-                const a: Number = 1;
+                const a: number = 1;
             }
 
             """.trimIndent().replace("\n", "\n")
@@ -159,7 +159,7 @@ class Version11FormatterTest {
     fun `nested if statements version 11 indent levels`() {
         val innerPrint =
             builder.buildPrintStatementNode(
-                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"inner\"")),
+                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "inner")),
             )
         val innerIf =
             builder.buildIfStatementNode(
@@ -194,7 +194,7 @@ class Version11FormatterTest {
     fun `blank line before println in if block when configured`() {
         val printStmt =
             builder.buildPrintStatementNode(
-                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"inside\"")),
+                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "inside")),
             )
         val ifStmt =
             builder.buildIfStatementNode(
@@ -223,13 +223,13 @@ class Version11FormatterTest {
     fun `let declaration inside else with custom spacing and indent`() {
         val printOk =
             builder.buildPrintStatementNode(
-                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "\"ok\"")),
+                builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "ok")),
             )
         val declX =
             builder.buildVariableDeclarationStatementNode(
                 tok(CommonTypes.LET, "let"),
                 identifier = tok(CommonTypes.IDENTIFIER, "x"),
-                dataType = tok(CommonTypes.NUMBER, "Number"),
+                dataType = tok(CommonTypes.NUMBER, "number"),
                 initialValue =
                     builder.buildLiteralExpressionNode(
                         tok(CommonTypes.NUMBER_LITERAL, "1"),
@@ -258,7 +258,7 @@ class Version11FormatterTest {
             if(true) {
               println("ok");
             } else {
-              let x :Number=1;
+              let x :number=1;
             }
             
             """.trimIndent()
@@ -269,7 +269,7 @@ class Version11FormatterTest {
     fun `blank lines capped at max`() {
         val literal =
             builder.buildLiteralExpressionNode(
-                tok(CommonTypes.STRING_LITERAL, "\"test\""),
+                tok(CommonTypes.STRING_LITERAL, "test"),
             )
         val printStmt = builder.buildPrintStatementNode(literal)
         val program = builder.buildProgramNode(listOf(printStmt))
@@ -284,7 +284,7 @@ class Version11FormatterTest {
     fun `negative blank lines treated as zero`() {
         val literal =
             builder.buildLiteralExpressionNode(
-                tok(CommonTypes.STRING_LITERAL, "\"test\""),
+                tok(CommonTypes.STRING_LITERAL, "test"),
             )
         val printStmt = builder.buildPrintStatementNode(literal)
         val program = builder.buildProgramNode(listOf(printStmt))
@@ -301,13 +301,13 @@ class Version11FormatterTest {
             builder.buildVariableDeclarationStatementNode(
                 tok(CommonTypes.CONST, "const"),
                 identifier = tok(CommonTypes.IDENTIFIER, "pi"),
-                dataType = tok(CommonTypes.NUMBER, "Number"),
+                dataType = tok(CommonTypes.NUMBER, "number"),
                 initialValue = null,
             )
         val program = builder.buildProgramNode(listOf(decl))
         val formatter = FormatterFactory.createWithVersion(transform("1.1"))
 
         val result = formatter.formatToString(program, FormatConfig())
-        assertEquals("const pi: Number;\n", result)
+        assertEquals("const pi: number;\n", result)
     }
 }

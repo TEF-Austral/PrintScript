@@ -2,6 +2,6 @@ package parser.result
 
 import node.Program
 
-sealed interface FinalResult : ParserResult {
+interface FinalResult : ParserResult {
     fun getProgram(): Program
 }

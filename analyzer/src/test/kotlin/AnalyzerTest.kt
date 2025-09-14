@@ -1,3 +1,4 @@
+import builder.DefaultNodeBuilder
 import config.AnalyzerConfig
 import node.Statement
 import coordinates.Position
@@ -15,14 +16,25 @@ import type.CommonTypes
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import parser.factory.VOnePointOneParserFactory
+import parser.result.CompleteProgram
 import rules.IdentifierStyle
 import java.io.File
 import type.Version
 
 class AnalyzerTest {
+
+    private fun tokenListToStream(list: List<Token>): TokenStream = MockTokenStream(list)
+
+    private val parser =
+        VOnePointOneParserFactory().createParser(
+            tokenListToStream(emptyList()),
+            DefaultNodeBuilder(),
+        )
+
     private fun runAnalyzer(
         stmts: List<Statement>,
-        config: AnalyzerConfig = AnalyzerConfig(),
+        config: AnalyzerConfig = AnalyzerConfig(IdentifierStyle.CAMEL_CASE),
         version: Version = Version.VERSION_1_0,
     ): List<Diagnostic> {
         // write config to temp JSON file
@@ -42,7 +54,7 @@ class AnalyzerTest {
 
         val program = Program(stmts)
         val analyzer = AnalyzerFactory.createWithVersion(version, tempConfigFile.absolutePath)
-        return analyzer.analyze(program)
+        return analyzer.analyze(CompleteProgram(parser, program))
     }
 
     private fun tok(
@@ -203,7 +215,7 @@ class AnalyzerTest {
             )
         val stmts = listOf(PrintStatement(expr, Position(0, 0)))
         val analyzer = AnalyzerFactory.createWithVersion(Version.VERSION_1_0)
-        val diags = analyzer.analyze(Program(stmts))
+        val diags = analyzer.analyze(CompleteProgram(parser, Program(stmts)))
 
         assertEquals(1, diags.size)
         assertEquals(
@@ -246,7 +258,7 @@ class AnalyzerTest {
                 Version.VERSION_1_0,
                 tempConfig.absolutePath,
             )
-        val diags = analyzer.analyze(Program(stmts))
+        val diags = analyzer.analyze(CompleteProgram(parser, Program(stmts)))
         assertTrue(diags.isEmpty())
     }
 
