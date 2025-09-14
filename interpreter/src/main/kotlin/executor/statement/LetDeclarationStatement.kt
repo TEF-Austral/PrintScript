@@ -29,7 +29,6 @@ class LetDeclarationStatement(
 
         val finalVariable: Variable =
             if (initialValueExpression != null) {
-                // 1. Ejecutar la expresión de la derecha
                 val expressionResult =
                     defaultExpressionExecutor.execute(
                         initialValueExpression,
@@ -41,13 +40,11 @@ class LetDeclarationStatement(
                     expressionResult.interpreter
                         ?: return InterpreterResult(false, "Expression yielded no value", null)
 
-                // 2. Determinar si se necesita coerción o compatibilidad de tipos
                 if (initialValueExpression is CoercibleExpression) {
                     val coercionResult = typeCoercer.coerce(expressionResult, declaredType)
                     if (!coercionResult.interpretedCorrectly) return coercionResult
                     coercionResult.interpreter!!
                 } else {
-                    // Lógica estándar para el resto de expresiones
                     if (!areTypesCompatible(declaredType, initialValue.getType())) {
                         return InterpreterResult(
                             false,
@@ -61,7 +58,6 @@ class LetDeclarationStatement(
                 Variable(declaredType, null)
             }
 
-        // Create new database instance with added variable
         val newDatabase = database.addVariable(identifier, finalVariable)
         return InterpreterResult(
             true,

@@ -15,4 +15,6 @@ class AssignmentStatement(
     fun getIdentifierToken(): Token = identifier
 
     override fun getCoordinates(): Coordinates = coordinates
+
+    override fun toString(): String = "${getIdentifier()} = ${getValue()}"
 }

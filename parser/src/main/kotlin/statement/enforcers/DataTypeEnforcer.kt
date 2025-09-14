@@ -12,7 +12,11 @@ class DataTypeEnforcer(
 ) : SemanticEnforcers {
     override fun enforce(result: SemanticResult): SemanticResult {
         val currentParser = result.getParser()
-        if (!(verifyCurrentToken(possibleTypes, currentParser)) || !result.isSuccess()){
+        // Check hasNext before peeking or advancing
+        if (!currentParser.hasNext() ||
+            !(verifyCurrentToken(possibleTypes, currentParser)) ||
+            !result.isSuccess()
+        ){
             return SemanticError(
                 "Expected data type " + result.message(),
                 result.identifier(),
