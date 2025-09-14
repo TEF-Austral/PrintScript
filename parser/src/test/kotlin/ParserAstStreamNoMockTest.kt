@@ -1,122 +1,183 @@
+package parser.stream
+
+import MockTokenStream
+import PrintScriptToken
 import builder.DefaultNodeBuilder
-import builder.NodeBuilder
-import coordinates.Coordinates
 import coordinates.Position
-import node.ASTNode
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Test
-import parser.ParserInterface
-import stream.AstStreamResult
+
+import stream.AstStream
 import java.util.NoSuchElementException
-import node.EmptyExpression
-import node.Program
-import parser.Parser
-import parser.result.CompleteProgram
-import parser.result.ExpressionBuiltResult
-import parser.result.ExpressionResult
-import parser.result.FinalResult
-import parser.result.NextResult
-import parser.statement.StatementParser
-import parser.statement.binary.DefaultParseBinary
-import parser.statement.expression.ExpressionParsingBuilder
-import parser.statement.expression.TokenToExpression
-import parser.stream.ParserAstStream
-
-class DummyNode : ASTNode {
-    override fun getCoordinates(): Coordinates {
-        return Position(0, 0)
-    }
-}
-
-class DummyToken : TokenToExpression {
-
-    override fun parse(parser: Parser, current: Token): ExpressionResult {
-        return ExpressionBuiltResult(parser, EmptyExpression())
-    }
-
-}
-
-class DummyParser(private val nodes: List<ASTNode>) : ParserInterface {
-    private var index = 0
-    override fun isAtEnd(): Boolean = index >= nodes.size
-
-    override fun parse(): FinalResult {
-        return CompleteProgram(this, Program(emptyList(),Position(0,0)))
-    }
-
-    override fun getExpressionParser(): ExpressionParsingBuilder {
-        return ExpressionParsingBuilder(DummyToken(), DefaultParseBinary(DummyToken()))
-    }
-
-    override fun getNodeBuilder(): NodeBuilder {
-        return DefaultNodeBuilder()
-    }
-
-    override fun getStatementParser(): StatementParser {
-        return StatementParser(emptyList())
-    }
-
-    override fun hasNext(): Boolean {
-        return !isAtEnd()
-    }
-
-    override fun next(): NextResult {
-        return NextResult(DummyNode(), true, "", this)
-    }
-
-
-    override fun peak(): Token? {
-        return if (isAtEnd()) {
-            null
-        } else {
-            nodes[index] as Token
-        }
-    }
-}
+import kotlin.test.assertEquals
+import node.DeclarationStatement
+import node.PrintStatement
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertNotNull
+import parser.factory.VOnePointOneParserFactory
+import type.CommonTypes
 
 class ParserAstStreamNoMockTest {
 
+    private val nodeBuilder = DefaultNodeBuilder()
+    private val parserFactory = VOnePointOneParserFactory()
+
     @Test
-    fun peakReturnsNextNodeWhenNotAtEnd() {
-        val nodes = listOf(DummyNode(), DummyNode())
-        val stream = ParserAstStream(DummyParser(nodes))
-        val result = stream.peak()
-        assertTrue(result is DummyNode)
+    fun `test next() should return the next node and a new stream`() {
+        // Tokens para dos sentencias: let x: NUMBER = 5; print("hello");
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 7)),
+                PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 9)),
+                PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 16)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "5", Position(1, 18)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 19)),
+                PrintScriptToken(CommonTypes.PRINT, "print", Position(2, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(2, 6)),
+                PrintScriptToken(CommonTypes.STRING_LITERAL, "\"hello\"", Position(2, 7)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(2, 14)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(2, 15)),
+            )
+
+        val parser = parserFactory.createParser(MockTokenStream(tokens), nodeBuilder)
+        val astStream: AstStream = ParserAstStream(parser)
+
+        val result1 = astStream.next()
+        val node1 = result1.node
+        val nextStream1 = result1.nextStream
+
+        assertTrue(node1 is DeclarationStatement)
+        assertEquals("x", (node1 as DeclarationStatement).getIdentifier())
+        assertFalse(
+            nextStream1.isAtEnd(),
+            "El stream no debería estar al final después del primer next()",
+        )
+
+        // Segunda llamada a next() sobre el nuevo stream
+        val result2 = nextStream1.next()
+        val node2 = result2.node
+        val nextStream2 = result2.nextStream
+
+        assertTrue(node2 is PrintStatement)
+        assertTrue(
+            nextStream2.isAtEnd(),
+            "El stream debería estar al final después del segundo next()",
+        )
     }
 
     @Test
-    fun peakThrowsExceptionWhenAtEnd() {
-        val stream = ParserAstStream(DummyParser(emptyList()))
+    fun `test peak() should return the next node without consuming it`() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "a", Position(1, 5)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 7)),
+                PrintScriptToken(CommonTypes.STRING, "STRING", Position(1, 9)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 15)),
+            )
+
+        val parser = parserFactory.createParser(MockTokenStream(tokens), nodeBuilder)
+        val astStream: AstStream = ParserAstStream(parser)
+
+        // Llamar a peak() múltiples veces
+        val nodeFromPeak1 = astStream.peak()
+        val nodeFromPeak2 = astStream.peak()
+
+        assertNotNull(nodeFromPeak1)
+        assertTrue(nodeFromPeak1 is DeclarationStatement)
+
+        val result = astStream.next()
+        val nodeFromNext = result.node
+
+        assertTrue(nodeFromNext is DeclarationStatement)
+    }
+
+    @Test
+    fun `test isAtEnd() should return true only when the stream is fully consumed`() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.PRINT, "print", Position(1, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 6)),
+                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "123", Position(1, 7)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 10)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 11)),
+            )
+        val parser = parserFactory.createParser(MockTokenStream(tokens), nodeBuilder)
+        val astStream: AstStream = ParserAstStream(parser)
+
+        assertFalse(astStream.isAtEnd(), "El stream inicial no debería estar al final")
+
+        val result = astStream.next()
+
+        assertFalse(astStream.isAtEnd(), "El stream original no debe cambiar su estado (inmutable)")
+        assertTrue(
+            result.nextStream.isAtEnd(),
+            "El nuevo stream devuelto por next() debería estar al final",
+        )
+    }
+
+    @Test
+    fun `test next() on an empty stream should throw NoSuchElementException`() {
+        val tokens = emptyList<PrintScriptToken>()
+        val parser = parserFactory.createParser(MockTokenStream(tokens), nodeBuilder)
+        val astStream: AstStream = ParserAstStream(parser)
+
+        assertTrue(astStream.isAtEnd())
         assertThrows(NoSuchElementException::class.java) {
-            stream.peak()
+            astStream.next()
         }
     }
 
     @Test
-    fun nextReturnsAstStreamResultWhenNotAtEnd() {
-        val nodes = listOf(DummyNode())
-        val stream = ParserAstStream(DummyParser(nodes))
-        val result = stream.next()
-        assertTrue(result.node is DummyNode)
-    }
+    fun `test peak() on an empty stream should throw NoSuchElementException`() {
+        val tokens = emptyList<PrintScriptToken>()
+        val parser = parserFactory.createParser(MockTokenStream(tokens), nodeBuilder)
+        val astStream: AstStream = ParserAstStream(parser)
 
-    @Test
-    fun nextThrowsExceptionWhenAtEnd() {
-        val stream = ParserAstStream(DummyParser(emptyList()))
+        assertTrue(astStream.isAtEnd())
         assertThrows(NoSuchElementException::class.java) {
-            stream.next()
+            astStream.peak()
         }
     }
 
     @Test
-    fun isAtEndReturnsTrueWhenParserIsAtEnd() {
-        val stream = ParserAstStream(DummyParser(emptyList()))
-        assertTrue(stream.isAtEnd())
+    fun `test next() with invalid syntax should throw Exception`() {
+        // "let ;" es sintaxis inválida
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 5)),
+            )
+
+        val parser = parserFactory.createParser(MockTokenStream(tokens), nodeBuilder)
+        val astStream: AstStream = ParserAstStream(parser)
+
+        val exception =
+            assertThrows(Exception::class.java) {
+                astStream.next()
+            }
+        assertTrue(exception.message?.contains("Error de parseo") ?: false)
     }
 
     @Test
-    fun isAtEndReturnsFalseWhenParserIsNotAtEnd() {
-        val stream = ParserAstStream(DummyParser(listOf(DummyNode())))
-        assertFalse(stream.isAtEnd())
+    fun `test peak() with invalid syntax should throw Exception`() {
+        // "let =" es sintaxis inválida
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 5)),
+            )
+
+        val parser = parserFactory.createParser(MockTokenStream(tokens), nodeBuilder)
+        val astStream: AstStream = ParserAstStream(parser)
+
+        val exception =
+            assertThrows(Exception::class.java) {
+                astStream.peak()
+            }
+        assertTrue(exception.message?.contains("Fallo en 'peak'") ?: false)
     }
 }

@@ -2,7 +2,6 @@ import factory.AnalyzerFactory
 import factory.InterpreterFactoryVersionOnePointOne
 import formatter.FormatterService
 import parser.result.CompleteProgram
-import parser.result.FinalResult
 import stream.MockAstStream
 import type.Version
 
