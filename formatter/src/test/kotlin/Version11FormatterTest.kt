@@ -39,8 +39,7 @@ class Version11FormatterTest {
             if(true) {
                 println("inside");
             }
-            
-            """.trimIndent().replace("\n", "\n")
+            """.trimIndent().replace("", "")
         assertEquals(expected, result)
     }
 
@@ -72,8 +71,7 @@ class Version11FormatterTest {
             } else {
                 println("no");
             }
-            
-            """.trimIndent().replace("\n", "\n")
+            """.trimIndent().replace("", "")
         assertEquals(expected, result)
     }
 
@@ -97,8 +95,7 @@ class Version11FormatterTest {
             if(true) {
               println("X");
             }
-            
-            """.trimIndent().replace("\n", "\n")
+            """.trimIndent().replace("", "")
         assertEquals(expected, result)
     }
 
@@ -120,7 +117,7 @@ class Version11FormatterTest {
         val formatter = FormatterFactory.createWithVersion(transform("1.1"))
         val result = formatter.formatToString(program, FormatConfig())
 
-        assertEquals("const pi: number = 3.14;\n", result)
+        assertEquals("const pi: number = 3.14;", result)
     }
 
     @Test
@@ -150,8 +147,7 @@ class Version11FormatterTest {
             if(true) {
                 const a: number = 1;
             }
-
-            """.trimIndent().replace("\n", "\n")
+            """.trimIndent().replace("", "")
         assertEquals(expected, result)
     }
 
@@ -185,7 +181,6 @@ class Version11FormatterTest {
                     println("inner");
                 }
             }
-            
             """.trimIndent()
         assertEquals(expected, result)
     }
@@ -214,7 +209,6 @@ class Version11FormatterTest {
             
                 println("inside");
             }
-            
             """.trimIndent()
         assertEquals(expected, result)
     }
@@ -260,7 +254,6 @@ class Version11FormatterTest {
             } else {
               let x :number=1;
             }
-            
             """.trimIndent()
         assertEquals(expected, result)
     }
@@ -277,7 +270,7 @@ class Version11FormatterTest {
         val formatter = FormatterFactory.createWithVersion(transform("1.1"))
 
         val result = formatter.formatToString(program, config)
-        assertEquals("\n\nprintln(\"test\");\n", result)
+        assertEquals("\n\nprintln(\"test\");", result)
     }
 
     @Test
@@ -292,7 +285,7 @@ class Version11FormatterTest {
         val formatter = FormatterFactory.createWithVersion(transform("1.1"))
 
         val result = formatter.formatToString(program, config)
-        assertEquals("println(\"test\");\n", result)
+        assertEquals("println(\"test\");", result)
     }
 
     @Test
@@ -308,6 +301,6 @@ class Version11FormatterTest {
         val formatter = FormatterFactory.createWithVersion(transform("1.1"))
 
         val result = formatter.formatToString(program, FormatConfig())
-        assertEquals("const pi: number;\n", result)
+        assertEquals("const pi: number;", result)
     }
 }

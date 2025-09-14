@@ -21,16 +21,18 @@ class DefaultFormatter(
                 .first { it.matches(stmt) }
                 .apply(stmt, sb, config, 0)
         }
-        return sb
-            .toString()
-            .lines()
-            .joinToString("\n") { line ->
-                val indent = line.takeWhile { it == ' ' }
-                indent +
-                    line
-                        .drop(indent.length)
-                        .replace(formatter.config.FormatterConstants.MULTI_SPACE_REGEX, " ")
-            }
+        val result =
+            sb
+                .toString()
+                .lines()
+                .joinToString("\n") { line ->
+                    val indent = line.takeWhile { it == ' ' }
+                    indent +
+                            line
+                                .drop(indent.length)
+                                .replace(formatter.config.FormatterConstants.MULTI_SPACE_REGEX, " ")
+                }
+        return result.removeSuffix("\n")
     }
 
     override fun formatToWriter(

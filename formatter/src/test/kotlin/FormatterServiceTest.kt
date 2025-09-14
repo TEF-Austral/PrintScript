@@ -43,7 +43,7 @@ class FormatterServiceTest {
         Files.writeString(configFile, json)
 
         val result = service.formatToString(program, version, configFile.toString())
-        assertEquals("a=42;\n", result)
+        assertEquals("a=42;", result)
     }
 
     @Test
@@ -63,6 +63,6 @@ class FormatterServiceTest {
 
         val writer = StringWriter()
         service.formatToWriter(program, version, configFile.toString(), writer)
-        assertEquals("\nprintln(\"hi\");\n", writer.toString())
+        assertEquals("\nprintln(\"hi\");", writer.toString())
     }
 }
