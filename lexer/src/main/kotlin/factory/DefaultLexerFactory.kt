@@ -43,4 +43,13 @@ data class DefaultLexerFactory(
             VERSION_1_0 -> createVersionOne(reader)
             VERSION_1_1 -> createVersionOnePointOne(reader)
         }
+
+    override fun createLexerWithVersionAndBufferSize(
+        reader: Reader,
+        size: Int,
+    ): Lexer {
+        val converterList = converterFactory.createVersionOne()
+        val splitter = StringSplitterFactory.createStreamingSplitter(reader)
+        return DefaultLexer(converterList, splitter)
+    }
 }

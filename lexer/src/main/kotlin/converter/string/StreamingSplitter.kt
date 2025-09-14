@@ -14,9 +14,10 @@ class StreamingSplitter(
     private val line: Int = 1,
     private val column: Int = 1,
     private val isStreamFinished: Boolean = false,
+    private val bufferSize: Int = 65536,
 ) {
     // Larger buffer to reduce I/O operations
-    private val bufferSize = 65536 // 64KB read buffer
+    // 64KB read buffer
 
     fun next(): StreamSplitterResult? {
         // Try to extract from current buffer
