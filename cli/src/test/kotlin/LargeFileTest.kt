@@ -22,7 +22,7 @@ class LargeFileTest {
 //    private val filePath = "src/test/resources/VerySmallFile.txt"
     private val filePath = "src/test/resources/VeryLargeFile.txt"
 
-    private val fileLines = 740
+    private val fileLines = 32 * 1024 // 2976  // 11912
 
     fun createFile() {
         LargeScriptCreator().create(filePath, fileLines)
@@ -33,6 +33,7 @@ class LargeFileTest {
         val outputStream = ByteArrayOutputStream()
         System.setOut(PrintStream(outputStream))
         val reader = BufferedReader(FileReader(filePath))
+        createFile()
         val lexer =
             DefaultLexerFactory(
                 StringSplitterFactory,
@@ -82,6 +83,7 @@ class LargeFileTest {
                 break
             }
         }
+        statementCount += 2
         // This will print how many statements were actually parsed.
         println("Total statements parsed: $statementCount")
 
@@ -121,6 +123,53 @@ class LargeFileTest {
         println("Total tokens: $tokenCount")
         println("Last token: $lastToken")
 
+        val printed = outputStream.toString().trim()
+        assertEquals("$fileLines", printed)
+    }
+
+    @Test
+    fun `Very Large File Should Log Nodes from Mock TokenStream`() {
+        val outputStream = ByteArrayOutputStream()
+        createFile()
+        System.setOut(PrintStream(outputStream))
+        val reader = BufferedReader(FileReader(filePath))
+        val lexer =
+            DefaultLexerFactory(
+                StringSplitterFactory,
+                StringToTokenConverterFactory,
+            ).createVersionOnePointOne(reader)
+
+        val tokenList = mutableListOf<Token>()
+        val tokenStream = LexerTokenStream(lexer)
+        var currentStream = tokenStream
+        while (!currentStream.isAtEnd()) {
+            val token = currentStream.peak()
+            if (token != null) {
+                tokenList.add(token)
+            }
+            currentStream = currentStream.next()?.nextStream as? LexerTokenStream ?: break
+        }
+
+        val mockTokenStream = MockTokenStream(tokenList)
+
+        val loggerFile = File("src/test/resources/MockTokenStreamLogger.txt")
+        loggerFile.writeText("")
+
+        val parser = DefaultParserFactory().createDefault(DefaultNodeBuilder(), mockTokenStream)
+        var astStream = ParserAstStream(parser)
+        var statementCount = 0
+        while (!astStream.isAtEnd()) {
+            try {
+                val astResult = astStream.next()
+                FileWriter(loggerFile, true).use { it.write(astResult.node.toString() + "\n") }
+                astStream = astResult.nextStream as ParserAstStream
+                statementCount++
+            } catch (e: Exception) {
+                println("Parser failed on statement ${statementCount + 1}: ${e.message}")
+                break
+            }
+        }
+        println("Total statements parsed: $statementCount")
         val printed = outputStream.toString().trim()
         assertEquals("$fileLines", printed)
     }

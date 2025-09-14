@@ -17,7 +17,7 @@ class DefaultInterpreter(
     override fun interpret(stream: AstStream): InterpreterResult =
         executeStream(stream, initialDatabase, null)
 
-    private fun executeStream(
+    private tailrec fun executeStream(
         currentStream: AstStream,
         currentDatabase: DataBase,
         lastVariable: Variable?,
