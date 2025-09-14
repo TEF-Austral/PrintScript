@@ -18,15 +18,6 @@ class ConstAssignmentEnforcer(
                 currentParser,
             )
         }
-        if (!currentParser.hasNext()) {
-            return SemanticError(
-                "Expected expression after const assignment, but no more tokens found.",
-                result.identifier(),
-                result.dataType(),
-                result.initialValue(),
-                currentParser,
-            )
-        }
         val parserResult =
             currentParser.getExpressionParser().parseExpression(
                 currentParser.advance(),

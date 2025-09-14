@@ -12,7 +12,6 @@ import type.CommonTypes
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 import node.ExpressionStatement
-import stream.MockAstStream
 
 class IfStatementFailureTest {
     @Test
@@ -59,9 +58,8 @@ class IfStatementFailureTest {
                 coordinates = Position(0, 0),
             )
 
-        val mockAstStream = MockAstStream(program)
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(program)
 
         assertFalse(result.interpretedCorrectly, "Interpretation should fail due to type mismatch.")
         assertEquals(
@@ -113,10 +111,9 @@ class IfStatementFailureTest {
                     ),
                 coordinates = Position(0, 0),
             )
-        val mockAstStream = MockAstStream(program)
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(program)
 
         assertFalse(result.interpretedCorrectly, "Interpretation should fail due to type mismatch.")
         assertEquals(
@@ -182,10 +179,9 @@ class IfStatementFailureTest {
                     ),
                 coordinates = Position(0, 0),
             )
-        val mockAstStream = MockAstStream(program)
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(program)
 
         assertFalse(
             result.interpretedCorrectly,
@@ -250,10 +246,9 @@ class IfStatementFailureTest {
                     ),
                 coordinates = Position(0, 0),
             )
-        val mockAstStream = MockAstStream(program)
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(program)
 
         assertFalse(
             result.interpretedCorrectly,
@@ -319,10 +314,9 @@ class IfStatementFailureTest {
                     ),
                 coordinates = Position(0, 0),
             )
-        val mockAstStream = MockAstStream(program)
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(program)
 
         assertFalse(
             result.interpretedCorrectly,

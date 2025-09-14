@@ -11,8 +11,7 @@ class ColonEnforcer(
 ) : SemanticEnforcers {
     override fun enforce(result: SemanticResult): SemanticResult {
         val currentParser = result.getParser()
-        // Check if there are tokens left before peeking or consuming
-        if (!currentParser.hasNext() || isColon(currentParser) || !result.isSuccess()) {
+        if (isColon(currentParser) || !result.isSuccess()) {
             return SemanticError(
                 "Expected delimiter " + result.message(),
                 result.identifier(),
@@ -35,5 +34,5 @@ class ColonEnforcer(
 
     private fun isColon(currentParser: Parser): Boolean =
         !currentParser.consume(CommonTypes.DELIMITERS).isSuccess() ||
-            (currentParser.hasNext() && currentParser.peak()?.getValue() != ":")
+            currentParser.peak()?.getValue() != ":"
 }

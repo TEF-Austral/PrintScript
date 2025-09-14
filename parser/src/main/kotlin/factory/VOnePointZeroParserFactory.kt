@@ -1,6 +1,6 @@
 package parser.factory
 
-import TokenStream
+import Token
 import builder.NodeBuilder
 import parser.statement.StatementParser
 import parser.Parser
@@ -17,7 +17,7 @@ import parser.statement.expression.LiteralBuilder
 
 class VOnePointZeroParserFactory {
     fun createParser(
-        tokens: TokenStream,
+        tokens: List<Token>,
         nodeBuilder: NodeBuilder,
     ): Parser {
         val tokenToExpression =

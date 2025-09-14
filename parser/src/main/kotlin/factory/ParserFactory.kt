@@ -1,6 +1,6 @@
 package parser.factory
 
-import TokenStream
+import Token
 import builder.DefaultNodeBuilder
 import builder.NodeBuilder
 import parser.ParserInterface
@@ -12,18 +12,19 @@ sealed interface ParserFactory {
     fun createWithVersion(
         version: Version,
         nodeBuilder: NodeBuilder = DefaultNodeBuilder(),
-        tokenList: TokenStream,
+        tokenList: List<Token> = emptyList(),
     ): ParserInterface
 
     fun createDefault(
         nodeBuilder: NodeBuilder = DefaultNodeBuilder(),
-        tokenList: TokenStream,
+        tokenList: List<Token> = emptyList(),
     ): ParserInterface
 
     fun createCustomParser(
         nodeBuilder: NodeBuilder,
-        tokenList: TokenStream,
+        tokenList: List<Token>,
         expressionParser: ExpressionParsingBuilder,
         statementParser: StatementParser,
+        current: Int,
     ): ParserInterface
 }

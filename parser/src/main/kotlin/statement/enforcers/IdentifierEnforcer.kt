@@ -11,8 +11,7 @@ class IdentifierEnforcer(
 ) : SemanticEnforcers {
     override fun enforce(result: SemanticResult): SemanticResult {
         val currentParser = result.getParser()
-        // Check hasNext before peeking or consuming
-        if (!currentParser.hasNext() || isIdentifier(currentParser) || !result.isSuccess()) {
+        if (isIdentifier(currentParser) || !result.isSuccess()) {
             return SemanticError(
                 "Expected identifier " + result.message(),
                 result.identifier(),

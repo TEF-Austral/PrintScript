@@ -23,47 +23,50 @@ class IfStatement : StatementBuilder {
         if (!ifKeyword.isSuccess()) {
             throw Exception("Expected 'if' keyword")
         }
+
         val afterIf = ifKeyword.getParser()
+
         if (!isOpeningParenthesis(afterIf)) {
             throw Exception("Expected '(' after 'if'")
         }
+
         val afterOpenParen = afterIf.advance()
+
         val conditionResult = afterOpenParen.getExpressionParser().parseExpression(afterOpenParen)
         if (!conditionResult.isSuccess()) {
             throw Exception("Expected condition expression: ${conditionResult.message()}")
         }
+
         if (!isClosingParenthesis(conditionResult.getParser())) {
             throw Exception("Expected ')' after condition")
         }
+
         val afterCloseParen = conditionResult.getParser().advance()
 
         val (afterThenStatement, thenStatement) = parseBlockWithBraces(afterCloseParen, "then")
 
-        // --- LÓGICA 'ELSE' MEJORADA Y CORREGIDA ---
         val (finalParser, elseStatement) =
-            if (afterThenStatement.hasNext() &&
-                checkType(CommonTypes.CONDITIONALS, afterThenStatement.peak()) &&
+            if (checkType(CommonTypes.CONDITIONALS, afterThenStatement.peak()) &&
                 afterThenStatement.peak()?.getValue() == "else"
             ) {
-                val afterElse = afterThenStatement.advance() // Consume 'else'
+                val afterElse = afterThenStatement.advance()
 
-                // AHORA ES MÁS INTELIGENTE:
-                // Después del 'else', ¿qué viene? ¿Una llave o algo más?
-                if (isOpeningBrace(afterElse)) {
-                    // Si es una llave, es un bloque 'else { ... }'
-                    // Usamos la función que ya sabe analizar bloques.
-                    parseBlockWithBraces(afterElse, "else")
-                } else {
-                    // Si NO es una llave, es otra cosa (como un 'else if').
-                    // Dejamos que el despachador principal se encargue.
-                    val elseResult = afterElse.getStatementParser().parse(afterElse)
-                    if (!elseResult.isSuccess()) {
-                        throw Exception("Error parsing else statement: ${elseResult.message()}")
+                if (checkType(CommonTypes.CONDITIONALS, afterElse.peak()) &&
+                    afterElse.peak()?.getValue() == "if"
+                ) {
+                    val elseIfResult = parse(afterElse)
+                    if (!elseIfResult.isSuccess()) {
+                        throw Exception(
+                            "Error parsing else-if statement: ${elseIfResult.message()}",
+                        )
                     }
-                    Pair(elseResult.getParser(), elseResult.getStatement())
+                    Pair(elseIfResult.getParser(), elseIfResult.getStatement())
+                } else {
+                    val (afterElseStatement, elseStmt) = parseBlockWithBraces(afterElse, "else")
+                    Pair(afterElseStatement, elseStmt)
                 }
             } else {
-                Pair(afterThenStatement, null) // No hay 'else'
+                Pair(afterThenStatement, null)
             }
 
         val ifStatement =
@@ -76,26 +79,29 @@ class IfStatement : StatementBuilder {
         return StatementBuiltResult(finalParser, ifStatement)
     }
 
-    // Versión original (limitada a un solo enunciado) que reutilizamos.
     private fun parseBlockWithBraces(
         parser: Parser,
         blockType: String,
     ): Pair<Parser, Statement> {
         if (!isOpeningBrace(parser)) {
-            throw Exception(
-                "Expected '{' to start $blockType block but found ${parser.peak()?.getValue()}",
-            )
+            throw Exception("Expected '{' to start $blockType block")
         }
+
         val afterOpenBrace = parser.advance()
+
         val statementResult = afterOpenBrace.getStatementParser().parse(afterOpenBrace)
         if (!statementResult.isSuccess()) {
             throw Exception("Error parsing $blockType statement: ${statementResult.message()}")
         }
+
         val afterStatement = statementResult.getParser()
+
         if (!isClosingBrace(afterStatement)) {
             throw Exception("Expected '}' to close $blockType block")
         }
+
         val afterCloseBrace = afterStatement.advance()
+
         return Pair(afterCloseBrace, statementResult.getStatement())
     }
 }

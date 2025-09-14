@@ -5,7 +5,6 @@ import node.Program
 import java.io.Writer
 
 interface Formatter {
-
     fun formatToString(
         program: Program,
         config: FormatConfig,

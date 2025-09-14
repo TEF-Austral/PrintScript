@@ -25,13 +25,10 @@ class DefaultInterpreterFactory : InterpreterFactory {
         database: DataBase,
     ): DefaultInterpreter =
         DefaultInterpreter(
-            initialDatabase = database,
+            database = database,
             executor.expression.DefaultExpressionExecutor(specificExpressionExecutors),
             executor.statement.DefaultStatementExecutor(specificStatementExecutor),
         )
-
-    override fun createDefaultInterpreter(): Interpreter =
-        InterpreterFactoryVersionOne.createDefaultInterpreter()
 
     fun createWithVersionAndEmitterAndInputProvider(
         version: Version,

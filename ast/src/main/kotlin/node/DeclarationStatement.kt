@@ -24,7 +24,4 @@ class DeclarationStatement(
     fun getKeyword(): String = declarationType.getValue()
 
     override fun getCoordinates(): Coordinates = coordinates
-
-    override fun toString(): String =
-        "${getDeclarationType()} $identifier: $dataType${if (initialValue != null) " = $initialValue" else ""}"
 }

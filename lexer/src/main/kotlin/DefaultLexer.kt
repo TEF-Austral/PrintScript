@@ -1,26 +1,15 @@
 import converter.TokenConverter
-import converter.string.StreamingSplitter
+import stringSplitter.Splitter
 
 class DefaultLexer(
+    private val splitter: Splitter,
     private val tokenConverter: TokenConverter,
-    private val splitter: StreamingSplitter,
 ) : Lexer {
+    override fun tokenize(reader: Reader): List<Token> {
+        val stringWithCoordinates = splitter.split(reader.read())
 
-    private val splitterResult = splitter.next()
-
-    override fun next(): result.LexerResult? =
-        if (splitterResult != null) {
-            val token = tokenConverter.convert(splitterResult.string, splitterResult.coordinates)
-            val nextLexer = DefaultLexer(tokenConverter, splitterResult.splitter)
-            result.LexerResult(token, nextLexer)
-        } else {
-            null
+        return stringWithCoordinates.map { (str, coordinates) ->
+            tokenConverter.convert(str, coordinates)
         }
-
-    override fun peek(): Token? =
-        if (splitterResult != null) {
-            tokenConverter.convert(splitterResult.string, splitterResult.coordinates)
-        } else {
-            null
-        }
+    }
 }

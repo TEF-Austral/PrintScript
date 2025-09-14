@@ -9,8 +9,7 @@ class StatementParser(
 ) {
     fun parse(parser: Parser): StatementResult {
         for (command in statementCommands) {
-            val ast = parser.peak()
-            if (command.canHandle(ast, parser)) {
+            if (command.canHandle(parser.peak(), parser)) {
                 val result = command.parse(parser)
                 if (!result.isSuccess()) {
                     continue

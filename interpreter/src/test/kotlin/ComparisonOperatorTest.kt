@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test
 import type.CommonTypes
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
-import stream.MockAstStream
 
 class ComparisonOperatorTest {
     @Test
@@ -58,8 +57,7 @@ class ComparisonOperatorTest {
                 coordinates = Position(0, 0),
             )
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(program)
-        val result = interpreter.interpret(mockAstStream)
+        val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
     }
@@ -108,8 +106,7 @@ class ComparisonOperatorTest {
                 coordinates = Position(0, 0),
             )
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(program)
-        val result = interpreter.interpret(mockAstStream)
+        val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
     }
@@ -158,8 +155,7 @@ class ComparisonOperatorTest {
                 coordinates = Position(0, 0),
             )
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(program)
-        val result = interpreter.interpret(mockAstStream)
+        val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
     }
@@ -206,8 +202,7 @@ class ComparisonOperatorTest {
                 coordinates = Position(0, 0),
             )
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(program)
-        val result = interpreter.interpret(mockAstStream)
+        val result = interpreter.interpret(program)
         assertFalse(result.interpretedCorrectly)
         assertEquals(
             "Type mismatch: Incompatible types for > operation between NUMBER_LITERAL and STRING_LITERAL.",
@@ -259,8 +254,7 @@ class ComparisonOperatorTest {
                 coordinates = Position(0, 0),
             )
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(program)
-        val result = interpreter.interpret(mockAstStream)
+        val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
     }
@@ -309,8 +303,7 @@ class ComparisonOperatorTest {
                 coordinates = Position(0, 0),
             )
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(program)
-        val result = interpreter.interpret(mockAstStream)
+        val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
     }
@@ -357,8 +350,7 @@ class ComparisonOperatorTest {
                 coordinates = Position(0, 0),
             )
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(program)
-        val result = interpreter.interpret(mockAstStream)
+        val result = interpreter.interpret(program)
         assertFalse(result.interpretedCorrectly)
         assertEquals(
             "Type mismatch: Incompatible types for < operation between BOOLEAN_LITERAL and STRING_LITERAL.",
@@ -410,8 +402,7 @@ class ComparisonOperatorTest {
                 coordinates = Position(0, 0),
             )
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(program)
-        val result = interpreter.interpret(mockAstStream)
+        val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
     }
@@ -460,8 +451,7 @@ class ComparisonOperatorTest {
                 coordinates = Position(0, 0),
             )
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(program)
-        val result = interpreter.interpret(mockAstStream)
+        val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
     }
@@ -510,8 +500,7 @@ class ComparisonOperatorTest {
                 coordinates = Position(0, 0),
             )
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(program)
-        val result = interpreter.interpret(mockAstStream)
+        val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
     }
@@ -560,8 +549,7 @@ class ComparisonOperatorTest {
                 coordinates = Position(0, 0),
             )
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(program)
-        val result = interpreter.interpret(mockAstStream)
+        val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
     }
@@ -610,8 +598,7 @@ class ComparisonOperatorTest {
                 coordinates = Position(0, 0),
             )
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(program)
-        val result = interpreter.interpret(mockAstStream)
+        val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
     }
@@ -660,8 +647,7 @@ class ComparisonOperatorTest {
                 coordinates = Position(0, 0),
             )
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(program)
-        val result = interpreter.interpret(mockAstStream)
+        val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("false", outputStream.toString().trim())
     }
@@ -710,8 +696,7 @@ class ComparisonOperatorTest {
                 coordinates = Position(0, 0),
             )
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(program)
-        val result = interpreter.interpret(mockAstStream)
+        val result = interpreter.interpret(program)
         assertTrue(result.interpretedCorrectly)
         assertEquals("true", outputStream.toString().trim())
     }

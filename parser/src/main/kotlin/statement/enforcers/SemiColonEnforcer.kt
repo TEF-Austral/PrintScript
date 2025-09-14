@@ -9,8 +9,7 @@ import type.CommonTypes
 class SemiColonEnforcer : SemanticEnforcers {
     override fun enforce(result: SemanticResult): SemanticResult {
         val currentParser = result.getParser()
-        // Check hasNext before peeking or consuming
-        if (!currentParser.hasNext() || !isSemiColon(currentParser.peak()) || !result.isSuccess()) {
+        if (!isSemiColon(currentParser.peak()) || !result.isSuccess()) {
             return SemanticError(
                 "Variable declaration must end in ; " + result.message(),
                 result.identifier(),

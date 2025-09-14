@@ -1,6 +1,6 @@
 package parser.factory
 
-import TokenStream
+import Token
 import builder.NodeBuilder
 import parser.Parser
 import parser.statement.AssignmentParser
@@ -29,7 +29,7 @@ import type.CommonTypes
 
 class VOnePointOneParserFactory {
     fun createParser(
-        tokens: TokenStream,
+        tokens: List<Token>,
         nodeBuilder: NodeBuilder,
     ): Parser {
         val tokenToExpression =

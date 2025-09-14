@@ -1,6 +1,6 @@
+import node.ASTNode
 import result.InterpreterResult
-import stream.AstStream
 
 interface Interpreter {
-    fun interpret(stream: AstStream): InterpreterResult
+    fun interpret(node: ASTNode): InterpreterResult
 }

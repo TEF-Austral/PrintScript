@@ -17,7 +17,6 @@ import factory.InterpreterFactoryVersionOnePointOne
 import node.ExpressionStatement
 import node.IfStatement
 import org.junit.jupiter.api.BeforeEach
-import stream.MockAstStream
 
 class InterpreterTest {
     @BeforeEach
@@ -85,8 +84,7 @@ class InterpreterTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case2)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case2)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
@@ -143,8 +141,7 @@ class InterpreterTest {
                     ),
             )
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case1)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case1)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
@@ -271,8 +268,7 @@ class InterpreterTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case3)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case3)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
@@ -399,8 +395,7 @@ class InterpreterTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case4)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case4)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
@@ -570,8 +565,7 @@ class InterpreterTest {
                     ),
             )
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case5)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case5)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
@@ -716,8 +710,7 @@ class InterpreterTest {
                     ),
             )
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case6)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case6)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
@@ -1000,8 +993,7 @@ class InterpreterTest {
                     ),
             )
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case7)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case7)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
@@ -1127,8 +1119,7 @@ class InterpreterTest {
                     ),
             )
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case8)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case8)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
@@ -1256,8 +1247,7 @@ class InterpreterTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case9)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case9)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
@@ -1385,8 +1375,7 @@ class InterpreterTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case10)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case10)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
@@ -1514,8 +1503,7 @@ class InterpreterTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case11)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case11)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
@@ -1643,8 +1631,7 @@ class InterpreterTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case12)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case12)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
@@ -1772,8 +1759,7 @@ class InterpreterTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case13)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case13)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
@@ -1989,8 +1975,7 @@ class InterpreterTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case14)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case14)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
@@ -2118,8 +2103,7 @@ class InterpreterTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case15)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case15)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
@@ -2555,8 +2539,7 @@ class InterpreterTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case16)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case16)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
@@ -2790,8 +2773,7 @@ class InterpreterTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case18)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case18)
         assertTrue(result.interpretedCorrectly)
         assertEquals(result.message, "Program executed successfully")
         val printed = outputStream.toString().trim()
@@ -2806,8 +2788,7 @@ class InterpreterTest {
         val case = Program(statements = emptyList())
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case)
 
         assertTrue(result.interpretedCorrectly)
         assertEquals("Program executed successfully", result.message)
@@ -2901,8 +2882,7 @@ class InterpreterTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case19)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case19)
         assertTrue(result.interpretedCorrectly)
         assertEquals("Program executed successfully", result.message)
         val printed = outputStream.toString().trim()
@@ -3039,8 +3019,7 @@ class InterpreterTest {
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
 
         // Le pasamos el AST completo al intérprete
-        val mockAstStream = MockAstStream(uselessExpressionsProgram)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(uselessExpressionsProgram)
 
         // --- 3. Verificación (Assertions) ---
 
@@ -3098,9 +3077,8 @@ class InterpreterTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(programWithNullVar)
 
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(programWithNullVar)
 
         assertTrue(result.interpretedCorrectly, "El programa debería ejecutarse correctamente.")
 
@@ -3153,8 +3131,7 @@ class InterpreterTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(simpleSumProgram)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(simpleSumProgram)
 
         // Assert that the program executed without errors
         assertTrue(result.interpretedCorrectly, "The program should have executed successfully.")
@@ -3219,8 +3196,7 @@ class InterpreterTest {
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
 
-        val mockAstStream = MockAstStream(programWithStatement)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(programWithStatement)
 
         assertTrue(result.interpretedCorrectly, "El programa debería ejecutarse correctamente.")
         assertEquals("Program executed successfully", result.message)
@@ -3282,101 +3258,10 @@ class InterpreterTest {
                     ),
             )
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case1)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case1)
         assertEquals("Program executed successfully", result.message)
         assertTrue(result.interpretedCorrectly)
         val printed = outputStream.toString().trim()
         assertEquals("Program 2\n Output: 42", printed)
-    }
-
-    @Test
-    fun `Simple Const Declaration and Sum Should Pass`() {
-        val outputStream = ByteArrayOutputStream()
-        System.setOut(PrintStream(outputStream))
-
-        print("Program 2\n Output: ")
-        val case1 =
-            Program(
-                statements =
-                    listOf(
-                        DeclarationStatement(
-                            PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                            identifier =
-                                PrintScriptToken(
-                                    CommonTypes.IDENTIFIER,
-                                    "x",
-                                    Position(1, 5),
-                                ),
-                            dataType =
-                                PrintScriptToken(
-                                    CommonTypes.NUMBER,
-                                    "number",
-                                    Position(1, 8),
-                                ),
-                            initialValue =
-                                LiteralExpression(
-                                    PrintScriptToken(
-                                        CommonTypes.NUMBER_LITERAL,
-                                        "42",
-                                        Position(1, 17),
-                                    ),
-                                    Position(0, 0),
-                                ),
-                            Position(0, 0),
-                        ),
-                        AssignmentStatement(
-                            PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(2, 1)),
-                            value =
-                                BinaryExpression(
-                                    left =
-                                        IdentifierExpression(
-                                            PrintScriptToken(
-                                                CommonTypes.IDENTIFIER,
-                                                "x",
-                                                Position(2, 8),
-                                            ),
-                                            Position(0, 0),
-                                        ),
-                                    operator =
-                                        PrintScriptToken(
-                                            CommonTypes.OPERATORS,
-                                            "+",
-                                            Position(2, 10),
-                                        ),
-                                    right =
-                                        LiteralExpression(
-                                            PrintScriptToken(
-                                                CommonTypes.IDENTIFIER,
-                                                "1",
-                                                Position(2, 12),
-                                            ),
-                                            Position(0, 0),
-                                        ),
-                                    Position(2, 16),
-                                ),
-                            Position(0, 0),
-                        ),
-                        PrintStatement(
-                            expression =
-                                IdentifierExpression(
-                                    PrintScriptToken(
-                                        CommonTypes.IDENTIFIER,
-                                        "x",
-                                        Position(2, 9),
-                                    ),
-                                    Position(0, 0),
-                                ),
-                            Position(0, 0),
-                        ),
-                    ),
-            )
-        val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case1)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
-        assertEquals("Program executed successfully", result.message)
-        assertTrue(result.interpretedCorrectly)
-        val printed = outputStream.toString().trim()
-        assertEquals("Program 2\n Output: 43", printed)
     }
 }

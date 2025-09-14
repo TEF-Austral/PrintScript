@@ -34,12 +34,14 @@ fun isSemiColon(token: Token?): Boolean {
 }
 
 fun isOpeningParenthesis(parser: Parser): Boolean {
-    val token = parser.peak() ?: return false
+    val token = parser.peak()
+    if (token == null) return false
     return token.getType() == CommonTypes.DELIMITERS && token.getValue() == "("
 }
 
 fun isClosingParenthesis(parser: Parser): Boolean {
-    val token = parser.peak() ?: return false
+    val token = parser.peak()
+    if (token == null) return false
     return token.getType() == CommonTypes.DELIMITERS && token.getValue() == ")"
 }
 
@@ -53,11 +55,9 @@ fun isClosingBrace(parser: Parser): Boolean {
     return checkType(CommonTypes.DELIMITERS, token) && token?.getValue() == "}"
 }
 
-fun advancePastSemiColon(parser: Parser): Parser {
-    val peak = parser.peak()
-    return if (isSemiColon(peak)) {
+fun advancePastSemiColon(parser: Parser): Parser =
+    if (isSemiColon(parser.peak())) {
         parser.consume(CommonTypes.DELIMITERS).getParser()
     } else {
         parser
     }
-}

@@ -14,7 +14,6 @@ import node.Program
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import stream.MockAstStream
 import type.CommonTypes
 
 class InterpreterFailureTest {
@@ -43,8 +42,8 @@ class InterpreterFailureTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+
+        val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
         assertTrue(
@@ -85,9 +84,9 @@ class InterpreterFailureTest {
                         ),
                     ),
             )
-        val mockAstStream = MockAstStream(case)
+
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
         assertEquals("Error: Variable 'undeclaredVar' not declared", result.message)
@@ -139,9 +138,9 @@ class InterpreterFailureTest {
                         ),
                     ),
             )
-        val mockAstStream = MockAstStream(case)
+
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
         assertTrue(
@@ -256,9 +255,9 @@ class InterpreterFailureTest {
                         ),
                     ),
             )
-        val mockAstStream = MockAstStream(case)
+
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
         assertEquals(
@@ -372,9 +371,9 @@ class InterpreterFailureTest {
                         ),
                     ),
             )
-        val mockAstStream = MockAstStream(case)
+
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
         assertEquals("Type mismatch: Incompatible types for Substraction operation", result.message)
@@ -485,9 +484,9 @@ class InterpreterFailureTest {
                         ),
                     ),
             )
-        val mockAstStream = MockAstStream(case)
+
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case)
 
         assertFalse(result.interpretedCorrectly)
         assertEquals("Type mismatch: Incompatible types for division operator", result.message)
@@ -530,10 +529,9 @@ class InterpreterFailureTest {
                     ),
             )
 
-        val mockAstStream = MockAstStream(programWithInvalidDeclaration)
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
 
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(programWithInvalidDeclaration)
 
         assertFalse(
             result.interpretedCorrectly,
@@ -574,9 +572,8 @@ class InterpreterFailureTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(programWithUndefinedVar)
 
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(programWithUndefinedVar)
 
         assertFalse(
             result.interpretedCorrectly,
@@ -636,9 +633,8 @@ class InterpreterFailureTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(programWithInvalidMultiplication)
 
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(programWithInvalidMultiplication)
 
         assertFalse(
             result.interpretedCorrectly,
@@ -697,10 +693,11 @@ class InterpreterFailureTest {
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
 
-        val mockAstStream = MockAstStream(programWithInvalidDivision)
+        // --- 2. EjecuciÃ³n ---
+        val result: InterpreterResult = interpreter.interpret(programWithInvalidDivision)
 
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
-
+        // --- 3. VerificaciÃ³n ---
+        // La interpretaciÃ³n DEBE fallar.
         assertFalse(
             result.interpretedCorrectly,
             "El programa deberÃ­a fallar al dividir un string por un nÃºmero.",
@@ -831,8 +828,7 @@ class InterpreterFailureTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case17)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case17)
         assertFalse(result.interpretedCorrectly)
         assertEquals("Can't divide by zero", result.message)
         val printed = outputStream.toString().trim()
@@ -899,8 +895,7 @@ class InterpreterFailureTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val mockAstStream = MockAstStream(case2)
-        val result: InterpreterResult = interpreter.interpret(mockAstStream)
+        val result: InterpreterResult = interpreter.interpret(case2)
         assertFalse(result.interpretedCorrectly)
         assertEquals("Error: Constant 'x' must be initialized with a value.", result.message)
     }
@@ -973,7 +968,7 @@ class InterpreterFailureTest {
             )
 
         val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-        val result: InterpreterResult = interpreter.interpret(MockAstStream(case2))
+        val result: InterpreterResult = interpreter.interpret(case2)
         assertFalse(result.interpretedCorrectly)
         assertEquals("Error: Cannot reassign a value to a constant 'x'", result.message)
     }
