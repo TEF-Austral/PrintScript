@@ -6,6 +6,8 @@ import parser.factory.VOnePointZeroParserFactory
 import factory.StringSplitterFactory
 import java.io.StringReader
 import node.Program
+import parser.result.CompleteProgram
+import parser.result.FinalResult
 
 class CLI :
     CliktCommand(
@@ -28,12 +30,13 @@ class CLI :
         }
     }
     
-    fun parseSourceCode(srcCodePath: String): Program {
+    fun parseSourceCode(srcCodePath: String): FinalResult {
         val tokenList = lex(getDefaultReader(srcCodePath).read())
         val nodeBuilder = DefaultNodeBuilder()
         val mockTokenStream = MockTokenStream(tokenList)
         val parser = VOnePointZeroParserFactory().createParser(mockTokenStream, nodeBuilder)
-        return parser.parse().getProgram()
+        val result = CompleteProgram(parser,parser.parse().getProgram())
+        return result
 
     }
 

@@ -1,6 +1,8 @@
 import factory.AnalyzerFactory
 import factory.InterpreterFactoryVersionOnePointOne
 import formatter.FormatterService
+import parser.result.CompleteProgram
+import parser.result.FinalResult
 import stream.MockAstStream
 import type.Version
 
@@ -35,9 +37,10 @@ fun CLI.handleAnalyzing(
     analyzerConfigFilePath: String?,
     version: Version,
 ): String {
-    val program = parseSourceCode(srcCodePath)
+    val completeProgram = parseSourceCode(srcCodePath)
     val analyzer = AnalyzerFactory.createWithVersion(version, analyzerConfigFilePath)
-    val diagnostics = analyzer.analyze(program)
+    val result = CompleteProgram(completeProgram.getParser(), completeProgram.getProgram())
+    val diagnostics = analyzer.analyze(result)
     return if (diagnostics.isEmpty()) {
         "No issues found"
     } else {
@@ -66,7 +69,7 @@ fun CLI.handleValidation(
 fun CLI.handleExecution(srcCodePath: String): String {
     val program = parseSourceCode(srcCodePath)
     val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-    val mockAstStream = MockAstStream(program)
+    val mockAstStream = MockAstStream(program.getProgram())
     val result = interpreter.interpret(mockAstStream)
 
     return if (result.interpretedCorrectly) {
