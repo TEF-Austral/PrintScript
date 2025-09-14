@@ -13,15 +13,15 @@ data class DefaultLexerFactory(
     val converterFactory: ConverterFactory,
 ) : LexerFactory {
 
-    override fun createVersionOne(reader: Reader): Lexer {
+    override fun createVersionOne(reader: Reader,size : Int): Lexer {
         val converterList = converterFactory.createVersionOne()
-        val splitter = StringSplitterFactory.createStreamingSplitter(reader)
+        val splitter = StringSplitterFactory.createStreamingSplitter(reader,size)
         return DefaultLexer(converterList, splitter)
     }
 
-    override fun createVersionOnePointOne(reader: Reader): Lexer {
+    override fun createVersionOnePointOne(reader: Reader,size : Int): Lexer {
         val converterList = converterFactory.createVersionOnePointOne()
-        val splitter = StringSplitterFactory.createStreamingSplitter(reader)
+        val splitter = StringSplitterFactory.createStreamingSplitter(reader, size)
         return DefaultLexer(converterList, splitter)
     }
 
@@ -29,8 +29,9 @@ data class DefaultLexerFactory(
         specialChars: List<Char>,
         customConverters: List<StringToTokenConverter>,
         reader: Reader,
+        size : Int,
     ): Lexer {
-        val splitter = StringSplitterFactory.createStreamingSplitter(reader)
+        val splitter = StringSplitterFactory.createStreamingSplitter(reader,size)
         val converters = converterFactory.createCustom(customConverters)
         return DefaultLexer(converters, splitter)
     }
@@ -38,18 +39,24 @@ data class DefaultLexerFactory(
     override fun createLexerWithVersion(
         version: Version,
         reader: Reader,
+        size : Int,
     ): Lexer =
         when (version){
-            VERSION_1_0 -> createVersionOne(reader)
-            VERSION_1_1 -> createVersionOnePointOne(reader)
+            VERSION_1_0 -> createVersionOne(reader,size)
+            VERSION_1_1 -> createVersionOnePointOne(reader,size)
         }
 
     override fun createLexerWithVersionAndBufferSize(
         reader: Reader,
         size: Int,
+        version: Version,
     ): Lexer {
+        when (version){
+            VERSION_1_0 -> createVersionOne(reader,size)
+            VERSION_1_1 -> createVersionOnePointOne(reader,size)
+        }
         val converterList = converterFactory.createVersionOne()
-        val splitter = StringSplitterFactory.createStreamingSplitter(reader)
+        val splitter = StringSplitterFactory.createStreamingSplitter(reader,size)
         return DefaultLexer(converterList, splitter)
     }
 }
