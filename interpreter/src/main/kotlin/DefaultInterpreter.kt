@@ -15,7 +15,11 @@ class DefaultInterpreter(
 ) : Interpreter {
 
     override fun interpret(stream: AstStream): InterpreterResult =
-        executeStream(stream, initialDatabase, null)
+        try {
+            executeStream(stream, initialDatabase, null)
+        } catch (e: Error) {
+            InterpreterResult(false, "${e.message}", null)
+        }
 
     private tailrec fun executeStream(
         currentStream: AstStream,
