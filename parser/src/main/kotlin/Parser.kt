@@ -31,7 +31,6 @@ data class Parser(
             val statements = parseStatements(this, emptyList())
             CompleteProgram(this, nodeBuilder.buildProgramNode(statements))
         } catch (e: Exception) {
-            // DEBUG: Captura cualquier excepción que detenga el parseo
             FailedProgram(this, e.message ?: "An unknown error occurred.")
         }
 
@@ -39,13 +38,9 @@ data class Parser(
         currentParser: Parser,
         accumulatedStatements: List<Statement>,
     ): List<Statement> {
-        val statementNum = accumulatedStatements.size + 1
-
-        // Cambia la condición para procesar el último token
         if (currentParser.peak() == null) {
             return accumulatedStatements
         }
-
         val result = currentParser.statementParser.parse(currentParser)
         return when {
             result.isSuccess() -> {
@@ -69,21 +64,20 @@ data class Parser(
         return this.copy(stream = streamResult.nextStream)
     }
 
-    fun consume(type: CommonTypes): ParserResult {
-        val currentToken = peak()
-        return if (currentToken != null && checkType(type, currentToken)) {
+    fun consume(type: CommonTypes): ParserResult =
+        if (tokenMatches(type)) {
             ParserSuccess("Token consumed: $type", advance())
         } else {
+            val currentToken = peak()
             ParserError("Expected $type but found ${currentToken?.getType()}", this)
         }
-    }
 
     override fun hasNext(): Boolean = !isAtEnd()
 
     override fun next(): NextResult {
         try {
             if (!hasNext()) {
-                return NextResult(EmptyExpression(), false, "No more tokens available", this)
+                return nextResultFailed("No more tokens available")
             }
 
             val result = statementParser.parse(this)
@@ -92,22 +86,18 @@ data class Parser(
                 val nextParser = result.getParser()
                 NextResult(result.getStatement(), true, "Parsed next node successfully", nextParser)
             } else {
-                NextResult(
-                    EmptyExpression(),
-                    false,
-                    "\"Failed to parse the next node: ${result.message()}\"",
-                    this,
-                )
+                nextResultFailed("Failed to parse the next node: ${result.message()}")
             }
         } catch (e: Exception) {
-            return NextResult(
-                EmptyExpression(),
-                false,
-                "\"Failed to parse the next node: ${e.message}\"",
-                this,
-            )
+            return nextResultFailed("Failed to parse the next node: ${e.message}")
         }
     }
+
+    private fun tokenMatches(type: CommonTypes): Boolean =
+        peak()?.let { checkType(type, it) } ?: false
+
+    private fun nextResultFailed(message: String): NextResult =
+        NextResult(EmptyExpression(), false, message, this)
 
     override fun peak(): Token? = stream.peak()
 
