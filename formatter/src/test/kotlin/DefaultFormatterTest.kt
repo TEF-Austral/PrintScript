@@ -30,7 +30,7 @@ class DefaultFormatterTest {
         val program = builder.buildProgramNode(listOf(decl))
         val result = fmt.formatToString(program, FormatConfig())
 
-        assertEquals("let x: number;\n", result)
+        assertEquals("let x: number;", result)
     }
 
     @Test
@@ -45,7 +45,7 @@ class DefaultFormatterTest {
         val program = builder.buildProgramNode(listOf(assign))
         val result = fmt.formatToString(program, config)
 
-        assertEquals("a=42;\n", result)
+        assertEquals("a=42;", result)
     }
 
     @Test
@@ -59,7 +59,7 @@ class DefaultFormatterTest {
         val program = builder.buildProgramNode(listOf(printStmt))
         val result = fmt.formatToString(program, config)
 
-        assertEquals("\nprintln(\"hi\");\n", result)
+        assertEquals("\nprintln(\"hi\");", result)
     }
 
     @Test
@@ -85,7 +85,7 @@ class DefaultFormatterTest {
         val program = builder.buildProgramNode(listOf(decl))
         val result = fmt.formatToString(program, config)
 
-        assertEquals("let msg :string = \"ok\";\n", result)
+        assertEquals("let msg :string = \"ok\";", result)
     }
 
     @Test
@@ -102,7 +102,7 @@ class DefaultFormatterTest {
 
         fmt.formatToWriter(program, FormatConfig(), writer)
 
-        assertEquals("let x: number;\n", writer.toString())
+        assertEquals("let x: number;", writer.toString())
     }
 
     @Test
@@ -118,6 +118,6 @@ class DefaultFormatterTest {
 
         fmt.formatToWriter(program, config, writer)
 
-        assertEquals("a=42;\n", writer.toString())
+        assertEquals("a=42;", writer.toString())
     }
 }

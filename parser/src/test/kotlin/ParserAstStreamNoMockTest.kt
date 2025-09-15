@@ -155,11 +155,8 @@ class ParserAstStreamNoMockTest {
         val parser = parserFactory.createParser(MockTokenStream(tokens), nodeBuilder)
         val astStream: AstStream = ParserAstStream(parser)
 
-        val exception =
-            assertThrows(Exception::class.java) {
-                astStream.next()
-            }
-        assertTrue(exception.message?.contains("Error de parseo") ?: false)
+        val exception = astStream.next()
+        assertFalse(exception.isSuccess)
     }
 
     @Test

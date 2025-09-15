@@ -11,10 +11,13 @@ object StringSplitterFactory : SplitterFactory {
         return Splitter(specials)
     }
 
-    override fun createStreamingSplitter(reader: Reader): StreamingSplitter {
+    override fun createStreamingSplitter(
+        reader: Reader,
+        size: Int,
+    ): StreamingSplitter {
         val specialChars = SpecialCharsFactory.createSpecialChars()
         val tokenExtractor = TokenExtractorFactory.createTokenExtractor(specialChars)
-        return StreamingSplitter(reader, tokenExtractor)
+        return StreamingSplitter(reader, tokenExtractor, bufferSize = size)
     }
 
     override fun createCustomSplitter(specialChars: List<Char>): Splitter = Splitter(specialChars)
