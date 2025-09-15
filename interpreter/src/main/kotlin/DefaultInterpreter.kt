@@ -18,7 +18,7 @@ class DefaultInterpreter(
         try {
             executeStream(stream, initialDatabase, null)
         } catch (e: Error) {
-            InterpreterResult(false, "Error executing program: ${e.message}", null)
+            InterpreterResult(false, "${e.message}", null)
         }
 
     private tailrec fun executeStream(
