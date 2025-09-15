@@ -1,10 +1,11 @@
 package string.streaming
 
+import coordinates.Coordinates
 import coordinates.Position
 import kotlin.text.iterator
 
 data class Cursor(
-    val position: Position,
+    val position: Coordinates,
 ) {
 
     fun advance(text: String): Cursor {
@@ -18,9 +19,9 @@ data class Cursor(
     }
 
     private fun advancePosition(
-        pos: Position,
+        pos: Coordinates,
         char: Char,
-    ): Position =
+    ): Coordinates =
         when (char) {
             '\n' ->
                 Position(
