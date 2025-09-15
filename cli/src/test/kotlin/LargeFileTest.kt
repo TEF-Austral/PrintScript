@@ -35,15 +35,16 @@ class LargeFileTest {
     @Test
     fun `Very Large File Should Pass Interpreter Test Style`() {
         val printedLines = mutableListOf<String>()
-        val printStream = object : PrintStream(System.out) {
-            override fun println(x: String?) {
-                printedLines.add(x ?: "")
-            }
+        val printStream =
+            object : PrintStream(System.out) {
+                override fun println(x: String?) {
+                    printedLines.add(x ?: "")
+                }
 
-            override fun print(x: String?) {
-                printedLines.add(x ?: "")
+                override fun print(x: String?) {
+                    printedLines.add(x ?: "")
+                }
             }
-        }
         System.setOut(printStream)
         val reader = BufferedReader(FileReader(filePath))
         createFile()
@@ -78,7 +79,11 @@ class LargeFileTest {
         val parser = DefaultParserFactory().createDefault(DefaultNodeBuilder(), tokenStream)
         val astStream = ParserAstStream(parser)
         val emitter = PrintCollector()
-        val interpreter = DefaultInterpreterFactory().createWithVersionAndEmitter(Version.VERSION_1_1, emitter)
+        val interpreter =
+            DefaultInterpreterFactory().createWithVersionAndEmitter(
+                Version.VERSION_1_1,
+                emitter,
+            )
         val result = interpreter.interpret(astStream)
 
         assertTrue(result.interpretedCorrectly, "The program should have executed successfully.")

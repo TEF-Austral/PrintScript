@@ -14,14 +14,12 @@ class DefaultInterpreter(
     private val statementExecutor: DefaultStatementExecutor,
 ) : Interpreter {
 
-    override fun interpret(stream: AstStream): InterpreterResult {
-        return try {
+    override fun interpret(stream: AstStream): InterpreterResult =
+        try {
             executeStream(stream, initialDatabase, null)
         } catch (e: Exception) {
             InterpreterResult(false, "Error executing program: ${e.message}", null)
         }
-    }
-
 
     private tailrec fun executeStream(
         currentStream: AstStream,
