@@ -32,7 +32,7 @@ class JsonFormatConfigParserTest {
         val cfg = parser.parse(json)
 
         assertFalse(cfg.spaceBeforeColon)
-        assertTrue(cfg.spaceAfterColon)
+        assertFalse(cfg.spaceAfterColon)
         assertTrue(cfg.spaceAroundAssignment)
         assertEquals(0, cfg.blankLinesAfterPrintln)
         assertEquals(FormatConfig.DEFAULT_INDENT_SIZE, cfg.indentSize)

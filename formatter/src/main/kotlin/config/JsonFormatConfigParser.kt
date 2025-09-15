@@ -14,7 +14,7 @@ class JsonFormatConfigParser : FormatConfigParser {
 
         return FormatConfig(
             spaceBeforeColon = entries["spaceBeforeColon"]?.toBoolean() ?: false,
-            spaceAfterColon = entries["spaceAfterColon"]?.toBoolean() ?: true,
+            spaceAfterColon = entries["spaceAfterColon"]?.toBoolean() ?: false,
             spaceAroundAssignment = entries["spaceAroundAssignment"]?.toBoolean() ?: true,
             spaceAroundOperators = entries["spaceAroundOperators"]?.toBoolean() ?: true,
             enforceSingleSpace = entries["enforceSingleSpace"]?.toBoolean() ?: true,

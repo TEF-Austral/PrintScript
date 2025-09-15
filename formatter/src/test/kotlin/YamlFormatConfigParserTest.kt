@@ -33,7 +33,7 @@ class YamlFormatConfigParserTest {
         val cfg = parser.parse(yaml)
 
         assertFalse(cfg.spaceBeforeColon)
-        assertTrue(cfg.spaceAfterColon)
+        assertFalse(cfg.spaceAfterColon)
         assertTrue(cfg.spaceAroundAssignment)
         assertEquals(0, cfg.blankLinesAfterPrintln)
         assertEquals(FormatConfig.DEFAULT_INDENT_SIZE, cfg.indentSize)

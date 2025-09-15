@@ -64,7 +64,7 @@ class FormatConfigLoaderTest {
 
         val config = FormatConfigLoader.load(jsonFile.toString())
         assertFalse(config.spaceBeforeColon)
-        assertTrue(config.spaceAfterColon)
+        assertFalse(config.spaceAfterColon)
         assertTrue(config.spaceAroundAssignment)
         assertEquals(0, config.blankLinesAfterPrintln)
         assertEquals(FormatConfig.DEFAULT_INDENT_SIZE, config.indentSize)

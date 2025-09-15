@@ -30,7 +30,7 @@ class DefaultFormatterTest {
         val program = builder.buildProgramNode(listOf(decl))
         val result = fmt.formatToString(program, FormatConfig())
 
-        assertEquals("let x: number;", result)
+        assertEquals("let x:number;", result)
     }
 
     @Test
@@ -102,7 +102,7 @@ class DefaultFormatterTest {
 
         fmt.formatToWriter(program, FormatConfig(), writer)
 
-        assertEquals("let x: number;", writer.toString())
+        assertEquals("let x:number;", writer.toString())
     }
 
     @Test

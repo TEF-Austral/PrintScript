@@ -2,7 +2,7 @@ package formatter.config
 
 data class FormatConfig(
     val spaceBeforeColon: Boolean = false,
-    val spaceAfterColon: Boolean = true,
+    val spaceAfterColon: Boolean = false,
     val spaceAroundAssignment: Boolean = true,
     val spaceAroundOperators: Boolean = true,
     val enforceSingleSpace: Boolean = true,

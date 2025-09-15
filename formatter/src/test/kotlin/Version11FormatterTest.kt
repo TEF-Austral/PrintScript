@@ -117,7 +117,7 @@ class Version11FormatterTest {
         val formatter = FormatterFactory.createWithVersion(transform("1.1"))
         val result = formatter.formatToString(program, FormatConfig())
 
-        assertEquals("const pi: number = 3.14;", result)
+        assertEquals("const pi:number = 3.14;", result)
     }
 
     @Test
@@ -145,7 +145,7 @@ class Version11FormatterTest {
         val expected =
             """
             if (true) {
-                const a: number = 1;
+                const a:number = 1;
             }
             """.trimIndent().replace("", "")
         assertEquals(expected, result)
@@ -301,6 +301,6 @@ class Version11FormatterTest {
         val formatter = FormatterFactory.createWithVersion(transform("1.1"))
 
         val result = formatter.formatToString(program, FormatConfig())
-        assertEquals("const pi: number;", result)
+        assertEquals("const pi:number;", result)
     }
 }
