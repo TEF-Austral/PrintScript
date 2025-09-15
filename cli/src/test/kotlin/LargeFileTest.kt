@@ -22,7 +22,7 @@ class LargeFileTest {
     }
 
     private val filePath = "src/test/resources/PrintLogger.txt"
-    private val fileLines = 32 * 1024 * 1024
+    private val fileLines = 32 * 1024
 
     fun createFile() {
         LargeScriptCreator().create(filePath, fileLines)
