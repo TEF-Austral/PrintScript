@@ -2,6 +2,7 @@ import builder.DefaultNodeBuilder
 import coordinates.Position
 import formatter.DefaultFormatter
 import formatter.config.FormatConfig
+import formatter.rules.RuleRegistry
 import node.LiteralExpression
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -10,7 +11,7 @@ import type.CommonTypes
 
 class DefaultFormatterTest {
     private val builder = DefaultNodeBuilder()
-    private val fmt = DefaultFormatter()
+    private val fmt = DefaultFormatter(RuleRegistry.rulesV10)
 
     private fun tok(
         type: CommonTypes,

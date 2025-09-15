@@ -5,6 +5,8 @@ import node.ASTNode
 import node.AssignmentStatement
 
 class AssignmentRule : FormatRule {
+    override val id = RuleId.Assignment
+
     override fun matches(node: ASTNode) = node is AssignmentStatement
 
     override fun apply(

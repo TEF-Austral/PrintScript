@@ -10,6 +10,8 @@ class DeclarationRule(
 ) : FormatRule {
     override fun matches(node: ASTNode) = node is DeclarationStatement
 
+    override val id = RuleId.Declaration
+
     override fun apply(
         node: ASTNode,
         sb: StringBuilder,

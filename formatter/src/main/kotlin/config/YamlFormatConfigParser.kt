@@ -17,17 +17,16 @@ class YamlFormatConfigParser : FormatConfigParser {
         return FormatConfig(
             spaceBeforeColon = entries["spaceBeforeColon"]?.toBoolean() ?: false,
             spaceAfterColon = entries["spaceAfterColon"]?.toBoolean() ?: false,
-            spaceAroundAssignment = entries["spaceAroundAssignment"]?.toBoolean() ?: true,
-            spaceAroundOperators = entries["spaceAroundOperators"]?.toBoolean() ?: true,
-            enforceSingleSpace = entries["enforceSingleSpace"]?.toBoolean() ?: true,
+            spaceAroundAssignment = entries["spaceAroundAssignment"]?.toBoolean() ?: false,
+            spaceAroundOperators = entries["spaceAroundOperators"]?.toBoolean() ?: false,
+            enforceSingleSpace = entries["enforceSingleSpace"]?.toBoolean() ?: false,
             breakAfterStatement = entries["breakAfterStatement"]?.toBoolean() ?: true,
             blankLinesAfterPrintln = entries["blankLinesAfterPrintln"]?.toIntOrNull() ?: 0,
             indentSize =
                 entries["indentSize"]?.toIntOrNull() ?: FormatConfig.DEFAULT_INDENT_SIZE,
             ifBraceOnSameLine = entries["ifBraceOnSameLine"]?.toBoolean() ?: true,
             ifIndentInside =
-                entries["ifIndentInside"]?.toIntOrNull()
-                    ?: FormatConfig.DEFAULT_IF_INDENT_INSIDE,
+                entries["ifIndentInside"]?.toIntOrNull() ?: FormatConfig.DEFAULT_IF_INDENT_INSIDE,
         )
     }
 }

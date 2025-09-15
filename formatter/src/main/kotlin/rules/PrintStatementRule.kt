@@ -1,12 +1,14 @@
 package formatter.rules
 
 import formatter.config.FormatConfig
-import formatter.config.FormatterConstants.MAX_BLANK_LINES_BEFORE_PRINTLN
-import formatter.config.FormatterConstants.MIN_BLANK_LINES_BEFORE_PRINTLN
+import formatter.config.FormatterConstants.MAX_BLANK_LINES_AFTER_PRINTLN
+import formatter.config.FormatterConstants.MIN_BLANK_LINES_AFTER_PRINTLN
 import node.ASTNode
 import node.PrintStatement
 
 class PrintStatementRule : FormatRule {
+    override val id = RuleId.PrintStatement
+
     override fun matches(node: ASTNode) = node is PrintStatement
 
     override fun apply(
@@ -28,7 +30,7 @@ class PrintStatementRule : FormatRule {
 
         val lines =
             config.blankLinesAfterPrintln
-                .coerceIn(MIN_BLANK_LINES_BEFORE_PRINTLN, MAX_BLANK_LINES_BEFORE_PRINTLN)
+                .coerceIn(MIN_BLANK_LINES_AFTER_PRINTLN, MAX_BLANK_LINES_AFTER_PRINTLN)
         repeat(lines) { sb.appendLine() }
     }
 }

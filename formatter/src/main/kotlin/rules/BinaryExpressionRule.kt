@@ -5,6 +5,8 @@ import node.ASTNode
 import node.BinaryExpression
 
 class BinaryExpressionRule : FormatRule {
+    override val id = RuleId.BinaryExpression
+
     override fun matches(node: ASTNode) = node is BinaryExpression
 
     override fun apply(

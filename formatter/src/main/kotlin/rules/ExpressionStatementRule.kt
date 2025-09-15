@@ -5,6 +5,8 @@ import node.ASTNode
 import node.ExpressionStatement
 
 class ExpressionStatementRule : FormatRule {
+    override val id = RuleId.ExpressionStatement
+
     override fun matches(node: ASTNode) = node is ExpressionStatement
 
     override fun apply(

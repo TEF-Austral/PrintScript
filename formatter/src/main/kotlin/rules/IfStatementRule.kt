@@ -5,6 +5,8 @@ import node.ASTNode
 import node.IfStatement
 
 class IfStatementRule : FormatRule {
+    override val id = RuleId.IfStatement
+
     override fun matches(node: ASTNode) = node is IfStatement
 
     override fun apply(

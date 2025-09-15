@@ -34,7 +34,7 @@ class YamlFormatConfigParserTest {
 
         assertFalse(cfg.spaceBeforeColon)
         assertFalse(cfg.spaceAfterColon)
-        assertTrue(cfg.spaceAroundAssignment)
+        assertFalse(cfg.spaceAroundAssignment)
         assertEquals(0, cfg.blankLinesAfterPrintln)
         assertEquals(FormatConfig.DEFAULT_INDENT_SIZE, cfg.indentSize)
     }

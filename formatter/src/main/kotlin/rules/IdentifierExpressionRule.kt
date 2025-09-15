@@ -5,6 +5,8 @@ import node.IdentifierExpression
 import node.ASTNode
 
 class IdentifierExpressionRule : FormatRule {
+    override val id = RuleId.IdentifierExpression
+
     override fun matches(node: ASTNode) = node is IdentifierExpression
 
     override fun apply(
