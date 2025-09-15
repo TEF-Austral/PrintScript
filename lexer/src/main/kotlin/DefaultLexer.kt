@@ -1,9 +1,9 @@
 import converter.TokenConverter
-import converter.string.StreamingSplitter
+import string.streaming.StreamingSplitter
 
 class DefaultLexer(
     private val tokenConverter: TokenConverter,
-    private val splitter: StreamingSplitter,
+    splitter: StreamingSplitter,
 ) : Lexer {
 
     private val splitterResult = splitter.next()

@@ -11,5 +11,4 @@ class PrintCollector : Emitter {
     override fun stringEmit(value: String) {
         messages.add(value)
     }
-
 }

@@ -1,16 +1,16 @@
-import converter.string.StreamingSplitter
+import string.streaming.StreamingSplitter
 import factory.SpecialCharsFactory
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import java.io.StringReader
-import stringSplitter.extractor.CommentExtractor
-import stringSplitter.extractor.NumberExtractor
-import stringSplitter.extractor.SpecialTokenExtractor
-import stringSplitter.extractor.StringLiteralExtractor
-import stringSplitter.extractor.TokenExtractor
-import stringSplitter.extractor.WhitespaceExtractor
-import stringSplitter.extractor.WordExtractor
+import string.splitter.extractor.CommentExtractor
+import string.splitter.extractor.NumberExtractor
+import string.splitter.extractor.SpecialTokenExtractor
+import string.splitter.extractor.StringLiteralExtractor
+import string.splitter.extractor.TokenExtractor
+import string.splitter.extractor.WhitespaceExtractor
+import string.splitter.extractor.WordExtractor
 
 class StreamingSplitterTest {
 

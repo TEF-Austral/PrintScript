@@ -28,9 +28,9 @@ class DefaultFormatter(
                 .joinToString("\n") { line ->
                     val indent = line.takeWhile { it == ' ' }
                     indent +
-                            line
-                                .drop(indent.length)
-                                .replace(formatter.config.FormatterConstants.MULTI_SPACE_REGEX, " ")
+                        line
+                            .drop(indent.length)
+                            .replace(formatter.config.FormatterConstants.MULTI_SPACE_REGEX, " ")
                 }
         return result.removeSuffix("\n")
     }
