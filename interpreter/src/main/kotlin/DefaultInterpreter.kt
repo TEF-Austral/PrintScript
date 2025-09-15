@@ -17,7 +17,7 @@ class DefaultInterpreter(
     override fun interpret(stream: AstStream): InterpreterResult =
         try {
             executeStream(stream, initialDatabase, null)
-        } catch (e: Exception) {
+        } catch (e: Error) {
             InterpreterResult(false, "Error executing program: ${e.message}", null)
         }
 
