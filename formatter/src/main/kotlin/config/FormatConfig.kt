@@ -3,15 +3,15 @@ package formatter.config
 import formatter.rules.RuleId
 
 data class FormatConfig(
-    val spaceBeforeColon: Boolean = false,
-    val spaceAfterColon: Boolean = false,
-    val spaceAroundAssignment: Boolean = false,
-    val spaceAroundOperators: Boolean = false,
-    val enforceSingleSpace: Boolean = false,
-    val breakAfterStatement: Boolean = true,
+    val spaceBeforeColon: Boolean? = null,
+    val spaceAfterColon: Boolean? = null,
+    val spaceAroundAssignment: Boolean? = null,
+    val spaceAroundOperators: Boolean? = null,
+    val enforceSingleSpace: Boolean? = null,
+    val breakAfterStatement: Boolean? = null,
     val blankLinesAfterPrintln: Int = 0,
     val indentSize: Int = DEFAULT_INDENT_SIZE,
-    val ifBraceOnSameLine: Boolean = true,
+    val ifBraceOnSameLine: Boolean? = null,
     val ifIndentInside: Int = DEFAULT_IF_INDENT_INSIDE,
     // new flag, empty = all rules enabled
     val enabledRules: Set<RuleId> = emptySet(),

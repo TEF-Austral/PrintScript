@@ -3,7 +3,7 @@ package formatter
 import formatter.config.FormatConfig
 import formatter.config.FormatterConstants
 import formatter.rules.FormatRule
-import formatter.rules.RuleRegistry
+import formatter.rules.RuleId
 import node.Program
 import node.PrintStatement
 import java.io.Writer
@@ -15,37 +15,38 @@ class DefaultFormatter(
         program: Program,
         config: FormatConfig,
     ): String {
-        // if no rules supplied, passthrough raw text + only apply breakAfterStatement
-        if (rules.isEmpty()) {
-            // Only enforce: newline after “;” and collapse multi-spaces
-            val minimalFormatter = DefaultFormatter(RuleRegistry.rulesV10)
-            val overrideConfig =
-                config.copy(
-                    spaceBeforeColon = false,
-                    spaceAfterColon = false,
-                    spaceAroundAssignment = false,
-                    spaceAroundOperators = false,
-                    enforceSingleSpace = true,
-                    enabledRules = emptySet(),
-                )
-            return minimalFormatter.formatToString(program, overrideConfig)
-        }
+        // always‐on RuleIds
+        val defaults =
+            setOf(
+                RuleId.Declaration,
+                RuleId.Assignment,
+                RuleId.ExpressionStatement,
+                RuleId.PrintStatement,
+                RuleId.EmptyStatement,
+                RuleId.BinaryExpression,
+                RuleId.StringLiteralExpression,
+                RuleId.LiteralExpression,
+                RuleId.IdentifierExpression,
+                RuleId.IfStatement,
+                RuleId.ReadInputExpression,
+                RuleId.ReadEnvExpression,
+            )
 
-        // existing logic
-        val sb = StringBuilder()
+        // if no custom flags, use all rules; otherwise defaults + enabled
         val active =
             if (config.enabledRules.isEmpty()) {
                 rules
             } else {
-                rules.filter { it.id in config.enabledRules }
+                rules.filter { it.id in defaults || it.id in config.enabledRules }
             }
 
-        val statements = program.getStatements()
-        val firstPrintIndex = statements.indexOfFirst { it is PrintStatement }
+        val sb = StringBuilder()
+        val stmts = program.getStatements()
+        val firstPrint = stmts.indexOfFirst { it is PrintStatement }
 
-        statements.forEachIndexed { index, stmt ->
-            val effectiveConfig =
-                if (stmt is PrintStatement && index == firstPrintIndex) {
+        stmts.forEachIndexed { idx, stmt ->
+            val cfg =
+                if (stmt is PrintStatement && idx == firstPrint) {
                     config
                 } else {
                     config.copy(blankLinesAfterPrintln = 0)
@@ -53,13 +54,14 @@ class DefaultFormatter(
 
             active
                 .first { it.matches(stmt) }
-                .apply(stmt, sb, effectiveConfig, 0)
+                .apply(stmt, sb, cfg, 0)
 
-            if (!effectiveConfig.breakAfterStatement) sb.setLength(sb.length - 1)
+            // only remove the trailing newline/semicolon when flag is explicitly false
+            if (cfg.breakAfterStatement == false) sb.setLength(sb.length - 1)
         }
 
         var result = sb.toString()
-        if (config.enforceSingleSpace) {
+        if (config.enforceSingleSpace == true) {
             result =
                 result
                     .lines()
@@ -71,6 +73,7 @@ class DefaultFormatter(
                                 .replace(FormatterConstants.MULTI_SPACE_REGEX, " ")
                     }
         }
+
         return result.removeSuffix("\n")
     }
 

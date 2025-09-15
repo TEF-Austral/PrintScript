@@ -3,6 +3,7 @@ package formatter.rules
 import formatter.config.FormatConfig
 import node.ASTNode
 import node.IfStatement
+import kotlin.apply
 
 class IfStatementRule : FormatRule {
     override val id = RuleId.IfStatement
@@ -21,28 +22,38 @@ class IfStatementRule : FormatRule {
 
         // opening
         sb.append(indent).append("if (")
-        RuleRegistry.rulesV11
-            .first { it.matches(stmt.getCondition()) }
+        RuleRegistry
+            .firstMatching(stmt.getCondition(), config, RuleRegistry.rulesV11)
             .apply(stmt.getCondition(), sb, config, indentLevel)
 
-        if (config.ifBraceOnSameLine) {
+        if (config.ifBraceOnSameLine == true) {
             sb.append(") {").appendLine()
-        } else {
+        } else if (config.ifBraceOnSameLine == false) {
             sb.append(")").appendLine()
             sb.append(indent).append("{").appendLine()
+        } else {
+            // unspecified: keep same-line default behavior (fallback to previous default)
+            sb.append(") {").appendLine()
         }
 
         // consequence
-        RuleRegistry.rulesV11
-            .first { it.matches(stmt.getConsequence()) }
+        RuleRegistry
+            .firstMatching(stmt.getConsequence(), config, RuleRegistry.rulesV11)
             .apply(stmt.getConsequence(), sb, config, bodyIndent)
 
         // closing
         sb.append(indent).append("}")
         if (stmt.hasAlternative()) {
-            sb.append(" else ").appendLine(if (config.ifBraceOnSameLine) "{" else "")
-            RuleRegistry.rulesV11
-                .first { it.matches(stmt.getAlternative()!!) }
+            if (config.ifBraceOnSameLine == true) {
+                sb.append(" else ").appendLine("{")
+            } else if (config.ifBraceOnSameLine == false) {
+                sb.append(" else ").appendLine()
+            } else {
+                sb.append(" else ").appendLine("{")
+            }
+
+            RuleRegistry
+                .firstMatching(stmt.getAlternative()!!, config, RuleRegistry.rulesV11)
                 .apply(stmt.getAlternative()!!, sb, config, bodyIndent)
             sb.append(indent).append("}")
         }
