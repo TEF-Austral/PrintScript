@@ -19,7 +19,12 @@ class BinaryExpressionRule : FormatRule {
             .first { it.matches(expr.getLeft()) }
             .apply(expr.getLeft(), sb, config, indentLevel)
 
-        sb.append(" ${expr.getOperator()} ")
+        val op = expr.getOperator()
+        if (config.spaceAroundOperators) {
+            sb.append(" ").append(op).append(" ")
+        } else {
+            sb.append(op)
+        }
 
         RuleRegistry.rulesV10
             .first { it.matches(expr.getRight()) }

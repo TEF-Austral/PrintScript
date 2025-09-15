@@ -16,11 +16,6 @@ class PrintStatementRule : FormatRule {
         indentLevel: Int,
     ) {
         val stmt = node as PrintStatement
-        val lines =
-            config.blankLinesBeforePrintln
-                .coerceIn(MIN_BLANK_LINES_BEFORE_PRINTLN, MAX_BLANK_LINES_BEFORE_PRINTLN)
-        repeat(lines) { sb.appendLine() }
-
         sb
             .append(" ".repeat(indentLevel * config.indentSize))
             .append("println(")
@@ -30,5 +25,10 @@ class PrintStatementRule : FormatRule {
             .apply(stmt.getExpression(), sb, config, indentLevel)
 
         sb.append(");").appendLine()
+
+        val lines =
+            config.blankLinesAfterPrintln
+                .coerceIn(MIN_BLANK_LINES_BEFORE_PRINTLN, MAX_BLANK_LINES_BEFORE_PRINTLN)
+        repeat(lines) { sb.appendLine() }
     }
 }

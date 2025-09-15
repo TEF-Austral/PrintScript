@@ -2,5 +2,5 @@
   "spaceBeforeColon": true,
   "spaceAfterColon": true,
   "spaceAroundAssignment": true,
-  "blankLinesBeforePrintln": 1
+  "blankLinesAfterPrintln": 1
 }

@@ -55,7 +55,7 @@ class DefaultInterpreterFactory : InterpreterFactory {
             Version.VERSION_1_0 -> InterpreterFactoryVersionOne.createDefaultInterpreter(emitter)
             Version.VERSION_1_1 ->
                 InterpreterFactoryVersionOnePointOne.createDefaultInterpreter(
-                    emitter
+                    emitter,
                 )
         }
 }

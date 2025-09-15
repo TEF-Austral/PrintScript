@@ -21,7 +21,7 @@ class FormatConfigLoaderTest {
               "spaceBeforeColon": "true",
               "spaceAfterColon": "false",
               "spaceAroundAssignment": "false",
-              "blankLinesBeforePrintln": "2",
+              "blankLinesAfterPrintln": "2",
               "indentSize": "6"
             }
             """.trimIndent()
@@ -31,7 +31,7 @@ class FormatConfigLoaderTest {
         assertTrue(config.spaceBeforeColon)
         assertFalse(config.spaceAfterColon)
         assertFalse(config.spaceAroundAssignment)
-        assertEquals(2, config.blankLinesBeforePrintln)
+        assertEquals(2, config.blankLinesAfterPrintln)
         assertEquals(6, config.indentSize)
     }
 
@@ -44,7 +44,7 @@ class FormatConfigLoaderTest {
             spaceBeforeColon: true
             spaceAfterColon: false
             spaceAroundAssignment: false
-            blankLinesBeforePrintln: 1
+            blankLinesAfterPrintln: 1
             indentSize: 3
             """.trimIndent()
         Files.writeString(yamlFile, yamlContent)
@@ -53,7 +53,7 @@ class FormatConfigLoaderTest {
         assertTrue(config.spaceBeforeColon)
         assertFalse(config.spaceAfterColon)
         assertFalse(config.spaceAroundAssignment)
-        assertEquals(1, config.blankLinesBeforePrintln)
+        assertEquals(1, config.blankLinesAfterPrintln)
         assertEquals(3, config.indentSize)
     }
 
@@ -66,7 +66,7 @@ class FormatConfigLoaderTest {
         assertFalse(config.spaceBeforeColon)
         assertTrue(config.spaceAfterColon)
         assertTrue(config.spaceAroundAssignment)
-        assertEquals(0, config.blankLinesBeforePrintln)
+        assertEquals(0, config.blankLinesAfterPrintln)
         assertEquals(FormatConfig.DEFAULT_INDENT_SIZE, config.indentSize)
     }
 }

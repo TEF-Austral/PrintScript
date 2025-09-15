@@ -15,30 +15,33 @@ class IfStatementRule : FormatRule {
     ) {
         val stmt = node as IfStatement
         val indent = " ".repeat(indentLevel * config.indentSize)
+        val bodyIndent = indentLevel + config.ifIndentInside
 
-        // if(<condition>) {
-        sb
-            .append(indent)
-            .append("if(")
+        // opening
+        sb.append(indent).append("if (")
         RuleRegistry.rulesV11
             .first { it.matches(stmt.getCondition()) }
             .apply(stmt.getCondition(), sb, config, indentLevel)
-        sb.append(") {").appendLine()
+
+        if (config.ifBraceOnSameLine) {
+            sb.append(") {").appendLine()
+        } else {
+            sb.append(")").appendLine()
+            sb.append(indent).append("{").appendLine()
+        }
 
         // consequence
         RuleRegistry.rulesV11
             .first { it.matches(stmt.getConsequence()) }
-            .apply(stmt.getConsequence(), sb, config, indentLevel + 1)
+            .apply(stmt.getConsequence(), sb, config, bodyIndent)
 
-        // close block
+        // closing
         sb.append(indent).append("}")
-
-        // else
         if (stmt.hasAlternative()) {
-            sb.append(" else {").appendLine()
+            sb.append(" else ").appendLine(if (config.ifBraceOnSameLine) "{" else "")
             RuleRegistry.rulesV11
                 .first { it.matches(stmt.getAlternative()!!) }
-                .apply(stmt.getAlternative()!!, sb, config, indentLevel + 1)
+                .apply(stmt.getAlternative()!!, sb, config, bodyIndent)
             sb.append(indent).append("}")
         }
         sb.appendLine()
