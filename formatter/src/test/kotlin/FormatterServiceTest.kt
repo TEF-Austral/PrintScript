@@ -57,12 +57,12 @@ class FormatterServiceTest {
         val configFile = tempDir.resolve("settings.yml")
         val yaml =
             """
-            blankLinesBeforePrintln: 1
+            blankLinesAfterPrintln: 1
             """.trimIndent()
         Files.writeString(configFile, yaml)
 
         val writer = StringWriter()
         service.formatToWriter(program, version, configFile.toString(), writer)
-        assertEquals("\nprintln(\"hi\");", writer.toString())
+        assertEquals("println(\"hi\");\n", writer.toString())
     }
 }

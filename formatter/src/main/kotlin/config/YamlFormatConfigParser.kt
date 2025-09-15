@@ -8,16 +8,26 @@ class YamlFormatConfigParser : FormatConfigParser {
                 .map(String::trim)
                 .filter { it.isNotEmpty() && !it.startsWith("#") }
                 .mapNotNull { line ->
-                    val parts = line.split(":", limit = 2)
-                    if (parts.size == 2) parts[0].trim() to parts[1].trim() else null
+                    line
+                        .split(":", limit = 2)
+                        .takeIf { it.size == 2 }
+                        ?.let { it[0].trim() to it[1].trim() }
                 }.toMap()
 
         return FormatConfig(
             spaceBeforeColon = entries["spaceBeforeColon"]?.toBoolean() ?: false,
             spaceAfterColon = entries["spaceAfterColon"]?.toBoolean() ?: true,
             spaceAroundAssignment = entries["spaceAroundAssignment"]?.toBoolean() ?: true,
-            blankLinesBeforePrintln = entries["blankLinesBeforePrintln"]?.toIntOrNull() ?: 0,
-            indentSize = entries["indentSize"]?.toIntOrNull() ?: FormatConfig.DEFAULT_INDENT_SIZE,
+            spaceAroundOperators = entries["spaceAroundOperators"]?.toBoolean() ?: true,
+            enforceSingleSpace = entries["enforceSingleSpace"]?.toBoolean() ?: true,
+            breakAfterStatement = entries["breakAfterStatement"]?.toBoolean() ?: true,
+            blankLinesAfterPrintln = entries["blankLinesAfterPrintln"]?.toIntOrNull() ?: 0,
+            indentSize =
+                entries["indentSize"]?.toIntOrNull() ?: FormatConfig.DEFAULT_INDENT_SIZE,
+            ifBraceOnSameLine = entries["ifBraceOnSameLine"]?.toBoolean() ?: true,
+            ifIndentInside =
+                entries["ifIndentInside"]?.toIntOrNull()
+                    ?: FormatConfig.DEFAULT_IF_INDENT_INSIDE,
         )
     }
 }
