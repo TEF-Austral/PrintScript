@@ -36,7 +36,7 @@ class DeclarationRule(
         val colonText =
             if (config.spaceBeforeColon == null && config.spaceAfterColon == null) {
                 // both sides: preserve raw
-                SpacingUtil.rebuild(rawColon, ":", null, null)
+                rawColon
             } else {
                 // per side: null => preserve that side, true/false => enforce
                 SpacingUtil.rebuild(rawColon, ":", config.spaceBeforeColon, config.spaceAfterColon)

@@ -23,7 +23,7 @@ class AssignmentRule : FormatRule {
             false -> sb.append("=")
             null -> {
                 val raw = stmt.getAssignmentToken()?.getValue() ?: "="
-                sb.append(SpacingUtil.rebuild(raw, "=", null, null))
+                sb.append(raw)
             }
         }
 
