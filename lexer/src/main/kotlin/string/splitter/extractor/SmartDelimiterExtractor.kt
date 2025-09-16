@@ -10,7 +10,10 @@ class SmartDelimiterExtractor(
 ) : TokenExtractor {
     private val twoCharOps = setOf("!=", "<=", ">=", "==", "++", "--", "&&", "||")
 
-    override fun extract(input: String, index: Int): Extraction {
+    override fun extract(
+        input: String,
+        index: Int,
+    ): Extraction {
         val originalIndex = index
         var cursor = index
 
@@ -29,12 +32,13 @@ class SmartDelimiterExtractor(
         // 3. Captura el delimitador (1 o 2 caracteres)
         val delimiterStart = cursor
         val c = input[delimiterStart]
-        val delimiter = if (delimiterStart + 1 < input.length) {
-            val pair = "$c${input[delimiterStart + 1]}"
-            if (pair in twoCharOps) pair else c.toString()
-        } else {
-            c.toString()
-        }
+        val delimiter =
+            if (delimiterStart + 1 < input.length) {
+                val pair = "$c${input[delimiterStart + 1]}"
+                if (pair in twoCharOps) pair else c.toString()
+            } else {
+                c.toString()
+            }
         cursor += delimiter.length
 
         // 4. Analiza los espacios en blanco finales (opcionales)

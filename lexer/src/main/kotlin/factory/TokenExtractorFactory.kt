@@ -18,6 +18,6 @@ object TokenExtractorFactory {
             StringLiteralExtractor,
             NumberExtractor(),
             SpecialTokenExtractor(specialChars),
-            WordExtractor(specialChars)
+            WordExtractor(specialChars),
         )
 }
