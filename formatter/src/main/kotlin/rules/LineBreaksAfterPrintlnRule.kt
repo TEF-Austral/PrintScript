@@ -6,18 +6,21 @@ import type.CommonTypes
 
 class LineBreaksAfterPrintlnRule : FormatRule {
 
-    override fun canHandle(stream: TokenStream, config: FormatConfig): Boolean {
+    override fun canHandle(
+        stream: TokenStream,
+        config: FormatConfig,
+    ): Boolean {
         val currentToken = stream.peak() ?: return false
         // IMPORTANTE: Verificar que la configuración existe antes de activar la regla
         return currentToken.getType() == CommonTypes.PRINT &&
-                currentToken.getValue().contains("println") &&
-                config.blankLinesAfterPrintln != null  // Verificar que existe la config
+            currentToken.getValue().contains("println") &&
+            config.blankLinesAfterPrintln != null // Verificar que existe la config
     }
 
     override fun apply(
         stream: TokenStream,
         config: FormatConfig,
-        state: FormatState
+        state: FormatState,
     ): RuleResult {
         // Consumir el token println - SIEMPRE consumir para evitar bucle infinito
         val printlnToken = stream.next()?.token ?: return RuleResult(null, state)
@@ -30,11 +33,12 @@ class LineBreaksAfterPrintlnRule : FormatRule {
         val newText = printlnToken.getValue() + lineBreaks
 
         // Actualizar estado
-        val newState = if (blanks > 0) {
-            state.copy(isNewLine = true)
-        } else {
-            state
-        }
+        val newState =
+            if (blanks > 0) {
+                state.copy(isNewLine = true)
+            } else {
+                state
+            }
 
         return RuleResult(newText = newText, state = newState)
     }

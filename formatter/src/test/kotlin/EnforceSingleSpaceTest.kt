@@ -22,19 +22,22 @@ class EnforceSingleSpaceTest {
 
     @Test
     fun `test mandatory single space separation`() {
-        val config = FormatConfig(
-            enforceSingleSpace = true
-        )
+        val config =
+            FormatConfig(
+                enforceSingleSpace = true,
+            )
 
-        val input = """
+        val input =
+            """
             let something:      string="a really cool thing";
             println(something);
-        """.trimIndent()
+            """.trimIndent()
 
-        val expected = """
+        val expected =
+            """
             let something : string = "a really cool thing";
             println ( something );
-        """.trimIndent()
+            """.trimIndent()
 
         val stream = lex(input)
         val output = FormatterImpl().formatToString(stream, config)

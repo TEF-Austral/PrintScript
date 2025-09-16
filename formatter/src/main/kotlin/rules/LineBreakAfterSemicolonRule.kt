@@ -6,17 +6,20 @@ import type.CommonTypes
 
 class LineBreakAfterSemicolonRule : FormatRule {
 
-    override fun canHandle(stream: TokenStream, config: FormatConfig): Boolean {
+    override fun canHandle(
+        stream: TokenStream,
+        config: FormatConfig,
+    ): Boolean {
         val currentToken = stream.peak() ?: return false
         // El punto y coma es un DELIMITER
         return currentToken.getType() == CommonTypes.DELIMITERS &&
-                currentToken.getValue().contains(";")
+            currentToken.getValue().contains(";")
     }
 
     override fun apply(
         stream: TokenStream,
         config: FormatConfig,
-        state: FormatState
+        state: FormatState,
     ): RuleResult {
         // Consumir el token con punto y coma
         val semicolonToken = stream.next()?.token!!

@@ -2,7 +2,6 @@ package formatter
 
 import TokenStream
 import formatter.config.FormatConfig
-import java.io.Reader
 import java.io.Writer
 
 interface Formatter {

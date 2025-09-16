@@ -1,15 +1,15 @@
-//package formatter.rules
+// package formatter.rules
 //
-//import TokenStream
-//import formatter.config.FormatConfig
-//import type.CommonTypes
+// import TokenStream
+// import formatter.config.FormatConfig
+// import type.CommonTypes
 //
-///**
+// /**
 // * Regla no configurable que asegura que haya como máximo un espacio entre tokens.
 // * Se encarga de normalizar cualquier secuencia de espacios y/o tabulaciones
 // * en un único espacio.
 // */
-//class SingleSpaceSeparatorRule : FormatRule {
+// class SingleSpaceSeparatorRule : FormatRule {
 //
 //    /**
 //     * La regla se activa si el siguiente token es de tipo WHITESPACE
@@ -45,4 +45,4 @@
 //
 //        return RuleResult(newText = newText, state = nextState)
 //    }
-//}
+// }

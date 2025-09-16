@@ -22,17 +22,20 @@ class EnforceOperationSpaceTest {
 
     @Test
     fun `test mandatory space surrounding operations`() {
-        val config = FormatConfig(
-            spaceAroundOperators = true
-        )
+        val config =
+            FormatConfig(
+                spaceAroundOperators = true,
+            )
 
-        val input = """
+        val input =
+            """
             let result: number = 5+4*3/2;
-        """.trimIndent()
+            """.trimIndent()
 
-        val expected = """
+        val expected =
+            """
             let result: number = 5 + 4 * 3 / 2;
-        """.trimIndent()
+            """.trimIndent()
 
         val stream = lex(input)
         val output = FormatterImpl().formatToString(stream, config)

@@ -22,25 +22,28 @@ class NoSpacingSurroundingEqualsTest {
 
     @Test
     fun `test no spacing around equals, operators, and colon spacing`() {
-        val config = FormatConfig(
-            spaceAroundAssignment = false,
-            spaceBeforeColon = false,  // Agregar configuración para colon
-            spaceAfterColon = true      // Mantener espacio después de colon
-        )
+        val config =
+            FormatConfig(
+                spaceAroundAssignment = false,
+                spaceBeforeColon = false, // Agregar configuración para colon
+                spaceAfterColon = true, // Mantener espacio después de colon
+            )
 
-        val input = """
+        val input =
+            """
             let something: string= "a really cool thing";
             let another_thing: string ="another really cool thing";
             let twice_thing: string = "another really cool thing twice";
             let third_thing: string="another really cool thing three times";
-        """.trimIndent()
+            """.trimIndent()
 
-        val expected = """
+        val expected =
+            """
             let something: string="a really cool thing";
             let another_thing: string="another really cool thing";
             let twice_thing: string="another really cool thing twice";
             let third_thing: string="another really cool thing three times";
-        """.trimIndent()
+            """.trimIndent()
 
         val stream = lex(input)
         val output = FormatterImpl().formatToString(stream, config)

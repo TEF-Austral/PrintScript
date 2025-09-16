@@ -24,7 +24,7 @@ class YamlFormatConfigParser : FormatConfigParser {
             blankLinesAfterPrintln = entries["blankLinesAfterPrintln"]?.toIntOrNull() ?: 0,
             indentSize =
                 entries["indentSize"]?.toIntOrNull() ?: FormatConfig.DEFAULT_SIZE,
-            ifBraceOnSameLine = entries["ifBraceOnSameLine"]?.toBoolean()
+            ifBraceOnSameLine = entries["ifBraceOnSameLine"]?.toBoolean(),
         )
     }
 }

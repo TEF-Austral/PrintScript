@@ -20,7 +20,6 @@ class BraceBelowLineTest {
         return tokenStream
     }
 
-
     private fun completelex(input: String): List<Token> {
         val splitter = StringSplitterFactory.createStreamingSplitter(StringReader(input))
         var lexer: Lexer? = DefaultLexer(tokenConverter, splitter)
@@ -40,24 +39,27 @@ class BraceBelowLineTest {
 
     @Test
     fun `test if brace below line`() {
-        val config = FormatConfig(
-            ifBraceOnSameLine = false //"if-brace-below-line": true
-        )
+        val config =
+            FormatConfig(
+                ifBraceOnSameLine = false, // "if-brace-below-line": true
+            )
 
-        val input = """
+        val input =
+            """
             let something: boolean = true;
             if (something) {
               println("Entered if");
             }
-        """.trimIndent()
+            """.trimIndent()
 
-        val expected = """
+        val expected =
+            """
             let something: boolean = true;
             if (something)
             {
               println("Entered if");
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val stream = lex(input)
         val output = FormatterImpl().formatToString(stream, config)

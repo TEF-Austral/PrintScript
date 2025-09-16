@@ -22,24 +22,27 @@ class BraceSameLineTest {
 
     @Test
     fun `test if brace same line`() {
-        val config = FormatConfig(
-            ifBraceOnSameLine = true
-        )
+        val config =
+            FormatConfig(
+                ifBraceOnSameLine = true,
+            )
 
-        val input = """
+        val input =
+            """
             let something: boolean = true;
             if (something)
             {
               println("Entered if");
             }
-        """.trimIndent()
+            """.trimIndent()
 
-        val expected = """
+        val expected =
+            """
             let something: boolean = true;
             if (something) {
               println("Entered if");
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val stream = lex(input)
         val output = FormatterImpl().formatToString(stream, config)

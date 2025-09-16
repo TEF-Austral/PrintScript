@@ -22,27 +22,30 @@ class IndentInsideTwoTest {
 
     @Test
     fun `test indent inside if with 4 spaces`() {
-        val config = FormatConfig(
-            indentSize = 4
-        )
+        val config =
+            FormatConfig(
+                indentSize = 4,
+            )
 
-        val input = """
+        val input =
+            """
             let something: boolean = true;
             if (something) {
               if (something) {
                 println("Entered two ifs");
               }
             }
-        """.trimIndent()
+            """.trimIndent()
 
-        val expected = """
+        val expected =
+            """
             let something: boolean = true;
             if (something) {
                 if (something) {
                     println("Entered two ifs");
                 }
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val stream = lex(input)
         val output = FormatterImpl().formatToString(stream, config)

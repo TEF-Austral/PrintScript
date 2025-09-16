@@ -7,16 +7,19 @@ import type.CommonTypes
 
 class SpaceAroundAssignmentRule : FormatRule {
 
-    override fun canHandle(stream: TokenStream, config: FormatConfig): Boolean {
+    override fun canHandle(
+        stream: TokenStream,
+        config: FormatConfig,
+    ): Boolean {
         val nextToken = stream.peak() ?: return false
         return nextToken.getType() == CommonTypes.ASSIGNMENT &&
-                config.spaceAroundAssignment != null
+            config.spaceAroundAssignment != null
     }
 
     override fun apply(
         stream: TokenStream,
         config: FormatConfig,
-        state: FormatState
+        state: FormatState,
     ): RuleResult {
         // SIEMPRE consumir el token
         val tokenResult = stream.next() ?: return RuleResult(null, state)
@@ -24,12 +27,13 @@ class SpaceAroundAssignmentRule : FormatRule {
 
         val spaceAround = config.spaceAroundAssignment ?: false
 
-        val formattedAssignment = SpaceUtil.rebuild(
-            raw = currentToken.getValue(),
-            symbol = "=",
-            spaceBefore = spaceAround,
-            spaceAfter = spaceAround
-        )
+        val formattedAssignment =
+            SpaceUtil.rebuild(
+                raw = currentToken.getValue(),
+                symbol = "=",
+                spaceBefore = spaceAround,
+                spaceAfter = spaceAround,
+            )
 
         return RuleResult(newText = formattedAssignment, state = state)
     }

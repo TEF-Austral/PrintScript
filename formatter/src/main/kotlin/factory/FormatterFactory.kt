@@ -1,15 +1,15 @@
 package formatter.factory
 
-//import LineBreaksAfterPrintlnRule
-//import SpaceAroundAssignmentRule
-//import SpaceAroundOperatorsRule
+// import LineBreaksAfterPrintlnRule
+// import SpaceAroundAssignmentRule
+// import SpaceAroundOperatorsRule
 //
-//import formatter.rules.ColonSpacingRule
-//import formatter.rules.LineBreakAfterSemicolonRule
-//import formatter.rules.NormalizeSpacesInTokenRule
-//import javax.swing.text.DefaultFormatter
+// import formatter.rules.ColonSpacingRule
+// import formatter.rules.LineBreakAfterSemicolonRule
+// import formatter.rules.NormalizeSpacesInTokenRule
+// import javax.swing.text.DefaultFormatter
 //
-//class FormatterFactory {
+// class FormatterFactory {
 //
 //    fun createFormatter(): DefaultFormatter {
 //        // Crear lista de reglas en orden de prioridad
@@ -28,4 +28,4 @@ package formatter.factory
 //
 //        return DefaultFormatter(rules)
 //    }
-//}
+// }

@@ -6,13 +6,19 @@ import type.CommonTypes
 
 class IfBraceRule : FormatRule {
 
-    override fun canHandle(stream: TokenStream, config: FormatConfig): Boolean {
+    override fun canHandle(
+        stream: TokenStream,
+        config: FormatConfig,
+    ): Boolean {
         if (config.ifBraceOnSameLine == null) return false
         return stream.peak()?.getType() == CommonTypes.CONDITIONALS
     }
 
-
-    override fun apply(stream: TokenStream, config: FormatConfig, state: FormatState): RuleResult {
+    override fun apply(
+        stream: TokenStream,
+        config: FormatConfig,
+        state: FormatState,
+    ): RuleResult {
         val sb = StringBuilder()
         var newState = state
 

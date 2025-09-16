@@ -5,7 +5,10 @@ import formatter.config.FormatConfig
 
 class NormalizeSpacesInTokenRule : FormatRule {
 
-    override fun canHandle(stream: TokenStream, config: FormatConfig): Boolean {
+    override fun canHandle(
+        stream: TokenStream,
+        config: FormatConfig,
+    ): Boolean {
         val currentToken = stream.peak() ?: return false
         val value = currentToken.getValue()
 
@@ -16,7 +19,7 @@ class NormalizeSpacesInTokenRule : FormatRule {
     override fun apply(
         stream: TokenStream,
         config: FormatConfig,
-        state: FormatState
+        state: FormatState,
     ): RuleResult {
         // Consumir el token
         val token = stream.next()?.token!!

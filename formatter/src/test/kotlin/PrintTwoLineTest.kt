@@ -22,23 +22,26 @@ class PrintTwoLineTest {
 
     @Test
     fun `test two line breaks after println`() {
-        val config = FormatConfig(
-            blankLinesAfterPrintln = 2
-        )
+        val config =
+            FormatConfig(
+                blankLinesAfterPrintln = 2,
+            )
 
-        val input = """
+        val input =
+            """
             let something:string = "a really cool thing";
             println(something);
             println("in the way she moves");
-        """.trimIndent()
+            """.trimIndent()
 
-        val expected = """
+        val expected =
+            """
             let something:string = "a really cool thing";
             println(something);
             
             
             println("in the way she moves");
-        """.trimIndent()
+            """.trimIndent()
 
         val stream = lex(input)
         val output = FormatterImpl().formatToString(stream, config)
