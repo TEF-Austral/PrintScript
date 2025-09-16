@@ -1,7 +1,5 @@
 package formatter.config
 
-import formatter.rules.RuleId
-
 class JsonFormatConfigParser : FormatConfigParser {
     override fun parse(text: String): FormatConfig {
         val entries =
@@ -13,18 +11,6 @@ class JsonFormatConfigParser : FormatConfigParser {
                 .map { it.trim().split(':', limit = 2).map(String::trim) }
                 .filter { it.size == 2 }
                 .associate { it[0].removeSurrounding("\"") to it[1].removeSurrounding("\"") }
-
-        fun parseEnabled(raw: String?): Set<RuleId> =
-            raw
-                ?.let {
-                    Regex("""\w+""")
-                        .findAll(it)
-                        .map { m ->
-                            m.value
-                        }.mapNotNull { runCatching { RuleId.valueOf(it) }.getOrNull() }
-                        .toSet()
-                }
-                ?: emptySet()
 
         return FormatConfig(
             spaceBeforeColon = entries["spaceBeforeColon"]?.toBoolean(),
@@ -39,7 +25,6 @@ class JsonFormatConfigParser : FormatConfigParser {
             ifBraceOnSameLine = entries["ifBraceOnSameLine"]?.toBoolean(),
             ifIndentInside =
                 entries["ifIndentInside"]?.toIntOrNull() ?: FormatConfig.DEFAULT_IF_INDENT_INSIDE,
-            enabledRules = parseEnabled(entries["enabledRules"]),
         )
     }
 }

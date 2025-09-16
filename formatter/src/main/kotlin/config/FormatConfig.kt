@@ -1,7 +1,5 @@
 package formatter.config
 
-import formatter.rules.RuleId
-
 data class FormatConfig(
     val spaceBeforeColon: Boolean? = null,
     val spaceAfterColon: Boolean? = null,
@@ -13,8 +11,6 @@ data class FormatConfig(
     val indentSize: Int = DEFAULT_INDENT_SIZE,
     val ifBraceOnSameLine: Boolean? = null,
     val ifIndentInside: Int = DEFAULT_IF_INDENT_INSIDE,
-    // new flag, empty = all rules enabled
-    val enabledRules: Set<RuleId> = emptySet(),
 ) {
     companion object {
         const val DEFAULT_INDENT_SIZE: Int = 4

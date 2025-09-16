@@ -42,7 +42,7 @@ class LexerTest {
         assertEquals("x", tokens[1].getValue())
 
         assertEquals(CommonTypes.ASSIGNMENT, tokens[2].getType())
-        assertEquals(" = ", tokens[2].getValue())
+        assertEquals("=", tokens[2].getValue())
 
         assertEquals(CommonTypes.NUMBER_LITERAL, tokens[3].getType())
         assertEquals("5", tokens[3].getValue())
@@ -63,7 +63,7 @@ class LexerTest {
         assertEquals("x", tokens[1].getValue())
 
         assertEquals(CommonTypes.ASSIGNMENT, tokens[2].getType())
-        assertEquals(" = ", tokens[2].getValue())
+        assertEquals("=", tokens[2].getValue())
 
         assertEquals(CommonTypes.NUMBER_LITERAL, tokens[3].getType())
         assertEquals("5", tokens[3].getValue())

@@ -1,6 +1,6 @@
 import factory.AnalyzerFactory
 import factory.InterpreterFactoryVersionOnePointOne
-import formatter.FormatterService
+import formatter.DefaultFormatter
 import parser.result.CompleteProgram
 import stream.MockAstStream
 import type.Version
@@ -11,7 +11,7 @@ fun CLI.handleFormatting(
     version: Version,
 ): String {
     val program = parseSourceCode(srcCodePath)
-    val formatter = FormatterService()
+    val formatter = DefaultFormatter()
 
     val configPath =
         formatterConfigFilePath ?: run {
