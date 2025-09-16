@@ -18,8 +18,11 @@ class SpaceAroundAssignmentRule : FormatRule {
         config: FormatConfig,
         state: FormatState
     ): RuleResult {
-        val currentToken = stream.next()!!.token
-        val spaceAround = config.spaceAroundAssignment!!
+        // SIEMPRE consumir el token
+        val tokenResult = stream.next() ?: return RuleResult(null, state)
+        val currentToken = tokenResult.token
+
+        val spaceAround = config.spaceAroundAssignment ?: false
 
         val formattedAssignment = SpaceUtil.rebuild(
             raw = currentToken.getValue(),

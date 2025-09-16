@@ -8,9 +8,10 @@ class LineBreaksAfterPrintlnRule : FormatRule {
 
     override fun canHandle(stream: TokenStream, config: FormatConfig): Boolean {
         val currentToken = stream.peak() ?: return false
-        // Verificar si es un token de println y si hay configuración definida
+        // IMPORTANTE: Verificar que la configuración existe antes de activar la regla
         return currentToken.getType() == CommonTypes.PRINT &&
-                currentToken.getValue().contains("println")
+                currentToken.getValue().contains("println") &&
+                config.blankLinesAfterPrintln != null  // Verificar que existe la config
     }
 
     override fun apply(
@@ -18,20 +19,17 @@ class LineBreaksAfterPrintlnRule : FormatRule {
         config: FormatConfig,
         state: FormatState
     ): RuleResult {
-        // Consumir el token println
-        val printlnToken = stream.next()?.token!!
+        // Consumir el token println - SIEMPRE consumir para evitar bucle infinito
+        val printlnToken = stream.next()?.token ?: return RuleResult(null, state)
 
         // Obtener número de líneas en blanco (0, 1, o 2)
-        val blanks = config.blankLinesAfterPrintln!!.coerceIn(0, 2)
+        val blanks = config.blankLinesAfterPrintln?.coerceIn(0, 2) ?: 0
 
-        // Construir el texto: println + saltos de línea
-        // Si blanks = 0, solo el println
-        // Si blanks = 1, println + \n (1 línea en blanco)
-        // Si blanks = 2, println + \n\n (2 líneas en blanco)
+        // Construir el texto con los saltos de línea apropiados
         val lineBreaks = if (blanks > 0) "\n".repeat(blanks) else ""
         val newText = printlnToken.getValue() + lineBreaks
 
-        // Actualizar estado si agregamos saltos de línea
+        // Actualizar estado
         val newState = if (blanks > 0) {
             state.copy(isNewLine = true)
         } else {

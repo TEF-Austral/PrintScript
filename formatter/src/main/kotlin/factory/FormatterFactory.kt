@@ -4,6 +4,7 @@ import DefaultFormatter
 import LineBreaksAfterPrintlnRule
 import SpaceAroundAssignmentRule
 import SpaceAroundOperatorsRule
+import formatter.DefaultFormatter
 
 import formatter.rules.ColonSpacingRule
 import formatter.rules.IfBraceRule
@@ -24,7 +25,7 @@ class FormatterFactory {
             ColonSpacingRule(),                 // Espacios antes/después de :
             SpaceAroundAssignmentRule(),        // Espacios alrededor de =
             SpaceAroundOperatorsRule(),         // Espacios alrededor de +, -, *, /
-            IfBraceRule()                        // Llaves de if en misma línea o siguiente
+            // IfBraceRule()                        // Llaves de if en misma línea o siguiente
         )
 
         return DefaultFormatter(rules)

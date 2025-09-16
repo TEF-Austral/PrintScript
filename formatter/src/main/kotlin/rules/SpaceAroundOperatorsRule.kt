@@ -18,8 +18,11 @@ class SpaceAroundOperatorsRule : FormatRule {
         config: FormatConfig,
         state: FormatState
     ): RuleResult {
-        val currentToken = stream.next()!!.token
-        val spaceAround = config.spaceAroundOperators!!
+        // SIEMPRE consumir el token para evitar bucle infinito
+        val tokenResult = stream.next() ?: return RuleResult(null, state)
+        val currentToken = tokenResult.token
+
+        val spaceAround = config.spaceAroundOperators ?: false
         val operatorSymbol = currentToken.getValue().trim()
 
         val formattedOperator = SpaceUtil.rebuild(
