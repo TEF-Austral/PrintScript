@@ -8,7 +8,6 @@ class DefaultLinePostProcessor : LinePostProcessor {
         text: String,
         config: FormatConfig,
     ): String {
-        // Normalize multi spaces per line but preserve leading indentation
         val normalized =
             buildString {
                 val lines = text.lines()
@@ -22,7 +21,6 @@ class DefaultLinePostProcessor : LinePostProcessor {
                 }
             }
 
-        // Collapse trailing blank lines to at most one newline
         val sb = StringBuilder(normalized)
         while (sb.isNotEmpty() &&
             sb.last() == '\n' &&
