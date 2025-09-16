@@ -6,12 +6,11 @@ import builder.DefaultNodeBuilder
 import coordinates.Position
 
 import stream.AstStream
-import java.util.NoSuchElementException
 import kotlin.test.assertEquals
 import node.DeclarationStatement
 import node.PrintStatement
+import node.EmptyExpression
 import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
@@ -120,27 +119,29 @@ class ParserAstStreamNoMockTest {
     }
 
     @Test
-    fun `test next() on an empty stream should throw NoSuchElementException`() {
+    fun `test next() on an empty stream should return failure result`() {
         val tokens = emptyList<PrintScriptToken>()
         val parser = parserFactory.createParser(MockTokenStream(tokens), nodeBuilder)
         val astStream: AstStream = ParserAstStream(parser)
 
         assertTrue(astStream.isAtEnd())
-        assertThrows(NoSuchElementException::class.java) {
-            astStream.next()
-        }
+
+        val result = astStream.next()
+        assertFalse(result.isSuccess)
+        assertTrue(result.node is EmptyExpression)
+        assertTrue(result.nextStream.isAtEnd())
     }
 
     @Test
-    fun `test peak() on an empty stream should throw NoSuchElementException`() {
+    fun `test peak() on an empty stream should return EmptyExpression`() {
         val tokens = emptyList<PrintScriptToken>()
         val parser = parserFactory.createParser(MockTokenStream(tokens), nodeBuilder)
         val astStream: AstStream = ParserAstStream(parser)
 
         assertTrue(astStream.isAtEnd())
-        assertThrows(NoSuchElementException::class.java) {
-            astStream.peak()
-        }
+
+        val node = astStream.peak()
+        assertTrue(node is EmptyExpression)
     }
 
     @Test
@@ -160,7 +161,7 @@ class ParserAstStreamNoMockTest {
     }
 
     @Test
-    fun `test peak() with invalid syntax should throw Exception`() {
+    fun `test peak() with invalid syntax should return EmptyExpression`() {
         // "let =" es sintaxis inválida
         val tokens =
             listOf(
@@ -171,10 +172,7 @@ class ParserAstStreamNoMockTest {
         val parser = parserFactory.createParser(MockTokenStream(tokens), nodeBuilder)
         val astStream: AstStream = ParserAstStream(parser)
 
-        val exception =
-            assertThrows(Exception::class.java) {
-                astStream.peak()
-            }
-        assertTrue(exception.message?.contains("Fallo en 'peak'") ?: false)
+        val node = astStream.peak()
+        assertTrue(node is EmptyExpression)
     }
 }

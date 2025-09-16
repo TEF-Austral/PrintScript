@@ -3,7 +3,6 @@ package parser.stream
 import node.ASTNode
 import stream.AstStream
 import stream.AstStreamResult
-import java.util.NoSuchElementException
 import node.EmptyExpression
 import parser.ParserInterface
 
@@ -13,7 +12,7 @@ class ParserAstStream(
 
     override fun peak(): ASTNode {
         if (isAtEnd()) {
-            throw NoSuchElementException("No se puede hacer 'peak' porque el stream está al final.")
+            return EmptyExpression()
         }
 
         val result = parser.next()
@@ -21,16 +20,15 @@ class ParserAstStream(
         return if (result.isSuccess) {
             result.node
         } else {
-            throw Exception(
-                "Fallo en 'peak': No se pudo parsear el siguiente nodo. Causa: ${result.message}",
-            )
+            EmptyExpression()
         }
     }
 
     override fun next(): AstStreamResult {
         if (isAtEnd()) {
-            throw NoSuchElementException(
-                "No se puede obtener el siguiente elemento porque el stream está al final.",
+            return failedAstStreamResult(
+                parser,
+                "Cannot call 'next' because the stream is at the end.",
             )
         }
 
@@ -41,9 +39,14 @@ class ParserAstStream(
             val nextParser = result.parser
             AstStreamResult(nextNode, ParserAstStream(nextParser), true)
         } else {
-            return AstStreamResult(EmptyExpression(), ParserAstStream(parser), false)
+            failedAstStreamResult(parser, result.message)
         }
     }
 
     override fun isAtEnd(): Boolean = parser.isAtEnd()
 }
+
+private fun failedAstStreamResult(
+    parser: ParserInterface,
+    message: String? = null,
+): AstStreamResult = AstStreamResult(EmptyExpression(), ParserAstStream(parser), false, message)

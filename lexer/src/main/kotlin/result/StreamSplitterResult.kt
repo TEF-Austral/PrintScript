@@ -1,6 +1,6 @@
 package result
 
-import converter.string.StreamingSplitter
+import string.streaming.StreamingSplitter
 import coordinates.Coordinates
 
 data class StreamSplitterResult(

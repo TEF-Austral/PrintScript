@@ -56,9 +56,13 @@ data class DefaultLexerFactory(
         reader: Reader,
         size: Int,
         version: Version,
-    ): Lexer =
+    ): Lexer {
         when (version){
             VERSION_1_0 -> createVersionOne(reader, size)
             VERSION_1_1 -> createVersionOnePointOne(reader, size)
         }
+        val converterList = converterFactory.createVersionOne()
+        val splitter = StringSplitterFactory.createStreamingSplitter(reader, size)
+        return DefaultLexer(converterList, splitter)
+    }
 }
