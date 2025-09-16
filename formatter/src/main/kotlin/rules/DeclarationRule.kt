@@ -43,14 +43,10 @@ class DeclarationRule(
             }
         sb.append(colonText)
 
-        // Preserve the original datatype token text only when both sides are null
-        val typeText =
-            if (config.spaceBeforeColon == null && config.spaceAfterColon == null) {
-                stmt.getDataTypeToken().getValue()
-            } else {
-                stmt.getDataType().toString()
-            }
-        sb.append(typeText)
+        // CAMBIO REALIZADO AQUÍ:
+        // Se eliminó el bloque if/else. Como `colonText` ya maneja todo el espaciado
+        // alrededor de los dos puntos, simplemente agregamos el nombre del tipo de dato.
+        sb.append(stmt.getDataType().toString())
 
         stmt.getInitialValue()?.also { expr ->
             when (config.spaceAroundAssignment) {
