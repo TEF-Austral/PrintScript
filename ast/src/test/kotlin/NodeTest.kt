@@ -973,5 +973,4 @@ class NodeTest {
         assertTrue(emptyExpr.getCoordinates() is UnassignedPosition)
         assertEquals("EmptyExpression", emptyExpr.toString())
     }
-
 }
