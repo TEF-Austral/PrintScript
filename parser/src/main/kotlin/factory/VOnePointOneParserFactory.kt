@@ -4,7 +4,7 @@ import TokenStream
 import builder.NodeBuilder
 import parser.Parser
 import parser.statement.AssignmentParser
-import parser.statement.ExpressionParser
+import parser.statement.ExpressionStatementBuilder
 import parser.statement.IfStatement
 import parser.statement.PrintParser
 import parser.statement.expression.ReadEnvParser
@@ -13,7 +13,7 @@ import parser.statement.StatementParser
 import parser.statement.VariableDeclarationParser
 import parser.statement.binary.DefaultParseBinary
 import parser.statement.expression.DelimitersBuilder
-import parser.statement.expression.ExpressionParsingBuilder
+import parser.statement.expression.ExpressionParser
 import parser.statement.expression.ExpressionRegistry
 import parser.statement.expression.IdentifierBuilder
 import parser.statement.expression.LiteralBuilder
@@ -64,7 +64,7 @@ class VOnePointOneParserFactory {
                     ),
                 ),
             )
-        val expressionParser = ExpressionParsingBuilder(tokenToExpression, parseBinary)
+        val expressionParser = ExpressionParser(tokenToExpression, parseBinary)
         val statementParser =
             StatementParser(
                 listOf(
@@ -107,7 +107,7 @@ class VOnePointOneParserFactory {
                     ),
                     PrintParser(),
                     AssignmentParser(),
-                    ExpressionParser(
+                    ExpressionStatementBuilder(
                         mapOf(
                             CommonTypes.NUMBER_LITERAL to true,
                             CommonTypes.STRING_LITERAL to true,

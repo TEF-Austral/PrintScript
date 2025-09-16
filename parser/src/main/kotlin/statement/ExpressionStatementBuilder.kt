@@ -9,7 +9,7 @@ import parser.utils.isOpeningParenthesis
 import parser.utils.isSemiColon
 import type.CommonTypes
 
-class ExpressionParser(
+class ExpressionStatementBuilder(
     private val acceptedTypes: Map<CommonTypes, Boolean> =
         mapOf(
             CommonTypes.NUMBER_LITERAL to true,

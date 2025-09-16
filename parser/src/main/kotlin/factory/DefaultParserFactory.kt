@@ -5,7 +5,7 @@ import builder.NodeBuilder
 import parser.Parser
 import parser.ParserInterface
 import parser.statement.StatementParser
-import parser.statement.expression.ExpressionParsingBuilder
+import parser.statement.expression.ExpressionParser
 import type.Version
 
 class DefaultParserFactory : ParserFactory {
@@ -28,7 +28,7 @@ class DefaultParserFactory : ParserFactory {
     override fun createCustomParser(
         nodeBuilder: NodeBuilder,
         tokenList: TokenStream,
-        expressionParser: ExpressionParsingBuilder,
+        expressionParser: ExpressionParser,
         statementParser: StatementParser,
     ): ParserInterface = Parser(tokenList, nodeBuilder, expressionParser, statementParser)
 }

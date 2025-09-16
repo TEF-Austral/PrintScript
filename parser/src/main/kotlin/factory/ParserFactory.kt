@@ -5,7 +5,7 @@ import builder.DefaultNodeBuilder
 import builder.NodeBuilder
 import parser.ParserInterface
 import parser.statement.StatementParser
-import parser.statement.expression.ExpressionParsingBuilder
+import parser.statement.expression.ExpressionParser
 import type.Version
 
 sealed interface ParserFactory {
@@ -23,7 +23,7 @@ sealed interface ParserFactory {
     fun createCustomParser(
         nodeBuilder: NodeBuilder,
         tokenList: TokenStream,
-        expressionParser: ExpressionParsingBuilder,
+        expressionParser: ExpressionParser,
         statementParser: StatementParser,
     ): ParserInterface
 }

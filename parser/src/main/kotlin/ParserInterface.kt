@@ -5,12 +5,12 @@ import builder.NodeBuilder
 import parser.result.FinalResult
 import parser.result.NextResult
 import parser.statement.StatementParser
-import parser.statement.expression.ExpressionParsingBuilder
+import parser.statement.expression.ExpressionParser
 
 interface ParserInterface {
     fun parse(): FinalResult
 
-    fun getExpressionParser(): ExpressionParsingBuilder
+    fun getExpressionParser(): ExpressionParser
 
     fun getNodeBuilder(): NodeBuilder
 
