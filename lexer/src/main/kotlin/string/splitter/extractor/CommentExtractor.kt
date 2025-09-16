@@ -7,14 +7,12 @@ object CommentExtractor : TokenExtractor {
     ): Extraction {
         if (index + 1 >= input.length) return Extraction.NoMatch
 
-        // Line comment
         if (input[index] == '/' && input[index + 1] == '/') {
             var i = index + 2
             while (i < input.length && input[i] != '\n') i++
             return Extraction.Skip(input.substring(index, i))
         }
 
-        // Block comment
         if (input[index] == '/' && input[index + 1] == '*') {
             var i = index + 2
             while (i + 1 < input.length && !(input[i] == '*' && input[i + 1] == '/')) {

@@ -13,20 +13,20 @@ import parser.result.ParserError
 import parser.result.ParserResult
 import parser.result.ParserSuccess
 import parser.statement.StatementParser
-import parser.statement.expression.ExpressionParsingBuilder
+import parser.statement.expression.ExpressionParser
 import parser.utils.checkType
 import type.CommonTypes
 
 data class Parser(
     private val stream: TokenStream,
     private val nodeBuilder: NodeBuilder,
-    private val expressionParser: ExpressionParsingBuilder,
+    private val expressionParser: ExpressionParser,
     private val statementParser: StatementParser,
 ) : ParserInterface {
 
     override fun peak(): Token? = stream.peak()
 
-    override fun getExpressionParser(): ExpressionParsingBuilder = expressionParser
+    override fun getExpressionParser(): ExpressionParser = expressionParser
 
     override fun getNodeBuilder(): NodeBuilder = nodeBuilder
 
