@@ -22,9 +22,8 @@ class AssignmentRule : FormatRule {
             true -> sb.append(" = ")
             false -> sb.append("=")
             null -> {
-                // Prefer original token (may include spacing), else bare '='
-                val rawOp = stmt.getAssignmentToken()?.getValue() ?: "="
-                sb.append(rawOp)
+                val raw = stmt.getAssignmentToken()?.getValue() ?: "="
+                sb.append(SpacingUtil.rebuild(raw, "=", null, null))
             }
         }
 

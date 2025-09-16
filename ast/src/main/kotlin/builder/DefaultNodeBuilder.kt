@@ -1,3 +1,4 @@
+// kotlin
 package builder
 
 import Token
@@ -27,13 +28,17 @@ class DefaultNodeBuilder : NodeBuilder {
         left: Expression,
         operator: Token,
         right: Expression,
-    ): BinaryExpression = BinaryExpression(left, operator, right, operator.getCoordinates())
+        operatorWithSpacing: Token?,
+    ): BinaryExpression =
+        BinaryExpression(left, operator, right, operator.getCoordinates(), operatorWithSpacing)
 
     override fun buildVariableDeclarationStatementNode(
         declarationType: Token,
         identifier: Token,
         dataType: Token,
         initialValue: Expression?,
+        assignmentOperator: Token?,
+        colonToken: Token?,
     ): DeclarationStatement =
         DeclarationStatement(
             declarationType,
@@ -41,12 +46,16 @@ class DefaultNodeBuilder : NodeBuilder {
             dataType,
             initialValue,
             identifier.getCoordinates(),
+            assignmentOperator,
+            colonToken,
         )
 
     override fun buildAssignmentStatementNode(
         identifier: Token,
         value: Expression,
-    ): AssignmentStatement = AssignmentStatement(identifier, value, value.getCoordinates())
+        assignmentOperator: Token?,
+    ): AssignmentStatement =
+        AssignmentStatement(identifier, value, value.getCoordinates(), assignmentOperator)
 
     override fun buildPrintStatementNode(expression: Expression): PrintStatement =
         PrintStatement(expression, expression.getCoordinates())
@@ -62,7 +71,21 @@ class DefaultNodeBuilder : NodeBuilder {
         condition: Expression,
         consequence: Statement,
         alternative: Statement?,
-    ): IfStatement = IfStatement(condition, consequence, alternative, consequence.getCoordinates())
+        ifHeaderToken: Token?,
+        closeParenToken: Token?,
+        elseTokenRaw: Token?,
+        bracesOnSameLine: Boolean?,
+    ): IfStatement =
+        IfStatement(
+            condition,
+            consequence,
+            alternative,
+            consequence.getCoordinates(),
+            ifHeaderToken,
+            closeParenToken,
+            elseTokenRaw,
+            bracesOnSameLine,
+        )
 
     override fun buildReadInputNode(printValue: LiteralExpression): ReadInputExpression =
         ReadInputExpression(printValue.getValue(), printValue.getCoordinates())

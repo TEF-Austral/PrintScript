@@ -22,11 +22,13 @@ class BinaryExpressionRule : FormatRule {
             .apply(expr.getLeft(), sb, config, indentLevel)
 
         val op = expr.getOperator()
-        if (config.spaceAroundOperators == true) {
-            sb.append(" ").append(op).append(" ")
-        } else {
-            // when false or null: keep operator token as-is (no enforced extra spaces)
-            sb.append(op)
+        when (config.spaceAroundOperators) {
+            true -> sb.append(" ").append(op).append(" ")
+            false -> sb.append(op)
+            null -> {
+                val raw = expr.getOperatorTokenRaw()?.getValue()
+                sb.append(raw ?: op)
+            }
         }
 
         RuleRegistry

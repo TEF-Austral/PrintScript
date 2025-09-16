@@ -32,19 +32,24 @@ class DeclarationRule(
             .append(" ")
             .append(stmt.getIdentifier())
 
-        val bothColonNull = (config.spaceBeforeColon == null && config.spaceAfterColon == null)
-        if (bothColonNull) {
-            // Prefer original colon token (may carry spacing), else bare ':'
-            val rawColon = stmt.getColonToken()?.getValue() ?: ":"
-            sb.append(rawColon)
-        } else {
-            if (config.spaceBeforeColon == true) sb.append(" ")
-            sb.append(":")
-            if (config.spaceAfterColon == true) sb.append(" ")
-        }
+        val rawColon = stmt.getColonToken()?.getValue() ?: ":"
+        val colonText =
+            if (config.spaceBeforeColon == null && config.spaceAfterColon == null) {
+                // both sides: preserve raw
+                SpacingUtil.rebuild(rawColon, ":", null, null)
+            } else {
+                // per side: null => preserve that side, true/false => enforce
+                SpacingUtil.rebuild(rawColon, ":", config.spaceBeforeColon, config.spaceAfterColon)
+            }
+        sb.append(colonText)
 
+        // Preserve the original datatype token text only when both sides are null
         val typeText =
-            if (bothColonNull) stmt.getDataTypeToken().getValue() else stmt.getDataType().toString()
+            if (config.spaceBeforeColon == null && config.spaceAfterColon == null) {
+                stmt.getDataTypeToken().getValue()
+            } else {
+                stmt.getDataType().toString()
+            }
         sb.append(typeText)
 
         stmt.getInitialValue()?.also { expr ->
@@ -52,9 +57,8 @@ class DeclarationRule(
                 true -> sb.append(" = ")
                 false -> sb.append("=")
                 null -> {
-                    // Prefer original token (may include spacing), else bare '='
                     val raw = stmt.getAssignmentToken()?.getValue() ?: "="
-                    sb.append(raw)
+                    sb.append(SpacingUtil.rebuild(raw, "=", null, null))
                 }
             }
             RuleRegistry
