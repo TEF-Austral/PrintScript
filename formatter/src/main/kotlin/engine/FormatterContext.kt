@@ -7,7 +7,7 @@ class FormatterContext(
     val config: FormatConfig,
     val out: StringBuilder,
     val indentationManager: IndentationManager = IndentationManager(config),
-    val spaceManager: SpaceManager = SpaceManager(config)
+    val spaceManager: SpaceManager = SpaceManager(config),
 ) {
     var indentLevel: Int = 0
     var previousToken: Token? = null
@@ -18,7 +18,8 @@ class FormatterContext(
     var isEndAfterThisToken: () -> Boolean = { false }
 
     fun ensureIndentBeforeNonClosing(next: Token) {
-        newLineAdded = indentationManager.ensureIndentBeforeNonClosing(out, indentLevel, next, newLineAdded)
+        newLineAdded =
+            indentationManager.ensureIndentBeforeNonClosing(out, indentLevel, next, newLineAdded)
     }
 
     fun addIndentation() {

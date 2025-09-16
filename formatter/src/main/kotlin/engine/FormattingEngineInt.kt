@@ -9,4 +9,3 @@ interface FormattingEngineInt {
         config: FormatConfig,
     ): String
 }
-

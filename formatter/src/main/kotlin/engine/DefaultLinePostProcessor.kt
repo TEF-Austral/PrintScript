@@ -15,13 +15,14 @@ class DefaultLinePostProcessor : LinePostProcessor {
         return sb.toString()
     }
 
-    private fun normalizeLines(text: String): String = buildString {
-        val lines = text.lines()
-        lines.forEachIndexed { idx, line ->
-            append(processLine(line))
-            if (idx < lines.lastIndex) append('\n')
+    private fun normalizeLines(text: String): String =
+        buildString {
+            val lines = text.lines()
+            lines.forEachIndexed { idx, line ->
+                append(processLine(line))
+                if (idx < lines.lastIndex) append('\n')
+            }
         }
-    }
 
     private fun processLine(line: String): String {
         val trimmedStart = line.trimStart()
@@ -39,5 +40,4 @@ class DefaultLinePostProcessor : LinePostProcessor {
             sb.deleteCharAt(sb.lastIndex)
         }
     }
-
 }

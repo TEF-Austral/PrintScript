@@ -37,6 +37,8 @@ class FormattingEngine(
         return applyPostProcessors(context.out.toString(), config).trimEnd()
     }
 
-    private fun applyPostProcessors(text: String, config: FormatConfig): String =
-        postProcessors.fold(text) { acc, pp -> pp.process(acc, config) }
+    private fun applyPostProcessors(
+        text: String,
+        config: FormatConfig,
+    ): String = postProcessors.fold(text) { acc, pp -> pp.process(acc, config) }
 }

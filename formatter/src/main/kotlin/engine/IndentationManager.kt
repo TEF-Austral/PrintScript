@@ -3,8 +3,13 @@ package formatter.engine
 import Token
 import formatter.config.FormatConfig
 
-class IndentationManager(private val config: FormatConfig) {
-    fun addIndentation(out: StringBuilder, indentLevel: Int) {
+class IndentationManager(
+    private val config: FormatConfig,
+) {
+    fun addIndentation(
+        out: StringBuilder,
+        indentLevel: Int,
+    ) {
         val spacesPerLevel = config.indentSize
         repeat(indentLevel * spacesPerLevel) { out.append(' ') }
     }
@@ -13,7 +18,7 @@ class IndentationManager(private val config: FormatConfig) {
         out: StringBuilder,
         indentLevel: Int,
         next: Token,
-        newLineAdded: Boolean
+        newLineAdded: Boolean,
     ): Boolean {
         val isClosingBrace = next.getValue().trim() == "}"
         if (newLineAdded && !isClosingBrace) {

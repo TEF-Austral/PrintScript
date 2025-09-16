@@ -4,8 +4,14 @@ import Token
 import formatter.config.FormatConfig
 import type.CommonTypes
 
-class SpaceManager(private val config: FormatConfig) {
-    fun ensureSpaceBetween(out: StringBuilder, previousToken: Token?, current: Token) {
+class SpaceManager(
+    private val config: FormatConfig,
+) {
+    fun ensureSpaceBetween(
+        out: StringBuilder,
+        previousToken: Token?,
+        current: Token,
+    ) {
         val prev = previousToken ?: return
 
         if (isEnforceSingleSpace()) {
@@ -35,9 +41,9 @@ class SpaceManager(private val config: FormatConfig) {
         prevTrim: String,
         curTrim: String,
         prev: Token,
-        current: Token
-    ): Boolean {
-        return when {
+        current: Token,
+    ): Boolean =
+        when {
             prevTrim == "(" -> true
             curTrim == ")" -> true
             curTrim == ";" -> true
@@ -46,7 +52,6 @@ class SpaceManager(private val config: FormatConfig) {
             prev.getType() == CommonTypes.PRINT && curTrim == "(" -> true
             else -> false
         }
-    }
 
     private fun lastCharNotWhitespace(out: StringBuilder): Boolean =
         out.isNotEmpty() && !out.last().isWhitespace()
