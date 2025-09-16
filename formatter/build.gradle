@@ -10,7 +10,7 @@ dependencies {
     implementation project(':ast')
     implementation project(':token')
     implementation project(':reader')
-    implementation project(':parser')
+    implementation project(':lexer')
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 

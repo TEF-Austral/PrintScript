@@ -1,6 +1,7 @@
 import factory.AnalyzerFactory
 import factory.InterpreterFactoryVersionOnePointOne
-import formatter.FormatterService
+
+import formatter.FormatterImpl
 import parser.result.CompleteProgram
 import stream.MockAstStream
 import type.Version
@@ -10,17 +11,17 @@ fun CLI.handleFormatting(
     formatterConfigFilePath: String?,
     version: Version,
 ): String {
-    val program = parseSourceCode(srcCodePath)
-    val formatter = FormatterService()
+    val program = tokeniseSourceCode(srcCodePath)
+    val formatter = FormatterImpl()
 
     val configPath =
         formatterConfigFilePath ?: run {
             val defaultConfig = """{
-  "spaceBeforeColon": true,
-  "spaceAfterColon": true,
-  "spaceAroundAssignment": true,
-  "blankLinesBeforePrintln": 1
-}"""
+      "spaceBeforeColon": true,
+      "spaceAfterColon": true,
+      "spaceAroundAssignment": true,
+      "blankLinesBeforePrintln": 1
+    }"""
 
             val tempFile = kotlin.io.path.createTempFile("FormattingConfiguration", ".json")
             tempFile.toFile().writeText(defaultConfig)
@@ -28,7 +29,8 @@ fun CLI.handleFormatting(
             tempFile.toString()
         }
 
-    return formatter.formatToString(program.getProgram(), version, configPath)
+    val config = parseConfigFromFile(configPath)
+    return formatter.formatToString(program, config)
 }
 
 fun CLI.handleAnalyzing(

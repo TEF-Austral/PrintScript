@@ -6,7 +6,7 @@ import parser.statement.binary.ParseBinary
 import parser.result.ExpressionBuiltResult
 import parser.result.ExpressionResult
 
-class ExpressionParsingBuilder(
+class ExpressionParser(
     val expressionBuilder: TokenToExpression,
     val binaryBuilder: ParseBinary,
 ) {
