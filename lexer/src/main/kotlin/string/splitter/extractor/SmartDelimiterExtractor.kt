@@ -6,7 +6,7 @@ package string.splitter.extractor
  * No requiere configuración.
  */
 class SmartDelimiterExtractor(
-    private val specialChars: List<Char>,
+    private val specialChars: List<Char> = listOf(':', '='),
 ) : TokenExtractor {
     private val twoCharOps = setOf("!=", "<=", ">=", "==", "++", "--", "&&", "||")
 

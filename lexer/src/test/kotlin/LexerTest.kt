@@ -42,7 +42,7 @@ class LexerTest {
         assertEquals("x", tokens[1].getValue())
 
         assertEquals(CommonTypes.ASSIGNMENT, tokens[2].getType())
-        assertEquals("=", tokens[2].getValue())
+        assertEquals(" = ", tokens[2].getValue())
 
         assertEquals(CommonTypes.NUMBER_LITERAL, tokens[3].getType())
         assertEquals("5", tokens[3].getValue())
@@ -63,7 +63,7 @@ class LexerTest {
         assertEquals("x", tokens[1].getValue())
 
         assertEquals(CommonTypes.ASSIGNMENT, tokens[2].getType())
-        assertEquals("=", tokens[2].getValue())
+        assertEquals(" = ", tokens[2].getValue())
 
         assertEquals(CommonTypes.NUMBER_LITERAL, tokens[3].getType())
         assertEquals("5", tokens[3].getValue())
@@ -161,6 +161,6 @@ class LexerTest {
             "let something :string = \"a really cool thing\";\n" +
                 "let another_thing: string = \"another really cool thing\";let twice_thing : string = \"another really cool thing twice\";let third_thing :string=\"another really cool thing three times\";"
         val tokens = lex(input)
-        assertEquals(10, tokens.size)
+        assertEquals(28, tokens.size)
     }
 }

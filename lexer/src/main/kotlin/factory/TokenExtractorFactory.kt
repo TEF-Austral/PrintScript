@@ -12,7 +12,7 @@ import string.splitter.extractor.WordExtractor
 object TokenExtractorFactory {
     fun createTokenExtractor(specialChars: List<Char>): List<TokenExtractor> =
         listOf(
-            SmartDelimiterExtractor(specialChars),
+            SmartDelimiterExtractor(),
             WhitespaceExtractor,
             CommentExtractor,
             StringLiteralExtractor,

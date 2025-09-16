@@ -6,7 +6,7 @@ import Token
 import type.CommonTypes
 
 object AssignmentToToken : StringToTokenConverter {
-    override fun canHandle(input: String): Boolean = input == "="
+    override fun canHandle(input: String): Boolean = input.replace(" ", "") == "="
 
     override fun convert(
         input: String,
