@@ -1,7 +1,7 @@
 package formatter.rules
 
+import TokenStream
 import formatter.config.FormatConfig
-import node.ASTNode
 
 interface FormatRule {
 

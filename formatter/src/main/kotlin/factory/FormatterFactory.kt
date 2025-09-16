@@ -1,23 +1,32 @@
 package formatter.factory
 
-import formatter.DefaultFormatter
-import formatter.Formatter
+import DefaultFormatter
+import LineBreaksAfterPrintlnRule
+import SpaceAroundAssignmentRule
+import SpaceAroundOperatorsRule
+
 import formatter.rules.ColonSpacingRule
-import formatter.rules.FormatRule
 import formatter.rules.IfBraceRule
-import formatter.rules.SpaceAroundAssignmentRule
-import formatter.rules.SpaceAroundOperatorsRule
-import type.Version
+import formatter.rules.LineBreakAfterSemicolonRule
+import formatter.rules.NormalizeSpacesInTokenRule
 
-object FormatterFactory : FormatterFactoryInterface {
-    private val baseRules: List<FormatRule> = listOf(ColonSpacingRule(),
-        SpaceAroundOperatorsRule(), SpaceAroundAssignmentRule())
-    override fun createWithVersion(version: Version): Formatter =
-        when (version) {
-            Version.VERSION_1_1 -> DefaultFormatter(baseRules + listOf(IfBraceRule()))
-            Version.VERSION_1_0 -> DefaultFormatter(baseRules)
-        } // , EnforceSingleSpaceRule(),LineBreakRule()
-    // IndentationRule(),
+class FormatterFactory {
 
-    override fun createCustom(rules: List<FormatRule>): Formatter = DefaultFormatter()
+    fun createFormatter(): DefaultFormatter {
+        // Crear lista de reglas en orden de prioridad
+        val rules = listOf(
+            // Reglas no configurables (siempre activas)
+            LineBreakAfterSemicolonRule(),      // Siempre salto de línea después de ;
+            NormalizeSpacesInTokenRule(),       // Normaliza espacios múltiples dentro de tokens
+
+            // Reglas configurables
+            LineBreaksAfterPrintlnRule(),       // 0, 1, o 2 líneas después de println
+            ColonSpacingRule(),                 // Espacios antes/después de :
+            SpaceAroundAssignmentRule(),        // Espacios alrededor de =
+            SpaceAroundOperatorsRule(),         // Espacios alrededor de +, -, *, /
+            IfBraceRule()                        // Llaves de if en misma línea o siguiente
+        )
+
+        return DefaultFormatter(rules)
+    }
 }
