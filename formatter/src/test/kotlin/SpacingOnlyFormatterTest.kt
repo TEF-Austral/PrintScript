@@ -63,4 +63,28 @@ class SpacingOnlyFormatterTest {
 
         assertEquals(expected, result)
     }
+
+    @Test
+    fun `combination of colon and assignment spacing`() {
+        val decl =
+            builder.buildVariableDeclarationStatementNode(
+                tok(CommonTypes.LET, "let"),
+                identifier = tok(CommonTypes.IDENTIFIER, "x"),
+                dataType = tok(CommonTypes.NUMBER, "number"),
+                initialValue =
+                    builder.buildLiteralExpressionNode(
+                        tok(CommonTypes.NUMBER_LITERAL, "42"),
+                    ),
+            )
+        val config =
+            FormatConfig(
+                spaceBeforeColon = true,
+                spaceAfterColon = true,
+                spaceAroundAssignment = true,
+            )
+        val program = builder.buildProgramNode(listOf(decl))
+        val result = fmt.formatToString(program, config)
+
+        assertEquals("let x : number = 42;", result)
+    }
 }
