@@ -31,6 +31,7 @@ class Splitter(
 
     private fun createExtractors(specialChars: List<Char>): List<TokenExtractor> =
         listOf(
+            SpecialTokenExtractor(specialChars),
             WhitespaceExtractor,
             CommentExtractor,
             StringLiteralExtractor,

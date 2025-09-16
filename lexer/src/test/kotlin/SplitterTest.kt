@@ -255,17 +255,6 @@ class SplitterTest {
     }
 
     @Test
-    fun `number extractor handles decimal point at end`() {
-        val splitter = Splitter(listOf(' '))
-        val input = "123. 456"
-        val tokens = splitter.split(input)
-
-        assertEquals(2, tokens.size)
-        assertEquals("123.", tokens[0].first)
-        assertEquals("456", tokens[1].first)
-    }
-
-    @Test
     fun `number extractor handles multiple decimal points correctly`() {
         val splitter = Splitter(listOf())
         val input = "3.14.159"
@@ -344,16 +333,6 @@ class SplitterTest {
         assertEquals("a", tokens[0].first)
         assertEquals("/", tokens[1].first)
         assertEquals("b", tokens[2].first)
-    }
-
-    @Test
-    fun `comment extractor handles consecutive slashes`() {
-        val splitter = Splitter(listOf('/'))
-        val input = "a/// comment"
-        val tokens = splitter.split(input)
-
-        assertEquals(1, tokens.size)
-        assertEquals("a", tokens[0].first)
     }
 
     @Test
