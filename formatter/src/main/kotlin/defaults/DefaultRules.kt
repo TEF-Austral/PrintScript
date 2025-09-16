@@ -1,6 +1,5 @@
 package formatter.defaults
 
-import formatter.config.FormatConfig
 import formatter.config.FormatterConstants
 import formatter.engine.Rule
 import formatter.rules.SpaceUtil
@@ -8,13 +7,12 @@ import type.CommonTypes
 
 object DefaultRules {
 
-    fun build(config: FormatConfig): List<Rule> =
+    fun build(): List<Rule> =
         listOf(
             Rule(
                 name = "If",
                 applies = { t, _ ->
-                    t.getType() == CommonTypes.CONDITIONALS &&
-                        t.getValue().trim() == "if"
+                    t.getType() == CommonTypes.CONDITIONALS && t.getValue().trim() == "if"
                 },
                 apply = { t, ctx ->
                     ctx.ensureSpaceBetween(t)
@@ -32,7 +30,7 @@ object DefaultRules {
                     } else {
                         ctx.ensureSpaceBetween(t)
                     }
-                    ctx.out.append("{")
+                    ctx.out.append('{')
                     ctx.indentLevel++
                     ctx.out.append('\n')
                     ctx.newLineAdded = true
@@ -47,7 +45,7 @@ object DefaultRules {
                         ctx.addIndentation()
                         ctx.newLineAdded = false
                     }
-                    ctx.out.append("}")
+                    ctx.out.append('}')
                     if (!ctx.isEndAfterThisToken()) {
                         ctx.out.append('\n')
                         ctx.newLineAdded = true
@@ -59,9 +57,7 @@ object DefaultRules {
                 applies = { t, _ -> t.getValue().trim() == ";" },
                 apply = { _, ctx ->
                     if (ctx.config.enforceSingleSpace == true) {
-                        while (ctx.out.isNotEmpty() && ctx.out.last() == ' ') {
-                            ctx.out.deleteCharAt(ctx.out.lastIndex)
-                        }
+                        ctx.out.trimTrailingSpaces()
                     }
                     ctx.out.append(';')
                     ctx.out.append('\n')
@@ -80,10 +76,7 @@ object DefaultRules {
             ),
             Rule(
                 name = "Println",
-                applies = {
-                    t,
-                    _,
-                    ->
+                applies = { t, _ ->
                     t.getType() == CommonTypes.PRINT && t.getValue().contains("println")
                 },
                 apply = { t, ctx ->
@@ -97,27 +90,14 @@ object DefaultRules {
                 applies = { t, _ -> t.getValue().trim() == ":" },
                 apply = { t, ctx ->
                     if (ctx.config.enforceSingleSpace == true) {
-                        while (ctx.out.isNotEmpty() && ctx.out.last() == ' ') {
-                            ctx.out.deleteCharAt(ctx.out.lastIndex)
-                        }
-                        if (ctx.out.isNotEmpty() &&
-                            !ctx.out.last().isWhitespace()
-                        ) {
-                            ctx.out.append(' ')
-                        }
+                        ctx.out.trimTrailingSpaces()
+                        ctx.out.appendSpaceIfNeeded()
                         ctx.out.append(':')
                         ctx.out.append(' ')
                     } else {
                         when (ctx.config.spaceBeforeColon) {
-                            true ->
-                                if (ctx.out.isNotEmpty() &&
-                                    !ctx.out.last().isWhitespace()
-                                ) {
-                                    ctx.out.append(' ')
-                                }
-                            false -> while (ctx.out.isNotEmpty() && ctx.out.last() == ' ') {
-                                ctx.out.deleteCharAt(ctx.out.lastIndex)
-                            }
+                            true -> ctx.out.appendSpaceIfNeeded()
+                            false -> ctx.out.trimTrailingSpaces()
                             null -> {}
                         }
                         ctx.out.append(t.getValue())
@@ -132,9 +112,7 @@ object DefaultRules {
                 name = "Assignment",
                 applies = { t, _ -> t.getType() == CommonTypes.ASSIGNMENT },
                 apply = { t, ctx ->
-                    while (ctx.out.isNotEmpty() && ctx.out.last() == ' ') {
-                        ctx.out.deleteCharAt(ctx.out.lastIndex)
-                    }
+                    ctx.out.trimTrailingSpaces()
                     val (spaceBefore, spaceAfter) =
                         when {
                             ctx.config.enforceSingleSpace == true -> true to true
@@ -142,6 +120,7 @@ object DefaultRules {
                                 val s = ctx.config.spaceAroundAssignment
                                 s to s
                             }
+
                             else -> null to null
                         }
                     val rebuilt =
@@ -159,27 +138,14 @@ object DefaultRules {
                 applies = { t, _ -> t.getType() == CommonTypes.OPERATORS },
                 apply = { t, ctx ->
                     if (ctx.config.enforceSingleSpace == true) {
-                        while (ctx.out.isNotEmpty() && ctx.out.last() == ' ') {
-                            ctx.out.deleteCharAt(ctx.out.lastIndex)
-                        }
-                        if (ctx.out.isNotEmpty() &&
-                            !ctx.out.last().isWhitespace()
-                        ) {
-                            ctx.out.append(' ')
-                        }
+                        ctx.out.trimTrailingSpaces()
+                        ctx.out.appendSpaceIfNeeded()
                         ctx.out.append(t.getValue())
                         ctx.out.append(' ')
                     } else {
                         when (ctx.config.spaceAroundOperators) {
-                            true ->
-                                if (ctx.out.isNotEmpty() &&
-                                    !ctx.out.last().isWhitespace()
-                                ) {
-                                    ctx.out.append(' ')
-                                }
-                            false -> while (ctx.out.isNotEmpty() && ctx.out.last() == ' ') {
-                                ctx.out.deleteCharAt(ctx.out.lastIndex)
-                            }
+                            true -> ctx.out.appendSpaceIfNeeded()
+                            false -> ctx.out.trimTrailingSpaces()
                             null -> {}
                         }
                         ctx.out.append(t.getValue())
@@ -203,11 +169,7 @@ object DefaultRules {
                 applies = { t, _ -> t.getValue().trim() == ")" },
                 apply = { _, ctx ->
                     if (ctx.config.enforceSingleSpace == true) {
-                        if (ctx.out.isNotEmpty() &&
-                            !ctx.out.last().isWhitespace()
-                        ) {
-                            ctx.out.append(' ')
-                        }
+                        ctx.out.appendSpaceIfNeeded()
                     }
                     ctx.out.append(')')
                 },
@@ -217,14 +179,15 @@ object DefaultRules {
                 applies = { t, _ -> t.getType() == CommonTypes.STRING_LITERAL },
                 apply = { t, ctx ->
                     val prev = ctx.previousToken
-                    if (prev?.getValue()?.replace(" ", "") != ":" &&
-                        prev?.getType() != CommonTypes.ASSIGNMENT &&
-                        prev?.getType() != CommonTypes.OPERATORS
-                    ) {
-                        ctx.ensureSpaceBetween(t)
-                    }
-                    val value = t.getValue()
-                    ctx.out.append("\"$value\"")
+                    appendWithSpacing(
+                        prevValue = prev?.getValue(),
+                        prevType = prev?.getType(),
+                        ensureSpace = { ctx.ensureSpaceBetween(t) },
+                        append = {
+                            val value = t.getValue()
+                            ctx.out.append("\"$value\"")
+                        },
+                    )
                 },
             ),
             Rule(
@@ -232,13 +195,12 @@ object DefaultRules {
                 applies = { t, _ -> t.getType() == CommonTypes.NUMBER_LITERAL },
                 apply = { t, ctx ->
                     val prev = ctx.previousToken
-                    if (prev?.getValue()?.replace(" ", "") != ":" &&
-                        prev?.getType() != CommonTypes.ASSIGNMENT &&
-                        prev?.getType() != CommonTypes.OPERATORS
-                    ) {
-                        ctx.ensureSpaceBetween(t)
-                    }
-                    ctx.out.append(t.getValue())
+                    appendWithSpacing(
+                        prevValue = prev?.getValue(),
+                        prevType = prev?.getType(),
+                        ensureSpace = { ctx.ensureSpaceBetween(t) },
+                        append = { ctx.out.append(t.getValue()) },
+                    )
                 },
             ),
             Rule(
@@ -246,13 +208,12 @@ object DefaultRules {
                 applies = { t, _ -> t.getType() == CommonTypes.BOOLEAN_LITERAL },
                 apply = { t, ctx ->
                     val prev = ctx.previousToken
-                    if (prev?.getValue()?.replace(" ", "") != ":" &&
-                        prev?.getType() != CommonTypes.ASSIGNMENT &&
-                        prev?.getType() != CommonTypes.OPERATORS
-                    ) {
-                        ctx.ensureSpaceBetween(t)
-                    }
-                    ctx.out.append(t.getValue())
+                    appendWithSpacing(
+                        prevValue = prev?.getValue(),
+                        prevType = prev?.getType(),
+                        ensureSpace = { ctx.ensureSpaceBetween(t) },
+                        append = { ctx.out.append(t.getValue()) },
+                    )
                 },
             ),
             Rule(
@@ -260,14 +221,43 @@ object DefaultRules {
                 applies = { _, _ -> true },
                 apply = { t, ctx ->
                     val prev = ctx.previousToken
-                    if (prev?.getValue()?.replace(" ", "") != ":" &&
-                        prev?.getType() != CommonTypes.ASSIGNMENT &&
-                        prev?.getType() != CommonTypes.OPERATORS
-                    ) {
-                        ctx.ensureSpaceBetween(t)
-                    }
-                    ctx.out.append(t.getValue())
+                    appendWithSpacing(
+                        prevValue = prev?.getValue(),
+                        prevType = prev?.getType(),
+                        ensureSpace = { ctx.ensureSpaceBetween(t) },
+                        append = { ctx.out.append(t.getValue()) },
+                    )
                 },
             ),
         )
+
+    private fun needsLeadingSpace(prevValue: String?, prevType: CommonTypes?): Boolean {
+        return prevValue?.replace(" ", "") != ":" &&
+                prevType != CommonTypes.ASSIGNMENT &&
+                prevType != CommonTypes.OPERATORS
+    }
+
+    private inline fun appendWithSpacing(
+        prevValue: String?,
+        prevType: CommonTypes?,
+        ensureSpace: () -> Unit,
+        append: () -> Unit,
+    ) {
+        if (needsLeadingSpace(prevValue, prevType)) {
+            ensureSpace()
+        }
+        append()
+    }
+
+    private fun StringBuilder.trimTrailingSpaces() {
+        while (isNotEmpty() && last() == ' ') {
+            deleteCharAt(lastIndex)
+        }
+    }
+
+    private fun StringBuilder.appendSpaceIfNeeded() {
+        if (isNotEmpty() && !last().isWhitespace()) {
+            append(' ')
+        }
+    }
 }
