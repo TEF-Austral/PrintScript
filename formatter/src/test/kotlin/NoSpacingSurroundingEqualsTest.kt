@@ -1,10 +1,8 @@
 import converter.TokenConverter
 import factory.StringSplitterFactory
 import factory.StringToTokenConverterFactory
-import formatter.DefaultFormatter
+import formatter.FormatterImpl
 import formatter.config.FormatConfig
-import formatter.factory.FormatterFactory
-import formatter.rules.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import stream.token.LexerTokenStream
@@ -44,28 +42,9 @@ class NoSpacingSurroundingEqualsTest {
             let third_thing: string="another really cool thing three times";
         """.trimIndent()
 
-        // IMPORTANTE: Crear el formatter con las reglas usando FormatterFactory
-        val formatter = FormatterFactory().createFormatter()
-        // O alternativamente, crear con las reglas directamente:
-        // val formatter = createFormatterWithRules()
-
         val stream = lex(input)
-        val output = formatter.formatToString(stream, config)
+        val output = FormatterImpl().formatToString(stream, config)
 
         assertEquals(expected, output)
-    }
-
-    // Método helper para crear formatter con reglas
-    private fun createFormatterWithRules(): DefaultFormatter {
-        val rules = listOf(
-            LineBreakAfterSemicolonRule(),
-            NormalizeSpacesInTokenRule(),
-            LineBreaksAfterPrintlnRule(),
-            ColonSpacingRule(),
-            SpaceAroundAssignmentRule(),
-            SpaceAroundOperatorsRule(),
-            IfBraceRule()
-        )
-        return DefaultFormatter(rules)
     }
 }

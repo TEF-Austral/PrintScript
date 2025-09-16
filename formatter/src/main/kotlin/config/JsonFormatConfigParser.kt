@@ -21,10 +21,8 @@ class JsonFormatConfigParser : FormatConfigParser {
             breakAfterStatement = entries["breakAfterStatement"]?.toBoolean(),
             blankLinesAfterPrintln = entries["blankLinesAfterPrintln"]?.toIntOrNull() ?: 0,
             indentSize =
-                entries["indentSize"]?.toIntOrNull() ?: FormatConfig.DEFAULT_INDENT_SIZE,
-            ifBraceOnSameLine = entries["ifBraceOnSameLine"]?.toBoolean(),
-            ifIndentInside =
-                entries["ifIndentInside"]?.toIntOrNull() ?: FormatConfig.DEFAULT_IF_INDENT_INSIDE,
+                entries["indentSize"]?.toIntOrNull() ?: FormatConfig.DEFAULT_SIZE,
+            ifBraceOnSameLine = entries["ifBraceOnSameLine"]?.toBoolean()
         )
     }
 }
