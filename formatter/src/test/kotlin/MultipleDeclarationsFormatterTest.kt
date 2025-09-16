@@ -1,4 +1,3 @@
-// kotlin
 import builder.DefaultNodeBuilder
 import coordinates.Position
 import formatter.DefaultFormatter

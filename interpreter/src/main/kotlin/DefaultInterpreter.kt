@@ -4,9 +4,10 @@ import executor.expression.DefaultExpressionExecutor
 import executor.statement.DefaultStatementExecutor
 import node.Expression
 import node.Statement
+import node.ASTNode
 import result.InterpreterResult
 import stream.AstStream
-import variable.Variable // Importamos la clase Variable
+import variable.Variable
 
 class DefaultInterpreter(
     private val initialDatabase: DataBase = DefaultDataBase(),
@@ -40,16 +41,7 @@ class DefaultInterpreter(
         val nextStream = streamResult.nextStream
 
         val executionResult =
-            when (node) {
-                is Statement -> statementExecutor.execute(node, currentDatabase)
-                is Expression -> expressionExecutor.execute(node, currentDatabase)
-                else ->
-                    InterpreterResult(
-                        false,
-                        "Unsupported node type in stream: ${node.javaClass.simpleName}",
-                        null,
-                    )
-            }
+            evaluateNode(node, currentDatabase, statementExecutor, expressionExecutor)
 
         if (!executionResult.interpretedCorrectly) {
             return executionResult
@@ -61,3 +53,21 @@ class DefaultInterpreter(
         return executeStream(nextStream, newDatabase, newVariable)
     }
 }
+
+private fun evaluateNode(
+    node: ASTNode,
+    currentDatabase: DataBase,
+    statementExecutor: DefaultStatementExecutor,
+    expressionExecutor: DefaultExpressionExecutor,
+): InterpreterResult =
+    when (node) {
+        is Statement -> statementExecutor.execute(node, currentDatabase)
+        is Expression -> expressionExecutor.execute(node, currentDatabase)
+        else ->
+            InterpreterResult(
+                false,
+                "Unsupported node type in stream: ${node.javaClass.simpleName}",
+                null,
+                currentDatabase,
+            )
+    }

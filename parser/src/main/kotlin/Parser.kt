@@ -24,6 +24,16 @@ data class Parser(
     private val statementParser: StatementParser,
 ) : ParserInterface {
 
+    override fun peak(): Token? = stream.peak()
+
+    override fun getExpressionParser(): ExpressionParsingBuilder = expressionParser
+
+    override fun getNodeBuilder(): NodeBuilder = nodeBuilder
+
+    override fun getStatementParser(): StatementParser = statementParser
+
+    override fun hasNext(): Boolean = !isAtEnd()
+
     override fun isAtEnd(): Boolean = stream.isAtEnd()
 
     override fun parse(): FinalResult =
@@ -41,6 +51,7 @@ data class Parser(
         if (currentParser.peak() == null) {
             return accumulatedStatements
         }
+
         val result = currentParser.statementParser.parse(currentParser)
         return when {
             result.isSuccess() -> {
@@ -72,8 +83,6 @@ data class Parser(
             ParserError("Expected $type but found ${currentToken?.getType()}", this)
         }
 
-    override fun hasNext(): Boolean = !isAtEnd()
-
     override fun next(): NextResult {
         try {
             if (!hasNext()) {
@@ -98,12 +107,4 @@ data class Parser(
 
     private fun nextResultFailed(message: String): NextResult =
         NextResult(EmptyExpression(), false, message, this)
-
-    override fun peak(): Token? = stream.peak()
-
-    override fun getExpressionParser(): ExpressionParsingBuilder = expressionParser
-
-    override fun getNodeBuilder(): NodeBuilder = nodeBuilder
-
-    override fun getStatementParser(): StatementParser = statementParser
 }
