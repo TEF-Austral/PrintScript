@@ -9,19 +9,30 @@ import java.io.Writer
 
 class FormatterImpl : Formatter {
 
-    override fun formatToString(src: TokenStream, config: FormatConfig): String {
+    override fun formatToString(
+        src: TokenStream,
+        config: FormatConfig,
+    ): String {
         val builder = StringBuilder()
         formatTokens(src, config, builder)
         return builder.toString().trimEnd()
     }
 
-    override fun formatToWriter(src: TokenStream, config: FormatConfig, writer: Writer) {
+    override fun formatToWriter(
+        src: TokenStream,
+        config: FormatConfig,
+        writer: Writer,
+    ) {
         val formatted = formatToString(src, config)
         writer.write(formatted)
         writer.flush()
     }
 
-    private fun formatTokens(stream: TokenStream, config: FormatConfig, builder: StringBuilder) {
+    private fun formatTokens(
+        stream: TokenStream,
+        config: FormatConfig,
+        builder: StringBuilder,
+    ) {
         var currentStream = stream
         var indentLevel = 0
         var previousToken: Token? = null
@@ -39,14 +50,21 @@ class FormatterImpl : Formatter {
                 continue
             }
 
-            if (newLineAdded && !token.getValue().trimStart().trimEnd().matches(Regex("}"))) {
+            if (newLineAdded &&
+                !token
+                    .getValue()
+                    .trimStart()
+                    .trimEnd()
+                    .matches(Regex("}"))
+            ) {
                 addIndentation(builder, indentLevel, config)
                 newLineAdded = false
             }
 
             when {
-                token.getType() == CommonTypes.CONDITIONALS && token.getValue().trimStart().trimEnd() == "if" -> {
-                    addSpaceBetweenTokens(token, previousToken, builder)
+                token.getType() == CommonTypes.CONDITIONALS &&
+                    token.getValue().trimStart().trimEnd() == "if" -> {
+                    handleTokenSpacing(token, previousToken, builder, config)
                     builder.append(token.getValue())
                     expectingIfBrace = true
                 }
@@ -60,7 +78,7 @@ class FormatterImpl : Formatter {
                         builder.append("\n")
                         newLineAdded = true
                     } else {
-                        addSpaceBetweenTokens(token, previousToken, builder)
+                        handleTokenSpacing(token, previousToken, builder, config)
                         builder.append("{")
                         indentLevel++
                         builder.append("\n")
@@ -84,17 +102,17 @@ class FormatterImpl : Formatter {
                     }
                 }
 
-
                 token.getValue().trimStart().trimEnd() == ";" -> {
                     builder.append(";")
                     builder.append("\n")
                     newLineAdded = true
 
                     if (isPrintlnStatement) {
-                        val blankLines = config.blankLinesAfterPrintln.coerceIn(
-                            FormatterConstants.MIN_BLANK_LINES_AFTER_PRINTLN,
-                            FormatterConstants.MAX_BLANK_LINES_AFTER_PRINTLN
-                        )
+                        val blankLines =
+                            config.blankLinesAfterPrintln.coerceIn(
+                                FormatterConstants.MIN_BLANK_LINES_AFTER_PRINTLN,
+                                FormatterConstants.MAX_BLANK_LINES_AFTER_PRINTLN,
+                            )
                         repeat(blankLines) {
                             builder.append("\n")
                         }
@@ -103,57 +121,82 @@ class FormatterImpl : Formatter {
                 }
 
                 token.getType() == CommonTypes.PRINT && token.getValue().contains("println") -> {
-                    addSpaceBetweenTokens(token, previousToken, builder)
+                    handleTokenSpacing(token, previousToken, builder, config)
                     builder.append(token.getValue())
                     isPrintlnStatement = true
                 }
 
                 token.getValue().trimStart().trimEnd() == ":" -> {
-                    when (config.spaceBeforeColon) {
-                        true -> {
-                            if (builder.isNotEmpty() && !builder.last().isWhitespace()) {
-                                builder.append(" ")
-                            }
+                    // Handle space before colon
+                    if (config.enforceSingleSpace == true) {
+                        // Always add single space before colon when enforcing
+                        if (builder.isNotEmpty() && !builder.last().isWhitespace()) {
+                            builder.append(" ")
                         }
-                        false -> {
-                            while (builder.isNotEmpty() && builder.last() == ' ') {
-                                builder.deleteCharAt(builder.length - 1)
+                    } else {
+                        when (config.spaceBeforeColon) {
+                            true -> {
+                                if (builder.isNotEmpty() && !builder.last().isWhitespace()) {
+                                    builder.append(" ")
+                                }
                             }
-                        }
-                        null -> {
+                            false -> {
+                                while (builder.isNotEmpty() && builder.last() == ' ') {
+                                    builder.deleteCharAt(builder.length - 1)
+                                }
+                            }
+                            null -> {}
                         }
                     }
 
                     builder.append(token.getValue())
 
-                    when (config.spaceAfterColon) {
-                        true -> builder.append(" ")
-                        false -> {}
-                        null -> {}
+                    // Handle space after colon
+                    if (config.enforceSingleSpace == true) {
+                        // Always add single space after colon when enforcing
+                        builder.append(" ")
+                    } else {
+                        when (config.spaceAfterColon) {
+                            true -> builder.append(" ")
+                            false -> {}
+                            null -> {}
+                        }
                     }
                 }
 
                 token.getType() == CommonTypes.ASSIGNMENT -> {
-                    when (config.spaceAroundAssignment) {
-                        true -> {
-                            if (builder.isNotEmpty() && !builder.last().isWhitespace()) {
-                                builder.append(" ")
-                            }
+                    // Handle space before =
+                    if (config.enforceSingleSpace == true) {
+                        if (builder.isNotEmpty() && !builder.last().isWhitespace()) {
+                            builder.append(" ")
                         }
-                        false -> {
-                            while (builder.isNotEmpty() && builder.last() == ' ') {
-                                builder.deleteCharAt(builder.length - 1)
+                    } else {
+                        when (config.spaceAroundAssignment) {
+                            true -> {
+                                if (builder.isNotEmpty() && !builder.last().isWhitespace()) {
+                                    builder.append(" ")
+                                }
                             }
+                            false -> {
+                                while (builder.isNotEmpty() && builder.last() == ' ') {
+                                    builder.deleteCharAt(builder.length - 1)
+                                }
+                            }
+                            null -> {}
                         }
-                        null -> {}
                     }
 
                     builder.append(token.getValue())
 
-                    when (config.spaceAroundAssignment) {
-                        true -> builder.append(" ")
-                        false -> {}
-                        null -> {}
+                    // Handle space after =
+                    if (config.enforceSingleSpace == true) {
+                        builder.append(" ")
+                    } else {
+                        when (config.spaceAroundAssignment) {
+                            true -> builder.append(" ")
+                            false -> {}
+                            null -> {}
+                        }
                     }
                 }
 
@@ -182,47 +225,83 @@ class FormatterImpl : Formatter {
                 }
 
                 token.getValue().trimStart().trimEnd() == "(" -> {
-                    addSpaceBetweenTokens(token, previousToken, builder)
+                    if (config.enforceSingleSpace == true) {
+                        // Add space before ( except after function names
+                        if (previousToken?.getType() != CommonTypes.PRINT &&
+                            previousToken != null &&
+                            !newLineAdded
+                        ) {
+                            builder.append(" ")
+                        }
+                    } else {
+                        handleTokenSpacing(token, previousToken, builder, config)
+                    }
                     builder.append("(")
+
+                    // Add space after ( when enforcing single space
+                    if (config.enforceSingleSpace == true) {
+                        builder.append(" ")
+                    }
                 }
 
                 token.getValue().trimStart().trimEnd() == ")" -> {
+                    // Add space before ) when enforcing single space
+                    if (config.enforceSingleSpace == true) {
+                        if (builder.isNotEmpty() &&
+                            !builder.last().isWhitespace() &&
+                            builder.last() != '('
+                        ) {
+                            builder.append(" ")
+                        }
+                    }
                     builder.append(")")
                 }
 
                 token.getType() == CommonTypes.STRING_LITERAL -> {
-                    if (previousToken?.getValue()?.replace(" ", "") != ":" &&
-                        previousToken?.getType() != CommonTypes.ASSIGNMENT &&
-                        previousToken?.getType() != CommonTypes.OPERATORS) {
-                        addSpaceBetweenTokens(token, previousToken, builder)
+                    if (config.enforceSingleSpace != true) {
+                        if (previousToken?.getValue()?.replace(" ", "") != ":" &&
+                            previousToken?.getType() != CommonTypes.ASSIGNMENT &&
+                            previousToken?.getType() != CommonTypes.OPERATORS
+                        ) {
+                            handleTokenSpacing(token, previousToken, builder, config)
+                        }
                     }
                     val value = token.getValue()
                     builder.append("\"$value\"")
                 }
 
                 token.getType() == CommonTypes.NUMBER_LITERAL -> {
-                    if (previousToken?.getValue()?.replace(" ", "") != ":" &&
-                        previousToken?.getType() != CommonTypes.ASSIGNMENT &&
-                        previousToken?.getType() != CommonTypes.OPERATORS) {
-                        addSpaceBetweenTokens(token, previousToken, builder)
+                    if (config.enforceSingleSpace != true) {
+                        if (previousToken?.getValue()?.replace(" ", "") != ":" &&
+                            previousToken?.getType() != CommonTypes.ASSIGNMENT &&
+                            previousToken?.getType() != CommonTypes.OPERATORS
+                        ) {
+                            handleTokenSpacing(token, previousToken, builder, config)
+                        }
                     }
                     builder.append(token.getValue())
                 }
 
                 token.getType() == CommonTypes.BOOLEAN_LITERAL -> {
-                    if (previousToken?.getValue()?.replace(" ", "") != ":" &&
-                        previousToken?.getType() != CommonTypes.ASSIGNMENT &&
-                        previousToken?.getType() != CommonTypes.OPERATORS) {
-                        addSpaceBetweenTokens(token, previousToken, builder)
+                    if (config.enforceSingleSpace != true) {
+                        if (previousToken?.getValue()?.replace(" ", "") != ":" &&
+                            previousToken?.getType() != CommonTypes.ASSIGNMENT &&
+                            previousToken?.getType() != CommonTypes.OPERATORS
+                        ) {
+                            handleTokenSpacing(token, previousToken, builder, config)
+                        }
                     }
                     builder.append(token.getValue())
                 }
 
                 else -> {
-                    if (previousToken?.getValue()?.replace(" ", "") != ":" &&
-                        previousToken?.getType() != CommonTypes.ASSIGNMENT &&
-                        previousToken?.getType() != CommonTypes.OPERATORS) {
-                        addSpaceBetweenTokens(token, previousToken, builder)
+                    if (config.enforceSingleSpace != true) {
+                        if (previousToken?.getValue()?.replace(" ", "") != ":" &&
+                            previousToken?.getType() != CommonTypes.ASSIGNMENT &&
+                            previousToken?.getType() != CommonTypes.OPERATORS
+                        ) {
+                            handleTokenSpacing(token, previousToken, builder, config)
+                        }
                     }
                     builder.append(token.getValue())
                 }
@@ -238,7 +317,14 @@ class FormatterImpl : Formatter {
         for ((index, line) in lines.withIndex()) {
             val trimmedLine = line.trimStart()
             val indentSpaces = line.length - trimmedLine.length
-            val processedLine = trimmedLine.replace(FormatterConstants.MULTI_SPACE_REGEX, " ")
+
+            // Only apply multi-space regex if not enforcing single space
+            val processedLine =
+                if (config.enforceSingleSpace != true) {
+                    trimmedLine.replace(FormatterConstants.MULTI_SPACE_REGEX, " ")
+                } else {
+                    trimmedLine
+                }
 
             builder.append(" ".repeat(indentSpaces))
             builder.append(processedLine)
@@ -248,12 +334,37 @@ class FormatterImpl : Formatter {
             }
         }
 
-        while (builder.isNotEmpty() && builder.last() == '\n' && builder.length > 1 && builder[builder.length - 2] == '\n') {
+        while (builder.isNotEmpty() &&
+            builder.last() == '\n' &&
+            builder.length > 1 &&
+            builder[builder.length - 2] == '\n'
+        ) {
             builder.deleteCharAt(builder.length - 1)
         }
     }
 
-    private fun handleIfBrace(builder: StringBuilder, config: FormatConfig, indentLevel: Int) {
+    private fun handleTokenSpacing(
+        currentToken: Token,
+        previousToken: Token?,
+        builder: StringBuilder,
+        config: FormatConfig,
+    ) {
+        // When enforcing single space, always add space between tokens
+        if (config.enforceSingleSpace == true) {
+            if (previousToken != null && builder.isNotEmpty() && !builder.last().isWhitespace()) {
+                builder.append(" ")
+            }
+        } else {
+            // Original spacing logic
+            addSpaceBetweenTokens(currentToken, previousToken, builder)
+        }
+    }
+
+    private fun handleIfBrace(
+        builder: StringBuilder,
+        config: FormatConfig,
+        indentLevel: Int,
+    ) {
         when (config.ifBraceOnSameLine) {
             true -> builder.append(" ")
             false -> {
@@ -270,19 +381,21 @@ class FormatterImpl : Formatter {
     private fun addSpaceBetweenTokens(
         currentToken: Token,
         previousToken: Token?,
-        builder: StringBuilder
+        builder: StringBuilder,
     ) {
         if (previousToken == null) return
 
-        val skipSpace = when {
-            previousToken.getValue().trimStart().trimEnd() == "(" -> true
-            currentToken.getValue().trimStart().trimEnd() == ")" -> true
-            currentToken.getValue().trimStart().trimEnd() == ";" -> true
-            currentToken.getValue().trimStart().trimEnd() == ":" -> true
-            currentToken.getType() == CommonTypes.ASSIGNMENT -> true
-            previousToken.getType() == CommonTypes.PRINT && currentToken.getValue().trimStart().trimEnd() == "(" -> true
-            else -> false
-        }
+        val skipSpace =
+            when {
+                previousToken.getValue().trimStart().trimEnd() == "(" -> true
+                currentToken.getValue().trimStart().trimEnd() == ")" -> true
+                currentToken.getValue().trimStart().trimEnd() == ";" -> true
+                currentToken.getValue().trimStart().trimEnd() == ":" -> true
+                currentToken.getType() == CommonTypes.ASSIGNMENT -> true
+                previousToken.getType() == CommonTypes.PRINT &&
+                    currentToken.getValue().trimStart().trimEnd() == "(" -> true
+                else -> false
+            }
 
         if (skipSpace) return
 
@@ -291,7 +404,11 @@ class FormatterImpl : Formatter {
         }
     }
 
-    private fun addIndentation(builder: StringBuilder, level: Int, config: FormatConfig) {
+    private fun addIndentation(
+        builder: StringBuilder,
+        level: Int,
+        config: FormatConfig,
+    ) {
         val spacesPerLevel = config.indentSize
         repeat(level * spacesPerLevel) {
             builder.append(" ")
