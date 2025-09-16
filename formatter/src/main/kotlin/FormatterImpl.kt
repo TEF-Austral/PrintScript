@@ -1,9 +1,11 @@
+// src/main/kotlin/FormatterImpl.kt
 package formatter
 
 import Token
 import TokenStream
 import formatter.config.FormatConfig
 import formatter.config.FormatterConstants
+import formatter.rules.SpaceUtil
 import type.CommonTypes
 import java.io.Writer
 
@@ -103,7 +105,6 @@ class FormatterImpl : Formatter {
 
                 token.getValue().trimStart().trimEnd() == ";" -> {
                     if (config.enforceSingleSpace == true) {
-                        // Ensure NO space before semicolon
                         while (builder.isNotEmpty() && builder.last() == ' ') {
                             builder.deleteCharAt(builder.length - 1)
                         }
@@ -133,7 +134,6 @@ class FormatterImpl : Formatter {
 
                 token.getValue().trimStart().trimEnd() == ":" -> {
                     if (config.enforceSingleSpace == true) {
-                        // exactly one space before and after :
                         while (builder.isNotEmpty() && builder.last() == ' ') {
                             builder.deleteCharAt(builder.length - 1)
                         }
@@ -168,45 +168,36 @@ class FormatterImpl : Formatter {
                     }
                 }
 
+                // FIX: normalize spaces around '=' using SpaceUtil
                 token.getType() == CommonTypes.ASSIGNMENT -> {
-                    if (config.enforceSingleSpace == true) {
-                        // exactly one space before and after =
-                        while (builder.isNotEmpty() && builder.last() == ' ') {
-                            builder.deleteCharAt(builder.length - 1)
-                        }
-                        if (builder.isNotEmpty() && !builder.last().isWhitespace()) {
-                            builder.append(" ")
-                        }
-                        builder.append(token.getValue())
-                        builder.append(" ")
-                    } else {
-                        when (config.spaceAroundAssignment) {
-                            true -> {
-                                if (builder.isNotEmpty() && !builder.last().isWhitespace()) {
-                                    builder.append(" ")
-                                }
-                            }
-                            false -> {
-                                while (builder.isNotEmpty() && builder.last() == ' ') {
-                                    builder.deleteCharAt(builder.length - 1)
-                                }
-                            }
-                            null -> {}
-                        }
-
-                        builder.append(token.getValue())
-
-                        when (config.spaceAroundAssignment) {
-                            true -> builder.append(" ")
-                            false -> {}
-                            null -> {}
-                        }
+                    // remove any trailing spaces already emitted before controlling the '=' token
+                    while (builder.isNotEmpty() && builder.last() == ' ') {
+                        builder.deleteCharAt(builder.length - 1)
                     }
+
+                    val (spaceBefore, spaceAfter) =
+                        when {
+                            config.enforceSingleSpace == true -> true to true
+                            config.spaceAroundAssignment != null -> {
+                                val s = config.spaceAroundAssignment!!
+                                s to s
+                            }
+                            else -> null to null
+                        }
+
+                    val rebuilt =
+                        SpaceUtil.rebuild(
+                            raw = token.getValue(),
+                            symbol = "=",
+                            spaceBefore = spaceBefore,
+                            spaceAfter = spaceAfter,
+                        )
+
+                    builder.append(rebuilt)
                 }
 
                 token.getType() == CommonTypes.OPERATORS -> {
                     if (config.enforceSingleSpace == true) {
-                        // exactly one space before and after operator
                         while (builder.isNotEmpty() && builder.last() == ' ') {
                             builder.deleteCharAt(builder.length - 1)
                         }
