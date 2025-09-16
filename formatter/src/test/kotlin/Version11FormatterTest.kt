@@ -36,7 +36,7 @@ class Version11FormatterTest {
 
         val expected =
             """
-            if(true) {
+            if (true) {
                 println("inside");
             }
             """.trimIndent().replace("", "")
@@ -66,7 +66,7 @@ class Version11FormatterTest {
 
         val expected =
             """
-            if(false) {
+            if (false) {
                 println("yes");
             } else {
                 println("no");
@@ -92,7 +92,7 @@ class Version11FormatterTest {
 
         val expected =
             """
-            if(true) {
+            if (true) {
               println("X");
             }
             """.trimIndent().replace("", "")
@@ -117,7 +117,7 @@ class Version11FormatterTest {
         val formatter = FormatterFactory.createWithVersion(transform("1.1"))
         val result = formatter.formatToString(program, FormatConfig())
 
-        assertEquals("const pi: number = 3.14;", result)
+        assertEquals("const pi:number=3.14;", result)
     }
 
     @Test
@@ -144,8 +144,8 @@ class Version11FormatterTest {
 
         val expected =
             """
-            if(true) {
-                const a: number = 1;
+            if (true) {
+                const a:number=1;
             }
             """.trimIndent().replace("", "")
         assertEquals(expected, result)
@@ -176,8 +176,8 @@ class Version11FormatterTest {
 
         val expected =
             """
-            if(true) {
-                if(false) {
+            if (true) {
+                if (false) {
                     println("inner");
                 }
             }
@@ -186,7 +186,7 @@ class Version11FormatterTest {
     }
 
     @Test
-    fun `blank line before println in if block when configured`() {
+    fun `blank line after println in if block when configured`() {
         val printStmt =
             builder.buildPrintStatementNode(
                 builder.buildLiteralExpressionNode(tok(CommonTypes.STRING_LITERAL, "inside")),
@@ -199,14 +199,13 @@ class Version11FormatterTest {
             )
         val program = builder.buildProgramNode(listOf(ifStmt))
 
-        val config = FormatConfig(blankLinesBeforePrintln = 1)
+        val config = FormatConfig(blankLinesAfterPrintln = 1)
         val formatter = FormatterFactory.createWithVersion(transform("1.1"))
         val result = formatter.formatToString(program, config)
 
         val expected =
             """
-            if(true) {
-            
+            if (true) {
                 println("inside");
             }
             """.trimIndent()
@@ -249,7 +248,7 @@ class Version11FormatterTest {
 
         val expected =
             """
-            if(true) {
+            if (true) {
               println("ok");
             } else {
               let x :number=1;
@@ -266,11 +265,11 @@ class Version11FormatterTest {
             )
         val printStmt = builder.buildPrintStatementNode(literal)
         val program = builder.buildProgramNode(listOf(printStmt))
-        val config = FormatConfig(blankLinesBeforePrintln = 5)
+        val config = FormatConfig(blankLinesAfterPrintln = 5)
         val formatter = FormatterFactory.createWithVersion(transform("1.1"))
 
         val result = formatter.formatToString(program, config)
-        assertEquals("\n\nprintln(\"test\");", result)
+        assertEquals("println(\"test\");\n\n", result)
     }
 
     @Test
@@ -281,7 +280,7 @@ class Version11FormatterTest {
             )
         val printStmt = builder.buildPrintStatementNode(literal)
         val program = builder.buildProgramNode(listOf(printStmt))
-        val config = FormatConfig(blankLinesBeforePrintln = -2)
+        val config = FormatConfig(blankLinesAfterPrintln = -2)
         val formatter = FormatterFactory.createWithVersion(transform("1.1"))
 
         val result = formatter.formatToString(program, config)
@@ -301,6 +300,6 @@ class Version11FormatterTest {
         val formatter = FormatterFactory.createWithVersion(transform("1.1"))
 
         val result = formatter.formatToString(program, FormatConfig())
-        assertEquals("const pi: number;", result)
+        assertEquals("const pi:number;", result)
     }
 }

@@ -4,6 +4,7 @@ import coordinates.Position
 import PrintScriptToken
 import Token
 import builder.DefaultNodeBuilder
+import coordinates.UnassignedPosition
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import type.CommonTypes
+import kotlin.toString
 
 class NodeTest {
     private lateinit var nodeBuilder: DefaultNodeBuilder
@@ -963,5 +965,19 @@ class NodeTest {
         assertNotNull(exprStmt.getCoordinates())
         assertNotNull(ifStmt.getCoordinates())
         assertNotNull(program.getCoordinates())
+    }
+
+    @Test
+    fun `test EmptyExpression default coordinates`() {
+        val emptyExpr = EmptyExpression()
+        assertTrue(emptyExpr.getCoordinates() is UnassignedPosition)
+        assertEquals("EmptyExpression", emptyExpr.toString())
+    }
+
+    @Test
+    fun `test Program with empty statements`() {
+        val program = Program(emptyList())
+        assertTrue(program.getStatements().isEmpty())
+        assertTrue(program.getCoordinates() is UnassignedPosition)
     }
 }

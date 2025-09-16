@@ -6,6 +6,7 @@ import node.LiteralExpression
 import type.CommonTypes
 
 class StringLiteralExpressionRule : FormatRule {
+    override val id = RuleId.StringLiteralExpression
 
     override fun matches(node: ASTNode) = node is LiteralExpression
 

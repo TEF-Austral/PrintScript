@@ -5,6 +5,8 @@ import node.ASTNode
 import node.ReadEnvExpression
 
 class ReadEnvExpressionRule : FormatRule {
+    override val id = RuleId.ReadEnvExpression
+
     override fun matches(node: ASTNode) = node is ReadEnvExpression
 
     override fun apply(

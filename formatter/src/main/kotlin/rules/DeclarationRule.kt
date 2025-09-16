@@ -1,3 +1,4 @@
+// file: 'formatter/src/main/kotlin/rules/DeclarationRule.kt'
 package formatter.rules
 
 import formatter.config.FormatConfig
@@ -9,6 +10,8 @@ class DeclarationRule(
     private val exprRules: List<FormatRule>,
 ) : FormatRule {
     override fun matches(node: ASTNode) = node is DeclarationStatement
+
+    override val id = RuleId.Declaration
 
     override fun apply(
         node: ASTNode,
@@ -31,15 +34,38 @@ class DeclarationRule(
             .append(" ")
             .append(stmt.getIdentifier())
 
-        if (config.spaceBeforeColon) sb.append(" ")
+        when (config.spaceBeforeColon) {
+            true -> sb.append(" ")
+            false, null -> { /* keep as-is */ }
+        }
+
         sb.append(":")
-        if (config.spaceAfterColon) sb.append(" ")
-        sb.append(stmt.getDataType())
+
+        when (config.spaceAfterColon) {
+            true -> sb.append(" ")
+            false, null -> { /* keep as-is */ }
+        }
+
+        val dataTypeText =
+            if (config.spaceAfterColon == null) {
+                stmt.getDataTypeToken().getValue()
+            } else {
+                stmt.getDataType().toString()
+            }
+        sb.append(dataTypeText)
 
         stmt.getInitialValue()?.also { expr ->
-            if (config.spaceAroundAssignment) sb.append(" = ") else sb.append("=")
-            exprRules
-                .first { it.matches(expr) }
+            when (config.spaceAroundAssignment) {
+                true -> sb.append(" = ")
+                false -> sb.append("=")
+                null -> {
+                    // preserve original spacing if available; otherwise fall back to bare '='
+                    val raw = stmt.getAssignmentToken()?.getValue() ?: "="
+                    sb.append(raw)
+                }
+            }
+            RuleRegistry
+                .firstMatching(expr, config, exprRules)
                 .apply(expr, sb, config, indentLevel)
         }
 

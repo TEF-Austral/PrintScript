@@ -4,5 +4,4 @@
             ---FORMATTING PREVIEW---
             let myVariable : number = 10;
 let another_variable : number = 5 + 5;
-
 println(another_variable);

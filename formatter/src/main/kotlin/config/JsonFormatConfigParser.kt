@@ -1,5 +1,7 @@
 package formatter.config
 
+import formatter.rules.RuleId
+
 class JsonFormatConfigParser : FormatConfigParser {
     override fun parse(text: String): FormatConfig {
         val entries =
@@ -12,12 +14,32 @@ class JsonFormatConfigParser : FormatConfigParser {
                 .filter { it.size == 2 }
                 .associate { it[0].removeSurrounding("\"") to it[1].removeSurrounding("\"") }
 
+        fun parseEnabled(raw: String?): Set<RuleId> =
+            raw
+                ?.let {
+                    Regex("""\w+""")
+                        .findAll(it)
+                        .map { m ->
+                            m.value
+                        }.mapNotNull { runCatching { RuleId.valueOf(it) }.getOrNull() }
+                        .toSet()
+                }
+                ?: emptySet()
+
         return FormatConfig(
-            spaceBeforeColon = entries["spaceBeforeColon"]?.toBoolean() ?: false,
-            spaceAfterColon = entries["spaceAfterColon"]?.toBoolean() ?: true,
-            spaceAroundAssignment = entries["spaceAroundAssignment"]?.toBoolean() ?: true,
-            blankLinesBeforePrintln = entries["blankLinesBeforePrintln"]?.toIntOrNull() ?: 0,
-            indentSize = entries["indentSize"]?.toIntOrNull() ?: FormatConfig.DEFAULT_INDENT_SIZE,
+            spaceBeforeColon = entries["spaceBeforeColon"]?.toBoolean(),
+            spaceAfterColon = entries["spaceAfterColon"]?.toBoolean(),
+            spaceAroundAssignment = entries["spaceAroundAssignment"]?.toBoolean(),
+            spaceAroundOperators = entries["spaceAroundOperators"]?.toBoolean(),
+            enforceSingleSpace = entries["enforceSingleSpace"]?.toBoolean(),
+            breakAfterStatement = entries["breakAfterStatement"]?.toBoolean(),
+            blankLinesAfterPrintln = entries["blankLinesAfterPrintln"]?.toIntOrNull() ?: 0,
+            indentSize =
+                entries["indentSize"]?.toIntOrNull() ?: FormatConfig.DEFAULT_INDENT_SIZE,
+            ifBraceOnSameLine = entries["ifBraceOnSameLine"]?.toBoolean(),
+            ifIndentInside =
+                entries["ifIndentInside"]?.toIntOrNull() ?: FormatConfig.DEFAULT_IF_INDENT_INSIDE,
+            enabledRules = parseEnabled(entries["enabledRules"]),
         )
     }
 }
