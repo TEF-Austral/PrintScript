@@ -9,16 +9,16 @@ import java.io.Writer
 
 class FormatterImpl : Formatter {
 
-    private fun engine(config: FormatConfig) =
+    private fun engine() =
         FormattingEngine(
-            rules = DefaultRules.build(config),
+            rules = DefaultRules.build(),
             postProcessors = listOf(DefaultLinePostProcessor()),
         )
 
     override fun formatToString(
         src: TokenStream,
         config: FormatConfig,
-    ): String = engine(config).format(src, config)
+    ): String = engine().format(src, config)
 
     override fun formatToWriter(
         src: TokenStream,
