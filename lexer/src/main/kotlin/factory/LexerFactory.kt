@@ -11,13 +11,13 @@ interface LexerFactory {
     fun createVersionOne(
         reader: Reader,
         size: Int,
-        splitter : StreamingSplitter
+        splitter: StreamingSplitter,
     ): Lexer
 
     fun createVersionOnePointOne(
         reader: Reader,
         size: Int = 65536,
-        splitter : StreamingSplitter
+        splitter: StreamingSplitter,
     ): Lexer
 
     fun createCustom(
@@ -25,7 +25,7 @@ interface LexerFactory {
         customConverters: List<StringToTokenConverter>,
         reader: Reader,
         size: Int = 65536,
-        splitter : StreamingSplitter
+        splitter: StreamingSplitter,
     ): Lexer
 
     fun createLexerWithVersion(
@@ -38,6 +38,6 @@ interface LexerFactory {
         reader: Reader,
         size: Int = 65536,
         version: Version,
-        splitter : StreamingSplitter
+        splitter: StreamingSplitter,
     ): Lexer
 }

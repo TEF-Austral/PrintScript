@@ -17,13 +17,17 @@ data class DefaultLexerFactory(
     override fun createVersionOne(
         reader: Reader,
         size: Int,
-        splitter: StreamingSplitter
+        splitter: StreamingSplitter,
     ): Lexer {
         val converterList = converterFactory.createVersionOne()
         return DefaultLexer(converterList, splitter)
     }
 
-    override fun createVersionOnePointOne(reader: Reader, size: Int, splitter: StreamingSplitter): Lexer {
+    override fun createVersionOnePointOne(
+        reader: Reader,
+        size: Int,
+        splitter: StreamingSplitter,
+    ): Lexer {
         val converterList = converterFactory.createVersionOnePointOne()
         return DefaultLexer(converterList, splitter)
     }
@@ -33,7 +37,7 @@ data class DefaultLexerFactory(
         customConverters: List<StringToTokenConverter>,
         reader: Reader,
         size: Int,
-        splitter: StreamingSplitter
+        splitter: StreamingSplitter,
     ): Lexer {
         val converters = converterFactory.createCustom(customConverters)
         return DefaultLexer(converters, splitter)
@@ -55,7 +59,7 @@ data class DefaultLexerFactory(
         reader: Reader,
         size: Int,
         version: Version,
-        splitter: StreamingSplitter
+        splitter: StreamingSplitter,
     ): Lexer =
         when (version) {
             VERSION_1_0 -> createVersionOne(reader, size, splitter)
@@ -66,7 +70,7 @@ data class DefaultLexerFactory(
         reader: Reader,
         size: Int,
         version: Version,
-        splitter: StreamingSplitter
+        splitter: StreamingSplitter,
     ): Lexer =
         when (version) {
             VERSION_1_0 -> createVersionOne(reader, size, splitter)
