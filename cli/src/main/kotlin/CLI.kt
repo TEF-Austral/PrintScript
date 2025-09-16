@@ -2,11 +2,11 @@ import builder.DefaultNodeBuilder
 import com.github.ajalt.clikt.core.CliktCommand
 import converter.TokenConverter
 import factory.StringToTokenConverterFactory
-import parser.factory.VOnePointZeroParserFactory
 import factory.StringSplitterFactory
 import formatter.config.FormatConfig
 import formatter.config.JsonFormatConfigParser
 import java.io.StringReader
+import parser.factory.VOnePointOneParserFactory
 import parser.result.CompleteProgram
 import parser.result.FinalResult
 
@@ -35,7 +35,7 @@ class CLI :
         val tokenList = lex(getDefaultReader(srcCodePath).read())
         val nodeBuilder = DefaultNodeBuilder()
         val mockTokenStream = MockTokenStream(tokenList)
-        val parser = VOnePointZeroParserFactory().createParser(mockTokenStream, nodeBuilder)
+        val parser = VOnePointOneParserFactory().createParser(mockTokenStream, nodeBuilder)
         val result = CompleteProgram(parser, parser.parse().getProgram())
         return result
     }
