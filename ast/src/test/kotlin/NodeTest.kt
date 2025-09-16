@@ -973,4 +973,11 @@ class NodeTest {
         assertTrue(emptyExpr.getCoordinates() is UnassignedPosition)
         assertEquals("EmptyExpression", emptyExpr.toString())
     }
+
+    @Test
+    fun `test Program with empty statements`() {
+        val program = Program(emptyList())
+        assertTrue(program.getStatements().isEmpty())
+        assertTrue(program.getCoordinates() is UnassignedPosition)
+    }
 }
