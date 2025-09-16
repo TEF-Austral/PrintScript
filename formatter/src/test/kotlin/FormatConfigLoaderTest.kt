@@ -69,6 +69,6 @@ class FormatConfigLoaderTest {
         assertNull(config.spaceAfterColon)
         assertNull(config.spaceAroundAssignment)
         assertEquals(0, config.blankLinesAfterPrintln)
-        assertEquals(FormatConfig.DEFAULT_INDENT_SIZE, config.indentSize)
+        assertEquals(FormatConfig.DEFAULT_SIZE, config.indentSize)
     }
 }

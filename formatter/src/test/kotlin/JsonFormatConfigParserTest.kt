@@ -36,6 +36,6 @@ class JsonFormatConfigParserTest {
         assertNull(cfg.spaceAfterColon)
         assertNull(cfg.spaceAroundAssignment)
         assertEquals(0, cfg.blankLinesAfterPrintln)
-        assertEquals(FormatConfig.DEFAULT_INDENT_SIZE, cfg.indentSize)
+        assertEquals(FormatConfig.DEFAULT_SIZE, cfg.indentSize)
     }
 }

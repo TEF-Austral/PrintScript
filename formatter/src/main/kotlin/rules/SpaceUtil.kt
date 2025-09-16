@@ -1,6 +1,6 @@
 package formatter.rules
 
-object SpacingUtil {
+object SpaceUtil {
     // Splits a raw token like " : " or " = " into its before/after parts around the symbol
     fun splitAround(
         raw: String,

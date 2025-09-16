@@ -1,18 +1,18 @@
 package formatter
 
+import TokenStream
 import formatter.config.FormatConfig
-import node.Program
 import java.io.Writer
 
 interface Formatter {
 
     fun formatToString(
-        program: Program,
+        src: TokenStream,
         config: FormatConfig,
     ): String
 
     fun formatToWriter(
-        program: Program,
+        src: TokenStream,
         config: FormatConfig,
         writer: Writer,
     )
