@@ -14,7 +14,6 @@ class FormatterContext(
     var isPrintlnStatement: Boolean = false
     var newLineAdded: Boolean = true
 
-    // Set by the engine before applying a rule
     lateinit var isEndAfterThisToken: () -> Boolean
 
     fun ensureIndentBeforeNonClosing(next: Token) {
