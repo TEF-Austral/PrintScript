@@ -1,4 +1,3 @@
-// file: 'ast/src/main/kotlin/node/DeclarationStatement.kt'
 package node
 
 import Token
@@ -12,6 +11,7 @@ class DeclarationStatement(
     private val initialValue: Expression? = null,
     private val coordinates: Coordinates,
     private val assignmentOperator: Token? = null, // optional, may contain raw spacing like " = "
+    private val colonToken: Token? = null, // optional, may contain raw spacing like ": " or " :"
 ) : Statement {
     fun getDeclarationType(): CommonTypes = declarationType.getType()
 
@@ -29,9 +29,12 @@ class DeclarationStatement(
 
     fun getAssignmentToken(): Token? = assignmentOperator
 
+    fun getColonToken(): Token? = colonToken
+
     override fun getCoordinates(): Coordinates = coordinates
 
     override fun toString(): String {
+        val colon = colonToken?.getValue() ?: ": "
         val init =
             if (initialValue != null) {
                 val op = assignmentOperator?.getValue() ?: " = "
@@ -39,6 +42,6 @@ class DeclarationStatement(
             } else {
                 ""
             }
-        return "${getDeclarationType()} $identifier: $dataType$init"
+        return "${getDeclarationType()} $identifier$colon$dataType$init"
     }
 }

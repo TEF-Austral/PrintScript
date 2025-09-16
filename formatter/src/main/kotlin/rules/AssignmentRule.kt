@@ -16,16 +16,13 @@ class AssignmentRule : FormatRule {
         indentLevel: Int,
     ) {
         val stmt = node as AssignmentStatement
-
-        sb
-            .append(" ".repeat(indentLevel * config.indentSize))
-            .append(stmt.getIdentifier())
+        sb.append(" ".repeat(indentLevel * config.indentSize)).append(stmt.getIdentifier())
 
         when (config.spaceAroundAssignment) {
             true -> sb.append(" = ")
             false -> sb.append("=")
             null -> {
-                // preserve original operator spacing if provided; otherwise fallback to bare '='
+                // Prefer original token (may include spacing), else bare '='
                 val rawOp = stmt.getAssignmentToken()?.getValue() ?: "="
                 sb.append(rawOp)
             }

@@ -1,4 +1,3 @@
-// file: 'formatter/src/main/kotlin/rules/DeclarationRule.kt'
 package formatter.rules
 
 import formatter.config.FormatConfig
@@ -20,7 +19,6 @@ class DeclarationRule(
         indentLevel: Int,
     ) {
         val stmt = node as DeclarationStatement
-
         if (stmt.getKeyword() !in supportedKeywords) {
             throw UnsupportedOperationException(
                 "Declarations with '${stmt.getKeyword()}' are not supported",
@@ -34,32 +32,27 @@ class DeclarationRule(
             .append(" ")
             .append(stmt.getIdentifier())
 
-        when (config.spaceBeforeColon) {
-            true -> sb.append(" ")
-            false, null -> { /* keep as-is */ }
+        val bothColonNull = (config.spaceBeforeColon == null && config.spaceAfterColon == null)
+        if (bothColonNull) {
+            // Prefer original colon token (may carry spacing), else bare ':'
+            val rawColon = stmt.getColonToken()?.getValue() ?: ":"
+            sb.append(rawColon)
+        } else {
+            if (config.spaceBeforeColon == true) sb.append(" ")
+            sb.append(":")
+            if (config.spaceAfterColon == true) sb.append(" ")
         }
 
-        sb.append(":")
-
-        when (config.spaceAfterColon) {
-            true -> sb.append(" ")
-            false, null -> { /* keep as-is */ }
-        }
-
-        val dataTypeText =
-            if (config.spaceAfterColon == null) {
-                stmt.getDataTypeToken().getValue()
-            } else {
-                stmt.getDataType().toString()
-            }
-        sb.append(dataTypeText)
+        val typeText =
+            if (bothColonNull) stmt.getDataTypeToken().getValue() else stmt.getDataType().toString()
+        sb.append(typeText)
 
         stmt.getInitialValue()?.also { expr ->
             when (config.spaceAroundAssignment) {
                 true -> sb.append(" = ")
                 false -> sb.append("=")
                 null -> {
-                    // preserve original spacing if available; otherwise fall back to bare '='
+                    // Prefer original token (may include spacing), else bare '='
                     val raw = stmt.getAssignmentToken()?.getValue() ?: "="
                     sb.append(raw)
                 }
