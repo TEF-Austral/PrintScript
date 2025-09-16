@@ -23,6 +23,11 @@ class ParserAstStreamNoMockTest {
     private val parserFactory = VOnePointOneParserFactory()
 
     @Test
+    fun `lets fail`() {
+        assertTrue(false)
+    }
+
+    @Test
     fun `test next() should return the next node and a new stream`() {
         // Tokens para dos sentencias: let x: NUMBER = 5; print("hello");
         val tokens =
