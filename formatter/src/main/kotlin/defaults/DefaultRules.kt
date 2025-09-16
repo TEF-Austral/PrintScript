@@ -231,11 +231,13 @@ object DefaultRules {
             ),
         )
 
-    private fun needsLeadingSpace(prevValue: String?, prevType: CommonTypes?): Boolean {
-        return prevValue?.replace(" ", "") != ":" &&
-                prevType != CommonTypes.ASSIGNMENT &&
-                prevType != CommonTypes.OPERATORS
-    }
+    private fun needsLeadingSpace(
+        prevValue: String?,
+        prevType: CommonTypes?,
+    ): Boolean =
+        prevValue?.replace(" ", "") != ":" &&
+            prevType != CommonTypes.ASSIGNMENT &&
+            prevType != CommonTypes.OPERATORS
 
     private inline fun appendWithSpacing(
         prevValue: String?,
