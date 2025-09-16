@@ -35,5 +35,5 @@ class ColonEnforcer(
 
     private fun isColon(currentParser: Parser): Boolean =
         !currentParser.consume(CommonTypes.DELIMITERS).isSuccess() ||
-            (currentParser.hasNext() && currentParser.peak()?.getValue() != ":")
+            (currentParser.hasNext() && currentParser.peak()?.getValue()?.replace(" ", "") != ":")
 }

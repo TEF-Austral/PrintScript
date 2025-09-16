@@ -30,27 +30,27 @@ fun verifyCurrentToken(
 
 fun isSemiColon(token: Token?): Boolean {
     if (token == null) return false
-    return token.getType() == CommonTypes.DELIMITERS && token.getValue() == ";"
+    return token.getType() == CommonTypes.DELIMITERS && token.getValue().replace(" ", "") == ";"
 }
 
 fun isOpeningParenthesis(parser: Parser): Boolean {
     val token = parser.peak() ?: return false
-    return token.getType() == CommonTypes.DELIMITERS && token.getValue() == "("
+    return token.getType() == CommonTypes.DELIMITERS && token.getValue().replace(" ", "") == "("
 }
 
 fun isClosingParenthesis(parser: Parser): Boolean {
     val token = parser.peak() ?: return false
-    return token.getType() == CommonTypes.DELIMITERS && token.getValue() == ")"
+    return token.getType() == CommonTypes.DELIMITERS && token.getValue().replace(" ", "") == ")"
 }
 
 fun isOpeningBrace(parser: Parser): Boolean {
     val token = parser.peak()
-    return checkType(CommonTypes.DELIMITERS, token) && token?.getValue() == "{"
+    return checkType(CommonTypes.DELIMITERS, token) && token?.getValue()?.replace(" ", "") == "{"
 }
 
 fun isClosingBrace(parser: Parser): Boolean {
     val token = parser.peak()
-    return checkType(CommonTypes.DELIMITERS, token) && token?.getValue() == "}"
+    return checkType(CommonTypes.DELIMITERS, token) && token?.getValue()?.replace(" ", "") == "}"
 }
 
 fun advancePastSemiColon(parser: Parser): Parser {
