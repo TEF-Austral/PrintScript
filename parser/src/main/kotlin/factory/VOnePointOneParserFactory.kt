@@ -4,7 +4,7 @@ import TokenStream
 import builder.NodeBuilder
 import parser.Parser
 import parser.statement.AssignmentParser
-import parser.statement.ExpressionParser
+import parser.statement.ExpressionStatementBuilder
 import parser.statement.IfStatement
 import parser.statement.PrintParser
 import parser.statement.expression.ReadEnvParser
@@ -107,7 +107,7 @@ class VOnePointOneParserFactory {
                     ),
                     PrintParser(),
                     AssignmentParser(),
-                    ExpressionParser(
+                    ExpressionStatementBuilder(
                         mapOf(
                             CommonTypes.NUMBER_LITERAL to true,
                             CommonTypes.STRING_LITERAL to true,

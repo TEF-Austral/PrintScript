@@ -5,7 +5,7 @@ import builder.NodeBuilder
 import parser.statement.StatementParser
 import parser.Parser
 import parser.statement.AssignmentParser
-import parser.statement.ExpressionParser
+import parser.statement.ExpressionStatementBuilder
 import parser.statement.PrintParser
 import parser.statement.VariableDeclarationParser
 import parser.statement.expression.ExpressionParser
@@ -45,7 +45,7 @@ class VOnePointZeroParserFactory {
                     VariableDeclarationParser(),
                     PrintParser(),
                     AssignmentParser(),
-                    ExpressionParser(),
+                    ExpressionStatementBuilder(),
                 ),
             )
         return Parser(tokens, nodeBuilder, expressionParser, statementParser)
