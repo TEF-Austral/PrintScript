@@ -13,7 +13,7 @@ import parser.statement.StatementParser
 import parser.statement.VariableDeclarationParser
 import parser.statement.binary.DefaultParseBinary
 import parser.statement.expression.DelimitersBuilder
-import parser.statement.expression.ExpressionParsingBuilder
+import parser.statement.expression.ExpressionParser
 import parser.statement.expression.ExpressionRegistry
 import parser.statement.expression.IdentifierBuilder
 import parser.statement.expression.LiteralBuilder
@@ -64,7 +64,7 @@ class VOnePointOneParserFactory {
                     ),
                 ),
             )
-        val expressionParser = ExpressionParsingBuilder(tokenToExpression, parseBinary)
+        val expressionParser = ExpressionParser(tokenToExpression, parseBinary)
         val statementParser =
             StatementParser(
                 listOf(
