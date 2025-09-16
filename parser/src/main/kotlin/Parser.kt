@@ -48,7 +48,6 @@ data class Parser(
         currentParser: Parser,
         accumulatedStatements: List<Statement>,
     ): List<Statement> {
-
         if (currentParser.peak() == null) {
             return accumulatedStatements
         }
@@ -108,5 +107,4 @@ data class Parser(
 
     private fun nextResultFailed(message: String): NextResult =
         NextResult(EmptyExpression(), false, message, this)
-
 }

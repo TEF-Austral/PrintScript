@@ -40,7 +40,8 @@ class DefaultInterpreter(
         val node = streamResult.node
         val nextStream = streamResult.nextStream
 
-        val executionResult = evaluateNode(node, currentDatabase, statementExecutor, expressionExecutor)
+        val executionResult =
+            evaluateNode(node, currentDatabase, statementExecutor, expressionExecutor)
 
         if (!executionResult.interpretedCorrectly) {
             return executionResult
@@ -58,15 +59,15 @@ private fun evaluateNode(
     currentDatabase: DataBase,
     statementExecutor: DefaultStatementExecutor,
     expressionExecutor: DefaultExpressionExecutor,
-): InterpreterResult {
-    return when (node) {
+): InterpreterResult =
+    when (node) {
         is Statement -> statementExecutor.execute(node, currentDatabase)
         is Expression -> expressionExecutor.execute(node, currentDatabase)
-        else -> InterpreterResult(
-            false,
-            "Unsupported node type in stream: ${node.javaClass.simpleName}",
-            null,
-            currentDatabase,
-        )
+        else ->
+            InterpreterResult(
+                false,
+                "Unsupported node type in stream: ${node.javaClass.simpleName}",
+                null,
+                currentDatabase,
+            )
     }
-}
