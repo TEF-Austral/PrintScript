@@ -1,3 +1,4 @@
+// file: 'formatter/src/main/kotlin/rules/DeclarationRule.kt'
 package formatter.rules
 
 import formatter.config.FormatConfig
@@ -35,33 +36,33 @@ class DeclarationRule(
 
         when (config.spaceBeforeColon) {
             true -> sb.append(" ")
-            false, null -> { /* leave as-is */ }
+            false, null -> { /* keep as-is */ }
         }
 
         sb.append(":")
 
         when (config.spaceAfterColon) {
             true -> sb.append(" ")
-            false, null -> { /* leave as-is, rely on raw token value */ }
+            false, null -> { /* keep as-is */ }
         }
 
         val dataTypeText =
             if (config.spaceAfterColon == null) {
-                // preserve original spacing from the token (may include a leading space)
                 stmt.getDataTypeToken().getValue()
             } else {
-                // normalize to enum text when spacing is explicitly configured
                 stmt.getDataType().toString()
             }
         sb.append(dataTypeText)
 
         stmt.getInitialValue()?.also { expr ->
-            if (config.spaceAroundAssignment == true) {
-                sb.append(" = ")
-            } else if (config.spaceAroundAssignment == false) {
-                sb.append("=")
-            } else {
-                sb.append("=") // unspecified: avoid forcing extra spaces
+            when (config.spaceAroundAssignment) {
+                true -> sb.append(" = ")
+                false -> sb.append("=")
+                null -> {
+                    // preserve original spacing if available; otherwise fall back to bare '='
+                    val raw = stmt.getAssignmentToken()?.getValue() ?: "="
+                    sb.append(raw)
+                }
             }
             RuleRegistry
                 .firstMatching(expr, config, exprRules)
