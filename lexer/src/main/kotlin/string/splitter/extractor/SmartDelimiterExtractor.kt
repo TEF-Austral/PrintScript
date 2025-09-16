@@ -6,7 +6,7 @@ package string.splitter.extractor
  * No requiere configuración.
  */
 class SmartDelimiterExtractor(
-    private val specialChars: List<Char> = listOf(':', '=', '{', '}', '(', ')'),
+    private val specialChars: List<Char> = listOf(':', '='),
 ) : TokenExtractor {
     private val twoCharOps = setOf("!=", "<=", ">=", "==", "++", "--", "&&", "||")
 
@@ -14,7 +14,6 @@ class SmartDelimiterExtractor(
         input: String,
         index: Int,
     ): Extraction {
-        val originalIndex = index
         var cursor = index
 
         // 1. Analiza los espacios en blanco iniciales (opcionales)
@@ -47,6 +46,6 @@ class SmartDelimiterExtractor(
         }
 
         // 5. Devuelve siempre el token más largo encontrado
-        return Extraction.Token(input.substring(originalIndex, cursor))
+        return Extraction.Token(input.substring(index, cursor))
     }
 }
