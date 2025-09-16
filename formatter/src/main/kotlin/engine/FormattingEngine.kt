@@ -7,34 +7,36 @@ import type.CommonTypes
 class FormattingEngine(
     private val rules: List<Rule>,
     private val postProcessors: List<LinePostProcessor>,
-) {
-    fun format(
+) : FormattingEngineInt {
+
+    override fun format(
         src: TokenStream,
         config: FormatConfig,
     ): String {
-        val ctx = FormatterContext(config, StringBuilder())
+        val context = FormatterContext(config, StringBuilder())
 
-        var currentStream = src
-        while (!currentStream.isAtEnd()) {
-            val result = currentStream.next() ?: break
+        var stream = src
+        while (!stream.isAtEnd()) {
+            val result = stream.next() ?: break
             val token = result.token
-            currentStream = result.nextStream
+            stream = result.nextStream
 
             if (token.getType() == CommonTypes.EMPTY) continue
 
-            ctx.isEndAfterThisToken = { currentStream.isAtEnd() }
-            ctx.ensureIndentBeforeNonClosing(token)
+            context.isEndAfterThisToken = { stream.isAtEnd() }
+            context.ensureIndentBeforeNonClosing(token)
 
             val rule =
-                rules.firstOrNull { it.applies(token, ctx) }
-                    ?: error("No rule matched token: ${token.getValue()}")
+                rules.firstOrNull { it.applies(token, context) }
+                    ?: error("No rule matched token: ${token.getValue()} (type=${token.getType()})")
 
-            rule.apply(token, ctx)
-            ctx.previousToken = token
+            rule.apply(token, context)
+            context.previousToken = token
         }
 
-        var output = ctx.out.toString()
-        postProcessors.forEach { pp -> output = pp.process(output, config) }
-        return output.trimEnd()
+        return applyPostProcessors(context.out.toString(), config).trimEnd()
     }
+
+    private fun applyPostProcessors(text: String, config: FormatConfig): String =
+        postProcessors.fold(text) { acc, pp -> pp.process(acc, config) }
 }

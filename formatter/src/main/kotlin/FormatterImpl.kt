@@ -7,7 +7,7 @@ import formatter.engine.DefaultLinePostProcessor
 import formatter.engine.FormattingEngine
 import java.io.Writer
 
-class FormatterImpl : Formatter {
+class FormatterImpl() : Formatter {
 
     private fun engine(config: FormatConfig) =
         FormattingEngine(

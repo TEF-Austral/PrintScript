@@ -2,11 +2,12 @@ package formatter.engine
 
 import Token
 import formatter.config.FormatConfig
-import type.CommonTypes
 
 class FormatterContext(
     val config: FormatConfig,
     val out: StringBuilder,
+    val indentationManager: IndentationManager = IndentationManager(config),
+    val spaceManager: SpaceManager = SpaceManager(config)
 ) {
     var indentLevel: Int = 0
     var previousToken: Token? = null
@@ -14,49 +15,18 @@ class FormatterContext(
     var isPrintlnStatement: Boolean = false
     var newLineAdded: Boolean = true
 
-    // Set by the engine before applying a rule
-    lateinit var isEndAfterThisToken: () -> Boolean
+    var isEndAfterThisToken: () -> Boolean = { false }
 
     fun ensureIndentBeforeNonClosing(next: Token) {
-        val isClosingBrace = next.getValue().trim() == "}"
-        if (newLineAdded && !isClosingBrace) {
-            addIndentation()
-            newLineAdded = false
-        }
+        newLineAdded = indentationManager.ensureIndentBeforeNonClosing(out, indentLevel, next, newLineAdded)
     }
 
     fun addIndentation() {
-        val spacesPerLevel = config.indentSize
-        repeat(indentLevel * spacesPerLevel) { out.append(' ') }
+        indentationManager.addIndentation(out, indentLevel)
     }
 
     fun ensureSpaceBetween(current: Token) {
-        val prev = previousToken ?: return
-
-        if (config.enforceSingleSpace == true) {
-            if (out.isNotEmpty() && !out.last().isWhitespace()) {
-                out.append(' ')
-            }
-            return
-        }
-
-        val prevTrim = prev.getValue().trim()
-        val curTrim = current.getValue().trim()
-
-        val skipSpace =
-            when {
-                prevTrim == "(" -> true
-                curTrim == ")" -> true
-                curTrim == ";" -> true
-                curTrim == ":" -> true
-                current.getType() == CommonTypes.ASSIGNMENT -> true
-                prev.getType() == CommonTypes.PRINT && curTrim == "(" -> true
-                else -> false
-            }
-
-        if (!skipSpace && out.isNotEmpty() && !out.last().isWhitespace()) {
-            out.append(' ')
-        }
+        spaceManager.ensureSpaceBetween(out, previousToken, current)
     }
 
     fun handleIfBrace() {
