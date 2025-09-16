@@ -7,7 +7,7 @@ import type.CommonTypes
 
 object DelimiterToToken : StringToTokenConverter {
     override fun canHandle(input: String): Boolean =
-        input.replace(" ","") in listOf("(", ")", "{", "}", ",", ".", ";", ":", "?")
+        input.replace(" ", "") in listOf("(", ")", "{", "}", ",", ".", ";", ":", "?")
 
     override fun convert(
         input: String,
