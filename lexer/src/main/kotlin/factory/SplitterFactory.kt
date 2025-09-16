@@ -1,8 +1,8 @@
 package factory
 
-import converter.string.StreamingSplitter
+import string.streaming.StreamingSplitter
 import java.io.Reader
-import stringSplitter.Splitter
+import string.splitter.Splitter
 
 interface SplitterFactory {
     fun createDefaultsSplitter(): Splitter
