@@ -1,3 +1,4 @@
+// Kotlin
 package formatter.rules
 
 import formatter.config.FormatConfig
@@ -5,7 +6,6 @@ import formatter.config.FormatterConstants.MAX_BLANK_LINES_AFTER_PRINTLN
 import formatter.config.FormatterConstants.MIN_BLANK_LINES_AFTER_PRINTLN
 import node.ASTNode
 import node.PrintStatement
-import kotlin.apply
 
 class PrintStatementRule : FormatRule {
     override val id = RuleId.PrintStatement
@@ -19,15 +19,21 @@ class PrintStatementRule : FormatRule {
         indentLevel: Int,
     ) {
         val stmt = node as PrintStatement
-        sb
-            .append(" ".repeat(indentLevel * config.indentSize))
-            .append("println(")
+        val indent = " ".repeat(indentLevel * config.indentSize)
 
-        RuleRegistry
-            .firstMatching(stmt.getExpression(), config, RuleRegistry.rulesV10)
-            .apply(stmt.getExpression(), sb, config, indentLevel)
-
-        sb.append(");").appendLine()
+        if (config.enforceSingleSpace == true) {
+            sb.append(indent).append("println ( ")
+            RuleRegistry
+                .firstMatching(stmt.getExpression(), config, RuleRegistry.rulesV10)
+                .apply(stmt.getExpression(), sb, config, indentLevel)
+            sb.append(" );").appendLine()
+        } else {
+            sb.append(indent).append("println(")
+            RuleRegistry
+                .firstMatching(stmt.getExpression(), config, RuleRegistry.rulesV10)
+                .apply(stmt.getExpression(), sb, config, indentLevel)
+            sb.append(");").appendLine()
+        }
 
         val lines =
             (config.blankLinesAfterPrintln).coerceIn(

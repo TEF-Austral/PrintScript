@@ -5,7 +5,6 @@ import formatter.config.FormatConfig
 import formatter.rules.RuleRegistry
 import node.LiteralExpression
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.io.StringWriter
