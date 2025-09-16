@@ -17,8 +17,8 @@ class ExpressionStatementRule : FormatRule {
     ) {
         val stmt = node as ExpressionStatement
         sb.append(" ".repeat(indentLevel * config.indentSize))
-        RuleRegistry.rulesV10
-            .first { it.matches(stmt.getExpression()) }
+        RuleRegistry
+            .firstMatching(stmt.getExpression(), config, RuleRegistry.rulesV10)
             .apply(stmt.getExpression(), sb, config, indentLevel)
         sb.append(";").appendLine()
     }

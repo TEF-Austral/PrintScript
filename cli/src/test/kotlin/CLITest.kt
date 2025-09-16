@@ -28,7 +28,7 @@ class CLITest {
         val expectedContent = File(expectedPath).readText()
 
         assertEquals(
-            expectedContent.replace("\r\n", "\n").removeSuffix("\n"),
+            expectedContent.replace("\r\n", "\n"),
             actualResult.replace("\r\n", "\n"),
         )
     }
@@ -69,7 +69,7 @@ class CLITest {
         val expectedContent = File(expectedPath).readText()
 
         assertEquals(
-            expectedContent.replace(" ", "").replace("\r\n", "\n").removeSuffix("\n"),
+            expectedContent.replace(" ", "").replace("\r\n", "\n"),
             actualResult.replace(" ", "").replace("\r\n", "\n"),
         )
     }

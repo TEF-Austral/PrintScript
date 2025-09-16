@@ -17,19 +17,20 @@ class BinaryExpressionRule : FormatRule {
     ) {
         val expr = node as BinaryExpression
 
-        RuleRegistry.rulesV10
-            .first { it.matches(expr.getLeft()) }
+        RuleRegistry
+            .firstMatching(expr.getLeft(), config, RuleRegistry.rulesV10)
             .apply(expr.getLeft(), sb, config, indentLevel)
 
         val op = expr.getOperator()
-        if (config.spaceAroundOperators) {
+        if (config.spaceAroundOperators == true) {
             sb.append(" ").append(op).append(" ")
         } else {
+            // when false or null: keep operator token as-is (no enforced extra spaces)
             sb.append(op)
         }
 
-        RuleRegistry.rulesV10
-            .first { it.matches(expr.getRight()) }
+        RuleRegistry
+            .firstMatching(expr.getRight(), config, RuleRegistry.rulesV10)
             .apply(expr.getRight(), sb, config, indentLevel)
     }
 }

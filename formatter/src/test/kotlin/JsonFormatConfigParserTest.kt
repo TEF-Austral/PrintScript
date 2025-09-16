@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.assertNull
 
 class JsonFormatConfigParserTest {
     private val parser = JsonFormatConfigParser()
@@ -19,9 +20,9 @@ class JsonFormatConfigParserTest {
         }"""
         val cfg = parser.parse(json)
 
-        assertTrue(cfg.spaceBeforeColon)
-        assertFalse(cfg.spaceAfterColon)
-        assertFalse(cfg.spaceAroundAssignment)
+        assertTrue(cfg.spaceBeforeColon == true)
+        assertFalse(cfg.spaceAfterColon == true)
+        assertFalse(cfg.spaceAroundAssignment == true)
         assertEquals(2, cfg.blankLinesAfterPrintln)
         assertEquals(8, cfg.indentSize)
     }
@@ -31,9 +32,9 @@ class JsonFormatConfigParserTest {
         val json = "{}"
         val cfg = parser.parse(json)
 
-        assertFalse(cfg.spaceBeforeColon)
-        assertFalse(cfg.spaceAfterColon)
-        assertFalse(cfg.spaceAroundAssignment)
+        assertNull(cfg.spaceBeforeColon)
+        assertNull(cfg.spaceAfterColon)
+        assertNull(cfg.spaceAroundAssignment)
         assertEquals(0, cfg.blankLinesAfterPrintln)
         assertEquals(FormatConfig.DEFAULT_INDENT_SIZE, cfg.indentSize)
     }

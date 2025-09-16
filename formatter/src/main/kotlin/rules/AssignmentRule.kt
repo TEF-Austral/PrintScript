@@ -21,10 +21,18 @@ class AssignmentRule : FormatRule {
             .append(" ".repeat(indentLevel * config.indentSize))
             .append(stmt.getIdentifier())
 
-        if (config.spaceAroundAssignment) sb.append(" = ") else sb.append("=")
+        when (config.spaceAroundAssignment) {
+            true -> sb.append(" = ")
+            false -> sb.append("=")
+            null -> {
+                // preserve original operator spacing if provided; otherwise fallback to bare '='
+                val rawOp = stmt.getAssignmentToken()?.getValue() ?: "="
+                sb.append(rawOp)
+            }
+        }
 
-        RuleRegistry.rulesV10
-            .first { it.matches(stmt.getValue()) }
+        RuleRegistry
+            .firstMatching(stmt.getValue(), config, RuleRegistry.rulesV10)
             .apply(stmt.getValue(), sb, config, indentLevel)
 
         sb.append(";").appendLine()

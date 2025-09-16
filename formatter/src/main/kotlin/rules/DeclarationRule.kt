@@ -33,15 +33,38 @@ class DeclarationRule(
             .append(" ")
             .append(stmt.getIdentifier())
 
-        if (config.spaceBeforeColon) sb.append(" ")
+        when (config.spaceBeforeColon) {
+            true -> sb.append(" ")
+            false, null -> { /* leave as-is */ }
+        }
+
         sb.append(":")
-        if (config.spaceAfterColon) sb.append(" ")
-        sb.append(stmt.getDataType())
+
+        when (config.spaceAfterColon) {
+            true -> sb.append(" ")
+            false, null -> { /* leave as-is, rely on raw token value */ }
+        }
+
+        val dataTypeText =
+            if (config.spaceAfterColon == null) {
+                // preserve original spacing from the token (may include a leading space)
+                stmt.getDataTypeToken().getValue()
+            } else {
+                // normalize to enum text when spacing is explicitly configured
+                stmt.getDataType().toString()
+            }
+        sb.append(dataTypeText)
 
         stmt.getInitialValue()?.also { expr ->
-            if (config.spaceAroundAssignment) sb.append(" = ") else sb.append("=")
-            exprRules
-                .first { it.matches(expr) }
+            if (config.spaceAroundAssignment == true) {
+                sb.append(" = ")
+            } else if (config.spaceAroundAssignment == false) {
+                sb.append("=")
+            } else {
+                sb.append("=") // unspecified: avoid forcing extra spaces
+            }
+            RuleRegistry
+                .firstMatching(expr, config, exprRules)
                 .apply(expr, sb, config, indentLevel)
         }
 

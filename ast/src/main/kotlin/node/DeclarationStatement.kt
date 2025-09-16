@@ -21,6 +21,8 @@ class DeclarationStatement(
 
     fun getIdentifierToken(): Token = identifier
 
+    fun getDataTypeToken(): Token = dataType
+
     fun getKeyword(): String = declarationType.getValue()
 
     override fun getCoordinates(): Coordinates = coordinates

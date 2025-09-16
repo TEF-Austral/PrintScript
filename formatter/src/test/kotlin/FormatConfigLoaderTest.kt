@@ -5,6 +5,7 @@ import org.junit.jupiter.api.io.TempDir
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.assertNull
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -28,9 +29,9 @@ class FormatConfigLoaderTest {
         Files.writeString(jsonFile, jsonContent)
 
         val config = FormatConfigLoader.load(jsonFile.toString())
-        assertTrue(config.spaceBeforeColon)
-        assertFalse(config.spaceAfterColon)
-        assertFalse(config.spaceAroundAssignment)
+        assertTrue(config.spaceBeforeColon == true)
+        assertFalse(config.spaceAfterColon == true)
+        assertFalse(config.spaceAroundAssignment == true)
         assertEquals(2, config.blankLinesAfterPrintln)
         assertEquals(6, config.indentSize)
     }
@@ -50,9 +51,9 @@ class FormatConfigLoaderTest {
         Files.writeString(yamlFile, yamlContent)
 
         val config = FormatConfigLoader.load(yamlFile.toString())
-        assertTrue(config.spaceBeforeColon)
-        assertFalse(config.spaceAfterColon)
-        assertFalse(config.spaceAroundAssignment)
+        assertTrue(config.spaceBeforeColon == true)
+        assertFalse(config.spaceAfterColon == true)
+        assertFalse(config.spaceAroundAssignment == true)
         assertEquals(1, config.blankLinesAfterPrintln)
         assertEquals(3, config.indentSize)
     }
@@ -63,9 +64,10 @@ class FormatConfigLoaderTest {
         Files.writeString(jsonFile, "{}")
 
         val config = FormatConfigLoader.load(jsonFile.toString())
-        assertFalse(config.spaceBeforeColon)
-        assertFalse(config.spaceAfterColon)
-        assertFalse(config.spaceAroundAssignment)
+        // flags are nullable now; unspecified = null
+        assertNull(config.spaceBeforeColon)
+        assertNull(config.spaceAfterColon)
+        assertNull(config.spaceAroundAssignment)
         assertEquals(0, config.blankLinesAfterPrintln)
         assertEquals(FormatConfig.DEFAULT_INDENT_SIZE, config.indentSize)
     }

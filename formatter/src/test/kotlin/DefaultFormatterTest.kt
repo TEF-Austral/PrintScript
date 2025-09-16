@@ -5,7 +5,9 @@ import formatter.config.FormatConfig
 import formatter.rules.RuleRegistry
 import node.LiteralExpression
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import java.io.StringWriter
 import type.CommonTypes
 
@@ -224,5 +226,23 @@ class DefaultFormatterTest {
             "let third_thing : string=\"another really cool thing three times\";",
             result,
         )
+    }
+
+    @Test
+    fun `unsupported declaration keyword throws exception`() {
+        val decl =
+            builder.buildVariableDeclarationStatementNode(
+                tok(CommonTypes.IDENTIFIER, "var"),
+                identifier = tok(CommonTypes.IDENTIFIER, "x"),
+                dataType = tok(CommonTypes.NUMBER, "number"),
+                initialValue = null,
+            )
+        val program = builder.buildProgramNode(listOf(decl))
+
+        val exception =
+            assertThrows<UnsupportedOperationException> {
+                fmt.formatToString(program, FormatConfig())
+            }
+        assertEquals("Declarations with 'var' are not supported", exception.message)
     }
 }
