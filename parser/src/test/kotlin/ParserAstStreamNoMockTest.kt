@@ -1,7 +1,3 @@
-package parser.stream
-
-import MockTokenStream
-import PrintScriptToken
 import builder.DefaultNodeBuilder
 import coordinates.Position
 
@@ -15,17 +11,13 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 import parser.factory.VOnePointOneParserFactory
+import parser.stream.ParserAstStream
 import type.CommonTypes
 
 class ParserAstStreamNoMockTest {
 
     private val nodeBuilder = DefaultNodeBuilder()
     private val parserFactory = VOnePointOneParserFactory()
-
-    @Test
-    fun `lets fail`() {
-        assertTrue(false)
-    }
 
     @Test
     fun `test next() should return the next node and a new stream`() {
