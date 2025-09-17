@@ -10,7 +10,7 @@ if [ $EXIT_CODE -ne 0 ]; then
   exit 1
 
 else
-  echo "✅ Formatting successful. Adding changes to the commit..."
+  echo "✅ Formatting successful. Adding changes to the commit"
   git add -u
   exit 0
 fi
