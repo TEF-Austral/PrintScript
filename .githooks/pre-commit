@@ -1,0 +1,10 @@
+#!/bin/bash
+echo "Running ktlintFormat..."
+./gradlew ktlintFormat
+
+if [ $? -ne 0 ]; then
+  echo "ktlintFormat failed. Please fix formatting issues before committing."
+  exit 1
+fi
+
+echo "Formatting complete. Proceeding with commit."
