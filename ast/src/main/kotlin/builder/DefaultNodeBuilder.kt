@@ -37,8 +37,6 @@ class DefaultNodeBuilder : NodeBuilder {
         identifier: Token,
         dataType: Token,
         initialValue: Expression?,
-        assignmentOperator: Token?,
-        colonToken: Token?,
     ): DeclarationStatement =
         DeclarationStatement(
             declarationType,
@@ -46,8 +44,6 @@ class DefaultNodeBuilder : NodeBuilder {
             dataType,
             initialValue,
             identifier.getCoordinates(),
-            assignmentOperator,
-            colonToken,
         )
 
     override fun buildAssignmentStatementNode(

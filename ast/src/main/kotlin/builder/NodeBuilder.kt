@@ -27,8 +27,6 @@ sealed interface NodeBuilder {
         identifier: Token,
         dataType: Token,
         initialValue: Expression? = null,
-        assignmentOperator: Token? = null, // raw like " = "
-        colonToken: Token? = null, // raw like ": " or " :"
     ): Statement
 
     fun buildAssignmentStatementNode(

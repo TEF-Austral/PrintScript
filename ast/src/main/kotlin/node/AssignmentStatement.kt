@@ -8,7 +8,7 @@ class AssignmentStatement(
     private val identifier: Token,
     private val value: Expression,
     private val coordinates: Coordinates,
-    private val assignmentOperator: Token? = null, // may include original spacing (e\.g\., " = ")
+    private val assignmentOperator: Token? = null,
 ) : Statement {
     fun getIdentifier(): String = identifier.getValue()
 
