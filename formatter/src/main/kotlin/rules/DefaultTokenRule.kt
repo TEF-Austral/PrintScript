@@ -19,17 +19,15 @@ class DefaultTokenRule : FormattingRule {
                 ""
             }
 
-        // Check if we should add space
         val space =
             when {
                 context.newLineAdded -> ""
-                context.colonJustProcessed -> "" // Colon handles its own spacing
-                // Check if current token is opening parenthesis after function name
+                context.colonJustProcessed -> ""
+
                 token.getValue().trim() == "(" &&
                     context.previousToken?.getType() == CommonTypes.IDENTIFIER -> ""
-                // Apply enforceSingleSpace if configured
+
                 context.config.enforceSingleSpace == true -> {
-                    // Don't add space before certain tokens even with enforceSingleSpace
                     if (token.getValue().trim() in listOf(")", ";", "(")) "" else " "
                 }
                 else -> context.spaceManager.getSpaceBetween(context.previousToken, token, null)
@@ -37,7 +35,6 @@ class DefaultTokenRule : FormattingRule {
 
         val formattedText = indentation + space + token.getValue()
 
-        // Clear colonJustProcessed flag
         val newContext = context.withoutNewLine().copy(colonJustProcessed = false)
         return Pair(formattedText, newContext)
     }

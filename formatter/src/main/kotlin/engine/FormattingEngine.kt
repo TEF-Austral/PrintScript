@@ -1,4 +1,3 @@
-// Archivo: FormattingEngine.kt
 package formatter.engine
 
 import TokenStream
@@ -16,7 +15,7 @@ class FormattingEngine(
         config: FormatConfig,
     ): String {
         val output = StringBuilder()
-        var context = FormatterContext(config) // 1. Se inicializa el contexto inmutable.
+        var context = FormatterContext(config)
         var stream = src
 
         while (!stream.isAtEnd()) {
@@ -26,10 +25,8 @@ class FormattingEngine(
 
             if (token.getType() == CommonTypes.EMPTY) continue
 
-            // 2. Se aplica la regla raíz, que internamente encontrará la sub-regla correcta.
             val (formattedText, nextContext) = rootRule.apply(token, context)
 
-            // 3. Se acumula el resultado y se actualiza el estado para la siguiente iteración.
             output.append(formattedText)
             context = nextContext.copy(previousToken = token)
         }

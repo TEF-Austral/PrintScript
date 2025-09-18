@@ -1,4 +1,3 @@
-// PrintlnRule.kt
 package formatter.rules
 
 import Token

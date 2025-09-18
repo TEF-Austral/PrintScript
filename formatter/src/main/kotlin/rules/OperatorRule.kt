@@ -21,12 +21,11 @@ class OperatorRule : FormattingRule {
                 ""
             }
 
-        // When config is null, preserve original spacing (default to having space)
         val space =
             when (context.config.spaceAroundOperators) {
                 true -> " "
                 false -> ""
-                null -> " " // Default: space around operators
+                null -> " "
             }
 
         val formattedText = indentation + space + token.getValue() + space

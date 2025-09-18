@@ -1,4 +1,3 @@
-// IfRule.kt
 package formatter.rules
 
 import Token

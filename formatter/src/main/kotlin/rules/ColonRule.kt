@@ -19,7 +19,6 @@ class ColonRule : FormattingRule {
                 ""
             }
 
-        // enforceSingleSpace domina
         if (context.config.enforceSingleSpace == true) {
             return Pair(
                 indentation + " : ",
@@ -34,17 +33,16 @@ class ColonRule : FormattingRule {
             when (beforeCfg) {
                 true -> " "
                 false -> ""
-                null -> "" // No forzar nada
+                null -> ""
             }
 
         val spaceAfter =
             when (afterCfg) {
                 true -> " "
                 false -> ""
-                null -> "" // No forzar nada
+                null -> ""
             }
 
-        // Si ambos son null no añadimos ninguno
         val text =
             if (beforeCfg == null && afterCfg == null) {
                 indentation + token.getValue()

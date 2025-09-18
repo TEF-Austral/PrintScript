@@ -1,4 +1,3 @@
-// Archivo: formatter/FormatterImpl.kt
 package formatter
 
 import TokenStream
@@ -6,20 +5,21 @@ import formatter.config.FormatConfig
 import formatter.factory.DefaultRules
 import formatter.engine.DefaultLinePostProcessor
 import formatter.engine.FormattingEngine
+import formatter.engine.FormattingEngineInt
 import java.io.Writer
 
-class FormatterImpl : Formatter {
-
-    private fun engine(): FormattingEngine =
+class FormatterImpl(
+    engine: FormattingEngineInt =
         FormattingEngine(
             rootRule = DefaultRules.createDefaultRegistryRule(),
             postProcessors = listOf(DefaultLinePostProcessor()),
-        )
+        ),
+) : Formatter {
 
     override fun formatToString(
         src: TokenStream,
         config: FormatConfig,
-    ): String = engine().format(src, config)
+    ): String = engine.format(src, config)
 
     override fun formatToWriter(
         src: TokenStream,

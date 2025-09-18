@@ -1,4 +1,3 @@
-// StringLiteralRule.kt
 package formatter.rules
 
 import PrintScriptToken
