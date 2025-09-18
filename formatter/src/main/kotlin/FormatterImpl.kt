@@ -3,7 +3,7 @@ package formatter
 
 import TokenStream
 import formatter.config.FormatConfig
-import formatter.defaults.DefaultRules
+import formatter.factory.DefaultRules
 import formatter.engine.DefaultLinePostProcessor
 import formatter.engine.FormattingEngine
 import java.io.Writer
@@ -12,7 +12,7 @@ class FormatterImpl : Formatter {
 
     private fun engine(): FormattingEngine =
         FormattingEngine(
-            rootRule = DefaultRules.createDefaultRootRule(),
+            rootRule = DefaultRules.createDefaultRegistryRule(),
             postProcessors = listOf(DefaultLinePostProcessor()),
         )
 

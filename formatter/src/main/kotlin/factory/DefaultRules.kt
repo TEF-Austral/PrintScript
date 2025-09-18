@@ -1,4 +1,4 @@
-package formatter.defaults
+package formatter.factory
 
 import AssignmentRule
 import ColonRule
@@ -13,16 +13,22 @@ import formatter.rules.OperatorRule
 import formatter.rules.PrintlnRule
 import formatter.rules.SemicolonRule
 import formatter.rules.StringLiteralRule
+import formatter.rules.token.DefaultTokenFormatter
+import formatter.rules.token.TokenFormatter
 
 object DefaultRules {
-    fun createDefaultRootRule(): FormattingRule {
-        // IMPORTANT: Order matters! More specific rules must come before DefaultTokenRule
+
+    fun createDefaultRegistryRule(): FormattingRule =
+        createDefaultRegistryRuleWithTokenFormatter(DefaultTokenFormatter())
+
+    fun createDefaultRegistryRuleWithTokenFormatter(
+        tokenFormatter: TokenFormatter,
+    ): FormattingRule {
         val rules =
             listOf(
-                // Specific token rules (these should be checked first)
-                PrintlnRule(),
-                IfRule(),
-                StringLiteralRule(),
+                PrintlnRule(tokenFormatter),
+                IfRule(tokenFormatter),
+                StringLiteralRule(tokenFormatter),
                 OpenBraceRule(),
                 CloseBraceRule(),
                 SemicolonRule(),
@@ -30,7 +36,6 @@ object DefaultRules {
                 AssignmentRule(),
                 OperatorRule(),
                 ParenthesesRule(),
-                // Default rule MUST BE LAST - it handles anything not caught above
                 DefaultTokenRule(),
             )
 

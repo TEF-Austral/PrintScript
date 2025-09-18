@@ -1,12 +1,16 @@
+// StringLiteralRule.kt
 package formatter.rules
 
-import BaseRule
 import PrintScriptToken
 import Token
 import formatter.engine.FormatterContext
+import formatter.rules.token.TokenFormatter
 import type.CommonTypes
 
-class StringLiteralRule : BaseRule() {
+class StringLiteralRule(
+    private val tokenFormatter: TokenFormatter,
+) : FormattingRule {
+
     override fun canHandle(
         token: Token,
         context: FormatterContext,
@@ -16,17 +20,14 @@ class StringLiteralRule : BaseRule() {
         token: Token,
         context: FormatterContext,
     ): Pair<String, FormatterContext> {
-        // Reconstruye el valor del token con las comillas que el lexer pudo haber quitado.
         val valueWithQuotes = "\"${token.getValue()}\""
+        val tempToken =
+            PrintScriptToken(
+                token.getType(),
+                valueWithQuotes,
+                token.getCoordinates(),
+            )
 
-        // Crea un token temporal para pasarlo al formateador base,
-        // ya que no podemos modificar el token original.
-        val tempToken = PrintScriptToken(token.getType(), valueWithQuotes, token.getCoordinates())
-
-        // Llama al método 'format' de BaseRule para manejar la indentación y el espaciado.
-        return format(tempToken, context)
+        return tokenFormatter.format(tempToken, context)
     }
 }
-
-// Nota: Asegúrate de que tu interfaz 'Token' sea un 'data class' o tenga un método 'copy'
-// para que la línea 'token.copy(value = valueWithQuotes)' funcione.
