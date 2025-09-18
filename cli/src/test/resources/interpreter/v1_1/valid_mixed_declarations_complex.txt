@@ -1,0 +1,13 @@
+const BASE_VALUE: number = 100;
+let multiplier: number = 2;
+const BONUS: number = 50;
+let user_input: string = readInput("Enter your name: ");
+let environment_path: string = readEnv("PATH");
+let calculated_value: number = BASE_VALUE * multiplier + BONUS;
+if (calculated_value > 200) {
+    println("High value achieved by " + user_input);
+} else {
+    println("Standard value for " + user_input);
+}
+println("Environment path length: " + environment_path);
+

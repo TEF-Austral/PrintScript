@@ -8,7 +8,7 @@ import parser.statement.StatementParser
 import parser.statement.expression.ExpressionParser
 import type.Version
 
-class DefaultParserFactory : ParserFactory {
+object DefaultParserFactory : ParserFactory {
 
     override fun createWithVersion(
         version: Version,

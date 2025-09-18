@@ -1,0 +1,7 @@
+let empty_var: string = readEnv("");
+let special_var: string = readEnv("SPECIAL_VAR_123");
+let path_var: string = readEnv("PATH");
+println("Empty: " + empty_var);
+println("Special: " + special_var);
+println("Path: " + path_var);
+

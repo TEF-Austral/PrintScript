@@ -1,0 +1,4 @@
+const prompt: string = "Enter your name: ";
+let name: string = readInput(prompt);
+println("Hello " + name);
+

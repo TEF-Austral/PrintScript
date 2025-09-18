@@ -1,6 +1,6 @@
 plugins {
     id 'buildlogic.kotlin-common-conventions'
-    id 'application' // Add this line
+    id 'application'
 }
 
 repositories {
@@ -9,6 +9,9 @@ repositories {
 
 dependencies {
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+    testImplementation 'org.hamcrest:hamcrest-core:2.2'
     implementation("com.github.ajalt.clikt:clikt:4.2.1")
     implementation project(':lexer')
     implementation project(':interpreter')
@@ -18,13 +21,11 @@ dependencies {
     implementation project(':common')
     implementation project(':ast')
     implementation project(':token')
-    implementation project(":reader")
 }
 
 application {
-    mainClass = 'CMDCLIKt'
+    mainClass = 'MainKt'
 }
-
 
 run {
     standardInput = System.in
@@ -35,6 +36,7 @@ run {
 
 test {
     useJUnitPlatform()
+    workingDir = project.projectDir
 }
 
 kotlin {

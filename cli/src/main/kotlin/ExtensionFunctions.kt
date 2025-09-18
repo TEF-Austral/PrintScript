@@ -1,9 +1,7 @@
-import factory.AnalyzerFactory
-import factory.InterpreterFactoryVersionOnePointOne
-
-import formatter.FormatterImpl
-import parser.result.CompleteProgram
-import stream.MockAstStream
+import factory.AnalyzerFactory.createAnalyzer
+import factory.DefaultInterpreterFactory.createInterpreter
+import formatter.factory.DefaultFormatterFactory.createFormatter
+import parser.stream.ParserAstStream
 import type.Version
 
 fun CLI.handleFormatting(
@@ -11,26 +9,10 @@ fun CLI.handleFormatting(
     formatterConfigFilePath: String?,
     version: Version,
 ): String {
-    val program = tokeniseSourceCode(srcCodePath)
-    val formatter = FormatterImpl()
-
     val configPath =
-        formatterConfigFilePath ?: run {
-            val defaultConfig = """{
-      "spaceBeforeColon": true,
-      "spaceAfterColon": true,
-      "spaceAroundAssignment": true,
-      "blankLinesBeforePrintln": 1
-    }"""
-
-            val tempFile = kotlin.io.path.createTempFile("FormattingConfiguration", ".json")
-            tempFile.toFile().writeText(defaultConfig)
-
-            tempFile.toString()
-        }
-
-    val config = parseConfigFromFile(configPath)
-    return formatter.formatToString(program, config)
+        formatterConfigFilePath ?: "src/test/resources/configuration/FormattingConfiguration.json"
+    val tokens = tokeniseSourceCode(srcCodePath, version)
+    return createFormatter(version).formatToString(tokens, parseFormatConfigFromFile(configPath))
 }
 
 fun CLI.handleAnalyzing(
@@ -38,10 +20,10 @@ fun CLI.handleAnalyzing(
     analyzerConfigFilePath: String?,
     version: Version,
 ): String {
-    val completeProgram = parseSourceCode(srcCodePath)
-    val analyzer = AnalyzerFactory.createWithVersion(version, analyzerConfigFilePath)
-    val result = CompleteProgram(completeProgram.getParser(), completeProgram.getProgram())
-    val diagnostics = analyzer.analyze(result)
+    val configPath =
+        analyzerConfigFilePath ?: "src/test/resources/configuration/AnalyzerConfiguration.json"
+    val analyzer = createAnalyzer(version, parseAnalyzerConfigFromFile(configPath))
+    val diagnostics = analyzer.analyze(parseSourceCode(srcCodePath, version))
     return if (diagnostics.isEmpty()) {
         "No issues found"
     } else {
@@ -67,12 +49,13 @@ fun CLI.handleValidation(
         """.trimIndent()
 }
 
-fun CLI.handleExecution(srcCodePath: String): String {
-    val program = parseSourceCode(srcCodePath)
-    val interpreter = InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
-    val mockAstStream = MockAstStream(program.getProgram())
-    val result = interpreter.interpret(mockAstStream)
-
+fun CLI.handleExecution(
+    srcCodePath: String,
+    version: Version,
+): String {
+    val interpreter = createInterpreter(version)
+    val astStream = ParserAstStream(parseSourceCode(srcCodePath, version).getParser())
+    val result = interpreter.interpret(astStream)
     return if (result.interpretedCorrectly) {
         "Program executed successfully"
     } else {

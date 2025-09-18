@@ -1,7 +1,7 @@
 import converter.TokenConverter
 import factory.StringSplitterFactory
 import factory.StringToTokenConverterFactory
-import formatter.FormatterImpl
+import formatter.DefaultFormatter
 import formatter.config.FormatConfig
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -18,6 +18,23 @@ class DeclarationSpacingAfterColonTest {
         val lexer: Lexer = DefaultLexer(tokenConverter, splitter)
         val tokenStream = LexerTokenStream(lexer)
         return tokenStream
+    }
+
+    private fun lex2(input: String): List<Token> {
+        val splitter = StringSplitterFactory.createStreamingSplitter(StringReader(input))
+        var lexer: Lexer? = DefaultLexer(tokenConverter, splitter)
+
+        val tokens = mutableListOf<Token>()
+        while (lexer != null) {
+            val result = lexer.next()
+            if (result != null) {
+                tokens.add(result.token)
+                lexer = result.lexer
+            } else {
+                lexer = null
+            }
+        }
+        return tokens
     }
 
     @Test
@@ -43,8 +60,9 @@ class DeclarationSpacingAfterColonTest {
             let third_thing : string="another really cool thing three times";
             """.trimIndent()
 
-        val stream = lex(input)
-        val output = FormatterImpl().formatToString(stream, config)
+        val stream2 = lex2(input)
+        val stream = MockTokenStream(stream2)
+        val output = DefaultFormatter().formatToString(stream, config)
 
         assertEquals(expected, output)
     }

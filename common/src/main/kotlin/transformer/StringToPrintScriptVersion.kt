@@ -9,5 +9,5 @@ class StringToPrintScriptVersion(
             "1.1" to Version.VERSION_1_1,
         ),
 ) {
-    fun transform(vesion: String): Version = versionMap[vesion] ?: Version.VERSION_1_0
+    fun transform(version: String): Version = versionMap[version] ?: Version.VERSION_1_0
 }

@@ -1,14 +1,20 @@
 import builder.DefaultNodeBuilder
 import com.github.ajalt.clikt.core.CliktCommand
-import converter.TokenConverter
+import config.AnalyzerConfig
+import config.AnalyzerConfigLoader.loadAnalyzerConfig
+import factory.DefaultLexerFactory
 import factory.StringToTokenConverterFactory
 import factory.StringSplitterFactory
 import formatter.config.FormatConfig
-import formatter.config.JsonFormatConfigParser
-import java.io.StringReader
-import parser.factory.VOnePointOneParserFactory
-import parser.result.CompleteProgram
+import formatter.config.FormatConfigLoader.loadFormatConfig
+import parser.factory.DefaultParserFactory
 import parser.result.FinalResult
+import stream.token.LexerTokenStream
+import type.Version
+import java.io.FileInputStream
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.nio.charset.StandardCharsets
 
 class CLI :
     CliktCommand(
@@ -17,6 +23,7 @@ class CLI :
                 "formatting, validating, and executing source code",
         name = "mycli",
     ) {
+
     override fun run() {
         if (currentContext.invokedSubcommand == null) {
             echo("Welcome to the Source Code CLI Tool!")
@@ -26,50 +33,38 @@ class CLI :
             echo("  validate - Validate source code (analyze + format)")
             echo("  execute  - Execute source code")
             echo("")
-            echo("Usage: mycli <command> <source_file> [options]")
-            echo("For detailed help: mycli <command> --help")
+            echo("Usage: ./gradlew run -Pargs=<command> <source_file> [options]")
         }
     }
 
-    fun parseSourceCode(srcCodePath: String): FinalResult {
-        val tokenList = lex(getDefaultReader(srcCodePath).read())
-        val nodeBuilder = DefaultNodeBuilder()
-        val mockTokenStream = MockTokenStream(tokenList)
-        val parser = VOnePointOneParserFactory().createParser(mockTokenStream, nodeBuilder)
-        val result = CompleteProgram(parser, parser.parse().getProgram())
-        return result
+    fun parseSourceCode(
+        srcCodePath: String,
+        version: Version,
+    ): FinalResult {
+        val tokenStream = tokeniseSourceCode(srcCodePath, version)
+        val parser =
+            DefaultParserFactory.createWithVersion(
+                version,
+                DefaultNodeBuilder(),
+                tokenStream,
+            )
+        return parser.parse()
     }
 
-    fun parseConfigFromFile(configPath: String): FormatConfig =
-        JsonFormatConfigParser().parse(getDefaultReader(configPath).read())
+    private fun pathToInputStream(srcCodePath: String): InputStream = FileInputStream(srcCodePath)
 
-    fun tokeniseSourceCode(srcCodePath: String): TokenStream {
-        val tokenList = lex(getDefaultReader(srcCodePath).read())
-        val nodeBuilder = DefaultNodeBuilder()
-        val mockTokenStream = MockTokenStream(tokenList)
-        return mockTokenStream
-    }
+    fun parseFormatConfigFromFile(configPath: String): FormatConfig = loadFormatConfig(configPath)
 
-    private fun getDefaultReader(path: String): Reader = FileReader(path)
+    fun parseAnalyzerConfigFromFile(configPath: String): AnalyzerConfig =
+        loadAnalyzerConfig(configPath)
 
-    private val tokenConverter: TokenConverter =
-        StringToTokenConverterFactory
-            .createDefaultsTokenConverter()
-
-    private fun lex(input: String): List<Token> {
-        val splitter = StringSplitterFactory.createStreamingSplitter(StringReader(input))
-        var lexer: Lexer? = DefaultLexer(tokenConverter, splitter)
-
-        val tokens = mutableListOf<Token>()
-        while (lexer != null) {
-            val result = lexer.next()
-            if (result != null) {
-                tokens.add(result.token)
-                lexer = result.lexer
-            } else {
-                lexer = null
-            }
-        }
-        return tokens
+    fun tokeniseSourceCode(
+        srcCodePath: String,
+        version: Version,
+    ): TokenStream {
+        val reader = InputStreamReader(pathToInputStream(srcCodePath), StandardCharsets.UTF_8)
+        val lexerFactory = DefaultLexerFactory(StringSplitterFactory, StringToTokenConverterFactory)
+        val lexer = lexerFactory.createLexerWithVersion(version, reader)
+        return LexerTokenStream(lexer)
     }
 }

@@ -37,8 +37,6 @@ class DefaultNodeBuilder : NodeBuilder {
         identifier: Token,
         dataType: Token,
         initialValue: Expression?,
-        assignmentOperator: Token?,
-        colonToken: Token?,
     ): DeclarationStatement =
         DeclarationStatement(
             declarationType,
@@ -46,8 +44,6 @@ class DefaultNodeBuilder : NodeBuilder {
             dataType,
             initialValue,
             identifier.getCoordinates(),
-            assignmentOperator,
-            colonToken,
         )
 
     override fun buildAssignmentStatementNode(
@@ -71,20 +67,12 @@ class DefaultNodeBuilder : NodeBuilder {
         condition: Expression,
         consequence: Statement,
         alternative: Statement?,
-        ifHeaderToken: Token?,
-        closeParenToken: Token?,
-        elseTokenRaw: Token?,
-        bracesOnSameLine: Boolean?,
     ): IfStatement =
         IfStatement(
             condition,
             consequence,
             alternative,
             consequence.getCoordinates(),
-            ifHeaderToken,
-            closeParenToken,
-            elseTokenRaw,
-            bracesOnSameLine,
         )
 
     override fun buildReadInputNode(printValue: LiteralExpression): ReadInputExpression =

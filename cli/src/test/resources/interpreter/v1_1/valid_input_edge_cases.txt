@@ -1,0 +1,5 @@
+let empty_prompt: string = readInput("");
+let long_prompt: string = readInput("Please enter a very long input that tests the system's ability to handle extended user prompts: ");
+println("Empty prompt result: " + empty_prompt);
+println("Long prompt result: " + long_prompt);
+

@@ -1,7 +1,7 @@
 import converter.TokenConverter
 import factory.StringSplitterFactory
 import factory.StringToTokenConverterFactory
-import formatter.FormatterImpl
+import formatter.DefaultFormatter
 import formatter.config.FormatConfig
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -25,6 +25,7 @@ class IndentInsideTwoTest {
         val config =
             FormatConfig(
                 indentSize = 4,
+                ifBraceOnSameLine = true,
             )
 
         val input =
@@ -48,7 +49,7 @@ class IndentInsideTwoTest {
             """.trimIndent()
 
         val stream = lex(input)
-        val output = FormatterImpl().formatToString(stream, config)
+        val output = DefaultFormatter().formatToString(stream, config)
 
         assertEquals(expected, output)
     }
