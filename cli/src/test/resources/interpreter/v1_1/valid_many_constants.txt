@@ -1,0 +1,7 @@
+const PI: number = 3.14159;
+const E: number = 2.71828;
+const GOLDEN_RATIO: number = 1.61803;
+const SQRT_TWO: number = 1.41421;
+const result: number = PI + E + GOLDEN_RATIO + SQRT_TWO;
+println(result);
+

@@ -12,6 +12,79 @@
             </PendingDiffInfo>
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/test/resources/validation/v1_0/valid_arithmetic_operations.txt">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/src/test/resources/validation/v1_0/valid_arithmetic_operations.txt" />
+              <option name="updatedContent" value="let a: number = 10;&#10;let b: number = 20;&#10;let sum: number = a + b;&#10;println(sum);&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/resources/validation/v1_0/valid_basic_let.txt">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/src/test/resources/validation/v1_0/valid_basic_let.txt" />
+              <option name="updatedContent" value="let x: number = 5;&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/resources/validation/v1_0/valid_basic_print.txt">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/src/test/resources/validation/v1_0/valid_basic_print.txt" />
+              <option name="updatedContent" value="println(&quot;Hello World&quot;);&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/resources/validation/v1_0/valid_boolean_operations.txt">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/src/test/resources/validation/v1_0/valid_boolean_operations.txt" />
+              <option name="updatedContent" value="let x: boolean = true;&#10;let y: boolean = false;&#10;println(x);&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/resources/validation/v1_0/valid_complex_expression.txt">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/src/test/resources/validation/v1_0/valid_complex_expression.txt" />
+              <option name="updatedContent" value="let x: number = 5;&#10;let y: number = 3;&#10;let result: number = x * y + 2;&#10;println(result);&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/resources/validation/v1_0/valid_division.txt">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/src/test/resources/validation/v1_0/valid_division.txt" />
+              <option name="originalContent" value="let x: number = 10;&#10;let y: number = 2;&#10;let result: number = x / y;&#10;println(result);&#10;" />
+              <option name="updatedContent" value="let x: number = 10;&#10;let y: number = 2;&#10;let result: number = x / y;&#10;println(result);&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/resources/validation/v1_0/valid_let_and_print.txt">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/src/test/resources/validation/v1_0/valid_let_and_print.txt" />
+              <option name="updatedContent" value="let x: number = 42;&#10;println(x);&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/resources/validation/v1_0/valid_multiple_statements.txt">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/src/test/resources/validation/v1_0/valid_multiple_statements.txt" />
+              <option name="updatedContent" value="let name: string = &quot;Alice&quot;;&#10;let age: number = 25;&#10;println(&quot;Name: &quot; + name);&#10;println(&quot;Age: &quot; + age);&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/resources/validation/v1_0/valid_string_assignment.txt">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/src/test/resources/validation/v1_0/valid_string_assignment.txt" />
+              <option name="updatedContent" value="let message: string = &quot;Hello&quot;;&#10;println(message);&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
       </map>
     </option>
   </component>

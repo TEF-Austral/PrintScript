@@ -1,0 +1,4 @@
+let home: string = readEnv("HOME");
+let user: string = readEnv("USER");
+println("User: " + user + ", Home: " + home);
+

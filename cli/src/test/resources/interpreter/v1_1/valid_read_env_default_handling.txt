@@ -1,0 +1,7 @@
+let path: string = readEnv("NONEXISTENT_VAR");
+if (path == "") {
+    println("Environment variable not found");
+} else {
+    println("Found: " + path);
+}
+

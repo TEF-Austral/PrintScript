@@ -1,0 +1,3 @@
+let age: number = readInput("Enter your age: ");
+println("You are " + age + " years old");
+

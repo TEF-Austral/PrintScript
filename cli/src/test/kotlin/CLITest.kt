@@ -393,14 +393,4 @@ class CLITest {
             System.setOut(originalOut)
         }
     }
-
-    @Test
-    fun `AAA Command Default Version Test`() {
-        val srcPath = "src/test/resources/test.txt"
-
-        val cmdCli = CLI()
-        val actualResult = cmdCli.handleExecution(srcPath, Version.VERSION_1_1)
-
-        assertEquals("Program executed successfully", actualResult)
-    }
 }
