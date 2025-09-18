@@ -9,9 +9,9 @@ import executor.statement.SpecificStatementExecutor
 import input.InputProvider
 import type.Version
 
-class DefaultInterpreterFactory : InterpreterFactory {
+object DefaultInterpreterFactory : InterpreterFactory {
 
-    override fun createWithVersion(version: Version): Interpreter =
+    override fun createInterpreter(version: Version): Interpreter =
         when (version) {
             Version.VERSION_1_0 -> InterpreterFactoryVersionOne.createDefaultInterpreter()
             Version.VERSION_1_1 -> InterpreterFactoryVersionOnePointOne.createDefaultInterpreter()
@@ -44,18 +44,6 @@ class DefaultInterpreterFactory : InterpreterFactory {
                 InterpreterFactoryVersionOnePointOne.createDefaultInterpreter(
                     emitter,
                     inputProvider,
-                )
-        }
-
-    fun createWithVersionAndEmitter(
-        version: Version,
-        emitter: Emitter,
-    ): Interpreter =
-        when (version) {
-            Version.VERSION_1_0 -> InterpreterFactoryVersionOne.createDefaultInterpreter(emitter)
-            Version.VERSION_1_1 ->
-                InterpreterFactoryVersionOnePointOne.createDefaultInterpreter(
-                    emitter,
                 )
         }
 }

@@ -12,10 +12,6 @@ class AnalyzeCommand :
         help = "Analyze the source code file for issues",
         name = "analyze",
     ) {
-    private val transformer = StringToPrintScriptVersion()
-
-    private fun transform(version: String): Version =
-        transformer.transform(version) // TODO SE PUEDE CAMBIAR MAS TARDE
 
     private val srcCodePath by argument(
         name = "SOURCE_FILE",
@@ -26,13 +22,16 @@ class AnalyzeCommand :
         "-c",
         "--config",
         help = "Path to analyzer configuration file",
-    ).path(canBeDir = false)
+    ).path(canBeDir = false, mustBeReadable = true)
 
     private val version by option(
         "-v",
         "--version",
         help = "Version to use (default: 1.0)",
     ).default("1.0")
+
+    private fun transform(version: String): Version =
+        StringToPrintScriptVersion().transform(version)
 
     override fun run() {
         try {

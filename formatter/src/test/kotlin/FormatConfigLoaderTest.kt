@@ -28,7 +28,7 @@ class FormatConfigLoaderTest {
             """.trimIndent()
         Files.writeString(jsonFile, jsonContent)
 
-        val config = FormatConfigLoader.load(jsonFile.toString())
+        val config = FormatConfigLoader.loadFormatConfig(jsonFile.toString())
         assertTrue(config.spaceBeforeColon == true)
         assertFalse(config.spaceAfterColon == true)
         assertFalse(config.spaceAroundAssignment == true)
@@ -50,7 +50,7 @@ class FormatConfigLoaderTest {
             """.trimIndent()
         Files.writeString(yamlFile, yamlContent)
 
-        val config = FormatConfigLoader.load(yamlFile.toString())
+        val config = FormatConfigLoader.loadFormatConfig(yamlFile.toString())
         assertTrue(config.spaceBeforeColon == true)
         assertFalse(config.spaceAfterColon == true)
         assertFalse(config.spaceAroundAssignment == true)
@@ -63,7 +63,7 @@ class FormatConfigLoaderTest {
         val jsonFile = tempDir.resolve("empty.json")
         Files.writeString(jsonFile, "{}")
 
-        val config = FormatConfigLoader.load(jsonFile.toString())
+        val config = FormatConfigLoader.loadFormatConfig(jsonFile.toString())
         // flags are nullable now; unspecified = null
         assertNull(config.spaceBeforeColon)
         assertNull(config.spaceAfterColon)

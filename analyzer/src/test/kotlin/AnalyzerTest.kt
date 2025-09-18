@@ -1,9 +1,10 @@
 import builder.DefaultNodeBuilder
 import config.AnalyzerConfig
+import config.AnalyzerConfigLoader.loadAnalyzerConfig
 import node.Statement
 import coordinates.Position
 import diagnostic.Diagnostic
-import factory.AnalyzerFactory
+import factory.AnalyzerFactory.createAnalyzer
 import node.AssignmentStatement
 import node.BinaryExpression
 import node.DeclarationStatement
@@ -37,23 +38,8 @@ class AnalyzerTest {
         config: AnalyzerConfig = AnalyzerConfig(IdentifierStyle.CAMEL_CASE),
         version: Version = Version.VERSION_1_0,
     ): List<Diagnostic> {
-        // write config to temp JSON file
-        val tempConfigFile =
-            File.createTempFile("analyzer", ".json").apply {
-                writeText(
-                    """
-                    {
-                       "identifierStyle":"${config.identifierStyle}",
-                       "restrictPrintlnArgs":${config.restrictPrintlnArgs},
-                       "restrictReadInputArgs":${config.restrictReadInputArgs}
-                    }
-                    """.trimIndent(),
-                )
-                deleteOnExit()
-            }
-
         val program = Program(stmts)
-        val analyzer = AnalyzerFactory.createWithVersion(version, tempConfigFile.absolutePath)
+        val analyzer = createAnalyzer(version, config)
         return analyzer.analyze(CompleteProgram(parser, program))
     }
 
@@ -110,10 +96,10 @@ class AnalyzerTest {
 
     @Test
     fun `println with complex expression is flagged when restricted`() {
-        val cfg = AnalyzerConfig(restrictPrintlnArgs = true) // Explicitly set restriction
+        val cfg = AnalyzerConfig(restrictPrintlnArgs = true)
         val expr = BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2), Position(0, 0))
         val stmts = listOf(PrintStatement(expr, Position(0, 0)))
-        val diags = runAnalyzer(stmts, cfg) // Pass the config explicitly
+        val diags = runAnalyzer(stmts, cfg)
         assertEquals(1, diags.size)
         assertEquals(
             "println must take only a literal or identifier",
@@ -133,7 +119,6 @@ class AnalyzerTest {
             )
         val stmts = listOf(PrintStatement(expr, Position(0, 0)))
 
-        // version 1.0.2 should honor restrictPrintlnArgs=false
         val diags = runAnalyzer(stmts, cfg)
         assertTrue(diags.isEmpty())
     }
@@ -205,7 +190,6 @@ class AnalyzerTest {
 
     @Test
     fun `default analyzer applies 1_0_0 settings via factory`() {
-        // By default, for version 1.0.x, restrictPrintlnArgs = true
         val expr =
             BinaryExpression(
                 lit(1),
@@ -214,7 +198,7 @@ class AnalyzerTest {
                 Position(0, 0),
             )
         val stmts = listOf(PrintStatement(expr, Position(0, 0)))
-        val analyzer = AnalyzerFactory.createWithVersion(Version.VERSION_1_0)
+        val analyzer = createAnalyzer(Version.VERSION_1_0)
         val diags = analyzer.analyze(CompleteProgram(parser, Program(stmts)))
 
         assertEquals(1, diags.size)
@@ -226,7 +210,6 @@ class AnalyzerTest {
 
     @Test
     fun `yaml config loader honors settings`() {
-        // Create a .yml config that disables println restriction and sets snake_case
         val yamlText =
             """
             identifierStyle: SNAKE_CASE
@@ -238,7 +221,6 @@ class AnalyzerTest {
                 deleteOnExit()
             }
 
-        // my_var is valid snake_case and println with complex expr allowed
         val expr = BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2), Position(0, 0))
         val stmts =
             listOf(
@@ -252,12 +234,8 @@ class AnalyzerTest {
                 PrintStatement(expr, Position(0, 0)),
             )
 
-        // use the factory to load the YAML config
         val analyzer =
-            AnalyzerFactory.createWithVersion(
-                Version.VERSION_1_0,
-                tempConfig.absolutePath,
-            )
+            createAnalyzer(Version.VERSION_1_0, loadAnalyzerConfig(tempConfig.absolutePath))
         val diags = analyzer.analyze(CompleteProgram(parser, Program(stmts)))
         assertTrue(diags.isEmpty())
     }

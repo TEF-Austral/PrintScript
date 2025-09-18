@@ -16,7 +16,7 @@ class CLITest {
     fun `CLI FORMATTING Test`() {
         val srcPath = "src/test/resources/cliFormattingTest.txt"
         val expectedPath = "src/test/resources/cliFormattingResult.txt"
-        val formatterConfigPath = "src/test/resources/FormattingConfiguration.json"
+        val formatterConfigPath = "src/test/resources/configuration/FormattingConfiguration.json"
 
         val cmdCli = CLI()
         val actualResult =
@@ -37,7 +37,7 @@ class CLITest {
     fun `CLI ANALYZER Test`() {
         val srcPath = "src/test/resources/cliAnalyzerTest"
         val expectedPath = "src/test/resources/cliAnalyzerResult.txt"
-        val analyzerConfigPath = "src/test/resources/AnalyzerConfiguration.json"
+        val analyzerConfigPath = "src/test/resources/configuration/AnalyzerConfiguration.json"
 
         val cmdCli = CLI()
         val actualResult =
@@ -55,8 +55,8 @@ class CLITest {
     fun `CLI VALIDATION Test`() {
         val srcPath = "src/test/resources/cliAnalyzerTest"
         val expectedPath = "src/test/resources/cliValidationResult"
-        val formatterConfigPath = "src/test/resources/FormattingConfiguration.json"
-        val analyzerConfigPath = "src/test/resources/AnalyzerConfiguration.json"
+        val formatterConfigPath = "src/test/resources/configuration/FormattingConfiguration.json"
+        val analyzerConfigPath = "src/test/resources/configuration/AnalyzerConfiguration.json"
 
         val cmdCli = CLI()
         val actualResult =
@@ -79,7 +79,7 @@ class CLITest {
         val srcPath = "src/test/resources/cliExecutionTest"
 
         val cmdCli = CLI()
-        val actualResult = cmdCli.handleExecution(srcPath)
+        val actualResult = cmdCli.handleExecution(srcPath, Version.VERSION_1_0)
 
         assertEquals("Program executed successfully", actualResult)
     }
@@ -87,7 +87,7 @@ class CLITest {
     @Test
     fun `Format Command Test`() {
         val srcPath = "src/test/resources/cliFormattingTest.txt"
-        val formatterConfigPath = "src/test/resources/FormattingConfiguration.json"
+        val formatterConfigPath = "src/test/resources/configuration/FormattingConfiguration.json"
         val expectedPath = "src/test/resources/cliFormattingResult.txt"
 
         val outputStream = ByteArrayOutputStream()
@@ -140,7 +140,7 @@ class CLITest {
     @Test
     fun `Analyze Command Test`() {
         val srcPath = "src/test/resources/cliAnalyzerTest"
-        val analyzerConfigPath = "src/test/resources/AnalyzerConfiguration.json"
+        val analyzerConfigPath = "src/test/resources/configuration/AnalyzerConfiguration.json"
         val expectedPath = "src/test/resources/cliAnalyzerResult.txt"
 
         val outputStream = ByteArrayOutputStream()
@@ -189,8 +189,8 @@ class CLITest {
     @Test
     fun `Validate Command Test`() {
         val srcPath = "src/test/resources/cliAnalyzerTest"
-        val analyzerConfigPath = "src/test/resources/AnalyzerConfiguration.json"
-        val formatterConfigPath = "src/test/resources/FormattingConfiguration.json"
+        val analyzerConfigPath = "src/test/resources/configuration/AnalyzerConfiguration.json"
+        val formatterConfigPath = "src/test/resources/configuration/FormattingConfiguration.json"
         val expectedPath = "src/test/resources/cliValidationResult"
 
         val outputStream = ByteArrayOutputStream()
@@ -399,7 +399,7 @@ class CLITest {
         val srcPath = "src/test/resources/test.txt"
 
         val cmdCli = CLI()
-        val actualResult = cmdCli.handleExecution(srcPath)
+        val actualResult = cmdCli.handleExecution(srcPath, Version.VERSION_1_1)
 
         assertEquals("Program executed successfully", actualResult)
     }

@@ -17,22 +17,20 @@ class FormatCommand :
         help = "Path to the source code file",
     ).path(mustExist = true, canBeDir = false, mustBeReadable = true)
 
-    private val transformer = StringToPrintScriptVersion()
-
-    private fun transform(version: String): Version =
-        transformer.transform(version) // TODO SE PUEDE CMABIAR MAS TARDE
-
     private val formatterConfigFilePath by option(
         "-c",
         "--config",
         help = "Path to formatter configuration file",
-    ).path(canBeDir = false)
+    ).path(canBeDir = false, mustBeReadable = true)
 
     private val version by option(
         "-v",
         "--version",
         help = "Version to use (default: 1.0)",
     ).default("1.0")
+
+    private fun transform(version: String): Version =
+        StringToPrintScriptVersion().transform(version)
 
     override fun run() {
         try {

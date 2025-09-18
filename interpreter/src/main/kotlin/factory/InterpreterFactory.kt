@@ -11,7 +11,7 @@ import type.Version
 
 interface InterpreterFactory {
 
-    fun createWithVersion(version: Version): Interpreter
+    fun createInterpreter(version: Version): Interpreter
 
     fun createCustomInterpreter(
         specificExpressionExecutors: List<SpecificExpressionExecutor>,

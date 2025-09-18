@@ -18,11 +18,10 @@ dependencies {
     implementation project(':common')
     implementation project(':ast')
     implementation project(':token')
-    implementation project(":reader")
 }
 
 application {
-    mainClass = 'CMDCLIKt'
+    mainClass = 'MainKt'
 }
 
 
@@ -35,6 +34,7 @@ run {
 
 test {
     useJUnitPlatform()
+    workingDir = project.projectDir
 }
 
 kotlin {

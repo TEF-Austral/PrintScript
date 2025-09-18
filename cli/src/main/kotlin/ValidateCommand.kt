@@ -12,10 +12,6 @@ class ValidateCommand :
         help = "Validate the source code file (analyze + format preview)",
         name = "validate",
     ) {
-    private val transformer = StringToPrintScriptVersion()
-
-    private fun transform(version: String): Version =
-        transformer.transform(version) // TODO SE PUEDE CMABIAR MAS TARDE
 
     private val srcCodePath by argument(
         name = "SOURCE_FILE",
@@ -26,19 +22,22 @@ class ValidateCommand :
         "-ac",
         "--analyzer-config",
         help = "Path to analyzer configuration file",
-    ).path(canBeDir = false)
+    ).path(canBeDir = false, mustBeReadable = true)
 
     private val formatterConfigFilePath by option(
         "-fc",
         "--formatter-config",
         help = "Path to formatter configuration file",
-    ).path(canBeDir = false)
+    ).path(canBeDir = false, mustBeReadable = true)
 
     private val version by option(
         "-v",
         "--version",
         help = "Version to use (default: 1.0)",
     ).default("1.0")
+
+    private fun transform(version: String): Version =
+        StringToPrintScriptVersion().transform(version)
 
     override fun run() {
         try {

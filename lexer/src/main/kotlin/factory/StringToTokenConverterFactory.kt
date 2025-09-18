@@ -20,8 +20,15 @@ import converter.specific.ReadInputToToken
 import converter.specific.StringLiteralToToken
 import converter.specific.StringToTokenConverter
 import converter.specific.StringTypeToToken
+import type.Version
 
-object StringToTokenConverterFactory : ConverterFactory{
+object StringToTokenConverterFactory : ConverterFactory {
+    fun createTokenConverter(version: Version): TokenConverter =
+        when (version) {
+            Version.VERSION_1_0 -> createVersionOne()
+            Version.VERSION_1_1 -> createVersionOne()
+        }
+
     fun createDefaultsTokenConverter(): TokenConverter =
         TokenConverterRegistry(
             listOf(
