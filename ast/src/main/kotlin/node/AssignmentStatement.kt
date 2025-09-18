@@ -16,12 +16,5 @@ class AssignmentStatement(
 
     fun getIdentifierToken(): Token = identifier
 
-    fun getAssignmentToken(): Token? = assignmentOperator
-
     override fun getCoordinates(): Coordinates = coordinates
-
-    override fun toString(): String {
-        val op = assignmentOperator?.getValue() ?: " = "
-        return "${getIdentifier()}$op${getValue()}"
-    }
 }
