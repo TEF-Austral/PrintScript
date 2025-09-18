@@ -1,3 +1,4 @@
+// Archivo: formatter/FormatterImpl.kt
 package formatter
 
 import TokenStream
@@ -9,9 +10,9 @@ import java.io.Writer
 
 class FormatterImpl : Formatter {
 
-    private fun engine() =
+    private fun engine(): FormattingEngine =
         FormattingEngine(
-            rules = DefaultRules.build(),
+            rootRule = DefaultRules.createDefaultRootRule(),
             postProcessors = listOf(DefaultLinePostProcessor()),
         )
 

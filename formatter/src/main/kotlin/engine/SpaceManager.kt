@@ -1,58 +1,68 @@
-package formatter.engine
-
-import Token
 import formatter.config.FormatConfig
+import formatter.util.isAssignment
+import formatter.util.isDelimiterColon
 import type.CommonTypes
 
 class SpaceManager(
     private val config: FormatConfig,
 ) {
-    fun ensureSpaceBetween(
-        out: StringBuilder,
-        previousToken: Token?,
-        current: Token,
-    ) {
-        val prev = previousToken ?: return
 
-        if (isEnforceSingleSpace()) {
-            appendSingleSpaceIfNeeded(out)
-            return
+    fun getSpaceBetween(
+        prevToken: Token?,
+        currentToken: Token,
+        nextToken: Token?,
+    ): String {
+        if (prevToken == null) return ""
+
+        val prevValue = prevToken.getValue().trim()
+        val currValue = currentToken.getValue().trim()
+
+        // Special cases that should NEVER have space
+
+        // Function calls: no space between function name and (
+        if (prevToken.getType() == CommonTypes.IDENTIFIER && currValue == "(") {
+            return ""
+        }
+        if (prevToken.getType() == CommonTypes.PRINT && currValue == "(") {
+            return ""
         }
 
-        val prevTrim = trimmedValue(prev)
-        val curTrim = trimmedValue(current)
+        // No space after opening parenthesis
+        if (prevValue == "(") return ""
 
-        if (!shouldSkipSpace(prevTrim, curTrim, prev, current) && lastCharNotWhitespace(out)) {
-            out.append(' ')
+        // No space before closing parenthesis or semicolon
+        if (currValue == ")" || currValue == ";") return ""
+
+        // Handle colon spacing (already handled by ColonRule)
+        if (isDelimiterColon(prevToken)) {
+            return "" // ColonRule handles its own spacing
         }
+
+        // Handle assignment spacing
+        if (isAssignment(currentToken)) {
+            return when (config.spaceAroundAssignment) {
+                true -> " "
+                false -> ""
+                null -> " " // Default: space before assignment
+            }
+        }
+
+        // Assignment already handled its trailing space
+        if (isAssignment(prevToken)) {
+            return ""
+        }
+
+        // Operators already handle their trailing space
+        if (prevToken.getType() == CommonTypes.OPERATORS) {
+            return ""
+        }
+
+        // For enforceSingleSpace configuration
+        if (config.enforceSingleSpace == true) {
+            return " "
+        }
+
+        // Default: add space between most other tokens
+        return " "
     }
-
-    private fun isEnforceSingleSpace(): Boolean = config.enforceSingleSpace == true
-
-    private fun appendSingleSpaceIfNeeded(out: StringBuilder) {
-        if (out.isNotEmpty() && !out.last().isWhitespace()) {
-            out.append(' ')
-        }
-    }
-
-    private fun trimmedValue(token: Token): String = token.getValue().trim()
-
-    private fun shouldSkipSpace(
-        prevTrim: String,
-        curTrim: String,
-        prev: Token,
-        current: Token,
-    ): Boolean =
-        when {
-            prevTrim == "(" -> true
-            curTrim == ")" -> true
-            curTrim == ";" -> true
-            curTrim == ":" -> true
-            current.getType() == CommonTypes.ASSIGNMENT -> true
-            prev.getType() == CommonTypes.PRINT && curTrim == "(" -> true
-            else -> false
-        }
-
-    private fun lastCharNotWhitespace(out: StringBuilder): Boolean =
-        out.isNotEmpty() && !out.last().isWhitespace()
 }

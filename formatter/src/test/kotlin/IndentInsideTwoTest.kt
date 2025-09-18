@@ -25,6 +25,7 @@ class IndentInsideTwoTest {
         val config =
             FormatConfig(
                 indentSize = 4,
+                ifBraceOnSameLine = true,
             )
 
         val input =

@@ -1,4 +1,4 @@
-package formatter.rules
+package formatter.util
 
 object SpaceUtil {
     fun splitAround(
