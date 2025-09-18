@@ -1,8 +1,9 @@
 import builder.DefaultNodeBuilder
 import config.AnalyzerConfig
+import config.AnalyzerConfigLoader.loadAnalyzerConfig
 import coordinates.Position
 import diagnostic.Diagnostic
-import factory.AnalyzerFactory
+import factory.AnalyzerFactory.createAnalyzer
 import node.BinaryExpression
 import node.LiteralExpression
 import node.PrintStatement
@@ -17,10 +18,9 @@ import parser.result.CompleteProgram
 import type.CommonTypes
 import java.io.File
 import kotlin.test.Test
-import transformer.StringToPrintScriptVersion
 import type.Version
 
-class Analyzer11Tests {
+class AnalyzerOnePointOneTests {
 
     private fun tokenListToStream(list: List<Token>): TokenStream = MockTokenStream(list)
 
@@ -30,14 +30,10 @@ class Analyzer11Tests {
             DefaultNodeBuilder(),
         )
 
-    private val transformer = StringToPrintScriptVersion()
-
-    private fun transform(version: String): Version = transformer.transform(version)
-
     private fun runAnalyzer(
         stmts: List<Statement>,
         config: AnalyzerConfig = AnalyzerConfig(),
-        version: Version = transform("1.1"),
+        version: Version = Version.VERSION_1_1,
     ): List<Diagnostic> {
         val tempConfigFile =
             File.createTempFile("analyzer", ".json").apply {
@@ -52,8 +48,7 @@ class Analyzer11Tests {
                 )
                 deleteOnExit()
             }
-        return AnalyzerFactory
-            .createWithVersion(version, tempConfigFile.absolutePath)
+        return createAnalyzer(version, loadAnalyzerConfig(tempConfigFile.absolutePath))
             .analyze(CompleteProgram(parser, Program(stmts)))
     }
 
@@ -150,7 +145,7 @@ class Analyzer11Tests {
                 ),
             )
         val cfg = AnalyzerConfig(restrictPrintlnArgs = true, restrictReadInputArgs = true)
-        val diags = runAnalyzer(stmts, cfg, version = transform("1.1"))
+        val diags = runAnalyzer(stmts, cfg, version = Version.VERSION_1_1)
         assertEquals(2, diags.size)
         assertEquals("println must take only a literal or identifier", diags[0].message)
         assertEquals("readInput must take only a literal or identifier", diags[1].message)

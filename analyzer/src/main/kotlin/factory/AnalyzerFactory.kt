@@ -3,7 +3,6 @@ package factory
 import Analyzer
 import DefaultAnalyzer
 import config.AnalyzerConfig
-import config.AnalyzerConfigLoader
 import rules.CamelCaseChecker
 import rules.IdentifierStyle
 import rules.SnakeCaseChecker
@@ -16,13 +15,12 @@ import type.Version.VERSION_1_0
 
 object AnalyzerFactory : AnalyzerFactoryInterface {
 
-    override fun createWithVersion(
+    override fun createAnalyzer(
         version: Version,
-        configPath: String?,
+        config: AnalyzerConfig,
     ): Analyzer {
-        val baseConfig = configPath?.let(AnalyzerConfigLoader::load) ?: AnalyzerConfig()
         val styleChecker =
-            when (baseConfig.identifierStyle) {
+            when (config.identifierStyle) {
                 IdentifierStyle.CAMEL_CASE -> CamelCaseChecker()
                 IdentifierStyle.SNAKE_CASE -> SnakeCaseChecker()
                 IdentifierStyle.NO_STYLE -> NoStyleChecker()
@@ -31,11 +29,12 @@ object AnalyzerFactory : AnalyzerFactoryInterface {
         return when (version) {
             VERSION_1_1 ->
                 DefaultAnalyzer(
-                    AnalyzerRuleRegistry.rulesV11(styleChecker, baseConfig.restrictPrintlnArgs),
+                    AnalyzerRuleRegistry.rulesV11(styleChecker, config.restrictPrintlnArgs),
                 )
             VERSION_1_0 ->
                 DefaultAnalyzer(
-                    AnalyzerRuleRegistry.rulesV10(styleChecker, baseConfig.restrictPrintlnArgs),
+                    AnalyzerRuleRegistry.rulesV10(styleChecker, config.restrictPrintlnArgs),
+                    // TODO RARO
                 )
         }
     }

@@ -1,6 +1,6 @@
 import coordinates.Position
 import emitter.Emitter
-import factory.DefaultInterpreterFactory
+import factory.DefaultInterpreterFactory.createWithVersionAndEmitterAndInputProvider
 import input.TerminalInputProvider
 import node.LiteralExpression
 import node.PrintStatement
@@ -35,10 +35,9 @@ class FactoryTest {
 
     @Test
     fun `createWithVersionAndEmitter for version 1_0 should create a working interpreter`() {
-        val factory = DefaultInterpreterFactory()
         val emitter = TestEmitter()
         val interpreter =
-            factory.createWithVersionAndEmitterAndInputProvider(
+            createWithVersionAndEmitterAndInputProvider(
                 Version.VERSION_1_0,
                 emitter,
                 TerminalInputProvider(),
@@ -56,10 +55,9 @@ class FactoryTest {
 
     @Test
     fun `createWithVersionAndEmitter for version 1_1 should create a working interpreter`() {
-        val factory = DefaultInterpreterFactory()
         val emitter = TestEmitter()
         val interpreter =
-            factory.createWithVersionAndEmitterAndInputProvider(
+            createWithVersionAndEmitterAndInputProvider(
                 Version.VERSION_1_1,
                 emitter,
                 TerminalInputProvider(),
