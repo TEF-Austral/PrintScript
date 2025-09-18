@@ -1,40 +1,29 @@
 package formatter.engine
 
+import SpaceManager
 import Token
 import formatter.config.FormatConfig
 
-class FormatterContext(
+data class FormatterContext(
     val config: FormatConfig,
-    val out: StringBuilder,
-    val indentationManager: IndentationManager = IndentationManager(config),
-    val spaceManager: SpaceManager = SpaceManager(config),
+    val indentLevel: Int = 0,
+    val previousToken: Token? = null,
+    val newLineAdded: Boolean = true,
+    val isPrintlnStatement: Boolean = false,
+    val expectingIfBrace: Boolean = false,
+    val colonJustProcessed: Boolean = false,
 ) {
-    var indentLevel: Int = 0
-    var previousToken: Token? = null
-    var expectingIfBrace: Boolean = false
-    var isPrintlnStatement: Boolean = false
-    var newLineAdded: Boolean = true
+    val indentationManager: IndentationManager = IndentationManager(config)
+    val spaceManager: SpaceManager = SpaceManager(config)
 
-    var isEndAfterThisToken: () -> Boolean = { false }
+    fun increaseIndent(): FormatterContext = this.copy(indentLevel = indentLevel + 1)
 
-    fun ensureIndentBeforeNonClosing(next: Token) {
-        newLineAdded =
-            indentationManager.ensureIndentBeforeNonClosing(out, indentLevel, next, newLineAdded)
+    fun decreaseIndent(): FormatterContext {
+        val newIndentLevel = if (indentLevel > 0) indentLevel - 1 else 0
+        return this.copy(indentLevel = newIndentLevel)
     }
 
-    fun addIndentation() {
-        indentationManager.addIndentation(out, indentLevel)
-    }
+    fun withNewLine(): FormatterContext = this.copy(newLineAdded = true)
 
-    fun ensureSpaceBetween(current: Token) {
-        spaceManager.ensureSpaceBetween(out, previousToken, current)
-    }
-
-    fun handleIfBrace() {
-        when (config.ifBraceOnSameLine) {
-            true -> out.append(' ')
-            false -> out.append('\n')
-            null -> if (out.isNotEmpty() && !out.last().isWhitespace()) out.append(' ')
-        }
-    }
+    fun withoutNewLine(): FormatterContext = this.copy(newLineAdded = false)
 }
