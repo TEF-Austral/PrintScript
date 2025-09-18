@@ -27,16 +27,11 @@ class ParenthesesRule : FormattingRule {
         val text =
             when (value) {
                 "(" -> {
-                    // Check if previous token is a function name (like println)
                     val space =
                         when {
                             context.newLineAdded -> ""
-                            // No space between function name and opening parenthesis
-                            context.previousToken?.getType() == CommonTypes.PRINT -> ""
                             context.previousToken?.getType() == CommonTypes.IDENTIFIER -> ""
-                            // But DO add space for other cases when enforceSingleSpace is true
                             context.config.enforceSingleSpace == true -> " "
-                            // Otherwise use normal spacing rules
                             else ->
                                 context.spaceManager.getSpaceBetween(
                                     context.previousToken,
@@ -47,11 +42,10 @@ class ParenthesesRule : FormattingRule {
                     indentation + space + value
                 }
                 ")" -> {
-                    // Handle closing parenthesis
                     val space =
                         when {
                             context.newLineAdded -> ""
-                            context.config.enforceSingleSpace == true -> ""
+                            context.config.enforceSingleSpace == true -> " "
                             else -> ""
                         }
                     indentation + space + value

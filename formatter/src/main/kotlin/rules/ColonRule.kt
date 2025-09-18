@@ -19,32 +19,39 @@ class ColonRule : FormattingRule {
                 ""
             }
 
-        // Handle enforceSingleSpace - it overrides other colon spacing configs
-        val (spaceBefore, spaceAfter) =
-            if (context.config.enforceSingleSpace == true) {
-                // When enforceSingleSpace is true, add space around colons
-                " " to " "
-            } else {
-                // Otherwise use specific colon configuration
-                val before =
-                    when (context.config.spaceBeforeColon) {
-                        true -> " "
-                        false -> ""
-                        null -> "" // Default: NO space before colon
-                    }
-                val after =
-                    when (context.config.spaceAfterColon) {
-                        true -> " "
-                        false -> ""
-                        null -> "" // Default: NO space after colon
-                    }
-                before to after
+        // enforceSingleSpace domina
+        if (context.config.enforceSingleSpace == true) {
+            return Pair(
+                indentation + " : ",
+                context.withoutNewLine().copy(colonJustProcessed = false),
+            )
+        }
+
+        val beforeCfg = context.config.spaceBeforeColon
+        val afterCfg = context.config.spaceAfterColon
+
+        val spaceBefore =
+            when (beforeCfg) {
+                true -> " "
+                false -> ""
+                null -> "" // No forzar nada
             }
 
-        val formattedText = indentation + spaceBefore + ":" + spaceAfter
+        val spaceAfter =
+            when (afterCfg) {
+                true -> " "
+                false -> ""
+                null -> "" // No forzar nada
+            }
 
-        // Set flag to indicate colon was just processed
-        val newContext = context.withoutNewLine().copy(colonJustProcessed = true)
-        return Pair(formattedText, newContext)
+        // Si ambos son null no añadimos ninguno
+        val text =
+            if (beforeCfg == null && afterCfg == null) {
+                indentation + token.getValue()
+            } else {
+                indentation + spaceBefore + token.getValue() + spaceAfter
+            }
+
+        return Pair(text, context.withoutNewLine().copy(colonJustProcessed = false))
     }
 }

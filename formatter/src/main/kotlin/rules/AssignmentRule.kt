@@ -19,17 +19,21 @@ class AssignmentRule : FormattingRule {
                 ""
             }
 
-        // When config is null, preserve original spacing (default to having space)
-        val space =
+        val token =
             when (context.config.spaceAroundAssignment) {
-                true -> " "
-                false -> ""
-                null -> " " // Default: space around assignment
+                true -> " " + token.getValue().replace(" ", "") + " "
+                false -> token.getValue().replace(" ", "")
+                null -> token.getValue()
             }
 
-        val formattedText = indentation + space + "=" + space
+        val tokenEnforcedSingleSpace =
+            when (context.config.enforceSingleSpace) {
+                true -> " " + token.replace(" ", "") + " "
+                false -> token.replace(" ", "")
+                null -> token
+            }
 
-        // Clear colonJustProcessed flag
+        val formattedText = indentation + tokenEnforcedSingleSpace
         return Pair(formattedText, context.withoutNewLine().copy(colonJustProcessed = false))
     }
 }

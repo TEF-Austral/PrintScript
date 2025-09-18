@@ -16,7 +16,6 @@ class SemicolonRule : FormattingRule {
     ): Pair<String, FormatterContext> {
         var formattedText = ";\n"
 
-        // La lógica de println se maneja aquí, al final de la sentencia.
         if (context.isPrintlnStatement) {
             val blankLines = context.config.blankLinesAfterPrintln.coerceIn(0, 3)
             formattedText += "\n".repeat(blankLines)

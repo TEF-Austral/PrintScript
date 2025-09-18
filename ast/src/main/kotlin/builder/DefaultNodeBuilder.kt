@@ -71,20 +71,12 @@ class DefaultNodeBuilder : NodeBuilder {
         condition: Expression,
         consequence: Statement,
         alternative: Statement?,
-        ifHeaderToken: Token?,
-        closeParenToken: Token?,
-        elseTokenRaw: Token?,
-        bracesOnSameLine: Boolean?,
     ): IfStatement =
         IfStatement(
             condition,
             consequence,
             alternative,
             consequence.getCoordinates(),
-            ifHeaderToken,
-            closeParenToken,
-            elseTokenRaw,
-            bracesOnSameLine,
         )
 
     override fun buildReadInputNode(printValue: LiteralExpression): ReadInputExpression =

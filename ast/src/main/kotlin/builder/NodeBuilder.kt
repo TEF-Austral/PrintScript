@@ -49,10 +49,6 @@ sealed interface NodeBuilder {
         condition: Expression,
         consequence: Statement,
         alternative: Statement? = null,
-        ifHeaderToken: Token? = null, // e.g., "if(" or "if ("
-        closeParenToken: Token? = null, // e.g., ") " or ")"
-        elseTokenRaw: Token? = null, // e.g., " else " or "\nelse "
-        bracesOnSameLine: Boolean? = null, // true if original had ") {"
     ): IfStatement
 
     fun buildReadInputNode(printValue: LiteralExpression): ReadInputExpression
