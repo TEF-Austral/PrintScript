@@ -1,7 +1,7 @@
 import converter.TokenConverter
 import factory.StringSplitterFactory
 import factory.StringToTokenConverterFactory
-import formatter.FormatterImpl
+import formatter.DefaultFormatter
 import formatter.config.FormatConfig
 import java.io.StringReader
 import kotlin.test.assertEquals
@@ -36,7 +36,7 @@ class ColonRuleTest {
             """.trimIndent()
 
         val stream = lex(input)
-        val output = FormatterImpl().formatToString(stream, config)
+        val output = DefaultFormatter().formatToString(stream, config)
 
         assertEquals(expected, output)
     }
@@ -59,7 +59,7 @@ class ColonRuleTest {
             """.trimIndent()
 
         val stream = lex(input)
-        val output = FormatterImpl().formatToString(stream, config)
+        val output = DefaultFormatter().formatToString(stream, config)
 
         assertEquals(expected, output)
     }
@@ -82,7 +82,7 @@ class ColonRuleTest {
             """.trimIndent()
 
         val stream = lex(input)
-        val output = FormatterImpl().formatToString(stream, config)
+        val output = DefaultFormatter().formatToString(stream, config)
 
         assertEquals(expected, output)
     }
@@ -106,7 +106,7 @@ class ColonRuleTest {
             """.trimIndent()
 
         val stream = lex(input)
-        val output = FormatterImpl().formatToString(stream, config)
+        val output = DefaultFormatter().formatToString(stream, config)
 
         assertEquals(expected, output)
     }

@@ -1,7 +1,7 @@
 import converter.TokenConverter
 import factory.StringSplitterFactory
 import factory.StringToTokenConverterFactory
-import formatter.FormatterImpl
+import formatter.DefaultFormatter
 import formatter.config.FormatConfig
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -62,7 +62,7 @@ class DeclarationSpacingAfterColonTest {
 
         val stream2 = lex2(input)
         val stream = MockTokenStream(stream2)
-        val output = FormatterImpl().formatToString(stream, config)
+        val output = DefaultFormatter().formatToString(stream, config)
 
         assertEquals(expected, output)
     }

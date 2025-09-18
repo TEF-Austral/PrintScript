@@ -8,8 +8,8 @@ import formatter.engine.FormattingEngine
 import formatter.engine.FormattingEngineInt
 import java.io.Writer
 
-class FormatterImpl(
-    engine: FormattingEngineInt =
+class DefaultFormatter(
+    private val engine: FormattingEngineInt =
         FormattingEngine(
             rootRule = DefaultRules.createDefaultRegistryRule(),
             postProcessors = listOf(DefaultLinePostProcessor()),
