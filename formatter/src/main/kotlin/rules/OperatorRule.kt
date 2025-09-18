@@ -2,13 +2,13 @@ package formatter.rules
 
 import Token
 import formatter.engine.FormatterContext
-import type.CommonTypes
+import formatter.util.isOperator
 
 class OperatorRule : FormattingRule {
     override fun canHandle(
         token: Token,
         context: FormatterContext,
-    ): Boolean = token.getType() == CommonTypes.OPERATORS
+    ): Boolean = isOperator(token)
 
     override fun apply(
         token: Token,

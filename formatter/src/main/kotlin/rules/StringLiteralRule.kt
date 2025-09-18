@@ -13,7 +13,7 @@ class StringLiteralRule(
     override fun canHandle(
         token: Token,
         context: FormatterContext,
-    ): Boolean = token.getType() == CommonTypes.STRING_LITERAL
+    ): Boolean = isStringLiteral(token)
 
     override fun apply(
         token: Token,
@@ -29,4 +29,7 @@ class StringLiteralRule(
 
         return tokenFormatter.format(tempToken, context)
     }
+
+    private fun isStringLiteral(token: Token): Boolean =
+        token.getType() == CommonTypes.STRING_LITERAL
 }

@@ -3,12 +3,13 @@ package formatter.rules
 
 import Token
 import formatter.engine.FormatterContext
+import formatter.util.isDelimiterCloseBrace
 
 class CloseBraceRule : FormattingRule {
     override fun canHandle(
         token: Token,
         context: FormatterContext,
-    ): Boolean = token.getValue().trim() == "}"
+    ): Boolean = isDelimiterCloseBrace(token)
 
     override fun apply(
         token: Token,

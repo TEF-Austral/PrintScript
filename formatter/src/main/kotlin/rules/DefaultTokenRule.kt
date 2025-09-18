@@ -3,6 +3,7 @@ import formatter.rules.FormattingRule
 import type.CommonTypes
 
 class DefaultTokenRule : FormattingRule {
+
     override fun canHandle(
         token: Token,
         context: FormatterContext,
@@ -12,30 +13,57 @@ class DefaultTokenRule : FormattingRule {
         token: Token,
         context: FormatterContext,
     ): Pair<String, FormatterContext> {
-        val indentation =
-            if (context.newLineAdded) {
-                context.indentationManager.getIndentation(context.indentLevel)
-            } else {
-                ""
-            }
-
-        val space =
-            when {
-                context.newLineAdded -> ""
-                context.colonJustProcessed -> ""
-
-                token.getValue().trim() == "(" &&
-                    context.previousToken?.getType() == CommonTypes.IDENTIFIER -> ""
-
-                context.config.enforceSingleSpace == true -> {
-                    if (token.getValue().trim() in listOf(")", ";", "(")) "" else " "
-                }
-                else -> context.spaceManager.getSpaceBetween(context.previousToken, token, null)
-            }
-
-        val formattedText = indentation + space + token.getValue()
-
-        val newContext = context.withoutNewLine().copy(colonJustProcessed = false)
-        return Pair(formattedText, newContext)
+        val indentation = indentationIfNewLine(context)
+        val space = computeSpace(token, context)
+        val formatted = formatToken(indentation, space, token)
+        val updatedContext = resetNewLineAndColonFlags(context)
+        return Pair(formatted, updatedContext)
     }
+
+    private fun indentationIfNewLine(context: FormatterContext): String =
+        if (context.newLineAdded) {
+            context.indentationManager.getIndentation(
+                context.indentLevel,
+            )
+        } else {
+            ""
+        }
+
+    private fun computeSpace(
+        token: Token,
+        context: FormatterContext,
+    ): String {
+        if (shouldSkipSpaceBecauseOfNewLine(context)) return ""
+        if (shouldSkipSpaceBecauseOfColon(context)) return ""
+        val valueTrim = token.getValue().trim()
+        if (isFunctionCallOpenParen(valueTrim, context)) return ""
+        if (shouldEnforceSingleSpace(context)) return enforcedSingleSpace(valueTrim)
+        return context.spaceManager.getSpaceBetween(context.previousToken, token, null)
+    }
+
+    private fun shouldSkipSpaceBecauseOfNewLine(context: FormatterContext): Boolean =
+        context.newLineAdded
+
+    private fun shouldSkipSpaceBecauseOfColon(context: FormatterContext): Boolean =
+        context.colonJustProcessed
+
+    private fun isFunctionCallOpenParen(
+        valueTrim: String,
+        context: FormatterContext,
+    ): Boolean = valueTrim == "(" && context.previousToken?.getType() == CommonTypes.IDENTIFIER
+
+    private fun shouldEnforceSingleSpace(context: FormatterContext): Boolean =
+        context.config.enforceSingleSpace == true
+
+    private fun enforcedSingleSpace(valueTrim: String): String =
+        if (valueTrim in listOf(")", ";", "(")) "" else " "
+
+    private fun formatToken(
+        indentation: String,
+        space: String,
+        token: Token,
+    ): String = indentation + space + token.getValue()
+
+    private fun resetNewLineAndColonFlags(context: FormatterContext): FormatterContext =
+        context.withoutNewLine().copy(colonJustProcessed = false)
 }

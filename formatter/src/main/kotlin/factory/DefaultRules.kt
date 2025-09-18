@@ -1,7 +1,7 @@
 package formatter.factory
 
 import AssignmentRule
-import ColonRule
+import formatter.rules.ColonRule
 import DefaultTokenRule
 import FormattingRuleRegistry
 import ParenthesesRule

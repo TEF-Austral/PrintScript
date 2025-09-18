@@ -3,7 +3,7 @@ package formatter.rules
 import Token
 import formatter.engine.FormatterContext
 import formatter.rules.token.TokenFormatter
-import type.CommonTypes
+import formatter.util.isPrintln
 
 class PrintlnRule(
     private val tokenFormatter: TokenFormatter,
@@ -12,9 +12,7 @@ class PrintlnRule(
     override fun canHandle(
         token: Token,
         context: FormatterContext,
-    ): Boolean =
-        token.getType() == CommonTypes.PRINT &&
-            token.getValue().contains("println")
+    ): Boolean = isPrintln(token)
 
     override fun apply(
         token: Token,

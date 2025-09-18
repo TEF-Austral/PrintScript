@@ -2,12 +2,13 @@ package formatter.rules
 
 import Token
 import formatter.engine.FormatterContext
+import formatter.util.isDelimiterOpenBrace
 
 class OpenBraceRule : FormattingRule {
     override fun canHandle(
         token: Token,
         context: FormatterContext,
-    ): Boolean = token.getValue().trim() == "{"
+    ): Boolean = isDelimiterOpenBrace(token)
 
     override fun apply(
         token: Token,

@@ -12,28 +12,47 @@ class AssignmentRule : FormattingRule {
         token: Token,
         context: FormatterContext,
     ): Pair<String, FormatterContext> {
-        val indentation =
-            if (context.newLineAdded) {
-                context.indentationManager.getIndentation(context.indentLevel)
-            } else {
-                ""
-            }
-
-        val token =
-            when (context.config.spaceAroundAssignment) {
-                true -> " " + token.getValue().replace(" ", "") + " "
-                false -> token.getValue().replace(" ", "")
-                null -> token.getValue()
-            }
-
-        val tokenEnforcedSingleSpace =
-            when (context.config.enforceSingleSpace) {
-                true -> " " + token.replace(" ", "") + " "
-                false -> token.replace(" ", "")
-                null -> token
-            }
-
-        val formattedText = indentation + tokenEnforcedSingleSpace
-        return Pair(formattedText, context.withoutNewLine().copy(colonJustProcessed = false))
+        val indentation = getIndentation(context)
+        val formattedToken = formatToken(token, context)
+        val formattedText = indentation + formattedToken
+        return Pair(formattedText, updateContext(context))
     }
+
+    private fun getIndentation(context: FormatterContext): String =
+        if (context.newLineAdded) {
+            context.indentationManager.getIndentation(context.indentLevel)
+        } else {
+            ""
+        }
+
+    private fun formatToken(
+        token: Token,
+        context: FormatterContext,
+    ): String {
+        val tokenValue = formatSpaceAroundAssignment(token, context)
+        return enforceSingleSpace(tokenValue, context)
+    }
+
+    private fun formatSpaceAroundAssignment(
+        token: Token,
+        context: FormatterContext,
+    ): String =
+        when (context.config.spaceAroundAssignment) {
+            true -> " " + token.getValue().replace(" ", "") + " "
+            false -> token.getValue().replace(" ", "")
+            null -> token.getValue()
+        }
+
+    private fun enforceSingleSpace(
+        token: String,
+        context: FormatterContext,
+    ): String =
+        when (context.config.enforceSingleSpace) {
+            true -> " " + token.replace(" ", "") + " "
+            false -> token.replace(" ", "")
+            null -> token
+        }
+
+    private fun updateContext(context: FormatterContext): FormatterContext =
+        context.withoutNewLine().copy(colonJustProcessed = false)
 }

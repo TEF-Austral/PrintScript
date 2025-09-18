@@ -1,5 +1,7 @@
+package formatter.rules
+
+import Token
 import formatter.engine.FormatterContext
-import formatter.rules.FormattingRule
 import formatter.util.isDelimiterColon
 
 class ColonRule : FormattingRule {
@@ -12,44 +14,45 @@ class ColonRule : FormattingRule {
         token: Token,
         context: FormatterContext,
     ): Pair<String, FormatterContext> {
-        val indentation =
-            if (context.newLineAdded) {
-                context.indentationManager.getIndentation(context.indentLevel)
-            } else {
-                ""
-            }
+        val indentation = getIndentation(context)
+        val text = formatColonText(token, context, indentation)
+        val updatedContext = context.withoutNewLine().copy(colonJustProcessed = false)
+        return Pair(text, updatedContext)
+    }
 
-        if (context.config.enforceSingleSpace == true) {
-            return Pair(
-                indentation + " : ",
-                context.withoutNewLine().copy(colonJustProcessed = false),
-            )
+    private fun getIndentation(context: FormatterContext): String =
+        if (context.newLineAdded) {
+            context.indentationManager.getIndentation(context.indentLevel)
+        } else {
+            ""
         }
 
+    private fun formatColonText(
+        token: Token,
+        context: FormatterContext,
+        indentation: String,
+    ): String =
+        if (context.config.enforceSingleSpace == true) {
+            "$indentation : "
+        } else {
+            formatWithSpaces(token, context, indentation)
+        }
+
+    private fun formatWithSpaces(
+        token: Token,
+        context: FormatterContext,
+        indentation: String,
+    ): String {
         val beforeCfg = context.config.spaceBeforeColon
         val afterCfg = context.config.spaceAfterColon
-
-        val spaceBefore =
-            when (beforeCfg) {
-                true -> " "
-                false -> ""
-                null -> ""
-            }
-
-        val spaceAfter =
-            when (afterCfg) {
-                true -> " "
-                false -> ""
-                null -> ""
-            }
-
-        val text =
-            if (beforeCfg == null && afterCfg == null) {
-                indentation + token.getValue()
-            } else {
-                indentation + spaceBefore + token.getValue() + spaceAfter
-            }
-
-        return Pair(text, context.withoutNewLine().copy(colonJustProcessed = false))
+        val spaceBefore = getSpace(beforeCfg)
+        val spaceAfter = getSpace(afterCfg)
+        return if (beforeCfg == null && afterCfg == null) {
+            indentation + token.getValue()
+        } else {
+            indentation + spaceBefore + token.getValue() + spaceAfter
+        }
     }
+
+    private fun getSpace(cfg: Boolean?): String = if (cfg == true) " " else ""
 }

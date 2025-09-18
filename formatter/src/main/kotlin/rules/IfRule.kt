@@ -3,7 +3,7 @@ package formatter.rules
 import Token
 import formatter.engine.FormatterContext
 import formatter.rules.token.TokenFormatter
-import type.CommonTypes
+import formatter.util.isConditionIf
 
 class IfRule(
     private val tokenFormatter: TokenFormatter,
@@ -12,9 +12,7 @@ class IfRule(
     override fun canHandle(
         token: Token,
         context: FormatterContext,
-    ): Boolean =
-        token.getType() == CommonTypes.CONDITIONALS &&
-            token.getValue().trim() == "if"
+    ): Boolean = isConditionIf(token)
 
     override fun apply(
         token: Token,
