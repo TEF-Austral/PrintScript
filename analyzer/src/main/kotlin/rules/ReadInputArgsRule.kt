@@ -3,79 +3,69 @@ package rules
 import diagnostic.Diagnostic
 import node.Program
 import node.Statement
-import node.Expression
 import node.DeclarationStatement
 import node.AssignmentStatement
 import node.PrintStatement
 import node.ExpressionStatement
 import node.IfStatement
 import node.ReadInputExpression
-import node.BinaryExpression
-import node.IdentifierExpression
-import node.LiteralExpression
-import node.ReadEnvExpression
-import node.EmptyExpression
+import scanner.ExpressionChecks
+import scanner.forEachExpression
 
 class ReadInputArgsRule : Rule {
+    override fun canHandle(summary: ProgramSummary): Boolean = summary.hasReadInput
+
+    override fun canHandle(program: Program): Boolean =
+        program.getStatements().any { stmt ->
+            when (stmt) {
+                is DeclarationStatement ->
+                    stmt.getInitialValue()?.let { ExpressionChecks.containsReadInput(it) }
+                        ?: false
+                is AssignmentStatement -> ExpressionChecks.containsReadInput(stmt.getValue())
+                is PrintStatement -> ExpressionChecks.containsReadInput(stmt.getExpression())
+                is ExpressionStatement -> ExpressionChecks.containsReadInput(stmt.getExpression())
+                is IfStatement ->
+                    ExpressionChecks.containsReadInput(stmt.getCondition()) ||
+                        stmt.getConsequence().let { containsReadInputInStatement(it) } ||
+                        stmt.getAlternative()?.let { containsReadInputInStatement(it) } ?: false
+                else -> false
+            }
+        }
+
+    private fun containsReadInputInStatement(stmt: Statement): Boolean =
+        when (stmt) {
+            is DeclarationStatement ->
+                stmt.getInitialValue()?.let { ExpressionChecks.containsReadInput(it) }
+                    ?: false
+            is AssignmentStatement -> ExpressionChecks.containsReadInput(stmt.getValue())
+            is PrintStatement -> ExpressionChecks.containsReadInput(stmt.getExpression())
+            is ExpressionStatement -> ExpressionChecks.containsReadInput(stmt.getExpression())
+            is IfStatement ->
+                ExpressionChecks.containsReadInput(stmt.getCondition()) ||
+                    containsReadInputInStatement(stmt.getConsequence()) ||
+                    stmt.getAlternative()?.let { containsReadInputInStatement(it) } ?: false
+            else -> false
+        }
+
     override fun apply(program: Program): List<Diagnostic> {
         val diags = mutableListOf<Diagnostic>()
-        program.getStatements().forEach { stmt ->
-            traverseStatement(stmt, diags)
-        }
-        return diags
-    }
 
-    private fun traverseStatement(
-        stmt: Statement,
-        diags: MutableList<Diagnostic>,
-    ) {
-        when (stmt) {
-            is DeclarationStatement -> stmt.getInitialValue()?.let { traverseExpression(it, diags) }
-            is AssignmentStatement -> traverseExpression(stmt.getValue(), diags)
-            is PrintStatement -> traverseExpression(stmt.getExpression(), diags)
-            is ExpressionStatement -> traverseExpression(stmt.getExpression(), diags)
-            is IfStatement -> {
-                traverseExpression(stmt.getCondition(), diags)
-                traverseStatement(stmt.getConsequence(), diags)
-                stmt.getAlternative()?.let { traverseStatement(it, diags) }
-            }
-            else ->
-                error(
-                    "Unhandled Expression type: ${stmt::class.simpleName} at ${stmt.getCoordinates()}",
-                )
-        }
-    }
-
-    private fun traverseExpression(
-        expr: Expression,
-        diags: MutableList<Diagnostic>,
-    ) {
-        when (expr) {
-            is ReadInputExpression -> {
-                val arg = expr.printValue()
-                if (!isIdentifier(arg) && !isLiteral(arg)) {
-                    diags +=
-                        Diagnostic(
-                            "readInput must take only a literal or identifier",
-                            expr.getCoordinates(),
-                        )
+        for (stmt in program.getStatements()) {
+            stmt.forEachExpression { expr ->
+                if (expr is ReadInputExpression) {
+                    val arg = expr.printValue()
+                    if (!isIdentifier(arg) && !isLiteral(arg)) {
+                        diags +=
+                            Diagnostic(
+                                "readInput must take only a literal or identifier",
+                                expr.getCoordinates(),
+                            )
+                    }
                 }
             }
-            is BinaryExpression -> {
-                traverseExpression(expr.getLeft(), diags)
-                traverseExpression(expr.getRight(), diags)
-            }
-            // skip leaves
-            is IdentifierExpression,
-            is LiteralExpression,
-            is ReadEnvExpression,
-            is EmptyExpression,
-            -> {}
-            else ->
-                error(
-                    "Unhandled Expression type: ${expr::class.simpleName} at ${expr.getCoordinates()}",
-                )
         }
+
+        return diags
     }
 
     private fun isIdentifier(s: String): Boolean = Regex("^[a-zA-Z_][A-Za-z0-9_]*\$").matches(s)

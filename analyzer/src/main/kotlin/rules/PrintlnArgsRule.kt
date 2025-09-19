@@ -7,6 +7,11 @@ import node.PrintStatement
 import node.Program
 
 class PrintlnArgsRule : Rule {
+    override fun canHandle(summary: ProgramSummary): Boolean = summary.hasPrintStatement
+
+    override fun canHandle(program: Program): Boolean =
+        program.getStatements().any { it is PrintStatement }
+
     override fun apply(program: Program): List<Diagnostic> {
         val diags = mutableListOf<Diagnostic>()
         program.getStatements().forEach { stmt ->

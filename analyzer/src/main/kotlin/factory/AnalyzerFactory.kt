@@ -3,11 +3,11 @@ package factory
 import Analyzer
 import DefaultAnalyzer
 import config.AnalyzerConfig
-import rules.CamelCaseChecker
+import checkers.CamelCaseChecker
 import rules.IdentifierStyle
-import rules.SnakeCaseChecker
+import checkers.SnakeCaseChecker
 import rules.AnalyzerRuleRegistry
-import rules.NoStyleChecker
+import checkers.NoStyleChecker
 import rules.Rule
 import type.Version
 import type.Version.VERSION_1_1
@@ -29,12 +29,19 @@ object AnalyzerFactory : AnalyzerFactoryInterface {
         return when (version) {
             VERSION_1_1 ->
                 DefaultAnalyzer(
-                    AnalyzerRuleRegistry.rulesV11(styleChecker, config.restrictPrintlnArgs),
+                    AnalyzerRuleRegistry.rulesV11(
+                        styleChecker,
+                        config.restrictPrintlnArgs,
+                        config.restrictReadInputArgs,
+                    ),
                 )
             VERSION_1_0 ->
                 DefaultAnalyzer(
-                    AnalyzerRuleRegistry.rulesV10(styleChecker, config.restrictPrintlnArgs),
-                    // TODO RARO
+                    AnalyzerRuleRegistry.rulesV10(
+                        styleChecker,
+                        config.restrictPrintlnArgs,
+                        config.restrictReadInputArgs,
+                    ),
                 )
         }
     }

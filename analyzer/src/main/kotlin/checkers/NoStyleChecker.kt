@@ -1,4 +1,6 @@
-package rules
+package checkers
+
+import checkers.NameChecker
 
 class NoStyleChecker(
     override val pattern: Regex = Regex(".*"),
