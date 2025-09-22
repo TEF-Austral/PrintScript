@@ -20,12 +20,7 @@ class PrintlnRule(
     ): Pair<String, FormatterContext> {
         val (formattedText, intermediateContext) = tokenFormatter.format(token, context)
 
-        val finalText =
-            when (intermediateContext.config.enforceSingleSpace) {
-                true -> formattedText.trimEnd() + " "
-                false -> formattedText.replace(" ", "")
-                else -> formattedText
-            }
+        val finalText = formattedText
 
         val newContext = intermediateContext.copy(isPrintlnStatement = true)
         return Pair(finalText, newContext)

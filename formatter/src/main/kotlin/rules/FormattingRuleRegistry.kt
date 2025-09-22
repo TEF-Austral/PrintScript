@@ -1,5 +1,6 @@
 import formatter.rules.FormattingRule
 import formatter.engine.FormatterContext
+import formatter.rules.SingleSpaceEnforcer
 
 class FormattingRuleRegistry(
     private val rules: List<FormattingRule>,
@@ -15,7 +16,9 @@ class FormattingRuleRegistry(
         context: FormatterContext,
     ): Pair<String, FormatterContext> {
         val rule = findApplicableRule(token, context)
-        return rule?.apply(token, context) ?: Pair(token.getValue(), context)
+        val (rawText, nextCtx) = rule?.apply(token, context) ?: Pair(token.getValue(), context)
+        val enforcedText = SingleSpaceEnforcer.enforce(token, context, rawText)
+        return Pair(enforcedText, nextCtx)
     }
 
     private fun findApplicableRule(

@@ -3,6 +3,8 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="18">
       <module name="PrintScript.printscript.buildSrc.main" target="21" />
+      <module name="printScript.printscript.buildSrc.main~1" target="22" />
+      <module name="printScript.printscript.buildSrc.test~1" target="22" />
     </bytecodeTargetLevel>
   </component>
 </project>

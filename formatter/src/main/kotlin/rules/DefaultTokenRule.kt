@@ -37,7 +37,6 @@ class DefaultTokenRule : FormattingRule {
         if (shouldSkipSpaceBecauseOfColon(context)) return ""
         val valueTrim = token.getValue().trim()
         if (isFunctionCallOpenParen(valueTrim, context)) return ""
-        if (shouldEnforceSingleSpace(context)) return enforcedSingleSpace(valueTrim)
         return context.spaceManager.getSpaceBetween(context.previousToken, token, null)
     }
 
@@ -51,12 +50,6 @@ class DefaultTokenRule : FormattingRule {
         valueTrim: String,
         context: FormatterContext,
     ): Boolean = valueTrim == "(" && context.previousToken?.getType() == CommonTypes.IDENTIFIER
-
-    private fun shouldEnforceSingleSpace(context: FormatterContext): Boolean =
-        context.config.enforceSingleSpace == true
-
-    private fun enforcedSingleSpace(valueTrim: String): String =
-        if (valueTrim in listOf(")", ";", "(")) "" else " "
 
     private fun formatToken(
         indentation: String,
