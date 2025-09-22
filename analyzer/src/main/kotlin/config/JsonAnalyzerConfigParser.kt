@@ -1,6 +1,6 @@
 package config
 
-import rules.IdentifierStyle
+import checkers.IdentifierStyle
 
 class JsonAnalyzerConfigParser {
     fun parse(text: String): AnalyzerConfig {

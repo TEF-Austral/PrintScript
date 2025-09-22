@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import parser.factory.VOnePointOneParserFactory
 import parser.result.CompleteProgram
-import rules.IdentifierStyle
+import checkers.IdentifierStyle
 import java.io.File
 import type.Version
 
@@ -86,11 +86,11 @@ class AnalyzerTest {
                     Position(0, 0),
                 ),
             )
-        val diags = runAnalyzer(stmts)
-        assertEquals(1, diags.size)
+        val diagnostics = runAnalyzer(stmts)
+        assertEquals(1, diagnostics.size)
         assertEquals(
             "Identifier 'My_var' does not match CAMEL_CASE",
-            diags[0].message,
+            diagnostics[0].message,
         )
     }
 
@@ -99,11 +99,11 @@ class AnalyzerTest {
         val cfg = AnalyzerConfig(restrictPrintlnArgs = true)
         val expr = BinaryExpression(lit(1), tok("+", CommonTypes.OPERATORS), lit(2), Position(0, 0))
         val stmts = listOf(PrintStatement(expr, Position(0, 0)))
-        val diags = runAnalyzer(stmts, cfg)
-        assertEquals(1, diags.size)
+        val diagnostics = runAnalyzer(stmts, cfg)
+        assertEquals(1, diagnostics.size)
         assertEquals(
             "println must take only a literal or identifier",
-            diags[0].message,
+            diagnostics[0].message,
         )
     }
 
@@ -119,8 +119,8 @@ class AnalyzerTest {
             )
         val stmts = listOf(PrintStatement(expr, Position(0, 0)))
 
-        val diags = runAnalyzer(stmts, cfg)
-        assertTrue(diags.isEmpty())
+        val diagnostics = runAnalyzer(stmts, cfg)
+        assertTrue(diagnostics.isEmpty())
     }
 
     @Test
@@ -136,11 +136,11 @@ class AnalyzerTest {
                     Position(0, 0),
                 ),
             )
-        val diags = runAnalyzer(stmts, cfg)
-        assertEquals(1, diags.size)
+        val diagnostics = runAnalyzer(stmts, cfg)
+        assertEquals(1, diagnostics.size)
         assertEquals(
             "Identifier 'myVar' does not match SNAKE_CASE",
-            diags[0].message,
+            diagnostics[0].message,
         )
     }
 
@@ -162,15 +162,15 @@ class AnalyzerTest {
             )
         val assign = AssignmentStatement(tok("AnotherVar"), lit(2), Position(0, 0))
         val stmts = listOf(decl, assign)
-        val diags = runAnalyzer(stmts)
-        assertEquals(2, diags.size)
+        val diagnostics = runAnalyzer(stmts)
+        assertEquals(2, diagnostics.size)
         assertEquals(
             "Identifier 'my_var' does not match CAMEL_CASE",
-            diags[0].message,
+            diagnostics[0].message,
         )
         assertEquals(
             "Identifier 'AnotherVar' does not match CAMEL_CASE",
-            diags[1].message,
+            diagnostics[1].message,
         )
     }
 
@@ -199,12 +199,12 @@ class AnalyzerTest {
             )
         val stmts = listOf(PrintStatement(expr, Position(0, 0)))
         val analyzer = createAnalyzer(Version.VERSION_1_0)
-        val diags = analyzer.analyze(CompleteProgram(parser, Program(stmts)))
+        val diagnostics = analyzer.analyze(CompleteProgram(parser, Program(stmts)))
 
-        assertEquals(1, diags.size)
+        assertEquals(1, diagnostics.size)
         assertEquals(
             "println must take only a literal or identifier",
-            diags[0].message,
+            diagnostics[0].message,
         )
     }
 
@@ -236,8 +236,8 @@ class AnalyzerTest {
 
         val analyzer =
             createAnalyzer(Version.VERSION_1_0, loadAnalyzerConfig(tempConfig.absolutePath))
-        val diags = analyzer.analyze(CompleteProgram(parser, Program(stmts)))
-        assertTrue(diags.isEmpty())
+        val diagnostics = analyzer.analyze(CompleteProgram(parser, Program(stmts)))
+        assertTrue(diagnostics.isEmpty())
     }
 
     @Test
@@ -257,14 +257,14 @@ class AnalyzerTest {
                     Position(0, 0),
                 ),
             )
-        val diags = runAnalyzer(stmts)
+        val diagnostics = runAnalyzer(stmts)
 
-        assertEquals(2, diags.size)
+        assertEquals(2, diagnostics.size)
 
-        assertEquals("Identifier 'My_var' does not match CAMEL_CASE", diags[0].message)
-        assertEquals(Position(1, 5), diags[0].position)
+        assertEquals("Identifier 'My_var' does not match CAMEL_CASE", diagnostics[0].message)
+        assertEquals(Position(1, 5), diagnostics[0].position)
 
-        assertEquals("Identifier 'AnotherVar' does not match CAMEL_CASE", diags[1].message)
-        assertEquals(Position(2, 3), diags[1].position)
+        assertEquals("Identifier 'AnotherVar' does not match CAMEL_CASE", diagnostics[1].message)
+        assertEquals(Position(2, 3), diagnostics[1].position)
     }
 }

@@ -1,7 +1,9 @@
 package checkers
 
-interface NameChecker {
+interface PatternChecker {
     val pattern: Regex
 
     fun styleName(): String
+
+    fun getType(): IdentifierStyle
 }

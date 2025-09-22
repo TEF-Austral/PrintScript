@@ -1,9 +1,9 @@
 package checkers
 
-import checkers.NameChecker
-
 class NoStyleChecker(
     override val pattern: Regex = Regex(".*"),
-) : NameChecker {
+) : PatternChecker {
     override fun styleName(): String = "No Style"
+
+    override fun getType(): IdentifierStyle = IdentifierStyle.NO_STYLE
 }

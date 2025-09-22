@@ -2,8 +2,8 @@ package factory
 
 import Analyzer
 import config.AnalyzerConfig
-import rules.IdentifierStyle
-import rules.Rule
+import checkers.IdentifierStyle
+import rules.RuleEnforcer
 import type.Version
 
 interface AnalyzerFactoryInterface {
@@ -13,5 +13,5 @@ interface AnalyzerFactoryInterface {
         config: AnalyzerConfig = AnalyzerConfig(IdentifierStyle.SNAKE_CASE, true),
     ): Analyzer
 
-    fun createCustom(rules: List<Rule>): Analyzer
+    fun createCustom(rules: RuleEnforcer): Analyzer
 }
