@@ -34,7 +34,7 @@ class BraceSameLineTest {
             {
               println("Entered if");
             }
-            """.trimIndent()
+            """
 
         val expected =
             """

@@ -24,7 +24,7 @@ class SpaceManager(
             return ""
         }
 
-        if (prevValue == "(") return ""
+        if (prevValue == "(") return if (config.enforceSingleSpace == true) " " else ""
 
         if (currValue == ")" || currValue == ";") return ""
 

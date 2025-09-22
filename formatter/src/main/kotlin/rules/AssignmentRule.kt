@@ -28,10 +28,7 @@ class AssignmentRule : FormattingRule {
     private fun formatToken(
         token: Token,
         context: FormatterContext,
-    ): String {
-        val tokenValue = formatSpaceAroundAssignment(token, context)
-        return enforceSingleSpace(tokenValue, context)
-    }
+    ): String = formatSpaceAroundAssignment(token, context)
 
     private fun formatSpaceAroundAssignment(
         token: Token,
@@ -41,16 +38,6 @@ class AssignmentRule : FormattingRule {
             true -> " " + token.getValue().replace(" ", "") + " "
             false -> token.getValue().replace(" ", "")
             null -> token.getValue()
-        }
-
-    private fun enforceSingleSpace(
-        token: String,
-        context: FormatterContext,
-    ): String =
-        when (context.config.enforceSingleSpace) {
-            true -> " " + token.replace(" ", "") + " "
-            false -> token.replace(" ", "")
-            null -> token
         }
 
     private fun updateContext(context: FormatterContext): FormatterContext =

@@ -45,7 +45,6 @@ class ParenthesesRule : FormattingRule {
         when {
             context.newLineAdded -> ""
             context.previousToken?.getType() == CommonTypes.IDENTIFIER -> ""
-            context.config.enforceSingleSpace == true -> " "
             else ->
                 context.spaceManager.getSpaceBetween(
                     context.previousToken,
@@ -57,7 +56,6 @@ class ParenthesesRule : FormattingRule {
     private fun getSpaceBeforeClose(context: FormatterContext): String =
         when {
             context.newLineAdded -> ""
-            context.config.enforceSingleSpace == true -> " "
             else -> ""
         }
 }

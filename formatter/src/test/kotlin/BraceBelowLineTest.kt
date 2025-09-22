@@ -50,7 +50,7 @@ class BraceBelowLineTest {
             if (something) {
               println("Entered if");
             }
-            """.trimIndent()
+            """
 
         val expected =
             """

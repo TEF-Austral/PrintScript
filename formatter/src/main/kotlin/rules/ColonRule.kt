@@ -31,12 +31,7 @@ class ColonRule : FormattingRule {
         token: Token,
         context: FormatterContext,
         indentation: String,
-    ): String =
-        if (context.config.enforceSingleSpace == true) {
-            "$indentation : "
-        } else {
-            formatWithSpaces(token, context, indentation)
-        }
+    ): String = formatWithSpaces(token, context, indentation)
 
     private fun formatWithSpaces(
         token: Token,
