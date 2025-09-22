@@ -1,61 +1,32 @@
 package rules
 
+import config.AnalyzerConfig
 import diagnostic.Diagnostic
-import coordinates.Coordinates
-import node.AssignmentStatement
-import node.BinaryExpression
-import node.DeclarationStatement
-import node.Expression
-import node.ExpressionStatement
-import node.IdentifierExpression
-import node.PrintStatement
 import node.Program
+import rules.identifiers.CamelCaseRule
+import rules.identifiers.NoStyleRule
+import rules.identifiers.SnakeCaseRule
 
 class IdentifierStyleRule(
-    private val checker: NameChecker,
+    private val config: AnalyzerConfig,
 ) : Rule {
+    private val styleRules =
+        listOf(
+            CamelCaseRule(),
+            SnakeCaseRule(),
+            NoStyleRule(),
+        )
+
+    override fun canHandle(config: AnalyzerConfig): Boolean =
+        styleRules.any { it.canHandle(config) }
+
     override fun apply(program: Program): List<Diagnostic> {
-        val diags = mutableListOf<Diagnostic>()
-        program.getStatements().forEach { stmt ->
-            when (stmt) {
-                is DeclarationStatement -> {
-                    check(stmt.getIdentifier(), stmt.getIdentifierToken().getCoordinates(), diags)
-                    stmt.getInitialValue()?.visit(diags)
-                }
-                is AssignmentStatement -> {
-                    check(stmt.getIdentifier(), stmt.getIdentifierToken().getCoordinates(), diags)
-                    stmt.getValue().visit(diags)
-                }
-                is PrintStatement -> stmt.getExpression().visit(diags)
-                is ExpressionStatement -> stmt.getExpression().visit(diags)
-                else -> {}
+        val diagnostics = mutableListOf<Diagnostic>()
+        styleRules.forEach { rule ->
+            if (rule.canHandle(config)) {
+                diagnostics.addAll(rule.apply(program))
             }
         }
-        return diags
-    }
-
-    private fun check(
-        name: String,
-        coordinates: Coordinates,
-        diags: MutableList<Diagnostic>,
-    ) {
-        if (!checker.pattern.matches(name)) {
-            diags +=
-                Diagnostic(
-                    "Identifier '$name' does not match ${checker.styleName()}",
-                    coordinates,
-                )
-        }
-    }
-
-    private fun Expression.visit(diags: MutableList<Diagnostic>) {
-        when (this) {
-            is IdentifierExpression -> check(getValue(), getToken().getCoordinates(), diags)
-            is BinaryExpression -> {
-                getLeft().visit(diags)
-                getRight().visit(diags)
-            }
-            else -> {}
-        }
+        return diagnostics
     }
 }

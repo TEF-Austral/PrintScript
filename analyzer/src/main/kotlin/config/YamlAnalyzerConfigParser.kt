@@ -1,6 +1,6 @@
 package config
 
-import rules.IdentifierStyle
+import checkers.IdentifierStyle
 import kotlin.text.get
 
 class YamlAnalyzerConfigParser {

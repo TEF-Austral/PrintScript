@@ -82,10 +82,10 @@ class AnalyzerOnePointOneTests {
                 ),
             )
         val cfg = AnalyzerConfig(restrictPrintlnArgs = true, restrictReadInputArgs = true)
-        val diags = runAnalyzer(stmts, cfg)
-        assertEquals(2, diags.size)
-        assertEquals("println must take only a literal or identifier", diags[0].message)
-        assertEquals("readInput must take only a literal or identifier", diags[1].message)
+        val diagnostics = runAnalyzer(stmts, cfg)
+        assertEquals(2, diagnostics.size)
+        assertEquals("println must take only a literal or identifier", diagnostics[0].message)
+        assertEquals("readInput must take only a literal or identifier", diagnostics[1].message)
     }
 
     @Test
@@ -107,9 +107,9 @@ class AnalyzerOnePointOneTests {
                     Position(1, 0),
                 ),
             )
-        val diags = runAnalyzer(stmts, cfg)
-        assertEquals(1, diags.size)
-        assertEquals("readInput must take only a literal or identifier", diags[0].message)
+        val diagnostics = runAnalyzer(stmts, cfg)
+        assertEquals(1, diagnostics.size)
+        assertEquals("readInput must take only a literal or identifier", diagnostics[0].message)
     }
 
     @Test
@@ -145,9 +145,9 @@ class AnalyzerOnePointOneTests {
                 ),
             )
         val cfg = AnalyzerConfig(restrictPrintlnArgs = true, restrictReadInputArgs = true)
-        val diags = runAnalyzer(stmts, cfg, version = Version.VERSION_1_1)
-        assertEquals(2, diags.size)
-        assertEquals("println must take only a literal or identifier", diags[0].message)
-        assertEquals("readInput must take only a literal or identifier", diags[1].message)
+        val diagnostics = runAnalyzer(stmts, cfg, version = Version.VERSION_1_1)
+        assertEquals(2, diagnostics.size)
+        assertEquals("println must take only a literal or identifier", diagnostics[0].message)
+        assertEquals("readInput must take only a literal or identifier", diagnostics[1].message)
     }
 }

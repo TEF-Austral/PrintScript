@@ -1,6 +1,6 @@
 package config
 
-import rules.IdentifierStyle
+import checkers.IdentifierStyle
 
 data class AnalyzerConfig(
     val identifierStyle: IdentifierStyle = IdentifierStyle.NO_STYLE,

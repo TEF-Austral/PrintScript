@@ -1,7 +1,9 @@
-package rules
+package checkers
 
 class NoStyleChecker(
     override val pattern: Regex = Regex(".*"),
-) : NameChecker {
+) : PatternChecker {
     override fun styleName(): String = "No Style"
+
+    override fun getType(): IdentifierStyle = IdentifierStyle.NO_STYLE
 }

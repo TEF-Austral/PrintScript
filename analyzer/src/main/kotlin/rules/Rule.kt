@@ -1,8 +1,7 @@
 package rules
 
-import node.Program
-import diagnostic.Diagnostic
+import config.AnalyzerConfig
 
-interface Rule {
-    fun apply(program: Program): List<Diagnostic>
+interface Rule : RuleEnforcer {
+    fun canHandle(config: AnalyzerConfig): Boolean
 }

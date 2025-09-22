@@ -1,9 +1,9 @@
 import diagnostic.Diagnostic
 import parser.result.FinalResult
-import rules.Rule
+import rules.RuleEnforcer
 
 class DefaultAnalyzer(
-    private val rules: List<Rule>,
+    private val rules: RuleEnforcer,
 ) : Analyzer {
     override fun analyze(result: FinalResult): List<Diagnostic> {
         if (!result.isSuccess()) {
@@ -14,6 +14,6 @@ class DefaultAnalyzer(
                 ),
             )
         }
-        return rules.flatMap { it.apply(result.getProgram()) }
+        return rules.apply(result.getProgram())
     }
 }

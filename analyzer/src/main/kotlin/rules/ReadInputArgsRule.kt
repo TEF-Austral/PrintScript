@@ -1,5 +1,6 @@
 package rules
 
+import config.AnalyzerConfig
 import diagnostic.Diagnostic
 import node.Program
 import node.Statement
@@ -11,74 +12,65 @@ import node.ExpressionStatement
 import node.IfStatement
 import node.ReadInputExpression
 import node.BinaryExpression
-import node.IdentifierExpression
-import node.LiteralExpression
-import node.ReadEnvExpression
-import node.EmptyExpression
 
 class ReadInputArgsRule : Rule {
+    override fun canHandle(config: AnalyzerConfig): Boolean = config.restrictReadInputArgs
+
     override fun apply(program: Program): List<Diagnostic> {
-        val diags = mutableListOf<Diagnostic>()
+        val diagnostics = mutableListOf<Diagnostic>()
         program.getStatements().forEach { stmt ->
-            traverseStatement(stmt, diags)
+            diagnostics += traverseStatement(stmt)
         }
-        return diags
+        return diagnostics
     }
 
-    private fun traverseStatement(
-        stmt: Statement,
-        diags: MutableList<Diagnostic>,
-    ) {
+    private fun traverseStatement(stmt: Statement): List<Diagnostic> {
+        val diagnostics = mutableListOf<Diagnostic>()
         when (stmt) {
-            is DeclarationStatement -> stmt.getInitialValue()?.let { traverseExpression(it, diags) }
-            is AssignmentStatement -> traverseExpression(stmt.getValue(), diags)
-            is PrintStatement -> traverseExpression(stmt.getExpression(), diags)
-            is ExpressionStatement -> traverseExpression(stmt.getExpression(), diags)
-            is IfStatement -> {
-                traverseExpression(stmt.getCondition(), diags)
-                traverseStatement(stmt.getConsequence(), diags)
-                stmt.getAlternative()?.let { traverseStatement(it, diags) }
-            }
+            is DeclarationStatement ->
+                stmt.getInitialValue()?.let {
+                    diagnostics +=
+                        traverseExpression(it)
+                }
+            is AssignmentStatement -> diagnostics += traverseExpression(stmt.getValue())
+            is PrintStatement -> diagnostics += traverseExpression(stmt.getExpression())
+            is ExpressionStatement -> diagnostics += traverseExpression(stmt.getExpression())
+            is IfStatement -> diagnostics += handleIfStatement(stmt)
             else ->
                 error(
                     "Unhandled Expression type: ${stmt::class.simpleName} at ${stmt.getCoordinates()}",
                 )
         }
+        return diagnostics
     }
 
-    private fun traverseExpression(
-        expr: Expression,
-        diags: MutableList<Diagnostic>,
-    ) {
-        when (expr) {
-            is ReadInputExpression -> {
-                val arg = expr.printValue()
-                if (!isIdentifier(arg) && !isLiteral(arg)) {
-                    diags +=
-                        Diagnostic(
-                            "readInput must take only a literal or identifier",
-                            expr.getCoordinates(),
-                        )
-                }
+    private fun handleIfStatement(stmt: IfStatement): List<Diagnostic> {
+        val diagnostics = mutableListOf<Diagnostic>()
+        diagnostics += traverseExpression(stmt.getCondition())
+        diagnostics += traverseStatement(stmt.getConsequence())
+        stmt.getAlternative()?.let { diagnostics += traverseStatement(it) }
+        return diagnostics
+    }
+
+    private fun traverseExpression(expr: Expression): List<Diagnostic> {
+        val diagnostics = mutableListOf<Diagnostic>()
+        if (expr is ReadInputExpression) {
+            val arg = expr.printValue()
+            if (!isIdentifier(arg) && !isLiteral(arg)) {
+                diagnostics +=
+                    Diagnostic(
+                        "readInput must take only a literal or identifier",
+                        expr.getCoordinates(),
+                    )
             }
-            is BinaryExpression -> {
-                traverseExpression(expr.getLeft(), diags)
-                traverseExpression(expr.getRight(), diags)
-            }
-            // skip leaves
-            is IdentifierExpression,
-            is LiteralExpression,
-            is ReadEnvExpression,
-            is EmptyExpression,
-            -> {}
-            else ->
-                error(
-                    "Unhandled Expression type: ${expr::class.simpleName} at ${expr.getCoordinates()}",
-                )
+        } else if (expr is BinaryExpression) {
+            diagnostics += traverseExpression(expr.getLeft())
+            diagnostics += traverseExpression(expr.getRight())
         }
+        return diagnostics
     }
 
-    private fun isIdentifier(s: String): Boolean = Regex("^[a-zA-Z_][A-Za-z0-9_]*\$").matches(s)
+    private fun isIdentifier(s: String): Boolean = Regex("^[a-zA-Z_][A-Za-z0-9_]*$").matches(s)
 
     private fun isLiteral(s: String): Boolean =
         isStringLiteral(s) || isBooleanLiteral(s) || isNumberLiteral(s)
