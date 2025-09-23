@@ -1,4 +1,3 @@
-// DefaultTokenFormatter.kt
 package formatter.rules.token
 
 import Token

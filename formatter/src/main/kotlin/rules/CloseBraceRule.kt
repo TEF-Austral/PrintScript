@@ -1,4 +1,3 @@
-// Archivo: formatter/rules/CloseBraceRule.kt (Corregido)
 package formatter.rules
 
 import Token
