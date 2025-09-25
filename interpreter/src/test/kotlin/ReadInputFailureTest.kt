@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.PrintStream
 import node.DeclarationStatement
+import node.LiteralExpression
 import node.Program
 import node.ReadInputExpression
 import org.junit.jupiter.api.AfterEach
@@ -62,7 +63,15 @@ class ReadInputFailureTest {
                                 ),
                             initialValue =
                                 ReadInputExpression(
-                                    printValue = "Enter age: ",
+                                    printValue =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.STRING_LITERAL,
+                                                "Enter age: ",
+                                                Position(1, 19),
+                                            ),
+                                            Position(1, 19),
+                                        ),
                                     coordinates = Position(1, 19),
                                 ),
                             Position(1, 1),
@@ -108,7 +117,15 @@ class ReadInputFailureTest {
                                 ),
                             initialValue =
                                 ReadInputExpression(
-                                    printValue = "Is member? ",
+                                    printValue =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.STRING_LITERAL,
+                                                "Is member? ",
+                                                Position(1, 25),
+                                            ),
+                                            Position(1, 25),
+                                        ),
                                     coordinates = Position(1, 25),
                                 ),
                             Position(1, 1),

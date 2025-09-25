@@ -961,8 +961,8 @@ class ParserTest {
         val stmt = program.getStatements()[0] as ExpressionStatement
         assertEquals(1, stmt.getCoordinates().getRow())
         assertEquals(11, stmt.getCoordinates().getColumn())
-        val value = (stmt.getExpression() as ReadInputExpression).printValue()
-        assertEquals("\"Enter your name\"", value)
+        val value = (stmt.getExpression() as ReadInputExpression).printValue() as LiteralExpression
+        assertEquals("\"Enter your name\"", value.getValue())
     }
 
     @Test
@@ -1027,5 +1027,41 @@ class ParserTest {
         assertEquals("x", printExpr.getValue())
     }
 
-    // NUEVOS TEST
+    @Test
+    fun `readInput with identifier`() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.READ_INPUT, "readInput", Position(1, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 10)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "msg", Position(1, 11)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 14)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 15)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
+        val result = parser.parse()
+
+        assertTrue(result.isSuccess())
+    }
+
+    @Test
+    fun `readInput with complex expression`() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.READ_INPUT, "readInput", Position(1, 1)),
+                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 10)),
+                PrintScriptToken(CommonTypes.STRING_LITERAL, "\"a\"", Position(1, 11)),
+                PrintScriptToken(CommonTypes.OPERATORS, "+", Position(1, 14)),
+                PrintScriptToken(CommonTypes.STRING_LITERAL, "\"b\"", Position(1, 16)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 19)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 20)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
+        val result = parser.parse()
+
+        assertTrue(result.isSuccess())
+    }
 }

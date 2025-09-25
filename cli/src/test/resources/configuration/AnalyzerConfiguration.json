@@ -1,4 +1,4 @@
 {
   "identifierStyle": "SNAKE_CASE",
-  "restrictPrintlnArgs": false
+  "restrictPrintlnArgs": false,
 }
