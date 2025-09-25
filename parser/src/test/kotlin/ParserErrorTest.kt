@@ -720,44 +720,4 @@ class ParserErrorTest {
         assertFalse(result.isSuccess())
         assertEquals("Only a literal expression can be inside of readEnv", result.message())
     }
-
-    @Test
-    fun `readInput with identifier fails`() {
-        val tokens =
-            listOf(
-                PrintScriptToken(CommonTypes.READ_INPUT, "readInput", Position(1, 1)),
-                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 10)),
-                PrintScriptToken(CommonTypes.IDENTIFIER, "msg", Position(1, 11)),
-                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 14)),
-                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 15)),
-            )
-
-        val nodeBuilder = DefaultNodeBuilder()
-        val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
-        val result = parser.parse()
-
-        assertFalse(result.isSuccess())
-        assertEquals("Only a literal expression can be inside of readInput", result.message())
-    }
-
-    @Test
-    fun `readInput with complex expression fails`() {
-        val tokens =
-            listOf(
-                PrintScriptToken(CommonTypes.READ_INPUT, "readInput", Position(1, 1)),
-                PrintScriptToken(CommonTypes.DELIMITERS, "(", Position(1, 10)),
-                PrintScriptToken(CommonTypes.STRING_LITERAL, "\"a\"", Position(1, 11)),
-                PrintScriptToken(CommonTypes.OPERATORS, "+", Position(1, 14)),
-                PrintScriptToken(CommonTypes.STRING_LITERAL, "\"b\"", Position(1, 16)),
-                PrintScriptToken(CommonTypes.DELIMITERS, ")", Position(1, 19)),
-                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 20)),
-            )
-
-        val nodeBuilder = DefaultNodeBuilder()
-        val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
-        val result = parser.parse()
-
-        assertFalse(result.isSuccess())
-        assertEquals("Only a literal expression can be inside of readInput", result.message())
-    }
 }

@@ -1,4 +1,3 @@
-// kotlin
 package builder
 
 import Token
@@ -49,7 +48,7 @@ sealed interface NodeBuilder {
         alternative: Statement? = null,
     ): IfStatement
 
-    fun buildReadInputNode(printValue: LiteralExpression): ReadInputExpression
+    fun buildReadInputNode(printValue: Expression): ReadInputExpression
 
     fun buildReadEnvNode(envName: LiteralExpression): ReadEnvExpression
 }

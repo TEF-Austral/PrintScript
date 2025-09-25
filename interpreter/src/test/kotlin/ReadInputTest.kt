@@ -66,7 +66,15 @@ class ReadInputTest {
                                 ),
                             initialValue =
                                 ReadInputExpression(
-                                    printValue = "Enter name: ",
+                                    printValue =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.STRING_LITERAL,
+                                                "Enter name: ",
+                                                Position(1, 20),
+                                            ),
+                                            Position(1, 20),
+                                        ),
                                     coordinates = Position(1, 20),
                                 ),
                             Position(1, 1),
@@ -125,7 +133,15 @@ class ReadInputTest {
                                 ),
                             initialValue =
                                 ReadInputExpression(
-                                    printValue = "Enter age: ",
+                                    printValue =
+                                        LiteralExpression(
+                                            PrintScriptToken(
+                                                CommonTypes.STRING_LITERAL,
+                                                "Enter age: ",
+                                                Position(1, 19),
+                                            ),
+                                            Position(1, 19),
+                                        ),
                                     coordinates = Position(1, 19),
                                 ),
                             Position(1, 1),

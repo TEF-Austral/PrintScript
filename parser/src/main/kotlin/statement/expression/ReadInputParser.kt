@@ -1,7 +1,6 @@
 package parser.statement.expression
 
 import Token
-import node.LiteralExpression
 import parser.Parser
 import parser.result.ExpressionBuiltResult
 import parser.result.ExpressionResult
@@ -23,13 +22,7 @@ class ReadInputParser : ExpressionBuilder {
             readInput.getParser().getExpressionParser().parseExpression(
                 readInput.getParser(),
             )
-        if (value.getExpression() !is LiteralExpression) {
-            throw Exception("Only a literal expression can be inside of readInput")
-        }
-        val literalExpression = value.getExpression() as LiteralExpression
-        if (literalExpression.getType() != CommonTypes.STRING_LITERAL) {
-            throw Exception("Expected string literal")
-        }
+        val literalExpression = value.getExpression()
         val builtStatement =
             value.getParser().getNodeBuilder().buildReadInputNode(
                 literalExpression,

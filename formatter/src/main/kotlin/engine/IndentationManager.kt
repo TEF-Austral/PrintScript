@@ -1,4 +1,3 @@
-// Archivo: IndentationManager.kt
 package formatter.engine
 
 import formatter.config.FormatConfig
