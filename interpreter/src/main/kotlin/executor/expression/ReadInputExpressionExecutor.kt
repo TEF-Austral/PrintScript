@@ -3,6 +3,7 @@ package executor.expression
 import data.DataBase
 import input.InputProvider
 import node.Expression
+import node.LiteralExpression
 import node.ReadInputExpression
 import result.InterpreterResult
 
@@ -17,7 +18,9 @@ class ReadInputExpressionExecutor(
     ): InterpreterResult {
         val readInputExpression = expression as ReadInputExpression
 
-        val userInput = inputProvider.input(readInputExpression.printValue())
+        val value = readInputExpression.printValue() as LiteralExpression
+
+        val userInput = inputProvider.input(value.getValue())
 
         return userInput
     }

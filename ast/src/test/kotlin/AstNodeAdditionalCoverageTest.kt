@@ -48,7 +48,7 @@ class AstNodeAdditionalCoverageTest {
     fun `read input expression preserves value`() {
         val literal = builder.buildLiteralExpressionNode(strToken)
         val inputExpr = builder.buildReadInputNode(literal)
-        assertEquals("hello", inputExpr.printValue())
+        assertEquals(literal, inputExpr.printValue())
         assertEquals(coords, inputExpr.getCoordinates())
     }
 

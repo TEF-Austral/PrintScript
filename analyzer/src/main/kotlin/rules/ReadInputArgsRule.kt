@@ -12,6 +12,8 @@ import node.ExpressionStatement
 import node.IfStatement
 import node.ReadInputExpression
 import node.BinaryExpression
+import node.IdentifierExpression
+import node.LiteralExpression
 
 class ReadInputArgsRule : Rule {
     override fun canHandle(config: AnalyzerConfig): Boolean = config.restrictReadInputArgs
@@ -56,7 +58,7 @@ class ReadInputArgsRule : Rule {
         val diagnostics = mutableListOf<Diagnostic>()
         if (expr is ReadInputExpression) {
             val arg = expr.printValue()
-            if (!isIdentifier(arg) && !isLiteral(arg)) {
+            if (arg !is IdentifierExpression && arg !is LiteralExpression) {
                 diagnostics +=
                     Diagnostic(
                         "readInput must take only a literal or identifier",
@@ -69,15 +71,4 @@ class ReadInputArgsRule : Rule {
         }
         return diagnostics
     }
-
-    private fun isIdentifier(s: String): Boolean = Regex("^[a-zA-Z_][A-Za-z0-9_]*$").matches(s)
-
-    private fun isLiteral(s: String): Boolean =
-        isStringLiteral(s) || isBooleanLiteral(s) || isNumberLiteral(s)
-
-    private fun isStringLiteral(s: String): Boolean = s.startsWith("\"") && s.endsWith("\"")
-
-    private fun isBooleanLiteral(s: String): Boolean = s == "true" || s == "false"
-
-    private fun isNumberLiteral(s: String): Boolean = s.toDoubleOrNull() != null
 }

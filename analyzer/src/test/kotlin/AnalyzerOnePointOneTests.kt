@@ -11,6 +11,7 @@ import node.Program
 import node.ReadInputExpression
 import node.Statement
 import node.ExpressionStatement
+import node.IdentifierExpression
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import parser.factory.VOnePointOneParserFactory
@@ -77,7 +78,15 @@ class AnalyzerOnePointOneTests {
                     Position(0, 0),
                 ),
                 ExpressionStatement(
-                    ReadInputExpression("1+2", Position(1, 0)),
+                    ReadInputExpression(
+                        BinaryExpression(
+                            lit(1),
+                            tok("+", CommonTypes.OPERATORS),
+                            lit(2),
+                            Position(1, 0),
+                        ),
+                        Position(1, 0),
+                    ),
                     Position(1, 0),
                 ),
             )
@@ -103,7 +112,15 @@ class AnalyzerOnePointOneTests {
                     Position(0, 0),
                 ),
                 ExpressionStatement(
-                    ReadInputExpression("1+2", Position(1, 0)),
+                    ReadInputExpression(
+                        BinaryExpression(
+                            lit(1),
+                            tok("+", CommonTypes.OPERATORS),
+                            lit(2),
+                            Position(1, 0),
+                        ),
+                        Position(1, 0),
+                    ),
                     Position(1, 0),
                 ),
             )
@@ -114,12 +131,17 @@ class AnalyzerOnePointOneTests {
 
     @Test
     fun `1_1_x allows valid println and readInput args`() {
-        // default cfg has restrictPrintlnArgs=true but restrictReadInputArgs=false
         val stmts =
             listOf(
                 PrintStatement(lit(42), Position(0, 0)),
                 ExpressionStatement(
-                    ReadInputExpression("myVar", Position(1, 0)),
+                    ReadInputExpression(
+                        IdentifierExpression(
+                            PrintScriptToken(CommonTypes.IDENTIFIER, "myVar", Position(1, 0)),
+                            Position(1, 0),
+                        ),
+                        Position(1, 0),
+                    ),
                     Position(1, 0),
                 ),
             )
@@ -140,7 +162,15 @@ class AnalyzerOnePointOneTests {
                     Position(0, 0),
                 ),
                 ExpressionStatement(
-                    ReadInputExpression("1+2", Position(1, 0)),
+                    ReadInputExpression(
+                        BinaryExpression(
+                            lit(1),
+                            tok("+", CommonTypes.OPERATORS),
+                            lit(2),
+                            Position(1, 0),
+                        ),
+                        Position(1, 0),
+                    ),
                     Position(1, 0),
                 ),
             )

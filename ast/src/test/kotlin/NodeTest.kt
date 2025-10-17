@@ -358,7 +358,7 @@ class NodeTest {
         val literalExpr = nodeBuilder.buildLiteralExpressionNode(mockToken)
         val readInput = nodeBuilder.buildReadInputNode(literalExpr)
 
-        assertEquals(literalExpr.getValue(), readInput.printValue())
+        assertEquals(literalExpr, readInput.printValue())
     }
 
     @Test

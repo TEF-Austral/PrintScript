@@ -1,4 +1,3 @@
-// kotlin
 package builder
 
 import Token
@@ -75,8 +74,8 @@ class DefaultNodeBuilder : NodeBuilder {
             consequence.getCoordinates(),
         )
 
-    override fun buildReadInputNode(printValue: LiteralExpression): ReadInputExpression =
-        ReadInputExpression(printValue.getValue(), printValue.getCoordinates())
+    override fun buildReadInputNode(printValue: Expression): ReadInputExpression =
+        ReadInputExpression(printValue, printValue.getCoordinates())
 
     override fun buildReadEnvNode(envName: LiteralExpression): ReadEnvExpression =
         ReadEnvExpression(envName.getValue(), envName.getCoordinates())
