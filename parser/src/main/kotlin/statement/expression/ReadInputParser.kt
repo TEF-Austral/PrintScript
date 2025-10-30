@@ -13,10 +13,22 @@ class ReadInputParser : ExpressionBuilder {
         parser: Parser,
         current: Token,
     ): ExpressionResult {
-        if (isSemiColon(parser.advance().advance().peak())) throw Exception("Invalid structure")
+        val token = parser.advance().advance().peak()
+        if (isSemiColon(token)) {
+            val coordinates = token?.getCoordinates()
+            throw Exception(
+                "Invalid structure " +
+                    coordinates?.getRow() + ":" + coordinates?.getColumn(),
+            )
+        }
         val readInput = parser.consume(CommonTypes.READ_INPUT)
         if (!isValidResultAndCurrentToken(readInput)) {
-            throw Exception("Expected readInput")
+            val currentToken = readInput.getParser().peak()
+            val coordinates = currentToken?.getCoordinates()
+            throw Exception(
+                "Expected readInput " +
+                    coordinates?.getRow() + ":" + coordinates?.getColumn(),
+            )
         }
         val value =
             readInput.getParser().getExpressionParser().parseExpression(

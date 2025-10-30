@@ -26,7 +26,12 @@ class DelimitersBuilder : ExpressionBuilder {
             }
 
             if (!isClosingParenthesis(innerExpression.getParser())) {
-                throw Exception("Expected closing parenthesis ')'")
+                val token = innerExpression.getParser().peak()
+                val coordinates = token?.getCoordinates()
+                throw Exception(
+                    "Expected closing parenthesis ')' " +
+                        coordinates?.getRow() + ":" + coordinates?.getColumn(),
+                )
             }
 
             val afterCloseParen = innerExpression.getParser().advance()

@@ -35,8 +35,13 @@ class DefaultParseBinary(
             throw Exception(rightOperand.message())
         }
 
-        if (operator.getType() == parserAfterOperator.peak()?.getType()) {
-            throw Exception("Can't put operators side by side")
+        val possibleOperator = parserAfterOperator.peak()
+        if (operator.getType() == possibleOperator?.getType()) {
+            val coordinates = possibleOperator.getCoordinates()
+            throw Exception(
+                "Can't put operators side by side " +
+                    coordinates.getRow() + ":" + coordinates.getColumn(),
+            )
         }
 
         val processedRight = processRightAssociativity(parserAfterOperator, rightOperand, operator)
@@ -71,7 +76,11 @@ class DefaultParseBinary(
     override fun consumeOperator(parser: Parser): Parser = parser.advance()
 
     override fun parseRightOperand(parser: Parser): ExpressionResult {
-        val currentToken = parser.peak() ?: throw Exception("Exceeded parsing limits")
+        val currentToken = parser.peak()
+        val coordinates = currentToken?.getCoordinates()
+        if (currentToken == null) {
+            throw Exception("Exceeded parsing limits")
+        }
         return tokenToExpression.parse(parser, currentToken)
     }
 

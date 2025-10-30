@@ -39,8 +39,24 @@ class ExpressionStatementBuilder(
     }
 
     override fun parse(parser: Parser): StatementResult {
-        if (isSemiColon(parser.advance().advance().peak())) throw Exception("Invalid structure")
+        val possibleSemiColon = parser.advance().advance().peak()
+        if (isSemiColon(possibleSemiColon)) {
+            val coordinates = possibleSemiColon!!.getCoordinates()
+            throw Exception(
+                "Invalid structure in " +
+                    coordinates.getRow() + ":" + coordinates.getColumn(),
+            )
+        }
         val expression = parser.getExpressionParser().parseExpression(parser)
+        val currentToken = expression.getParser().peak()
+        if (!isSemiColon(currentToken)) {
+            throw Exception(
+                "Expected ';' at the end of expression statement. But found " +
+                    currentToken!!.getValue() + " in " +
+                    currentToken.getCoordinates().getRow() + ":" +
+                    currentToken.getCoordinates().getColumn(),
+            )
+        }
         val delimiterParser = advancePastSemiColon(expression.getParser())
         val builtStatement =
             delimiterParser.getNodeBuilder().buildExpressionStatementNode(

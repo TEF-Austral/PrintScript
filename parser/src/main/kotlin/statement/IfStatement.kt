@@ -19,52 +19,12 @@ class IfStatement : StatementBuilder {
     ): Boolean = checkType(CommonTypes.CONDITIONALS, token) && token?.getValue() == "if"
 
     override fun parse(parser: Parser): StatementResult {
-        val ifKeyword = parser.consume(CommonTypes.CONDITIONALS)
-        if (!ifKeyword.isSuccess()) {
-            throw Exception("Expected 'if' keyword")
-        }
-        val afterIf = ifKeyword.getParser()
-        if (!isOpeningParenthesis(afterIf)) {
-            throw Exception("Expected '(' after 'if'")
-        }
-        val afterOpenParen = afterIf.advance()
-        val conditionResult = afterOpenParen.getExpressionParser().parseExpression(afterOpenParen)
-        if (!conditionResult.isSuccess()) {
-            throw Exception("Expected condition expression: ${conditionResult.message()}")
-        }
-        if (!isClosingParenthesis(conditionResult.getParser())) {
-            throw Exception("Expected ')' after condition")
-        }
-        val afterCloseParen = conditionResult.getParser().advance()
-
+        val afterIf = consumeIfKeyword(parser)
+        val afterOpenParen = consumeOpeningParenthesis(afterIf)
+        val conditionResult = parseCondition(afterOpenParen)
+        val afterCloseParen = consumeClosingParenthesis(conditionResult.getParser())
         val (afterThenStatement, thenStatement) = parseBlockWithBraces(afterCloseParen, "then")
-
-        // --- LÓGICA 'ELSE' MEJORADA Y CORREGIDA ---
-        val (finalParser, elseStatement) =
-            if (afterThenStatement.hasNext() &&
-                checkType(CommonTypes.CONDITIONALS, afterThenStatement.peak()) &&
-                afterThenStatement.peak()?.getValue() == "else"
-            ) {
-                val afterElse = afterThenStatement.advance() // Consume 'else'
-
-                // AHORA ES MÁS INTELIGENTE:
-                // Después del 'else', ¿qué viene? ¿Una llave o algo más?
-                if (isOpeningBrace(afterElse)) {
-                    // Si es una llave, es un bloque 'else { ... }'
-                    // Usamos la función que ya sabe analizar bloques.
-                    parseBlockWithBraces(afterElse, "else")
-                } else {
-                    // Si NO es una llave, es otra cosa (como un 'else if').
-                    // Dejamos que el despachador principal se encargue.
-                    val elseResult = afterElse.getStatementParser().parse(afterElse)
-                    if (!elseResult.isSuccess()) {
-                        throw Exception("Error parsing else statement: ${elseResult.message()}")
-                    }
-                    Pair(elseResult.getParser(), elseResult.getStatement())
-                }
-            } else {
-                Pair(afterThenStatement, null) // No hay 'else'
-            }
+        val (finalParser, elseStatement) = parseElseClause(afterThenStatement)
 
         val ifStatement =
             finalParser.getNodeBuilder().buildIfStatementNode(
@@ -76,26 +36,130 @@ class IfStatement : StatementBuilder {
         return StatementBuiltResult(finalParser, ifStatement)
     }
 
-    // Versión original (limitada a un solo enunciado) que reutilizamos.
+    private fun consumeIfKeyword(parser: Parser): Parser {
+        val ifKeyword = parser.consume(CommonTypes.CONDITIONALS)
+        if (!ifKeyword.isSuccess()) {
+            val coordinates = parser.peak()!!.getCoordinates()
+            throw Exception(
+                "Expected 'if' keyword in " +
+                    coordinates.getRow() + ":" + coordinates.getColumn(),
+            )
+        }
+        return ifKeyword.getParser()
+    }
+
+    private fun consumeOpeningParenthesis(parser: Parser): Parser {
+        if (!isOpeningParenthesis(parser)) {
+            val coordinates = parser.peak()!!.getCoordinates()
+            throw Exception(
+                "Expected '(' after 'if' in " +
+                    coordinates.getRow() + ":" + coordinates.getColumn(),
+            )
+        }
+        return parser.advance()
+    }
+
+    private fun parseCondition(parser: Parser): parser.result.ExpressionResult {
+        val conditionResult = parser.getExpressionParser().parseExpression(parser)
+        if (!conditionResult.isSuccess()) {
+            val coordinates = parser.peak()!!.getCoordinates()
+            throw Exception(
+                "Expected condition expression in " +
+                    coordinates.getRow() + ":" + coordinates.getColumn() +
+                    ": " + conditionResult.message(),
+            )
+        }
+        return conditionResult
+    }
+
+    private fun consumeClosingParenthesis(parser: Parser): Parser {
+        if (!isClosingParenthesis(parser)) {
+            val coordinates = parser.peak()!!.getCoordinates()
+            throw Exception(
+                "Expected ')' after condition in " +
+                    coordinates.getRow() + ":" + coordinates.getColumn(),
+            )
+        }
+        return parser.advance()
+    }
+
+    private fun parseElseClause(parser: Parser): Pair<Parser, Statement?> {
+        if (parser.hasNext() &&
+            checkType(CommonTypes.CONDITIONALS, parser.peak()) &&
+            parser.peak()?.getValue() == "else"
+        ) {
+            val afterElse = parser.advance()
+
+            return if (isOpeningBrace(afterElse)) {
+                parseBlockWithBraces(afterElse, "else")
+            } else {
+                val elseResult = afterElse.getStatementParser().parse(afterElse)
+                if (!elseResult.isSuccess()) {
+                    val coordinates = afterElse.peak()!!.getCoordinates()
+                    throw Exception(
+                        "Error parsing else statement in " +
+                            coordinates.getRow() + ":" + coordinates.getColumn() +
+                            ": " + elseResult.message(),
+                    )
+                }
+                Pair(elseResult.getParser(), elseResult.getStatement())
+            }
+        } else {
+            return Pair(parser, null)
+        }
+    }
+
     private fun parseBlockWithBraces(
         parser: Parser,
         blockType: String,
     ): Pair<Parser, Statement> {
+        val afterOpenBrace = consumeOpeningBrace(parser, blockType)
+        val statementResult = parseBlockStatement(afterOpenBrace, blockType)
+        val afterCloseBrace = consumeClosingBrace(statementResult.getParser(), blockType)
+        return Pair(afterCloseBrace, statementResult.getStatement())
+    }
+
+    private fun consumeOpeningBrace(
+        parser: Parser,
+        blockType: String,
+    ): Parser {
         if (!isOpeningBrace(parser)) {
+            val coordinates = parser.peak()!!.getCoordinates()
             throw Exception(
-                "Expected '{' to start $blockType block but found ${parser.peak()?.getValue()}",
+                "Expected '{' to start $blockType block in " +
+                    coordinates.getRow() + ":" + coordinates.getColumn(),
             )
         }
-        val afterOpenBrace = parser.advance()
-        val statementResult = afterOpenBrace.getStatementParser().parse(afterOpenBrace)
+        return parser.advance()
+    }
+
+    private fun parseBlockStatement(
+        parser: Parser,
+        blockType: String,
+    ): StatementResult {
+        val statementResult = parser.getStatementParser().parse(parser)
         if (!statementResult.isSuccess()) {
-            throw Exception("Error parsing $blockType statement: ${statementResult.message()}")
+            val coordinates = parser.peak()!!.getCoordinates()
+            throw Exception(
+                "Error parsing $blockType statement in " +
+                    coordinates.getRow() + ":" + coordinates.getColumn() +
+                    ": " + statementResult.message(),
+            )
         }
-        val afterStatement = statementResult.getParser()
-        if (!isClosingBrace(afterStatement)) {
-            throw Exception("Expected '}' to close $blockType block")
+        return statementResult
+    }
+
+    private fun consumeClosingBrace(
+        parser: Parser,
+        blockType: String,
+    ): Parser {
+        if (!isClosingBrace(parser)) {
+            val coordinates = parser.peak()!!.getCoordinates()
+            throw Exception(
+                "Expected '}' to close $blockType block in " +
+                    coordinates.getRow() + ":" + coordinates.getColumn(),
+            )
         }
-        val afterCloseBrace = afterStatement.advance()
-        return Pair(afterCloseBrace, statementResult.getStatement())
+        return parser.advance()
     }
 }

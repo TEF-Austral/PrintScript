@@ -20,10 +20,21 @@ class AssignmentParser : StatementBuilder {
     }
 
     override fun parse(parser: Parser): StatementResult {
-        if (isSemiColon(parser.advance().advance().peak())) throw Exception("Invalid structure")
+        val possibleSemiColon = parser.advance().advance().peak()
+        if (isSemiColon(possibleSemiColon)) {
+            val coordinates = possibleSemiColon!!.getCoordinates()
+            throw Exception(
+                "Invalid structure in " +
+                    coordinates.getRow() + ":" + coordinates.getColumn(),
+            )
+        }
         val identifier = parser.consume(CommonTypes.IDENTIFIER)
         if (!isValidResultAndCurrentToken(identifier)) {
-            throw Exception("Expected identifier")
+            val coordinates = parser.peak()!!.getCoordinates()
+            throw Exception(
+                "Expected identifier in " +
+                    coordinates.getRow() + ":" + coordinates.getColumn(),
+            )
         }
         val assigmentParser =
             identifier

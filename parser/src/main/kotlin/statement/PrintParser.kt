@@ -35,20 +35,35 @@ class PrintParser : StatementBuilder {
         if (isOpeningParenthesis(parser)) {
             return parser.consume(CommonTypes.DELIMITERS).getParser()
         }
-        throw Exception("Was expecting opening parenthesis")
+        val token = parser.peak()
+        val coordinates = token?.getCoordinates()
+        throw Exception(
+            "Was expecting opening parenthesis " +
+                coordinates?.getRow() + ":" + coordinates?.getColumn(),
+        )
     }
 
     private fun closingParenthesisConsumption(parser: Parser): Parser {
         if (isClosingParenthesis(parser)) {
             return parser.consume(CommonTypes.DELIMITERS).getParser()
         }
-        throw Exception("Was expecting closing parenthesis")
+        val token = parser.peak()
+        val coordinates = token?.getCoordinates()
+        throw Exception(
+            "Was expecting closing parenthesis " +
+                coordinates?.getRow() + ":" + coordinates?.getColumn(),
+        )
     }
 
     private fun consumeSemiColon(parser: Parser): Parser {
         val nextParser = advancePastSemiColon(parser)
         if (nextParser == parser) {
-            throw Exception("Was expecting a semicolon")
+            val token = parser.peak()
+            val coordinates = token?.getCoordinates()
+            throw Exception(
+                "Was expecting a semicolon " +
+                    coordinates?.getRow() + ":" + coordinates?.getColumn(),
+            )
         }
         return nextParser
     }

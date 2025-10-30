@@ -14,14 +14,31 @@ class ReadEnvParser : ExpressionBuilder {
         parser: Parser,
         current: Token,
     ): ExpressionResult {
-        if (isSemiColon(parser.advance().advance().peak())) throw Exception("Invalid structure")
+        val token = parser.advance().advance().peak()
+        if (isSemiColon(token)) {
+            val coordinates = token?.getCoordinates()
+            throw Exception(
+                "Invalid structure " +
+                    coordinates?.getRow() + ":" + coordinates?.getColumn(),
+            )
+        }
         val readEnv = parser.consume(CommonTypes.READ_ENV)
         if (!isValidResultAndCurrentToken(readEnv)) {
-            throw Exception("Expected readEnv")
+            val currentToken = readEnv.getParser().peak()
+            val coordinates = currentToken?.getCoordinates()
+            throw Exception(
+                "Expected readEnv " +
+                    coordinates?.getRow() + ":" + coordinates?.getColumn(),
+            )
         }
         val value = readEnv.getParser().getExpressionParser().parseExpression(readEnv.getParser())
         if (value.getExpression() !is LiteralExpression) {
-            throw Exception("Only a literal expression can be inside of readEnv")
+            val currentToken = value.getParser().peak()
+            val coordinates = currentToken?.getCoordinates()
+            throw Exception(
+                "Only a literal expression can be inside of readEnv " +
+                    coordinates?.getRow() + ":" + coordinates?.getColumn(),
+            )
         }
         val literalExpression = value.getExpression() as LiteralExpression
         val builtStatement = value.getParser().getNodeBuilder().buildReadEnvNode(literalExpression)

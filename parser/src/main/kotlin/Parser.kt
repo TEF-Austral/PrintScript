@@ -60,9 +60,7 @@ data class Parser(
                 parseStatements(nextParser, accumulatedStatements + newStatement)
             }
 
-            else -> {
-                throw Exception(result.message())
-            }
+            else -> throw Exception(result.message())
         }
     }
 

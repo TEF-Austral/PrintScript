@@ -26,7 +26,10 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Can't be handled currently by the statement parser", result.message())
+        assertEquals(
+            "Couldn't handle, none of the following passed: Expected delimiter at 1:7 Successfully executed: Token consumed: IDENTIFIER Expected const declaration at 1:1  Expected const declaration at 1:1  ",
+            result.message(),
+        )
     }
 
     @Test
@@ -46,7 +49,10 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Can't be handled currently by the statement parser", result.message())
+        assertEquals(
+            "Couldn't handle, none of the following passed: Expected identifier at 1:5 Successfully executed: Token consumed: LET Expected const declaration at 1:1  Expected const declaration at 1:1  ",
+            result.message(),
+        )
     }
 
     @Test
@@ -63,7 +69,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Invalid structure", result.message())
+        assertEquals("Invalid structure in 1:5", result.message())
     }
 
     @Test
@@ -82,7 +88,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Expected closing parenthesis ')'", result.message())
+        assertEquals("Expected closing parenthesis ')' 1:7", result.message())
     }
 
     @Test
@@ -102,7 +108,10 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Can't be handled currently by the statement parser", result.message())
+        assertEquals(
+            "Couldn't handle, none of the following passed: Variable declaration must end in ; at end of file 1:16  Expected const declaration at 1:1  Expected const declaration at 1:1  ",
+            result.message(),
+        )
     }
 
     @Test
@@ -121,7 +130,10 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Can't be handled currently by the statement parser", result.message())
+        assertEquals(
+            "Expected ';' at the end of expression statement. But found ) in 1:6",
+            result.message(),
+        )
     }
 
     @Test
@@ -140,7 +152,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Can't put operators side by side", result.message())
+        assertEquals("Can't put operators side by side 1:5", result.message())
     }
 
     @Test
@@ -157,7 +169,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Invalid structure", result.message())
+        assertEquals("Invalid structure in 1:3", result.message())
     }
 
     @Test
@@ -178,7 +190,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Can't be handled currently by the statement parser", result.message())
+        assertEquals("Invalid structure, can't parse. Found: NUMBER in 1:1", result.message())
     }
 
     @Test
@@ -265,7 +277,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Was expecting a semicolon", result.message())
+        assertEquals("Was expecting a semicolon null:null", result.message())
     }
 
     @Test
@@ -283,7 +295,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Was expecting closing parenthesis", result.message())
+        assertEquals("Was expecting closing parenthesis null:null", result.message())
     }
 
     @Test
@@ -300,7 +312,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Can't be handled currently by the statement parser", result.message())
+        assertEquals("Invalid structure, can't parse. Found: = in 1:1", result.message())
     }
 
     @Test
@@ -317,7 +329,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Invalid structure", result.message())
+        assertEquals("Invalid structure in 1:5", result.message())
     }
 
     @Test
@@ -334,7 +346,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Invalid structure", result.message())
+        assertEquals("Invalid structure in 1:5", result.message())
     }
 
     @Test
@@ -465,7 +477,7 @@ class ParserErrorTest {
         val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
         val result = parser.parse()
         assertFalse(result.isSuccess())
-        assertEquals("Was expecting closing parenthesis", result.message())
+        assertEquals("Was expecting closing parenthesis 1:9", result.message())
     }
 
     @Test
@@ -482,7 +494,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Invalid structure", result.message())
+        assertEquals("Invalid structure in 1:4", result.message())
     }
 
     @Test
@@ -601,7 +613,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Can't be handled currently by the statement parser", result.message())
+        assertEquals("Invalid structure, can't parse. Found: else in 1:1", result.message())
     }
 
     @Test
@@ -697,7 +709,7 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Only a literal expression can be inside of readEnv", result.message())
+        assertEquals("Only a literal expression can be inside of readEnv 1:11", result.message())
     }
 
     @Test
@@ -718,6 +730,6 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Only a literal expression can be inside of readEnv", result.message())
+        assertEquals("Only a literal expression can be inside of readEnv 1:15", result.message())
     }
 }

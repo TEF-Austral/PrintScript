@@ -8,5 +8,4 @@ sealed interface ParserResult {
     fun message(): String
 
     fun getParser(): Parser
-    // fun getPosition(): Position
 }
