@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Necesario para el historial completo
+          fetch-depth: 0 # Necesario para obtener el historial completo de commits
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up JDK 22
