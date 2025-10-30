@@ -84,7 +84,9 @@ class PullErrorParserTest {
         assertFalse(result.isSuccess, "Parsing should fail for an incomplete statement")
         assertTrue(result.node is EmptyExpression, "Node should be EmptyExpression on failure")
 
-        val expectedMessage = "Failed to parse the next node: Was expecting closing parenthesis null:null"
+        val expectedMessage =
+            "Failed to parse the next node: " +
+                "Was expecting closing parenthesis null:null"
         assertEquals(expectedMessage, result.message)
     }
 
