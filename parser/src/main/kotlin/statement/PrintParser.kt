@@ -1,7 +1,9 @@
 package parser.statement
 
 import Token
+import coordinates.Position
 import parser.Parser
+import parser.exception.ParserException
 import parser.result.StatementBuiltResult
 import parser.result.StatementResult
 import parser.utils.advancePastSemiColon
@@ -22,8 +24,10 @@ class PrintParser : StatementBuilder {
             afterOpeningParenthesisParser.getExpressionParser().parseExpression(
                 afterOpeningParenthesisParser,
             )
-        val beforeClosingParenthesisParser = closingParenthesisConsumption(expression.getParser())
-        val finalDelimiterParser = consumeSemiColon(beforeClosingParenthesisParser)
+        val beforeClosingParenthesisParser =
+            closingParenthesisConsumption(expression.getParser(), afterOpeningParenthesisParser)
+        val finalDelimiterParser =
+            consumeSemiColon(beforeClosingParenthesisParser, expression.getParser())
         val builtStatement =
             finalDelimiterParser.getNodeBuilder().buildPrintStatementNode(
                 expression.getExpression(),
@@ -37,32 +41,41 @@ class PrintParser : StatementBuilder {
         }
         val token = parser.peak()
         val coordinates = token?.getCoordinates()
-        throw Exception(
-            "Was expecting opening parenthesis " +
-                coordinates?.getRow() + ":" + coordinates?.getColumn(),
-        )
+        throw ParserException("Was expecting opening parenthesis", coordinates)
     }
 
-    private fun closingParenthesisConsumption(parser: Parser): Parser {
+    private fun closingParenthesisConsumption(
+        parser: Parser,
+        previousParser: Parser,
+    ): Parser {
         if (isClosingParenthesis(parser)) {
             return parser.consume(CommonTypes.DELIMITERS).getParser()
         }
-        val token = parser.peak()
-        val coordinates = token?.getCoordinates()
-        throw Exception(
-            "Was expecting closing parenthesis " +
-                coordinates?.getRow() + ":" + coordinates?.getColumn(),
+        val token = previousParser.peak()
+        val coordinates = token?.getCoordinates()!!
+        throw ParserException(
+            "Was expecting closing parenthesis",
+            Position(
+                coordinates.getRow(),
+                coordinates.getColumn() + 1,
+            ),
         )
     }
 
-    private fun consumeSemiColon(parser: Parser): Parser {
+    private fun consumeSemiColon(
+        parser: Parser,
+        previousParser: Parser,
+    ): Parser {
         val nextParser = advancePastSemiColon(parser)
         if (nextParser == parser) {
-            val token = parser.peak()
-            val coordinates = token?.getCoordinates()
-            throw Exception(
-                "Was expecting a semicolon " +
-                    coordinates?.getRow() + ":" + coordinates?.getColumn(),
+            val token = previousParser.peak()
+            val coordinates = token?.getCoordinates()!!
+            throw ParserException(
+                "Was expecting a semicolon",
+                Position(
+                    coordinates.getRow(),
+                    coordinates.getColumn() + 1,
+                ),
             )
         }
         return nextParser

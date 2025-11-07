@@ -2,6 +2,7 @@ package parser.statement.expression
 
 import Token
 import parser.Parser
+import parser.exception.ParserException
 import parser.result.ExpressionBuiltResult
 import parser.result.ExpressionResult
 import parser.utils.isClosingParenthesis
@@ -28,10 +29,7 @@ class DelimitersBuilder : ExpressionBuilder {
             if (!isClosingParenthesis(innerExpression.getParser())) {
                 val token = innerExpression.getParser().peak()
                 val coordinates = token?.getCoordinates()
-                throw Exception(
-                    "Expected closing parenthesis ')' " +
-                        coordinates?.getRow() + ":" + coordinates?.getColumn(),
-                )
+                throw ParserException("Expected closing parenthesis ')'", coordinates)
             }
 
             val afterCloseParen = innerExpression.getParser().advance()

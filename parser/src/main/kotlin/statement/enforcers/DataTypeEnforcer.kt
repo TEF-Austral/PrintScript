@@ -21,28 +21,14 @@ class DataTypeEnforcer(
             !result.isSuccess()
         ){
             val token = currentParser.peak()
-            if (token == null) {
-                val coordinates = previousParser.peak()!!.getCoordinates()
-                return SemanticError(
-                    "Expected data type at end of file " + coordinates.getRow() + ":" +
-                        coordinates.getColumn() +
-                        " " +
-                        result.message(),
-                    result.identifier(),
-                    result.dataType(),
-                    result.initialValue(),
-                    currentParser,
-                )
-            }
-            val coordinates = token.getCoordinates()
+            val coordinates = previousParser.peak()!!.getCoordinates()
             return SemanticError(
-                "Expected data type at " + coordinates.getRow() + ":" + coordinates.getColumn() +
-                    " " +
-                    result.message(),
+                "Expected data type but found ${token?.getValue()}",
                 result.identifier(),
                 result.dataType(),
                 result.initialValue(),
                 currentParser,
+                coordinates,
             )
         }
         return nextEnforcer.enforce(

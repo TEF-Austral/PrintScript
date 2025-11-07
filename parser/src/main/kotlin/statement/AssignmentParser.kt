@@ -2,6 +2,7 @@ package parser.statement
 
 import Token
 import parser.Parser
+import parser.exception.ParserException
 import parser.result.StatementBuiltResult
 import parser.result.StatementResult
 import parser.utils.advancePastSemiColon
@@ -23,18 +24,12 @@ class AssignmentParser : StatementBuilder {
         val possibleSemiColon = parser.advance().advance().peak()
         if (isSemiColon(possibleSemiColon)) {
             val coordinates = possibleSemiColon!!.getCoordinates()
-            throw Exception(
-                "Invalid structure in " +
-                    coordinates.getRow() + ":" + coordinates.getColumn(),
-            )
+            throw ParserException("Invalid structure", coordinates)
         }
         val identifier = parser.consume(CommonTypes.IDENTIFIER)
         if (!isValidResultAndCurrentToken(identifier)) {
             val coordinates = parser.peak()!!.getCoordinates()
-            throw Exception(
-                "Expected identifier in " +
-                    coordinates.getRow() + ":" + coordinates.getColumn(),
-            )
+            throw ParserException("Expected identifier", coordinates)
         }
         val assigmentParser =
             identifier

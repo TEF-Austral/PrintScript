@@ -2,6 +2,7 @@ package parser.statement.expression
 
 import Token
 import parser.Parser
+import parser.exception.ParserException
 import parser.result.ExpressionBuiltResult
 import parser.result.ExpressionResult
 import parser.utils.isSemiColon
@@ -16,19 +17,13 @@ class ReadInputParser : ExpressionBuilder {
         val token = parser.advance().advance().peak()
         if (isSemiColon(token)) {
             val coordinates = token?.getCoordinates()
-            throw Exception(
-                "Invalid structure " +
-                    coordinates?.getRow() + ":" + coordinates?.getColumn(),
-            )
+            throw ParserException("Invalid structure", coordinates)
         }
         val readInput = parser.consume(CommonTypes.READ_INPUT)
         if (!isValidResultAndCurrentToken(readInput)) {
             val currentToken = readInput.getParser().peak()
             val coordinates = currentToken?.getCoordinates()
-            throw Exception(
-                "Expected readInput " +
-                    coordinates?.getRow() + ":" + coordinates?.getColumn(),
-            )
+            throw ParserException("Expected readInput", coordinates)
         }
         val value =
             readInput.getParser().getExpressionParser().parseExpression(

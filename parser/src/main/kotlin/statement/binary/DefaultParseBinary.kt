@@ -3,6 +3,7 @@ package parser.statement.binary
 import Token
 import node.Expression
 import parser.Parser
+import parser.exception.ParserException
 import parser.statement.expression.TokenToExpression
 import parser.result.ExpressionBuiltResult
 import parser.result.ExpressionResult
@@ -38,10 +39,7 @@ class DefaultParseBinary(
         val possibleOperator = parserAfterOperator.peak()
         if (operator.getType() == possibleOperator?.getType()) {
             val coordinates = possibleOperator.getCoordinates()
-            throw Exception(
-                "Can't put operators side by side " +
-                    coordinates.getRow() + ":" + coordinates.getColumn(),
-            )
+            throw ParserException("Can't put operators side by side", coordinates)
         }
 
         val processedRight = processRightAssociativity(parserAfterOperator, rightOperand, operator)
@@ -77,9 +75,8 @@ class DefaultParseBinary(
 
     override fun parseRightOperand(parser: Parser): ExpressionResult {
         val currentToken = parser.peak()
-        val coordinates = currentToken?.getCoordinates()
         if (currentToken == null) {
-            throw Exception("Exceeded parsing limits")
+            throw ParserException("Exceeded parsing limits", null)
         }
         return tokenToExpression.parse(parser, currentToken)
     }

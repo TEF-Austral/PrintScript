@@ -5,6 +5,7 @@ import TokenStream
 import builder.NodeBuilder
 import node.EmptyExpression
 import node.Statement
+import parser.exception.ParserException
 import parser.result.CompleteProgram
 import parser.result.FailedProgram
 import parser.result.FinalResult
@@ -40,8 +41,8 @@ data class Parser(
         try {
             val statements = parseStatements(this, emptyList())
             CompleteProgram(this, nodeBuilder.buildProgramNode(statements))
-        } catch (e: Exception) {
-            FailedProgram(this, e.message ?: "An unknown error occurred.")
+        } catch (e: ParserException) {
+            FailedProgram(this, e.message ?: "An unknown error occurred.", e.coordinates)
         }
 
     private fun parseStatements(

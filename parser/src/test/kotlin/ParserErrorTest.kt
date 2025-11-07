@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
+import parser.factory.VOnePointZeroParserFactory
 
 import type.CommonTypes
 
@@ -22,14 +23,17 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
+        val parser = VOnePointZeroParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
         assertEquals(
-            "Couldn't handle, none of the following passed: Expected delimiter at 1:7 Successfully executed: Token consumed: IDENTIFIER Expected const declaration at 1:1  Expected const declaration at 1:1  ",
+            "Expected colon but found =",
             result.message(),
         )
+
+        assertEquals(1, result.getCoordinates()?.getRow())
+        assertEquals(7, result.getCoordinates()?.getColumn())
     }
 
     @Test
@@ -45,14 +49,13 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
+        val parser = VOnePointZeroParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals(
-            "Couldn't handle, none of the following passed: Expected identifier at 1:5 Successfully executed: Token consumed: LET Expected const declaration at 1:1  Expected const declaration at 1:1  ",
-            result.message(),
-        )
+        assertEquals("Expected identifier but found :", result.message())
+        assertEquals(1, result.getCoordinates()?.getRow())
+        assertEquals(5, result.getCoordinates()?.getColumn())
     }
 
     @Test
@@ -65,11 +68,13 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
+        val parser = VOnePointZeroParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Invalid structure in 1:5", result.message())
+        assertEquals("Invalid expression structure", result.message())
+        assertEquals(1, result.getCoordinates()?.getRow())
+        assertEquals(5, result.getCoordinates()?.getColumn())
     }
 
     @Test
@@ -84,11 +89,13 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
+        val parser = VOnePointZeroParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Expected closing parenthesis ')' 1:7", result.message())
+        assertEquals("Expected closing parenthesis ')'", result.message())
+        assertEquals(1, result.getCoordinates()?.getRow())
+        assertEquals(7, result.getCoordinates()?.getColumn())
     }
 
     @Test
@@ -104,14 +111,13 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
+        val parser = VOnePointZeroParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals(
-            "Couldn't handle, none of the following passed: Variable declaration must end in ; at end of file 1:16  Expected const declaration at 1:1  Expected const declaration at 1:1  ",
-            result.message(),
-        )
+        assertEquals("Variable declaration must end in ; but found null", result.message())
+        assertEquals(1, result.getCoordinates()?.getRow())
+        assertEquals(16, result.getCoordinates()?.getColumn())
     }
 
     @Test
@@ -126,14 +132,17 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
+        val parser = VOnePointZeroParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
         assertEquals(
-            "Expected ';' at the end of expression statement. But found ) in 1:6",
+            "Expected ';' at the end of expression statement. But found )",
             result.message(),
         )
+
+        assertEquals(1, result.getCoordinates()?.getRow())
+        assertEquals(6, result.getCoordinates()?.getColumn())
     }
 
     @Test
@@ -148,11 +157,13 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
+        val parser = VOnePointZeroParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Can't put operators side by side 1:5", result.message())
+        assertEquals("Can't put operators side by side", result.message())
+        assertEquals(1, result.getCoordinates()?.getRow())
+        assertEquals(5, result.getCoordinates()?.getColumn())
     }
 
     @Test
@@ -165,11 +176,13 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
+        val parser = VOnePointZeroParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Invalid structure in 1:3", result.message())
+        assertEquals("Invalid expression structure", result.message())
+        assertEquals(1, result.getCoordinates()?.getRow())
+        assertEquals(3, result.getCoordinates()?.getColumn())
     }
 
     @Test
@@ -186,11 +199,16 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
+        val parser = VOnePointZeroParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Invalid structure, can't parse. Found: NUMBER in 1:1", result.message())
+        assertEquals(
+            "Couldn't handle statement, statement can't start with NUMBER",
+            result.message(),
+        )
+        assertEquals(1, result.getCoordinates()?.getRow())
+        assertEquals(1, result.getCoordinates()?.getColumn())
     }
 
     @Test
@@ -208,7 +226,7 @@ class ParserErrorTest {
             )
 
         val nodeBuilder = DefaultNodeBuilder()
-        val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
+        val parser = VOnePointZeroParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
@@ -277,7 +295,9 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Was expecting a semicolon null:null", result.message())
+        assertEquals("Was expecting a semicolon", result.message())
+        assertEquals(1, result.getCoordinates()?.getRow())
+        assertEquals(22, result.getCoordinates()?.getColumn())
     }
 
     @Test
@@ -295,7 +315,9 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Was expecting closing parenthesis null:null", result.message())
+        assertEquals("Was expecting closing parenthesis", result.message())
+        assertEquals(1, result.getCoordinates()?.getRow())
+        assertEquals(8, result.getCoordinates()?.getColumn())
     }
 
     @Test
@@ -312,7 +334,9 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Invalid structure, can't parse. Found: = in 1:1", result.message())
+        assertEquals("Couldn't handle statement, statement can't start with =", result.message())
+        assertEquals(1, result.getCoordinates()?.getRow())
+        assertEquals(1, result.getCoordinates()?.getColumn())
     }
 
     @Test
@@ -329,7 +353,9 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Invalid structure in 1:5", result.message())
+        assertEquals("Invalid expression structure", result.message())
+        assertEquals(1, result.getCoordinates()?.getRow())
+        assertEquals(5, result.getCoordinates()?.getColumn())
     }
 
     @Test
@@ -346,7 +372,9 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Invalid structure in 1:5", result.message())
+        assertEquals("Invalid structure", result.message())
+        assertEquals(1, result.getCoordinates()?.getRow())
+        assertEquals(5, result.getCoordinates()?.getColumn())
     }
 
     @Test
@@ -477,7 +505,9 @@ class ParserErrorTest {
         val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
         val result = parser.parse()
         assertFalse(result.isSuccess())
-        assertEquals("Was expecting closing parenthesis 1:9", result.message())
+        assertEquals("Was expecting closing parenthesis", result.message())
+        assertEquals(1, result.getCoordinates()?.getRow())
+        assertEquals(8, result.getCoordinates()?.getColumn())
     }
 
     @Test
@@ -494,7 +524,9 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Invalid structure in 1:4", result.message())
+        assertEquals("Invalid expression structure", result.message())
+        assertEquals(1, result.getCoordinates()?.getRow())
+        assertEquals(4, result.getCoordinates()?.getColumn())
     }
 
     @Test
@@ -613,7 +645,9 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Invalid structure, can't parse. Found: else in 1:1", result.message())
+        assertEquals("Couldn't handle statement, statement can't start with else", result.message())
+        assertEquals(1, result.getCoordinates()?.getRow())
+        assertEquals(1, result.getCoordinates()?.getColumn())
     }
 
     @Test
@@ -709,7 +743,9 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Only a literal expression can be inside of readEnv 1:11", result.message())
+        assertEquals("Only a literal expression can be inside of readEnv", result.message())
+        assertEquals(1, result.getCoordinates()?.getRow())
+        assertEquals(11, result.getCoordinates()?.getColumn())
     }
 
     @Test
@@ -730,6 +766,8 @@ class ParserErrorTest {
         val result = parser.parse()
 
         assertFalse(result.isSuccess())
-        assertEquals("Only a literal expression can be inside of readEnv 1:15", result.message())
+        assertEquals("Only a literal expression can be inside of readEnv", result.message())
+        assertEquals(1, result.getCoordinates()?.getRow())
+        assertEquals(15, result.getCoordinates()?.getColumn())
     }
 }

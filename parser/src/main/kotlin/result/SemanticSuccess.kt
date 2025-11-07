@@ -1,6 +1,7 @@
 package parser.result
 
 import Token
+import coordinates.Coordinates
 import node.Expression
 import parser.Parser
 
@@ -22,4 +23,6 @@ class SemanticSuccess(
     override fun message(): String = message
 
     override fun getParser(): Parser = parser
+
+    override fun getCoordinates(): Coordinates? = null
 }

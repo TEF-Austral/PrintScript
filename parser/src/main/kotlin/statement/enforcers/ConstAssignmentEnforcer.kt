@@ -15,57 +15,25 @@ class ConstAssignmentEnforcer(
         val currentParser = result.getParser()
         if (!result.isSuccess()) {
             val token = currentParser.peak()
-            if (token == null) {
-                val coordinates = previousParser.peak()!!.getCoordinates()
-                return SemanticError(
-                    "Expected Const Assignment Structure at end of file " + coordinates.getRow() +
-                        ":" +
-                        coordinates.getColumn() +
-                        " " +
-                        result.message(),
-                    result.identifier(),
-                    result.dataType(),
-                    result.initialValue(),
-                    currentParser,
-                )
-            }
-            val coordinates = token.getCoordinates()
+            val coordinates = previousParser.peak()!!.getCoordinates()
             return SemanticError(
-                "Expected Const Assignment Structure at " + coordinates.getRow() + ":" +
-                    coordinates.getColumn() +
-                    " " +
-                    result.message(),
+                "Expected Const Assignment Structure but found ${token?.getValue()}",
                 result.identifier(),
                 result.dataType(),
                 result.initialValue(),
                 currentParser,
+                coordinates,
             )
         }
         if (!currentParser.hasNext()) {
-            val token = currentParser.peak()
-            if (token == null) {
-                val coordinates = previousParser.peak()!!.getCoordinates()
-                return SemanticError(
-                    "Expected expression after const assignment at end of file " +
-                        coordinates.getRow() +
-                        ":" +
-                        coordinates.getColumn() +
-                        ", but no more tokens found.",
-                    result.identifier(),
-                    result.dataType(),
-                    result.initialValue(),
-                    currentParser,
-                )
-            }
-            val coordinates = token.getCoordinates()
+            val coordinates = previousParser.peak()!!.getCoordinates()
             return SemanticError(
-                "Expected expression after const assignment at " + coordinates.getRow() + ":" +
-                    coordinates.getColumn() +
-                    ", but no more tokens found.",
+                "Expected expression after const assignment, but no more tokens found",
                 result.identifier(),
                 result.dataType(),
                 result.initialValue(),
                 currentParser,
+                coordinates,
             )
         }
         val parserResult =

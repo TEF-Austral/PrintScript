@@ -13,32 +13,17 @@ class SemiColonEnforcer : SemanticEnforcers {
         result: SemanticResult,
     ): SemanticResult {
         val currentParser = result.getParser()
+        val token = currentParser.peak()
         if (!currentParser.hasNext() || !isSemiColon(currentParser.peak()) || !result.isSuccess()) {
-            val token = currentParser.peak()
-            if (token == null) {
-                val coordinates = previousParser.peak()!!.getCoordinates()
-                return SemanticError(
-                    "Variable declaration must end in ; at end of file " + coordinates.getRow() +
-                        ":" +
-                        coordinates.getColumn() +
-                        " " +
-                        result.message(),
-                    result.identifier(),
-                    result.dataType(),
-                    result.initialValue(),
-                    currentParser,
-                )
-            }
-            val coordinates = token.getCoordinates()
+            val message = "Variable declaration must end in ; but found ${token?.getValue()}"
+            val coordinates = previousParser.peak()!!.getCoordinates()
             return SemanticError(
-                "Variable declaration must end in ; at " + coordinates.getRow() + ":" +
-                    coordinates.getColumn() +
-                    " " +
-                    result.message(),
+                message,
                 result.identifier(),
                 result.dataType(),
                 result.initialValue(),
                 currentParser,
+                coordinates,
             )
         }
         val parserResult = currentParser.consume(CommonTypes.DELIMITERS)

@@ -16,28 +16,14 @@ class IdentifierEnforcer(
         val currentParser = result.getParser()
         if (!currentParser.hasNext() || isIdentifier(currentParser) || !result.isSuccess()) {
             val token = currentParser.peak()
-            if (token == null) {
-                val coordinates = previousParser.peak()!!.getCoordinates()
-                return SemanticError(
-                    "Expected identifier at end of file " + coordinates.getRow() + ":" +
-                        coordinates.getColumn() +
-                        " " +
-                        result.message(),
-                    result.identifier(),
-                    result.dataType(),
-                    result.initialValue(),
-                    currentParser,
-                )
-            }
-            val coordinates = token.getCoordinates()
+            val coordinates = token?.getCoordinates()
             return SemanticError(
-                "Expected identifier at " + coordinates.getRow() + ":" + coordinates.getColumn() +
-                    " " +
-                    result.message(),
+                "Expected identifier but found ${token?.getValue()}",
                 result.identifier(),
                 result.dataType(),
                 result.initialValue(),
                 currentParser,
+                coordinates,
             )
         }
 

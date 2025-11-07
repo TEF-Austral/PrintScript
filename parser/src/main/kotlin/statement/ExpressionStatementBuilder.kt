@@ -2,6 +2,7 @@ package parser.statement
 
 import Token
 import parser.Parser
+import parser.exception.ParserException
 import parser.result.StatementBuiltResult
 import parser.result.StatementResult
 import parser.utils.advancePastSemiColon
@@ -42,19 +43,14 @@ class ExpressionStatementBuilder(
         val possibleSemiColon = parser.advance().advance().peak()
         if (isSemiColon(possibleSemiColon)) {
             val coordinates = possibleSemiColon!!.getCoordinates()
-            throw Exception(
-                "Invalid structure in " +
-                    coordinates.getRow() + ":" + coordinates.getColumn(),
-            )
+            throw ParserException("Invalid expression structure", coordinates)
         }
         val expression = parser.getExpressionParser().parseExpression(parser)
         val currentToken = expression.getParser().peak()
         if (!isSemiColon(currentToken)) {
-            throw Exception(
-                "Expected ';' at the end of expression statement. But found " +
-                    currentToken!!.getValue() + " in " +
-                    currentToken.getCoordinates().getRow() + ":" +
-                    currentToken.getCoordinates().getColumn(),
+            throw ParserException(
+                "Expected ';' at the end of expression statement. But found ${currentToken!!.getValue()}",
+                currentToken.getCoordinates(),
             )
         }
         val delimiterParser = advancePastSemiColon(expression.getParser())
