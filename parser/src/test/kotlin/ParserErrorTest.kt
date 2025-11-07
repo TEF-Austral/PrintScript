@@ -770,4 +770,30 @@ class ParserErrorTest {
         assertEquals(1, result.getCoordinates()?.getRow())
         assertEquals(15, result.getCoordinates()?.getColumn())
     }
+
+    @Test
+    fun testVariableDeclarationMissingAssignmentOperatorStringType() {
+        val tokens =
+            listOf(
+                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
+                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
+                PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 7)),
+                PrintScriptToken(CommonTypes.STRING, "STRING", Position(1, 9)),
+                PrintScriptToken(
+                    CommonTypes.STRING_LITERAL,
+                    "\"hello world\"",
+                    Position(1, 16),
+                ),
+                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 29)),
+            )
+
+        val nodeBuilder = DefaultNodeBuilder()
+        val parser = VOnePointZeroParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
+        val result = parser.parse()
+
+        assertFalse(result.isSuccess())
+        assertEquals("Expected = but found \"hello world\"", result.message())
+        assertEquals(1, result.getCoordinates()?.getRow())
+        assertEquals(9, result.getCoordinates()?.getColumn())
+    }
 }

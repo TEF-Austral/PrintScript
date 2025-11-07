@@ -14,19 +14,17 @@ class LetAssignmentEnforcer(
         result: SemanticResult,
     ): SemanticResult {
         val currentParser = result.getParser()
-        if (!result.isSuccess()) {
+        if (!result.isSuccess() || !currentParser.consume(CommonTypes.ASSIGNMENT).isSuccess()) {
             val token = currentParser.peak()
             val coordinates = previousParser.peak()!!.getCoordinates()
             return SemanticError(
-                "Expected Let Assignment Structure but found ${token?.getValue()}",
+                "Expected = but found ${token?.getValue()}",
                 result.identifier(),
                 result.dataType(),
                 result.initialValue(),
                 currentParser,
                 coordinates,
             )
-        } else if (!currentParser.consume(CommonTypes.ASSIGNMENT).isSuccess()) {
-            return SemiColonEnforcer().enforce(currentParser, result)
         }
         val parserResult =
             currentParser.getExpressionParser().parseExpression(

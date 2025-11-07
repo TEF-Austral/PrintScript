@@ -1,3 +1,4 @@
+import coordinates.Position
 import diagnostic.Diagnostic
 import parser.result.FinalResult
 import rules.RuleEnforcer
@@ -9,8 +10,8 @@ class DefaultAnalyzer(
         if (!result.isSuccess()) {
             return listOf(
                 Diagnostic(
-                    "Parser Error: " + result.message(),
-                    result.getProgram().getCoordinates(),
+                    "Failed to Parse: " + result.message(),
+                    result.getCoordinates() ?: Position(-1, -1),
                 ),
             )
         }

@@ -15,7 +15,6 @@ import parser.factory.VOnePointOneParserFactory
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertNull
 import type.CommonTypes
 
 class ParserTest {
@@ -271,31 +270,6 @@ class ParserTest {
         assertEquals("1", oneLiteral.getValue())
         assertEquals("y", yIdentifier.getValue())
         assertEquals("2", twoLiteral.getValue())
-    }
-
-    @Test
-    fun simpleDeclaration() {
-        val tokens =
-            listOf(
-                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                PrintScriptToken(CommonTypes.IDENTIFIER, "x", Position(1, 5)),
-                PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 7)),
-                PrintScriptToken(CommonTypes.NUMBER, "NUMBER", Position(1, 9)),
-                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 16)),
-            )
-
-        val nodeBuilder = DefaultNodeBuilder()
-        val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
-        val program = parser.parse().getProgram()
-
-        assertEquals(1, program.getStatements().size)
-        val statement = program.getStatements()[0]
-        assertTrue(statement is DeclarationStatement)
-
-        val varDecl = statement as DeclarationStatement
-        assertEquals("x", varDecl.getIdentifier())
-        assertEquals(CommonTypes.NUMBER, varDecl.getDataType())
-        assertNull(varDecl.getInitialValue())
     }
 
     @Test

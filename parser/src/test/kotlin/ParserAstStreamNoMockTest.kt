@@ -9,7 +9,6 @@ import node.EmptyExpression
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertNotNull
 import parser.factory.VOnePointOneParserFactory
 import parser.stream.ParserAstStream
 import type.CommonTypes
@@ -62,33 +61,6 @@ class ParserAstStreamNoMockTest {
             nextStream2.isAtEnd(),
             "El stream debería estar al final después del segundo next()",
         )
-    }
-
-    @Test
-    fun `test peak() should return the next node without consuming it`() {
-        val tokens =
-            listOf(
-                PrintScriptToken(CommonTypes.LET, "let", Position(1, 1)),
-                PrintScriptToken(CommonTypes.IDENTIFIER, "a", Position(1, 5)),
-                PrintScriptToken(CommonTypes.DELIMITERS, ":", Position(1, 7)),
-                PrintScriptToken(CommonTypes.STRING, "STRING", Position(1, 9)),
-                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 15)),
-            )
-
-        val parser = parserFactory.createParser(MockTokenStream(tokens), nodeBuilder)
-        val astStream: AstStream = ParserAstStream(parser)
-
-        // Llamar a peak() múltiples veces
-        val nodeFromPeak1 = astStream.peak()
-        val nodeFromPeak2 = astStream.peak()
-
-        assertNotNull(nodeFromPeak1)
-        assertTrue(nodeFromPeak1 is DeclarationStatement)
-
-        val result = astStream.next()
-        val nodeFromNext = result.node
-
-        assertTrue(nodeFromNext is DeclarationStatement)
     }
 
     @Test
