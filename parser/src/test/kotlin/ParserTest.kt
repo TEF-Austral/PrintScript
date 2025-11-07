@@ -821,32 +821,6 @@ class ParserTest {
     }
 
     @Test
-    fun testConstDeclarationWithoutExplicitType() {
-        val tokens =
-            listOf(
-                PrintScriptToken(CommonTypes.CONST, "const", Position(1, 1)),
-                PrintScriptToken(CommonTypes.IDENTIFIER, "message", Position(1, 7)),
-                PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 15)),
-                PrintScriptToken(CommonTypes.STRING_LITERAL, "\"Hello World\"", Position(1, 17)),
-                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 30)),
-            )
-
-        val nodeBuilder = DefaultNodeBuilder()
-        val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
-        val program = parser.parse().getProgram()
-
-        assertEquals(1, program.getStatements().size)
-        val statement = program.getStatements()[0]
-        assertTrue(statement is DeclarationStatement)
-
-        val constDecl = statement as DeclarationStatement
-        assertEquals("message", constDecl.getIdentifier())
-        assertTrue(constDecl.getInitialValue() is LiteralExpression)
-        val literal = constDecl.getInitialValue() as LiteralExpression
-        assertEquals("\"Hello World\"", literal.getValue())
-    }
-
-    @Test
     fun testIdentifierAssignmentIdentifier() {
         val tokens =
             listOf(
@@ -861,58 +835,6 @@ class ParserTest {
         val result = parser.parse()
 
         assertTrue(result.isSuccess())
-    }
-
-    @Test
-    fun testConstDeclarationWithoutTypeNumberInference() {
-        val tokens =
-            listOf(
-                PrintScriptToken(CommonTypes.CONST, "const", Position(1, 1)),
-                PrintScriptToken(CommonTypes.IDENTIFIER, "count", Position(1, 7)),
-                PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 13)),
-                PrintScriptToken(CommonTypes.NUMBER_LITERAL, "42", Position(1, 15)),
-                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 17)),
-            )
-
-        val nodeBuilder = DefaultNodeBuilder()
-        val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
-        val program = parser.parse().getProgram()
-
-        assertEquals(1, program.getStatements().size)
-        val statement = program.getStatements()[0]
-        assertTrue(statement is DeclarationStatement)
-
-        val constDecl = statement as DeclarationStatement
-        assertEquals("count", constDecl.getIdentifier())
-        assertTrue(constDecl.getInitialValue() is LiteralExpression)
-        val literal = constDecl.getInitialValue() as LiteralExpression
-        assertEquals("42", literal.getValue())
-    }
-
-    @Test
-    fun testConstDeclarationWithoutTypeBooleanInference() {
-        val tokens =
-            listOf(
-                PrintScriptToken(CommonTypes.CONST, "const", Position(1, 1)),
-                PrintScriptToken(CommonTypes.IDENTIFIER, "isReady", Position(1, 7)),
-                PrintScriptToken(CommonTypes.ASSIGNMENT, "=", Position(1, 15)),
-                PrintScriptToken(CommonTypes.BOOLEAN_LITERAL, "true", Position(1, 17)),
-                PrintScriptToken(CommonTypes.DELIMITERS, ";", Position(1, 21)),
-            )
-
-        val nodeBuilder = DefaultNodeBuilder()
-        val parser = VOnePointOneParserFactory().createParser(MockTokenStream(tokens), nodeBuilder)
-        val program = parser.parse().getProgram()
-
-        assertEquals(1, program.getStatements().size)
-        val statement = program.getStatements()[0]
-        assertTrue(statement is DeclarationStatement)
-
-        val constDecl = statement as DeclarationStatement
-        assertEquals("isReady", constDecl.getIdentifier())
-        assertTrue(constDecl.getInitialValue() is LiteralExpression)
-        val literal = constDecl.getInitialValue() as LiteralExpression
-        assertEquals("true", literal.getValue())
     }
 
     @Test

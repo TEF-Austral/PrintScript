@@ -1,5 +1,6 @@
 package parser.result
 
+import coordinates.Coordinates
 import node.Program
 import parser.Parser
 
@@ -14,4 +15,6 @@ class CompleteProgram(
     override fun getParser(): Parser = parser
 
     override fun getProgram(): Program = program
+
+    override fun getCoordinates(): Coordinates? = null
 }

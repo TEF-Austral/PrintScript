@@ -1,6 +1,7 @@
 package parser.result
 
 import Token
+import coordinates.Coordinates
 import node.Expression
 
 sealed interface SemanticResult : ParserResult {
@@ -9,4 +10,6 @@ sealed interface SemanticResult : ParserResult {
     fun dataType(): Token
 
     fun initialValue(): Expression?
+
+    fun getCoordinates(): Coordinates?
 }

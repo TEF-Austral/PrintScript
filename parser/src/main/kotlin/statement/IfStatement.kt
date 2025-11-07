@@ -3,6 +3,7 @@ package parser.statement
 import Token
 import node.Statement
 import parser.Parser
+import parser.exception.ParserException
 import parser.result.StatementBuiltResult
 import parser.result.StatementResult
 import parser.utils.checkType
@@ -40,10 +41,7 @@ class IfStatement : StatementBuilder {
         val ifKeyword = parser.consume(CommonTypes.CONDITIONALS)
         if (!ifKeyword.isSuccess()) {
             val coordinates = parser.peak()!!.getCoordinates()
-            throw Exception(
-                "Expected 'if' keyword in " +
-                    coordinates.getRow() + ":" + coordinates.getColumn(),
-            )
+            throw ParserException("Expected 'if' keyword", coordinates)
         }
         return ifKeyword.getParser()
     }
@@ -51,10 +49,7 @@ class IfStatement : StatementBuilder {
     private fun consumeOpeningParenthesis(parser: Parser): Parser {
         if (!isOpeningParenthesis(parser)) {
             val coordinates = parser.peak()!!.getCoordinates()
-            throw Exception(
-                "Expected '(' after 'if' in " +
-                    coordinates.getRow() + ":" + coordinates.getColumn(),
-            )
+            throw ParserException("Expected '(' after 'if'", coordinates)
         }
         return parser.advance()
     }
@@ -63,10 +58,9 @@ class IfStatement : StatementBuilder {
         val conditionResult = parser.getExpressionParser().parseExpression(parser)
         if (!conditionResult.isSuccess()) {
             val coordinates = parser.peak()!!.getCoordinates()
-            throw Exception(
-                "Expected condition expression in " +
-                    coordinates.getRow() + ":" + coordinates.getColumn() +
-                    ": " + conditionResult.message(),
+            throw ParserException(
+                "Expected condition expression: ${conditionResult.message()}",
+                coordinates,
             )
         }
         return conditionResult
@@ -75,10 +69,7 @@ class IfStatement : StatementBuilder {
     private fun consumeClosingParenthesis(parser: Parser): Parser {
         if (!isClosingParenthesis(parser)) {
             val coordinates = parser.peak()!!.getCoordinates()
-            throw Exception(
-                "Expected ')' after condition in " +
-                    coordinates.getRow() + ":" + coordinates.getColumn(),
-            )
+            throw ParserException("Expected ')' after condition", coordinates)
         }
         return parser.advance()
     }
@@ -96,10 +87,9 @@ class IfStatement : StatementBuilder {
                 val elseResult = afterElse.getStatementParser().parse(afterElse)
                 if (!elseResult.isSuccess()) {
                     val coordinates = afterElse.peak()!!.getCoordinates()
-                    throw Exception(
-                        "Error parsing else statement in " +
-                            coordinates.getRow() + ":" + coordinates.getColumn() +
-                            ": " + elseResult.message(),
+                    throw ParserException(
+                        "Error parsing else statement: ${elseResult.message()}",
+                        coordinates,
                     )
                 }
                 Pair(elseResult.getParser(), elseResult.getStatement())
@@ -125,10 +115,7 @@ class IfStatement : StatementBuilder {
     ): Parser {
         if (!isOpeningBrace(parser)) {
             val coordinates = parser.peak()!!.getCoordinates()
-            throw Exception(
-                "Expected '{' to start $blockType block in " +
-                    coordinates.getRow() + ":" + coordinates.getColumn(),
-            )
+            throw ParserException("Expected '{' to start $blockType block", coordinates)
         }
         return parser.advance()
     }
@@ -140,10 +127,9 @@ class IfStatement : StatementBuilder {
         val statementResult = parser.getStatementParser().parse(parser)
         if (!statementResult.isSuccess()) {
             val coordinates = parser.peak()!!.getCoordinates()
-            throw Exception(
-                "Error parsing $blockType statement in " +
-                    coordinates.getRow() + ":" + coordinates.getColumn() +
-                    ": " + statementResult.message(),
+            throw ParserException(
+                "Error parsing $blockType statement: ${statementResult.message()}",
+                coordinates,
             )
         }
         return statementResult
@@ -155,10 +141,7 @@ class IfStatement : StatementBuilder {
     ): Parser {
         if (!isClosingBrace(parser)) {
             val coordinates = parser.peak()!!.getCoordinates()
-            throw Exception(
-                "Expected '}' to close $blockType block in " +
-                    coordinates.getRow() + ":" + coordinates.getColumn(),
-            )
+            throw ParserException("Expected '}' to close $blockType block", coordinates)
         }
         return parser.advance()
     }

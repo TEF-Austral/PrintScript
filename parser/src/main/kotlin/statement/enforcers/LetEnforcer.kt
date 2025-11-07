@@ -16,29 +16,14 @@ class LetEnforcer(
         val currentParser = result.getParser()
         if (checkForLetAndValidState(result)) {
             val token = currentParser.peak()
-            if (token == null) {
-                val coordinates = previousParser.peak()!!.getCoordinates()
-                return SemanticError(
-                    "Expected let declaration at end of file " + coordinates.getRow() + ":" +
-                        coordinates.getColumn() +
-                        " " +
-                        result.message(),
-                    result.identifier(),
-                    result.dataType(),
-                    result.initialValue(),
-                    currentParser,
-                )
-            }
-            val coordinates = token.getCoordinates()
+            val coordinates = previousParser.peak()!!.getCoordinates()
             return SemanticError(
-                "Expected let declaration at " + coordinates.getRow() + ":" +
-                    coordinates.getColumn() +
-                    " " +
-                    result.message(),
+                "Expected let declaration but found ${token?.getValue()}",
                 result.identifier(),
                 result.dataType(),
                 result.initialValue(),
                 currentParser,
+                coordinates,
             )
         }
         val parserResult = currentParser.consume(CommonTypes.LET)

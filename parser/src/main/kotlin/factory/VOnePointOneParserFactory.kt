@@ -69,40 +69,37 @@ class VOnePointOneParserFactory {
             StatementParser(
                 listOf(
                     VariableDeclarationParser(
-                        LetEnforcer(
-                            IdentifierEnforcer(
-                                ColonEnforcer(
-                                    DataTypeEnforcer(
-                                        LetAssignmentEnforcer(SemiColonEnforcer()),
-                                        listOf(
-                                            CommonTypes.NUMBER,
-                                            CommonTypes.STRING,
-                                            CommonTypes.BOOLEAN,
+                        mapOf(
+                            CommonTypes.LET to
+                                LetEnforcer(
+                                    IdentifierEnforcer(
+                                        ColonEnforcer(
+                                            DataTypeEnforcer(
+                                                LetAssignmentEnforcer(SemiColonEnforcer()),
+                                                listOf(
+                                                    CommonTypes.NUMBER,
+                                                    CommonTypes.STRING,
+                                                    CommonTypes.BOOLEAN,
+                                                ),
+                                            ),
                                         ),
                                     ),
                                 ),
-                            ),
-                        ),
-                    ),
-                    VariableDeclarationParser(
-                        ConstEnforcer(
-                            IdentifierEnforcer(ConstAssignmentEnforcer(SemiColonEnforcer())),
-                        ),
-                    ),
-                    VariableDeclarationParser(
-                        ConstEnforcer(
-                            IdentifierEnforcer(
-                                ColonEnforcer(
-                                    DataTypeEnforcer(
-                                        ConstAssignmentEnforcer(SemiColonEnforcer()),
-                                        listOf(
-                                            CommonTypes.NUMBER,
-                                            CommonTypes.STRING,
-                                            CommonTypes.BOOLEAN,
+                            CommonTypes.CONST to
+                                ConstEnforcer(
+                                    IdentifierEnforcer(
+                                        ColonEnforcer(
+                                            DataTypeEnforcer(
+                                                ConstAssignmentEnforcer(SemiColonEnforcer()),
+                                                listOf(
+                                                    CommonTypes.NUMBER,
+                                                    CommonTypes.STRING,
+                                                    CommonTypes.BOOLEAN,
+                                                ),
+                                            ),
                                         ),
                                     ),
                                 ),
-                            ),
                         ),
                     ),
                     PrintParser(),

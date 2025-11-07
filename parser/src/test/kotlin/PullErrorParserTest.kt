@@ -61,7 +61,7 @@ class PullErrorParserTest {
         )
 
         val expectedMessage =
-            "Failed to parse the next node: Couldn't handle, none of the following passed: Expected data type at 1:9 Successfully executed: Token consumed: DELIMITERS Expected const declaration at 1:1  Expected const declaration at 1:1  "
+            "Failed to parse the next node: Expected data type but found ="
         assertEquals(expectedMessage, result.message)
     }
 
@@ -85,8 +85,7 @@ class PullErrorParserTest {
         assertTrue(result.node is EmptyExpression, "Node should be EmptyExpression on failure")
 
         val expectedMessage =
-            "Failed to parse the next node: " +
-                "Was expecting closing parenthesis null:null"
+            "Failed to parse the next node: Was expecting closing parenthesis"
         assertEquals(expectedMessage, result.message)
     }
 
@@ -108,6 +107,6 @@ class PullErrorParserTest {
         assertFalse(result.isSuccess, "Parsing should fail on an unexpected starting token")
         assertTrue(result.node is EmptyExpression, "Node should be EmptyExpression on failure")
 
-        assertEquals("Failed to parse the next node: Invalid structure in 1:4", result.message)
+        assertEquals("Failed to parse the next node: Invalid expression structure", result.message)
     }
 }
